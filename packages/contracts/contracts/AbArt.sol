@@ -8,21 +8,29 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 
 contract AbArt is ERC721URIStorage {
   using Counters for Counters.Counter;
-  Counters.Counter public _tokenIds;
-
+  Counters.Counter public tokenIds;
+  mapping (address => uint256) public tokenIdOfAddress;
+  mapping (uint256 => address) public addressOfTokenId;
 
   constructor() ERC721("AbArt", "AART") {
   }
 
-  function mint(address dst, string memory uri)
+  function mint(string memory _uri)
   public
-  returns (uint256)
+  returns (uint256 _tokenId)
   {
-    uint256 itemId = _tokenIds.current();
-    _safeMint(dst, itemId);
-    _setTokenURI(itemId, uri);
-    _tokenIds.increment();
 
-    return itemId;
+    require(tokenIdOfAddress[msg.sender] == 0, "Already minted token for this address");
+
+    tokenIds.increment();
+    _tokenId = tokenIds.current();
+
+    _safeMint(msg.sender, _tokenId);
+    _setTokenURI(_tokenId, _uri);
+
+    tokenIdOfAddress[msg.sender] = _tokenId;
+    addressOfTokenId[_tokenId] = msg.sender;
+
+    return _tokenId;
   }
 }
