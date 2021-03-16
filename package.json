@@ -1,5 +1,5 @@
 {
-  "name": "@ab-art/monorepo",
+  "name": "@arbart/monorepo",
   "private": true,
   "scripts": {
     "prettier": "prettier --check ."

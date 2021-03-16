@@ -25,6 +25,7 @@ contract ArbArt is ERC721URIStorage {
     tokenIds.increment();
     _tokenId = tokenIds.current();
 
+    //_safeMint(msg.sender, uint256(_tokenId));
     _safeMint(msg.sender, _tokenId);
     _setTokenURI(_tokenId, _uri);
 

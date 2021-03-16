@@ -10,7 +10,7 @@ task("accounts", "Prints the list of accounts", async () => {
 
 task("sample", "Deploy contract and create some tokens", async () => {
   const accounts = await ethers.getSigners();
-  const Contract = await ethers.getContractFactory("AbArt");
+  const Contract = await ethers.getContractFactory("ArbArt");
   const contract = await Contract.deploy();
 
   await contract.connect(accounts[0]).mint('aze');

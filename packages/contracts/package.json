@@ -1,5 +1,5 @@
 {
-  "name": "contracts",
+  "name": "@arbart/contracts",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,7 +7,8 @@
     "compile": "hardhat compile",
     "node": "hardhat node",
     "test": "hardhat test",
-    "deploy": "hardhat run scripts/deploy.js"
+    "deploy": "hardhat run scripts/deploy.js",
+    "deploy-test": "hardhat --network localhost sample"
   },
   "author": "Pacien Boisson",
   "license": "ISC",
