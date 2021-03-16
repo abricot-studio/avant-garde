@@ -6,13 +6,13 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
-contract AbArt is ERC721URIStorage {
+contract ArbArt is ERC721URIStorage {
   using Counters for Counters.Counter;
   Counters.Counter public tokenIds;
   mapping (address => uint256) public tokenIdOfAddress;
   mapping (uint256 => address) public addressOfTokenId;
 
-  constructor() ERC721("AbArt", "AART") {
+  constructor() ERC721("ArbArt", "ARBT") {
   }
 
   function mint(string memory _uri)

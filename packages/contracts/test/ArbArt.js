@@ -1,9 +1,9 @@
 const { expect } = require("chai");
 
-describe("AbArt", function() {
+describe("ArbArt", function() {
   before(async () => {
     this.signers = await ethers.getSigners();
-    this.Contract = await ethers.getContractFactory("AbArt");
+    this.Contract = await ethers.getContractFactory("ArbArt");
   });
 
   beforeEach(async () => {
@@ -11,9 +11,13 @@ describe("AbArt", function() {
     await this.contract.deployed();
   });
 
-  it("mint", async () => {
+  it("sets up the contract", async () => {
     expect(await this.contract.tokenIds()).to.eq(0)
+    expect(await this.contract.name()).to.eq('ArbArt')
+    expect(await this.contract.symbol()).to.eq('ARBT')
+  })
 
+  it("mint", async () => {
     const uri = 'caca';
 
     const oldTokenId = await this.contract.tokenIds();
