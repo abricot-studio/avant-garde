@@ -1,6 +1,4 @@
-import {Sequential} from "@tensorflow/tfjs-layers/src/models";
-
-const tf = require('@tensorflow/tfjs');
+import * as tf from '@tensorflow/tfjs-node';
 
 import { Logger } from '../logger';
 
@@ -15,7 +13,7 @@ export class Model {
   units: number;
   depth: number;
   numFeatures: number;
-  model: Sequential;
+  model: tf.Sequential;
   useBias: boolean;
   seed?: number;
 
@@ -162,7 +160,7 @@ export class Model {
 
     logger.profile('compute', { level: 'verbose', message: 'end compute' });
 
-    const regularize = Model.regularizeTensor(output);
+    const regularize: any = Model.regularizeTensor(output);
     tf.dispose([input, regularize]);
 
     return regularize;
@@ -173,7 +171,7 @@ export class Model {
 
     let arePending = true;
     let i = 0;
-    let outputs = [];
+    let outputs: any[] = [];
 
     const totalBach = Math.round(features.shape[0] / this.batchSize);
     logger.verbose(`Total batch: ${totalBach}`);

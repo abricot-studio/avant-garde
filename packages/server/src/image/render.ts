@@ -1,4 +1,3 @@
-import assert from 'assert';
 import { Viewer } from './viewer';
 
 export class Render {
@@ -11,7 +10,6 @@ export class Render {
 
   constructor(height: number, width: number, blackWhite: boolean, outputsDir: string) {
 
-    assert(height && width, 'height_with_require');
     this.height = height;
     this.width = width;
     this.blackWhite = blackWhite;
