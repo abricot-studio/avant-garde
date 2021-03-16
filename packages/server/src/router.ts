@@ -3,6 +3,6 @@ import { Main } from './controller/main';
 
 const router = new Router();
 
-router.get('/gen', Main.gen);
+router.post('/gen', Main.gen);
 
 export { router };

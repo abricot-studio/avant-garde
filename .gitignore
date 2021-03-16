@@ -3,3 +3,4 @@
 .idea
 lerna-debug.log
 **/dist
+**/.env

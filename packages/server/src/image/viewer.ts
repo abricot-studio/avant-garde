@@ -20,7 +20,7 @@ export class Viewer {
 
   }
 
-  async draw(data: any, id?: any){
+  async draw(data: any, id?: any): Promise<string> {
 
     assert(data.length === this.height * this.width * 4, 'data_size_wrong');
 
@@ -41,7 +41,7 @@ export class Viewer {
 
       stream.on('finish', () => {
         logger.info('Written file', { path });
-        resolve();
+        resolve(path);
       });
 
     });
@@ -70,12 +70,11 @@ export class Viewer {
 
         logger.info('Remove file', { path });
 
-        resolve();
+        resolve(path);
 
       });
 
-
-    })
+    });
 
   }
 

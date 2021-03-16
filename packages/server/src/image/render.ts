@@ -16,12 +16,6 @@ export class Render {
     this.outputsDir = outputsDir;
     this.viewer = new Viewer(this.height, this.width, this.outputsDir);
 
-    this.create();
-
-  }
-
-  create(){
-
   }
 
   drawRandom(){
@@ -57,7 +51,7 @@ export class Render {
 
   }
 
-  async draw(rgbData: any, id?: any){
+  async draw(rgbData: any, id?: any): Promise<string>{
 
     const data = [];
 
@@ -92,7 +86,7 @@ export class Render {
 
   }
 
-  static _randomInt(min: number, max: number){
+  static _randomInt(min: number, max: number): number {
 
     return Math.floor(Math.random() * (max - min + 1)) + min;
 
