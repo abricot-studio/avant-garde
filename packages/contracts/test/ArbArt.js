@@ -1,9 +1,9 @@
-const { expect } = require("chai");
+const { expect } = require('chai');
 
-describe("ArbArt", function() {
+describe('ArbArt', function() {
   before(async () => {
     this.signers = await ethers.getSigners();
-    this.Contract = await ethers.getContractFactory("ArbArt");
+    this.Contract = await ethers.getContractFactory('ArbArt');
   });
 
   beforeEach(async () => {
@@ -11,13 +11,13 @@ describe("ArbArt", function() {
     await this.contract.deployed();
   });
 
-  it("sets up the contract", async () => {
+  it('sets up the contract', async () => {
     expect(await this.contract.tokenIds()).to.eq(0)
     expect(await this.contract.name()).to.eq('ArbArt')
     expect(await this.contract.symbol()).to.eq('ARBT')
   })
 
-  it("mint", async () => {
+  it('mint', async () => {
     const uri = 'caca';
 
     const oldTokenId = await this.contract.tokenIds();
@@ -31,8 +31,8 @@ describe("ArbArt", function() {
     expect(await this.contract.addressOfTokenId(tokenId)).to.eq(this.signers[0].address)
   });
 
-  it("can't mint two times", async () => {
+  it('cant mint two times', async () => {
     await this.contract.connect(this.signers[0]).mint('aze');
-    expect(this.contract.connect(this.signers[0]).mint('zefr')).to.be.revertedWith("Already minted token for this address");
+    expect(this.contract.connect(this.signers[0]).mint('zefr')).to.be.revertedWith('Already minted token for this address');
   });
 });
