@@ -1,7 +1,5 @@
 require("@nomiclabs/hardhat-waffle");
 
-// This is a sample Hardhat task. To learn how to create your own go to
-// https://hardhat.org/guides/create-task.html
 task("accounts", "Prints the list of accounts", async () => {
   const accounts = await ethers.getSigners();
 
@@ -10,8 +8,14 @@ task("accounts", "Prints the list of accounts", async () => {
   }
 });
 
-// You need to export an object to set up your config
-// Go to https://hardhat.org/config/ to learn more
+task("sample", "Deploy contract and create some tokens", async () => {
+  const accounts = await ethers.getSigners();
+  const Contract = await ethers.getContractFactory("AbArt");
+  const contract = await Contract.deploy();
+
+  await contract.connect(accounts[0]).mint('aze');
+  await contract.connect(accounts[1]).mint('rty');
+});
 
 /**
  * @type import('hardhat/config').HardhatUserConfig
