@@ -1,0 +1,11 @@
+{
+  "name": "@ab-art/monorepo",
+  "private": true,
+  "scripts": {
+    "prettier": "prettier --check ."
+  },
+  "devDependencies": {
+    "prettier": "^2.2.1",
+    "lerna": "^4.0.0"
+  }
+}
