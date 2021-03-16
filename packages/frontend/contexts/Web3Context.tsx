@@ -51,7 +51,8 @@ interface Web3ContextProviderOptions {
   children: React.ReactElement,
 }
 
-export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({ children, resetUrqlClient }) => {
+export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({ children }) => {
+  // export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({ children, resetUrqlClient }) => { // todo build failed
   const [provider, setProvider] = useState<providers.Web3Provider | null>(null);
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [isConnecting, setIsConnecting] = useState<boolean>(false);
@@ -65,7 +66,8 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({ chil
     setProvider(null);
     setIsConnecting(false);
     setIsConnected(false);
-  }, [resetUrqlClient]);
+  }, []);
+  // }, [resetUrqlClient]); // todo build failed
 
   const connect = useCallback(async () => {
     setIsConnecting(true);
