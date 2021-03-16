@@ -4,3 +4,4 @@
 lerna-debug.log
 **/dist
 **/.env
+**/.next
