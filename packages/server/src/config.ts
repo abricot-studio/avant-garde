@@ -24,7 +24,7 @@ export interface Config {
 }
 
 const config: Config = {
-  port: parseInt(process.env.PORT || '3000', 10),
+  port: parseInt(process.env.PORT || '1234', 10),
   env: process.env.NODE_ENV || 'development',
   image: {
     width: parseInt(process.env.IMAGE_WIDTH || '200', 10),
