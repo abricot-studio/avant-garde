@@ -29,6 +29,7 @@ const components = {
       fontFamily: '"Montserrat", sans-serif',
       fontWeight: 700,
       textTransform: 'uppercase',
+      cursor: 'pointer',
     },
     variants: {
       outline: {
