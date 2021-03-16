@@ -31,7 +31,7 @@ export class Viewer {
     };
 
     const path = `${this.baseDir}/out${id ? `_${id}` : ''}.jpg`;
-    const stream  = fs.createWriteStream(path);
+    const stream = fs.createWriteStream(path);
 
     const encoded = Jpeg.encode(rawImageData, 100);
     stream.write(encoded.data);

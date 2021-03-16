@@ -29,15 +29,16 @@ export class Model {
 
     this.inputShape = inputShape;
     this.blackWhite = blackWhite;
-    this.seed = seed;
     this.scale = scale;
+    this.batchSize = batchSize;
     this.units = units;
     this.depth = depth;
+    this.seed = seed;
+
     this.numFeatures = 3;
     this.useBias = false;
     this.model = this.buildModel();
     // this.model.summary();
-    this.batchSize = batchSize;
 
   }
 
@@ -217,7 +218,7 @@ export class Model {
 
     const scale = (max - min) / (maxVal - minVal);
 
-    return Array.from(tensor.dataSync().map( (val: any) => (val + (min - minVal) ) * scale ) );
+    return Array.from(tensor.dataSync().map( (val: any) => parseInt( ( (val + (min - minVal) ) * scale).toString(), 10) ) );
 
   }
 
