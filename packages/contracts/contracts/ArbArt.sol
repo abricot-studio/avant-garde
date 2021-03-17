@@ -18,7 +18,7 @@ contract ArbArt is ERC721URIStorage, AccessControlEnumerable {
   modifier onlyManager() { // Modifier
     require(
       hasRole(MANAGER_ROLE, msg.sender),
-      "Only manager can call this."
+      "Only MANAGER_ROLE can call this"
     );
     _;
   }
@@ -41,24 +41,22 @@ contract ArbArt is ERC721URIStorage, AccessControlEnumerable {
     return baseURI;
   }
 
-  function mint(string memory _uri, address signer, bytes memory _signature)
+  function mint(string memory _uri, address _signer, bytes memory _signature)
   public
   returns (uint256 _tokenId)
   {
     // Check signature and if signer is manager
     require(
-      hasRole(MANAGER_ROLE, signer),
-      "invalid signer"
+      hasRole(MANAGER_ROLE, _signer),
+      "Only accepting signatures from MANAGER_ROLE"
     );
-
-    bytes memory _buri = bytes(_uri);
-    address _recoveredAddress = keccak256(_buri)
+    bytes memory _message = abi.encodePacked(_uri, _signer);
+    address _recoveredAddress = keccak256(_message)
       .toEthSignedMessageHash()
       .recover(_signature);
-    require(signer == _recoveredAddress, "unauthorized");
+    require(_signer == _recoveredAddress, "Invalid recovered address");
 
     // Mint token
-
     _tokenId = uint256(uint160(bytes20(msg.sender)));
 
     _safeMint(msg.sender, _tokenId);
