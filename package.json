@@ -2,6 +2,7 @@
   "name": "@arbart/monorepo",
   "private": true,
   "scripts": {
+    "test": "lerna run test",
     "prettier": "prettier --check .",
     "prettier:write": "prettier --write ."
   },
