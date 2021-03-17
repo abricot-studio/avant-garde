@@ -1,9 +1,9 @@
 import { Context } from 'koa';
 import { config } from './config';
-import { transports, format } from 'winston';
+import {transports, format, createLogger, Logger} from 'winston';
 import * as path from 'path';
 
-const logger = (winstonInstance: any): any  => {
+const loggerApi = (winstonInstance: any): any  => {
   winstonInstance.configure({
     level: config.env === 'development' ? 'debug' : 'info',
     transports: [
@@ -49,4 +49,15 @@ const logger = (winstonInstance: any): any  => {
 
 };
 
-export { logger };
+const Logger = (defaultMeta = {}): Logger => createLogger({
+  format: format.combine(
+    format.timestamp(),
+    format.prettyPrint()
+  ),
+  defaultMeta,
+  transports: [
+    new transports.Console(),
+  ]
+});
+
+export { loggerApi, Logger };
