@@ -5,3 +5,5 @@ lerna-debug.log
 **/dist
 **/.env
 **/.next
+**/.serverless
+**/.build
