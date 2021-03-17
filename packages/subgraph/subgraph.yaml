@@ -1,0 +1,26 @@
+specVersion: 0.0.2
+description: Abstractive Art
+repository: https://github.com/julesgoullee/nftart
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: ArbArt
+    network: mainnet
+    source:
+      abi: ArbArt
+      address: '0x5fbdb2315678afecb367f032d93f642f64180aa3'
+      startBlock: 0
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - ArbArt
+      abis:
+        - name: ArbArt
+          file: ../contracts/artifacts/contracts/ArbArt.sol/ArbArt.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/mapping.ts

@@ -1,8 +1,11 @@
 {
-  "name": "@ab-art/monorepo",
+  "name": "@arbart/monorepo",
   "private": true,
   "scripts": {
-    "prettier": "prettier --check ."
+    "install": "lerna bootstrap",
+    "test": "lerna run test",
+    "prettier": "prettier --check .",
+    "prettier:write": "prettier --write ."
   },
   "devDependencies": {
     "prettier": "^2.2.1",

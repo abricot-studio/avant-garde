@@ -1,26 +1,26 @@
-import dotenv from 'dotenv';
+import dotenv from 'dotenv'
 
-dotenv.config({ path: '.env' });
+dotenv.config({ path: '.env' })
 
 export interface ConfigPinata {
-  apiKey: string;
-  apiSecret: string;
+  apiKey: string
+  apiSecret: string
 }
 
 export interface ConfigImage {
-  width: number;
-  height: number;
-  scale: number;
-  blackWhite: boolean;
-  batchSize: number;
-  outputsDir: string;
+  width: number
+  height: number
+  scale: number
+  blackWhite: boolean
+  batchSize: number
+  outputsDir: string
 }
 
 export interface Config {
-  port: number;
-  env: string;
-  image: ConfigImage;
-  pinata: ConfigPinata;
+  port: number
+  env: string
+  image: ConfigImage
+  pinata: ConfigPinata
 }
 
 const config: Config = {
@@ -32,12 +32,12 @@ const config: Config = {
     scale: parseInt(process.env.IMAGE_SCALE || '10', 10),
     blackWhite: Boolean(process.env.IMAGE_BLACK_WHITE),
     batchSize: parseInt(process.env.IMAGE_BATCH_SIZE || '1000', 10),
-    outputsDir: process.env.IMAGE_OUTPUTS_DIR || '.'
+    outputsDir: process.env.IMAGE_OUTPUTS_DIR || '.',
   },
   pinata: {
     apiKey: process.env.PINATA_API_KEY,
-    apiSecret: process.env.PINATA_API_SECRET
-  }
-};
+    apiSecret: process.env.PINATA_API_SECRET,
+  },
+}
 
-export { config };
+export { config }
