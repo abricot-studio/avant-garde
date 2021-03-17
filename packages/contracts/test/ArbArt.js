@@ -30,8 +30,18 @@ describe('ArbArt', function () {
 
   it("can't mint two times", async () => {
     await this.contract.connect(this.signers[0]).mint('aze')
-    expect(
+    await expect(
       this.contract.connect(this.signers[0]).mint('zefr')
-    ).to.be.revertedWith('Already minted token for this address')
+    ).to.be.revertedWith('ERC721: token already minted')
+  })
+
+  it('update base URI', async () => {
+    const newBaseURI = 'azetrdfc'
+    await this.contract.connect(this.signers[0]).setBaseURI(newBaseURI)
+    expect(await this.contract.baseURI()).to.eq(newBaseURI)
+
+    await expect(
+      this.contract.connect(this.signers[1]).setBaseURI(newBaseURI)
+    ).to.be.revertedWith('Only manager can call this.')
   })
 })
