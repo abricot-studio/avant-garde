@@ -2,7 +2,8 @@
   "name": "@arbart/monorepo",
   "private": true,
   "scripts": {
-    "prettier": "prettier --check ."
+    "prettier": "prettier --check .",
+    "prettier:write": "prettier --write ."
   },
   "devDependencies": {
     "prettier": "^2.2.1",
