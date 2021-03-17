@@ -1,4 +1,5 @@
 type ArbArtToken @entity {
   id: ID!
   owner: Bytes!
+  uri: String!
 }

@@ -1,4 +1,4 @@
-import { Transfer } from '../generated/ArbArt/ArbArt'
+import { ArbArt, Transfer } from '../generated/ArbArt/ArbArt'
 import { ArbArtToken } from '../generated/schema'
 
 export function handleTransfer(event: Transfer): void {
@@ -10,7 +10,12 @@ export function handleTransfer(event: Transfer): void {
   if(arbArt === null) {
     arbArt = new ArbArtToken(tokenId)
   }
+
+  let contract = ArbArt.bind(event.address)
+  let tokenURI = contract.tokenURI(event.params.tokenId);
+
   arbArt.owner = to
+  arbArt.uri = tokenURI
   arbArt.save()
 
 }
