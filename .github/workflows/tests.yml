@@ -1,0 +1,31 @@
+name: ArbArt tests
+
+on:
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]
+
+jobs:
+  test:
+
+    name: Run Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12.x
+      - uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: nodeModules-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+      - name: Install packages
+        run: npm i
+        env:
+          CI: true
+      - name: Testing
+        run: npm test
+        env:
+          CI: true

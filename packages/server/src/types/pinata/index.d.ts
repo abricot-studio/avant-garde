@@ -1,1 +1,1 @@
-declare module '@pinata/sdk';
+declare module '@pinata/sdk'
