@@ -31,3 +31,26 @@ export async function upload(path: string, address: string): Promise<string> {
       throw error
     })
 }
+
+export async function find(address: string): Promise<any> {
+
+  return pinata.pinList({
+    metadata: {
+      name: address
+    }
+  }).then( (result: any) => {
+
+    assert(result && Array.isArray(result.rows), 'pinata invalid response');
+    return result.rows.length > 0 ? result.rows[0].ipfs_pin_hash : false;
+
+  }).catch( (error: any) => {
+
+    logger.error('pinata error', error);
+
+    throw error;
+
+  });
+
+}
+
+export default { upload, find };
