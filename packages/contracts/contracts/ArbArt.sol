@@ -5,8 +5,12 @@ import "hardhat/console.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
+import "@openzeppelin/contracts/access/AccessControlEnumerable.sol";
+import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 
-contract ArbArt is ERC721URIStorage, AccessControl {
+contract ArbArt is ERC721URIStorage, AccessControlEnumerable {
+  using ECDSA for bytes32;
+
   bytes32 public constant MANAGER_ROLE = keccak256("MANAGER_ROLE");
 
   string public baseURI;
@@ -37,10 +41,24 @@ contract ArbArt is ERC721URIStorage, AccessControl {
     return baseURI;
   }
 
-  function mint(string memory _uri)
+  function mint(string memory _uri, address signer, bytes memory _signature)
   public
   returns (uint256 _tokenId)
   {
+    // Check signature and if signer is manager
+    require(
+      hasRole(MANAGER_ROLE, signer),
+      "invalid signer"
+    );
+
+    bytes memory _buri = bytes(_uri);
+    address _recoveredAddress = keccak256(_buri)
+      .toEthSignedMessageHash()
+      .recover(_signature);
+    require(signer == _recoveredAddress, "unauthorized");
+
+    // Mint token
+
     _tokenId = uint256(uint160(bytes20(msg.sender)));
 
     _safeMint(msg.sender, _tokenId);
@@ -49,7 +67,7 @@ contract ArbArt is ERC721URIStorage, AccessControl {
     return _tokenId;
   }
 
-  function supportsInterface(bytes4 interfaceId) public view override(ERC721, AccessControl) returns (bool) {
-    return AccessControl.supportsInterface(interfaceId) || ERC721.supportsInterface(interfaceId);
+  function supportsInterface(bytes4 interfaceId) public view override(ERC721, AccessControlEnumerable) returns (bool) {
+    return AccessControlEnumerable.supportsInterface(interfaceId) || ERC721.supportsInterface(interfaceId);
   }
 }

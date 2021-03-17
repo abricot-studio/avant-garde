@@ -1,5 +1,15 @@
 const { expect } = require('chai')
 
+async function signURI(uri, signer) {
+  const message = uri;
+  // const message = `${uri}-${await signer.getAddress()}`;
+  const uriUtf8 = ethers.utils.toUtf8Bytes(message);
+  const hash = ethers.utils.keccak256(uriUtf8);
+  const ahash = ethers.utils.arrayify(hash);
+  const signature = await signer.signMessage(ahash);
+  return signature;
+}
+
 describe('ArbArt', function () {
   before(async () => {
     this.signers = await ethers.getSigners()
@@ -43,5 +53,13 @@ describe('ArbArt', function () {
     await expect(
       this.contract.connect(this.signers[1]).setBaseURI(newBaseURI)
     ).to.be.revertedWith('Only manager can call this.')
+  })
+
+
+  it.only('mint acr', async () => {
+    const uri = 'Qmsfzefi221ifjzifj';
+    const signature = await signURI(uri, this.signers[0]);
+
+    await this.contract.connect(this.signers[0]).mint(uri, this.signers[0].address, signature)
   })
 })

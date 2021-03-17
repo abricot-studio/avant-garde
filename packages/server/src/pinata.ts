@@ -1,36 +1,33 @@
-import fs, {ReadStream} from 'fs';
-import assert from 'assert';
-import pinataSDK from '@pinata/sdk';
-import { Logger } from './logger';
-import { config } from './config';
+import fs, { ReadStream } from 'fs'
+import assert from 'assert'
+import pinataSDK from '@pinata/sdk'
+import { Logger } from './logger'
+import { config } from './config'
 
-const logger = Logger({ service: 'pinata' });
-const pinata = pinataSDK(config.pinata.apiKey, config.pinata.apiSecret);
+const logger = Logger({ service: 'pinata' })
+const pinata = pinataSDK(config.pinata.apiKey, config.pinata.apiSecret)
 
 export async function upload(path: string, address: string): Promise<string> {
-
-  const file: ReadStream = fs.createReadStream(path);
+  const file: ReadStream = fs.createReadStream(path)
 
   const options = {
     pinataMetadata: {
       name: config.env === 'production' ? address : address + Date.now(),
     },
     pinataOptions: {
-      cidVersion: 1
-    }
-  };
+      cidVersion: 1,
+    },
+  }
 
-  return pinata.pinFileToIPFS(file, options).then( (result: any) => {
+  return pinata
+    .pinFileToIPFS(file, options)
+    .then((result: any) => {
+      assert(result && result.IpfsHash, 'pinata invalid response')
+      return result.IpfsHash
+    })
+    .catch((error: any) => {
+      logger.error('pinata error', error)
 
-    assert(result && result.IpfsHash, 'pinata invalid response');
-    return result.IpfsHash;
-
-  }).catch( (error: any) => {
-
-    logger.error('pinata error', error);
-
-    throw error;
-
-  });
-
+      throw error
+    })
 }
