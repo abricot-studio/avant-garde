@@ -4,20 +4,28 @@
   "description": "Serverless aws-nodejs-typescript template",
   "main": "serverless.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "local": "npx sls invoke local -f generation --path src/functions/generation/mock.json",
+    "deploy": "npx serverless deploy",
+    "deploy:fct": "npx serverless deploy function -f generation"
   },
   "engines": {
-    "node": ">=14.15.0"
+    "node": "14.x"
   },
   "dependencies": {
     "@middy/core": "^1.5.2",
     "@middy/http-json-body-parser": "^1.5.2",
-    "source-map-support": "^0.5.19"
+    "@pinata/sdk": "^1.1.13",
+    "@tensorflow/tfjs-node": "^3.3.0",
+    "assert": "^2.0.0",
+    "jpeg-js": "^0.4.3",
+    "source-map-support": "^0.5.19",
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "@serverless/typescript": "^2.23.0",
     "@types/aws-lambda": "^8.10.71",
     "@types/node": "^14.14.25",
+    "aws-sdk": "^2.865.0",
     "json-schema-to-ts": "^1.5.0",
     "serverless": "^2.23.0",
     "serverless-webpack": "^5.3.5",

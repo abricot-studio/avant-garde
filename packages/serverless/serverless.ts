@@ -1,10 +1,11 @@
 import type { AWS } from '@serverless/typescript';
 
-import hello from '@functions/hello';
+import generation from '@functions/generation';
 
 const serverlessConfiguration: AWS = {
-  service: 'generate',
+  service: 'generation',
   frameworkVersion: '2',
+  useDotenv: true,
   custom: {
     webpack: {
       webpackConfig: './webpack.config.js',
@@ -14,7 +15,7 @@ const serverlessConfiguration: AWS = {
   plugins: ['serverless-webpack'],
   provider: {
     name: 'aws',
-    runtime: 'nodejs14.x',
+    runtime: 'nodejs12.x',
     region: 'us-east-1',
     apiGateway: {
       minimumCompressionSize: 1024,
@@ -26,12 +27,12 @@ const serverlessConfiguration: AWS = {
     },
     lambdaHashingVersion: '20201221',
   },
-  // import the function via paths
-  functions: { hello },
+  functions: { generation },
   resources: {
     Resources: {
       DynamoDbTable: {
         Type: 'AWS::DynamoDB::Table',
+        DeletionPolicy: 'Retain',
         Properties: {
           AttributeDefinitions: [
             {
@@ -69,9 +70,9 @@ const serverlessConfiguration: AWS = {
             ]
           },
           Path: '/',
-          RoleName: 'generate',
+          RoleName: 'generation',
           Policies: [{
-            PolicyName: 'generate-generateRole',
+            PolicyName: 'generation-generateRole',
             PolicyDocument: {
               Version: '2012-10-17',
               Statement: [{

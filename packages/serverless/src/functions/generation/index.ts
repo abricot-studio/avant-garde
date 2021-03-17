@@ -4,13 +4,13 @@ import { handlerPath } from '@libs/handlerResolver';
 export default {
   handler: `${handlerPath(__dirname)}/handler.main`,
   role: 'generateRole',
-  memorySize: 256,
-  timeout: 10,
+  memorySize: 1024,
+  timeout: 5 * 60,
   events: [
     {
       http: {
         method: 'post',
-        path: 'hello',
+        path: 'generation',
         private: false,
         request: {
           schemas: {

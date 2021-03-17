@@ -1,4 +1,4 @@
-service: generate
+service: generation
 app: absart
 org: julesgoullee
 frameworkVersion: '2'
@@ -45,7 +45,7 @@ provider:
 package:
   #  include:
   #    - include-me.js
-  #    - src/serverless/generate/handler.ts
+  #    - src/serverless/generation/handler.ts
   exclude:
     - node_modules/**
 #    - src/**
@@ -55,13 +55,13 @@ package:
 functions:
   gen:
     name: ${self:custom.stackName}-gen
-    handler: ./src/generate/handler.gen
+    handler: ./src/generation/handler.gen
     #    The following are a few example events you can configure
     #    NOTE: Please make sure to change your handler code to work with those events
     #    Check the event documentation for details
     events:
       - http:
-          path: /generate
+          path: /generation
           method: post
 
     role: generateRole
@@ -85,7 +85,7 @@ functions:
 #            detail:
 #              state:
 #                - pending
-#      - cloudwatchLog: '/aws/lambda/hello'
+#      - cloudwatchLog: '/aws/lambda/generation'
 #      - cognitoUserPool:
 #          pool: MyUserPool
 #          trigger: PreSignUp
@@ -94,7 +94,7 @@ functions:
 #          priority: 1
 #          conditions:
 #            host: example.com
-#            path: /hello
+#            path: /generation
 
 #    Define function environment variables here
 #    environment:
@@ -137,8 +137,8 @@ resources:
                   Resource:
                     - Fn::GetAtt: [ DynamoDbTable, Arn ]
               Version: '2012-10-17'
-            PolicyName: ${self:custom.stackName}-generate-generateRole
-        RoleName: ${self:custom.stackName}-generate
+            PolicyName: ${self:custom.stackName}-generation-generateRole
+        RoleName: ${self:custom.stackName}-generation
       Type: AWS::IAM::Role
 # you can add CloudFormation resource templates here
 #resources:
