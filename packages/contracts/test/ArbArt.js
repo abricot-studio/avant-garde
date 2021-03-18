@@ -2,10 +2,11 @@ const { expect } = require('chai')
 
 const MANAGER_ROLE = ethers.utils.keccak256(ethers.utils.toUtf8Bytes('MANAGER_ROLE'))
 
-async function signURI(uri, signer) {
+async function signURI(uri, minter, signer) {
   const aURI = ethers.utils.toUtf8Bytes(uri);
-  const aAddress = ethers.utils.arrayify(await signer.getAddress());
-  const message = ethers.utils.concat([aURI, aAddress]);
+  const aMinter = ethers.utils.arrayify(minter);
+  const aSigner = ethers.utils.arrayify(await signer.getAddress());
+  const message = ethers.utils.concat([aURI, aMinter, aSigner]);
 
   const hash = ethers.utils.keccak256(message);
   const aHash = ethers.utils.arrayify(hash);
@@ -40,7 +41,7 @@ describe('ArbArt', function () {
 
   it('mint', async () => {
     const uri = 'Qmsfzefi221ifjzifj';
-    const signature = await signURI(uri, this.manager);
+    const signature = await signURI(uri, this.other.address,this.manager);
 
     await this.contract.connect(this.other).mint(uri, this.manager.address, signature)
 
@@ -51,7 +52,7 @@ describe('ArbArt', function () {
 
   it("can't mint two times", async () => {
     const uri = 'Qmsfzefi221ifjzifj';
-    const signature = await signURI(uri, this.manager);
+    const signature = await signURI(uri, this.other.address,this.manager);
     await this.contract.connect(this.other).mint(uri, this.manager.address, signature)
 
     await expect(
@@ -61,8 +62,8 @@ describe('ArbArt', function () {
   
   it("can't mint with signer not manager", async () => {
     const uri = 'Qmsfzefi221ifjzifj';
-    const validSignature = await signURI(uri, this.manager);
-    const invalidSignature = await signURI(uri, this.other);
+    const validSignature = await signURI(uri, this.other.address,this.manager);
+    const invalidSignature = await signURI(uri, this.other.address,this.other);
 
     await expect(
       this.contract.connect(this.other).mint(uri, this.other.address, validSignature)
@@ -81,7 +82,7 @@ describe('ArbArt', function () {
     expect(await this.contract.baseURI()).to.eq(newBaseURI)
 
     const uri = 'Qmsfzefi221ifjzifj';
-    const signature = await signURI(uri, this.manager);
+    const signature = await signURI(uri, this.other.address,this.manager);
     await this.contract.connect(this.other).mint(uri, this.manager.address, signature)
     expect(await this.contract.tokenURI(this.other.address)).to.eq(`${newBaseURI}${uri}`)
 

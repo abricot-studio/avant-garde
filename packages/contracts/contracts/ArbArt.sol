@@ -50,7 +50,7 @@ contract ArbArt is ERC721URIStorage, AccessControlEnumerable {
       hasRole(MANAGER_ROLE, _signer),
       "Only accepting signatures from MANAGER_ROLE"
     );
-    bytes memory _message = abi.encodePacked(_uri, _signer);
+    bytes memory _message = abi.encodePacked(_uri, msg.sender, _signer);
     address _recoveredAddress = keccak256(_message)
       .toEthSignedMessageHash()
       .recover(_signature);
