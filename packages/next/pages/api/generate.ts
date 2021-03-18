@@ -2,26 +2,31 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import loadTf from 'tfjs-node-lambda'
 import axios from 'axios'
 import { tmpdir } from 'os'
+import Redis from 'ioredis'
 
 import { config } from '../../config'
-import pinata from '../../pinata'
 import { Log } from '../../logger'
 import { Render } from '../../image/render'
 import generate from '../../image/generate'
+import pinata from '../../pinata'
 
 const logger = Log({ service: 'generation' })
+const redis = new Redis(config.redis.host, {
+  retryStrategy(times) {
+    return Math.min(times * 50, 2000);
+  },
+})
 
 let tf: typeof import('@tensorflow/tfjs') = null
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   const address = req.body.address
-  // const resGet = await dynamoDb.get({
-  //   TableName: process.env.QUEUE_TABLE,
-  //   Key: { address }
-  // }).promise();
+  const resSetNx = await redis.set(address, 'processing', 'NX', 'EX', config.redis.expiration)
+  logger.info('resSetNx', { resSetNx })
 
-  if (Object.keys({}).length === 0) {
+  if(resSetNx === 'OK'){
+
     const existIpfsHash = await pinata.find(address)
 
     if (existIpfsHash) {
@@ -31,12 +36,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         ipfsHash: existIpfsHash,
       })
     } else {
-      // const file = createReadStream(join('.', '_files', 'nodejs12.x-tf3.3.0.br'), 'utf8');
-      // const tf: typeof import('@tensorflow/tfjs') = await loadTf(file);
-      // const ready = await prepareTf.next();
+
       if (!tf || !tf.sequential) {
 
-        logger.info('fetch ts', { address })
+        logger.info('fetch tf', { address })
 
         const response = await axios.get(
           'https://github.com/jlarmstrongiv/tfjs-node-lambda/releases/download/v2.0.4/nodejs12.x-tf3.3.0.br',
@@ -44,22 +47,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         )
 
         tf = await loadTf(response.data)
-        // return res.status(200).json({
-        //   status: 'loading',
-        //   ipfsHash: null
-        // });
+        logger.info('loaded tf', { address })
+
       }
 
       logger.info('start processing', { address })
-
-      // await dynamoDb.put({
-      //   TableName: process.env.QUEUE_TABLE,
-      //   Item: {
-      //     address,
-      //     status: 'processing',
-      //     expires: parseInt( (Date.now() / 1000 + 15 * 60).toString(), 10) // now + 15 min
-      //   }
-      // }).promise();
 
       const render = new Render(
         config.image.height,
@@ -71,11 +63,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const ipfsHash = await pinata.upload(path, address)
       await render.viewer.rm(address)
 
-      // await dynamoDb.delete({
-      //   TableName: process.env.QUEUE_TABLE,
-      //   Key: { address }
-      // }).promise();
-
       logger.info('end processing', { address, ipfsHash })
 
       res.status(200).json({
@@ -83,6 +70,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         ipfsHash: ipfsHash,
       })
     }
+
+    await redis.del(address);
+
   } else {
 
     logger.info('processing', { address })

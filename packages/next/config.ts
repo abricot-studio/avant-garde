@@ -3,6 +3,11 @@ export interface ConfigPinata {
   apiSecret: string
 }
 
+export interface ConfigRedis {
+  host: string
+  expiration: number
+}
+
 export interface ConfigImage {
   width: number
   height: number
@@ -16,6 +21,7 @@ export interface Config {
   env: string
   image: ConfigImage
   pinata: ConfigPinata
+  redis: ConfigRedis
 }
 
 const config: Config = {
@@ -32,6 +38,10 @@ const config: Config = {
     apiKey: process.env.PINATA_API_KEY,
     apiSecret: process.env.PINATA_API_SECRET,
   },
+  redis: {
+    host: process.env.REDIS_HOST,
+    expiration: parseInt(process.env.REDIS_EXPIRATION || '120', 10)
+  }
 }
 
 export { config }

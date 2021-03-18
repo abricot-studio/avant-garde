@@ -1,6 +1,7 @@
 import fs, { ReadStream } from 'fs'
 import assert from 'assert'
 import pinataSDK from '@pinata/sdk'
+
 import { Log } from './logger'
 import { config } from './config'
 
