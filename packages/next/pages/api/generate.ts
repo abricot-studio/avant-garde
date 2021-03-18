@@ -10,11 +10,13 @@ import generate from "../../image/generate";
 import { config } from '../../config';
 
 const logger = Log({ service: 'generation' })
-// import loadTf from 'tfjs-node-lambda';
+import loadTf from 'tfjs-node-lambda';
 import {createReadStream } from 'fs';
 import { join } from 'path'
-import { PrepareTf } from 'tfjs-node-lambda-helpers';
-const prepareTf = PrepareTf();
+import axios from "axios";
+
+
+let tf: typeof import('@tensorflow/tfjs') = null;
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
 
@@ -40,16 +42,22 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       // const file = createReadStream(join('.', '_files', 'nodejs12.x-tf3.3.0.br'), 'utf8');
       // const tf: typeof import('@tensorflow/tfjs') = await loadTf(file);
-      const ready = await prepareTf.next();
-      if(!ready.done || (!ready.value || !ready.value.sequential) ){
+      // const ready = await prepareTf.next();
+      if(!tf || !tf.sequential){
 
-        return res.status(200).json({
-          status: 'loading',
-          ipfsHash: null
-        });
+        const response = await axios.get(
+          'https://github.com/jlarmstrongiv/tfjs-node-lambda/releases/download/v2.0.4/nodejs12.x-tf3.3.0.br',
+          { responseType: 'arraybuffer' },
+        );
+
+        tf = await loadTf(response.data);
+        // return res.status(200).json({
+        //   status: 'loading',
+        //   ipfsHash: null
+        // });
 
       }
-      const tf = ready.value;
+
       logger.info('start processing', { address });
 
       // await dynamoDb.put({
