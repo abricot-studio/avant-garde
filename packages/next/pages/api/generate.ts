@@ -36,7 +36,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     } else {
 
-      const file = createReadStream(join('.', '_files', 'nodejs12.x-tf3.3.0.br'), 'utf8');
+      const file = createReadStream(join(__dirname, '_files', 'nodejs12.x-tf3.3.0.br'), 'utf8');
       const tf: typeof import('@tensorflow/tfjs') = await loadTf(file);
 
       logger.info('start processing', { address });
