@@ -10,8 +10,8 @@ import loadTf from 'tfjs-node-lambda';
 import { config } from '../../config';
 
 const logger = Log({ service: 'generation' })
-
-let tf: typeof import('@tensorflow/tfjs');
+import { PrepareTf } from 'tfjs-node-lambda-helpers';
+const prepareTf = PrepareTf();
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
 
@@ -35,17 +35,20 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     } else {
 
-      if(!tf){
+      const ready = await prepareTf.next();
 
-        const response = await axios.get(
-          'https://github.com/jlarmstrongiv/tfjs-node-lambda/releases/download/v2.0.4/nodejs12.x-tf3.3.0.br',
-          { responseType: 'arraybuffer' },
-        );
+      if(!ready.done){
 
-        const readStream = fs.createReadStream(response.data);
-        tf = await loadTf(readStream);
+        logger.info('processing load tf', { address });
+
+        return res.status(200).json({
+          status: 'loading',
+          ipfsHash: null
+        });
 
       }
+
+      const tf = ready.value;
 
       logger.info('start processing', { address });
 
