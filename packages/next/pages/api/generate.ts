@@ -36,9 +36,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     } else {
 
       const ready = await prepareTf.next();
-      const tf: any = ready.value;
 
-      if(!ready.done && tf && tf.sequential){
+      if(!ready.done){
 
         logger.info('processing load tf', { address });
 
@@ -49,6 +48,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       }
 
+      const tf = ready.value;
 
       logger.info('start processing', { address });
 
