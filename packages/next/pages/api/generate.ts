@@ -47,7 +47,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         const response = await axios.get(
           'https://github.com/jlarmstrongiv/tfjs-node-lambda/releases/download/v2.0.4/nodejs12.x-tf3.3.0.br',
-          { responseType: 'arraybuffer' },
+          { responseType: 'stream' },
         );
 
         tf = await loadTf(response.data);
