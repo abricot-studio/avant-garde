@@ -20,7 +20,6 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "tfjs-node-lambda": "^2.0.4",
-    "tfjs-node-lambda-helpers": "^1.1.7",
     "winston": "^3.3.3"
   },
   "devDependencies": {

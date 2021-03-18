@@ -1,18 +1,12 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-// import axios from "axios";
 import pinata from "../../pinata";
-// import fs from "fs";
 import {Log} from "../../logger";
 import {Render} from "../../image/render";
 import generate from "../../image/generate";
-// import loadTf from 'tfjs-node-lambda';
 import { config } from '../../config';
 
 const logger = Log({ service: 'generation' })
 import loadTf from 'tfjs-node-lambda';
-import {createReadStream } from 'fs';
-import { join } from 'path'
 import axios from "axios";
 
 
