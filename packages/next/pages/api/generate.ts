@@ -10,8 +10,9 @@ import generate from "../../image/generate";
 import { config } from '../../config';
 
 const logger = Log({ service: 'generation' })
-import { PrepareTf } from 'tfjs-node-lambda-helpers';
-const prepareTf = PrepareTf();
+import loadTf from 'tfjs-node-lambda';
+import {createReadStream } from 'fs';
+const { join } = require('path')
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
 
@@ -35,20 +36,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     } else {
 
-      const ready = await prepareTf.next();
-
-      if(!ready.done){
-
-        logger.info('processing load tf', { address });
-
-        return res.status(200).json({
-          status: 'loading',
-          ipfsHash: null
-        });
-
-      }
-
-      const tf = ready.value;
+      const file = createReadStream(join(__dirname, '_files', 'nodejs12.x-tf3.3.0.br'), 'utf8');
+      const tf: typeof import('@tensorflow/tfjs') = await loadTf(file);
 
       logger.info('start processing', { address });
 
