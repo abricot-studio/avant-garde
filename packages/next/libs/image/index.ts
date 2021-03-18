@@ -1,10 +1,10 @@
 import * as tf from '@tensorflow/tfjs-node'
 
-import { config } from '../config'
+import { config } from '@libs/config'
 import { Model } from './model'
 import { Render } from './render'
 
-import { Log } from '../logger'
+import { Log } from '@libs/logger'
 
 const logger = Log({ service: 'Image main' })
 

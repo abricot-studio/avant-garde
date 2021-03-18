@@ -1,6 +1,4 @@
-// import * as tf from '@tensorflow/tfjs-node'
-
-import { Log } from '../logger'
+import { Log } from '@libs/logger'
 
 const logger = Log({ service: 'Model' })
 

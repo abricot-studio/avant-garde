@@ -1,4 +1,4 @@
-import { config } from '../config'
+import { config } from '@libs/config'
 import { Model } from './model'
 import { Render } from './render'
 

@@ -2,83 +2,84 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import loadTf from 'tfjs-node-lambda'
 import axios from 'axios'
 import { tmpdir } from 'os'
-import Redis from 'ioredis'
 
-import { config } from '../../config'
-import { Log } from '../../logger'
-import { Render } from '../../image/render'
-import generate from '../../image/generate'
-import pinata from '../../pinata'
+import { config } from '@libs/config'
+import { Log } from '@libs/logger'
+import { getRedis } from '@libs/redis'
+import { Render } from '@libs/image/render'
+import generate from '@libs/image/generate'
+import Pinata from '@libs/pinata'
 
 const logger = Log({ service: 'generation' })
-const redis = new Redis(config.redis.host, {
-  retryStrategy(times) {
-    return Math.min(times * 50, 2000);
-  },
-})
 
 let tf: typeof import('@tensorflow/tfjs') = null
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   const address = req.body.address
+
+  const existIpfsHash = await Pinata.find(address)
+
+  if (existIpfsHash) {
+    logger.info('existIpfsHash', {
+      address,
+      ipfsHashMetaData: existIpfsHash.ipfsHashMetaData,
+      ipfsHashImage: existIpfsHash.ipfsHashImage
+    })
+    return res.status(200).json({
+      status: 'success',
+      ipfsHashMetaData: existIpfsHash.ipfsHashMetaData,
+      ipfsHashImage: existIpfsHash.ipfsHashImage
+    })
+  }
+
+  const redis = await getRedis()
   const resSetNx = await redis.set(address, 'processing', 'NX', 'EX', config.redis.expiration)
   logger.info('resSetNx', { resSetNx })
 
-  if(resSetNx === 'OK'){
-
-    const existIpfsHash = await pinata.find(address)
-
-    if (existIpfsHash) {
-      logger.info('existIpfsHash', { address, existIpfsHash })
-      res.status(200).json({
-        status: 'success',
-        ipfsHash: existIpfsHash,
-      })
-    } else {
-
-      if (!tf || !tf.sequential) {
-
-        logger.info('fetch tf', { address })
-
-        const response = await axios.get(
-          'https://github.com/jlarmstrongiv/tfjs-node-lambda/releases/download/v2.0.4/nodejs12.x-tf3.3.0.br',
-          { responseType: 'stream' }
-        )
-
-        tf = await loadTf(response.data)
-        logger.info('loaded tf', { address })
-
-      }
-
-      logger.info('start processing', { address })
-
-      const render = new Render(
-        config.image.height,
-        config.image.width,
-        config.image.blackWhite,
-        tmpdir()
-      )
-      const path = await generate(address, render, tf)
-      const ipfsHash = await pinata.upload(path, address)
-      await render.viewer.rm(address)
-
-      logger.info('end processing', { address, ipfsHash })
-
-      res.status(200).json({
-        status: 'success',
-        ipfsHash: ipfsHash,
-      })
-    }
-
-    await redis.del(address);
-
-  } else {
+  if (resSetNx !== 'OK') {
 
     logger.info('processing', { address })
-    res.status(200).json({
+    return res.status(200).json({
       status: 'processing',
-      ipfsHash: null,
+      ipfsHashMetaData: null,
+      ipfsHashImage: null,
     })
+
   }
+
+  if (!tf || !tf.sequential) {
+
+    logger.info('fetch tf', { address })
+    const response = await axios.get(
+      'https://github.com/jlarmstrongiv/tfjs-node-lambda/releases/download/v2.0.4/nodejs12.x-tf3.3.0.br',
+      { responseType: 'stream' }
+    )
+    tf = await loadTf(response.data)
+    logger.info('loaded tf', { address })
+
+  }
+
+  logger.info('start processing', { address })
+
+  const render = new Render(
+    config.image.height,
+    config.image.width,
+    config.image.blackWhite,
+    tmpdir()
+  )
+  const path = await generate(address, render, tf)
+  const ipfsHashImage = await Pinata.uploadImage(path, address)
+  const ipfsHashMetaData = await Pinata.uploadMetaData(ipfsHashImage, address)
+  await render.viewer.rm(address)
+
+  logger.info('end processing', { address, ipfsHashMetaData, ipfsHashImage })
+
+  await redis.del(address)
+  res.status(200).json({
+    status: 'success',
+    ipfsHashMetaData,
+    ipfsHashImage,
+  })
+
 }
