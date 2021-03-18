@@ -2,7 +2,7 @@ import { config } from '../config'
 import { Model } from './model'
 import { Render } from './render'
 
-export default async function generate(address: string, render: Render, tf): Promise<any>{
+export default async function generate(address: string, render: Render, tf: typeof import('@tensorflow/tfjs') ): Promise<any>{
 
   const seed = parseInt(address, 16) / 1000000000000000000000;
   const inputShape = [config.image.width, config.image.height];

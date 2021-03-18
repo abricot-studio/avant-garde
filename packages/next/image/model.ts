@@ -1,4 +1,4 @@
-import * as tf from '@tensorflow/tfjs-node'
+// import * as tf from '@tensorflow/tfjs-node'
 
 import { Log } from '../logger'
 
@@ -12,9 +12,9 @@ export class Model {
   units: number
   depth: number
   numFeatures: number
-  model: tf.Sequential
+  model: import('@tensorflow/tfjs').Sequential
   useBias: boolean
-  tf: any
+  tf: typeof import('@tensorflow/tfjs')
   seed?: number
 
   constructor(
