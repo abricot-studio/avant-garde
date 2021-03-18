@@ -22,6 +22,7 @@ export interface Config {
   image: ConfigImage
   pinata: ConfigPinata
   redis: ConfigRedis
+  privateKey: string
 }
 
 const config: Config = {
@@ -38,6 +39,7 @@ const config: Config = {
     apiKey: process.env.PINATA_API_KEY,
     apiSecret: process.env.PINATA_API_SECRET,
   },
+  privateKey: process.env.PRIVATE_KEY || '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80', //0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266
   redis: {
     host: process.env.REDIS_HOST,
     expiration: parseInt(process.env.REDIS_EXPIRATION || '120', 10)

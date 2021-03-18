@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import loadTf from 'tfjs-node-lambda'
 import axios from 'axios'
 import { tmpdir } from 'os'
+import { Wallet } from '@ethersproject/wallet'
 
 import { config } from '@libs/config'
 import { Log } from '@libs/logger'
@@ -9,10 +10,12 @@ import { getRedis } from '@libs/redis'
 import { Render } from '@libs/image/render'
 import generate from '@libs/image/generate'
 import Pinata from '@libs/pinata'
+import { signURI } from '@libs/sign'
 
 const logger = Log({ service: 'generation' })
 
 let tf: typeof import('@tensorflow/tfjs') = null
+const signer = new Wallet(config.privateKey)
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
 
@@ -26,11 +29,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       ipfsHashMetadata: existIpfsHash.ipfsHashMetadata,
       ipfsHashImage: existIpfsHash.ipfsHashImage
     })
+    const signature = await signURI(`ipfs://${existIpfsHash.ipfsHashMetadata}`, address, signer);
+
     return res.status(200).json({
       status: 'success',
       ipfsHashMetadata: existIpfsHash.ipfsHashMetadata,
-      ipfsHashImage: existIpfsHash.ipfsHashImage
+      ipfsHashImage: existIpfsHash.ipfsHashImage,
+      signature
     })
+
   }
 
   const redis = await getRedis()
@@ -44,6 +51,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       status: 'processing',
       ipfsHashMetadata: null,
       ipfsHashImage: null,
+      signature: null
     })
 
   }
@@ -76,10 +84,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   logger.info('end processing', { address, ipfsHashMetadata, ipfsHashImage })
 
   await redis.del(address)
+  const signature = await signURI(`ipfs://${ipfsHashMetadata}`, address, signer);
+
   res.status(200).json({
     status: 'success',
     ipfsHashMetadata,
     ipfsHashImage,
+    signature
   })
 
 }
