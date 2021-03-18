@@ -8,7 +8,7 @@ import { config } from '@libs/config'
 const logger = Log({ service: 'pinata' })
 const pinata = pinataSDK(config.pinata.apiKey, config.pinata.apiSecret)
 
-export async function uploadFile(path: string, address: string): Promise<string> {
+export async function uploadImage(path: string, address: string): Promise<string> {
   const file: ReadStream = fs.createReadStream(path)
 
   const options = {
@@ -89,7 +89,7 @@ export async function find(address: string): Promise<any> {
       logger.info('result find', { result })
       assert(result && Array.isArray(result.rows), 'Pinata find invalid response')
       return result.rows.length > 0 ? {
-        ipfsHashMetaData: result.rows[0].ipfs_pin_hash,
+        ipfsHashMetadata: result.rows[0].ipfs_pin_hash,
         ipfsHashImage: result.rows[0].metadata.keyvalues.ipfsHashImage,
       } : false
     })
@@ -101,4 +101,4 @@ export async function find(address: string): Promise<any> {
 }
 
 
-export default { uploadImage: uploadFile, find, uploadMetaData: uploadMetadata }
+export default { uploadImage, find, uploadMetadata }

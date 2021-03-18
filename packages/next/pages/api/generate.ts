@@ -23,12 +23,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (existIpfsHash) {
     logger.info('existIpfsHash', {
       address,
-      ipfsHashMetaData: existIpfsHash.ipfsHashMetaData,
+      ipfsHashMetadata: existIpfsHash.ipfsHashMetadata,
       ipfsHashImage: existIpfsHash.ipfsHashImage
     })
     return res.status(200).json({
       status: 'success',
-      ipfsHashMetaData: existIpfsHash.ipfsHashMetaData,
+      ipfsHashMetadata: existIpfsHash.ipfsHashMetadata,
       ipfsHashImage: existIpfsHash.ipfsHashImage
     })
   }
@@ -42,7 +42,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     logger.info('processing', { address })
     return res.status(200).json({
       status: 'processing',
-      ipfsHashMetaData: null,
+      ipfsHashMetadata: null,
       ipfsHashImage: null,
     })
 
@@ -70,15 +70,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   )
   const path = await generate(address, render, tf)
   const ipfsHashImage = await Pinata.uploadImage(path, address)
-  const ipfsHashMetaData = await Pinata.uploadMetaData(ipfsHashImage, address)
+  const ipfsHashMetadata = await Pinata.uploadMetadata(ipfsHashImage, address)
   await render.viewer.rm(address)
 
-  logger.info('end processing', { address, ipfsHashMetaData, ipfsHashImage })
+  logger.info('end processing', { address, ipfsHashMetadata, ipfsHashImage })
 
   await redis.del(address)
   res.status(200).json({
     status: 'success',
-    ipfsHashMetaData,
+    ipfsHashMetadata,
     ipfsHashImage,
   })
 
