@@ -27,8 +27,8 @@ export interface Config {
 const config: Config = {
   env: process.env.NODE_ENV || 'development',
   image: {
-    width: parseInt(process.env.IMAGE_WIDTH || '200', 10),
-    height: parseInt(process.env.IMAGE_HEIGHT || '200', 10),
+    width: parseInt(process.env.IMAGE_WIDTH || '350', 10),
+    height: parseInt(process.env.IMAGE_HEIGHT || '350', 10),
     scale: parseInt(process.env.IMAGE_SCALE || '10', 10),
     blackWhite: Boolean(process.env.IMAGE_BLACK_WHITE),
     batchSize: parseInt(process.env.IMAGE_BATCH_SIZE || '1000', 10),
