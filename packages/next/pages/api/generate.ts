@@ -8,13 +8,14 @@ import {Render} from "../../image/render";
 import generate from "../../image/generate";
 // import loadTf from 'tfjs-node-lambda';
 import { config } from '../../config';
+import * as tf from '@tensorflow/tfjs-node'
 
 const logger = Log({ service: 'generation' })
-// import loadTf from 'tfjs-node-lambda';
+import loadTf from 'tfjs-node-lambda';
 import {createReadStream } from 'fs';
 import { join } from 'path'
-import { PrepareTf } from 'tfjs-node-lambda-helpers';
-const prepareTf = PrepareTf();
+// import { PrepareTf } from 'tfjs-node-lambda-helpers';
+// const prepareTf = PrepareTf();
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
 
@@ -40,18 +41,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       // const file = createReadStream(join('.', '_files', 'nodejs12.x-tf3.3.0.br'), 'utf8');
       // const tf: typeof import('@tensorflow/tfjs') = await loadTf(file);
-      const ready = await prepareTf.next();
+      // const ready = await prepareTf.next();
+      //
+      // if(!ready.done){
+      //
+      //   return res.status(200).json({
+      //     status: 'loading',
+      //     ipfsHash: null
+      //   });
+      //
+      // }
 
-      if(!ready.done){
-
-        return res.status(200).json({
-          status: 'loading',
-          ipfsHash: null
-        });
-
-      }
-
-      const tf = ready.value;
+      // const tf = ready.value;
       logger.info('start processing', { address });
 
       // await dynamoDb.put({
