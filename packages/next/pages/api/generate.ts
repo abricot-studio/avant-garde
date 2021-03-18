@@ -12,7 +12,7 @@ import { config } from '../../config';
 const logger = Log({ service: 'generation' })
 import loadTf from 'tfjs-node-lambda';
 import {createReadStream } from 'fs';
-const { join } = require('path')
+import { join } from 'path'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
 
