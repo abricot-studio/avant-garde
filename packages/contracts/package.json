@@ -6,9 +6,7 @@
   "scripts": {
     "compile": "hardhat compile",
     "node": "hardhat node",
-    "test": "hardhat test",
-    "deploy": "hardhat run scripts/deploy.js",
-    "deploy-test": "hardhat --network localhost sample"
+    "test": "hardhat test"
   },
   "author": "Pacien Boisson",
   "license": "ISC",

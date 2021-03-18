@@ -42,7 +42,7 @@ describe('ArbArt', function () {
 
   it("can't mint two times", async () => {
     const uri = 'Qmsfzefi221ifjzifj';
-    const signature = await signMintingRequest(uri, memory.other.address,memory.manager);
+    const signature = await signMintingRequest(uri, memory.other.address, memory.manager);
     await memory.contract.connect(memory.other).mint(uri, memory.manager.address, signature)
 
     await expect(
