@@ -5,3 +5,5 @@ public
 prisma
 artifacts
 cache
+.next
+out

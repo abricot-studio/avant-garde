@@ -1,6 +1,0 @@
-{
-  "headers": {
-    "Content-Type": "application/json"
-  },
-  "body": "{\"address\": \"0xd50C46607b8C6AaA03c4cd2506e79a5Df2b699bF01\"}"
-}

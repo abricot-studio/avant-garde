@@ -1,6 +1,3 @@
-// import dotenv from 'dotenv'
-// dotenv.config({ path: '.env' })
-
 export interface ConfigPinata {
   apiKey: string
   apiSecret: string
@@ -16,14 +13,12 @@ export interface ConfigImage {
 }
 
 export interface Config {
-  port: number
   env: string
   image: ConfigImage
   pinata: ConfigPinata
 }
 
 const config: Config = {
-  port: parseInt(process.env.PORT || '1234', 10),
   env: process.env.NODE_ENV || 'development',
   image: {
     width: parseInt(process.env.IMAGE_WIDTH || '200', 10),

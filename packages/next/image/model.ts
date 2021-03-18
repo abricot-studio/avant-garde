@@ -105,7 +105,9 @@ export class Model {
       this.tf.layers.dense({
         units: this.blackWhite ? 1 : 3,
         // kernelInitializer: initializer,
-        kernelInitializer: this.tf.initializers.glorotNormal({ seed: this.seed }),
+        kernelInitializer: this.tf.initializers.glorotNormal({
+          seed: this.seed,
+        }),
         useBias: this.useBias,
         biasInitializer: initializer,
         // activation: 'tanh',

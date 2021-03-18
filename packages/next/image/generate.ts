@@ -2,10 +2,13 @@ import { config } from '../config'
 import { Model } from './model'
 import { Render } from './render'
 
-export default async function generate(address: string, render: Render, tf: typeof import('@tensorflow/tfjs') ): Promise<any>{
-
-  const seed = parseInt(address, 16) / 1000000000000000000000;
-  const inputShape = [config.image.width, config.image.height];
+export default async function generate(
+  address: string,
+  render: Render,
+  tf: typeof import('@tensorflow/tfjs')
+): Promise<any> {
+  const seed = parseInt(address, 16) / 1000000000000000000000
+  const inputShape = [config.image.width, config.image.height]
 
   const model = new Model(
     inputShape,
@@ -15,11 +18,10 @@ export default async function generate(address: string, render: Render, tf: type
     32,
     8,
     tf,
-    seed,
-  );
+    seed
+  )
   const dataImg = model.generate()
   const path = await render.draw(dataImg, address)
 
-  return path;
-
+  return path
 }

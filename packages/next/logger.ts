@@ -7,4 +7,4 @@ const Log = (defaultMeta = {}): Logger =>
     transports: [new transports.Console()],
   })
 
-export { Log };
+export { Log }
