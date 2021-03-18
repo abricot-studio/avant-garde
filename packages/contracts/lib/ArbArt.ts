@@ -1,6 +1,8 @@
-const MANAGER_ROLE = ethers.utils.keccak256(ethers.utils.toUtf8Bytes('MANAGER_ROLE'))
+import { ethers } from "hardhat";
 
-async function signMintingRequest(uri, minter, signer) {
+export const MANAGER_ROLE = ethers.utils.keccak256(ethers.utils.toUtf8Bytes('MANAGER_ROLE'))
+
+export async function signMintingRequest(uri: string, minter: string, signer) {
   const aURI = ethers.utils.toUtf8Bytes(uri);
   const aMinter = ethers.utils.arrayify(minter);
   const aSigner = ethers.utils.arrayify(await signer.getAddress());
@@ -12,5 +14,3 @@ async function signMintingRequest(uri, minter, signer) {
   const signature = await signer.signMessage(aHash);
   return signature;
 }
-
-module.exports = { MANAGER_ROLE, signMintingRequest }

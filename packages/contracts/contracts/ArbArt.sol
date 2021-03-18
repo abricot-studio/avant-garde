@@ -18,7 +18,7 @@ contract ArbArt is ERC721URIStorage, AccessControlEnumerable {
   modifier onlyManager() { // Modifier
     require(
       hasRole(MANAGER_ROLE, msg.sender),
-      "Only MANAGER_ROLE can call this"
+      "Only MANAGER_ROLE can call this method"
     );
     _;
   }
