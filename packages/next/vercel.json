@@ -1,6 +1,6 @@
 {
   "functions": {
-    "pages/api/generates": {
+    "pages/api/generates.ts": {
       "includeFiles": "_files/**"
     }
   }
