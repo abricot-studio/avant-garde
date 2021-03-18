@@ -14,7 +14,7 @@ export class Model {
   numFeatures: number
   model: import('@tensorflow/tfjs').Sequential
   useBias: boolean
-  tf: typeof import('@tensorflow/tfjs')
+  tf: any
   seed?: number
 
   constructor(

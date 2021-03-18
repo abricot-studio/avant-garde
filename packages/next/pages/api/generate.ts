@@ -41,7 +41,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       // const file = createReadStream(join('.', '_files', 'nodejs12.x-tf3.3.0.br'), 'utf8');
       // const tf: typeof import('@tensorflow/tfjs') = await loadTf(file);
       const ready = await prepareTf.next();
-      if(!ready.done){
+      if(!ready.done || (!ready.value || !ready.value.sequential) ){
 
         return res.status(200).json({
           status: 'loading',
