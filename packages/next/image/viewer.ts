@@ -1,9 +1,8 @@
 import fs from 'fs'
 import assert from 'assert'
 import Jpeg from 'jpeg-js'
-
+import { tmpdir } from 'os'
 import { Log } from '../logger'
-
 const logger = Log({ service: 'viewer' })
 
 export class Viewer {
@@ -26,7 +25,7 @@ export class Viewer {
       height: this.height,
     }
 
-    const path = `${this.baseDir}/out${id ? `_${id}` : ''}.jpg`
+    const path = `${tmpdir()}/out${id ? `_${id}` : ''}.jpg`
     const stream = fs.createWriteStream(path)
 
     const encoded = Jpeg.encode(rawImageData, 100)
@@ -42,11 +41,11 @@ export class Viewer {
   }
 
   getPath(id?: string) {
-    return `${this.baseDir}/out${id ? `_${id}` : ''}.jpg`
+    return `${tmpdir()}/out${id ? `_${id}` : ''}.jpg`
   }
 
   rm(id?: string) {
-    const path = `${this.baseDir}/out${id ? `_${id}` : ''}.jpg`
+    const path = `${tmpdir()}/out${id ? `_${id}` : ''}.jpg`
 
     return new Promise((resolve: any, reject: any) => {
       fs.unlink(path, (error) => {
