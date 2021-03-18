@@ -6,6 +6,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "removeComments": true,
+    "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "target": "ES2020",
     "outDir": "lib"
@@ -16,7 +17,10 @@
     ".serverless/**/*",
     ".webpack/**/*",
     "_warmup/**/*",
-    ".vscode/**/*"
+    ".vscode/**/*",
+    ".idea/**/*",
+    ".DS_Store",
+    ".git",
   ],
   "ts-node": {
     "require": ["tsconfig-paths/register"]

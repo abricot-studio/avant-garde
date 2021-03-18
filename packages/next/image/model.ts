@@ -1,8 +1,8 @@
 // import * as tf from '@tensorflow/tfjs-node'
 
-import { Logger } from '../logger'
+import { Log } from '../logger'
 
-const logger = Logger({ service: 'Model' })
+const logger = Log({ service: 'Model' })
 
 export class Model {
   inputShape: any
@@ -24,7 +24,7 @@ export class Model {
     batchSize = 1000,
     units = 32,
     depth = 8,
-    tf: typeof import('@tensorflow/tfjs'),
+    tf: any,
     seed?: number
   ) {
     this.inputShape = inputShape

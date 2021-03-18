@@ -3,6 +3,8 @@ import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/apiGateway';
 import { formatJSONResponse } from '@libs/apiGateway';
 import { middyfy } from '@libs/lambda';
 import { DynamoDB } from 'aws-sdk';
+import axios from 'axios';
+import fs from 'fs'
 
 import { config } from '../../config';
 import schema from './schema';
@@ -11,8 +13,11 @@ import pinata from '@libs/pinata';
 import generate from '@libs/image/generate';
 import {Render} from '@libs/image/render';
 const dynamoDb = new DynamoDB.DocumentClient();
+import loadTf from 'tfjs-node-lambda';
 
 const logger = Logger({ service: 'generation' })
+
+let tf: typeof import('@tensorflow/tfjs');
 
 const generation: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
 
@@ -37,6 +42,18 @@ const generation: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (eve
 
     } else {
 
+      if(!tf){
+
+        const response = await axios.get(
+          'https://github.com/jlarmstrongiv/tfjs-node-lambda/releases/download/v2.0.4/nodejs12.x-tf3.3.0.br',
+          { responseType: 'arraybuffer' },
+        );
+
+        const readStream = fs.createReadStream(response.data);
+        tf = await loadTf(readStream);
+
+      }
+
       logger.info('start processing', { address });
 
       await dynamoDb.put({
@@ -49,7 +66,7 @@ const generation: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (eve
       }).promise();
 
       const render = new Render(config.image.height, config.image.width, config.image.blackWhite, config.image.outputsDir);
-      const path = await generate(address, render);
+      const path = await generate(address, render, tf);
       const ipfsHash = await pinata.upload(path, address);
       await render.viewer.rm(address);
 

@@ -5,7 +5,7 @@ export default {
   handler: `${handlerPath(__dirname)}/handler.main`,
   role: 'generateRole',
   memorySize: 1024,
-  timeout: 5 * 60,
+  timeout: 30,
   events: [
     {
       http: {

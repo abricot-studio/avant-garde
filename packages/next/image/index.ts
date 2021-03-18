@@ -1,12 +1,12 @@
-import '@tensorflow/tfjs-node'
+import * as tf from '@tensorflow/tfjs-node'
 
-import { config } from '../../config'
+import { config } from '../config'
 import { Model } from './model'
 import { Render } from './render'
 
-import { Logger } from '../logger'
+import { Log } from '../logger'
 
-const logger = Logger({ service: 'Image main' })
+const logger = Log({ service: 'Image main' })
 
 async function Generate() {
   const addresses = [
@@ -34,6 +34,7 @@ async function Generate() {
       config.image.batchSize,
       32,
       8,
+      tf,
       seed
     )
 
