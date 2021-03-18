@@ -16,6 +16,7 @@
     "axios": "^0.21.1",
     "ethers": "^5.0.32",
     "ioredis": "^4.24.2",
+    "ipfs-http-client": "^49.0.4",
     "jpeg-js": "^0.4.3",
     "next": "^10.0.9",
     "react": "^17.0.1",

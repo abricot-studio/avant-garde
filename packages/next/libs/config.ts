@@ -23,6 +23,7 @@ export interface Config {
   pinata: ConfigPinata
   redis: ConfigRedis
   privateKey: string
+  ipfsPinUrl: string
 }
 
 const config: Config = {
@@ -40,6 +41,7 @@ const config: Config = {
     apiSecret: process.env.PINATA_API_SECRET,
   },
   privateKey: process.env.PRIVATE_KEY || '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80', //0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266
+  ipfsPinUrl: process.env.IPFS_PIN_URL || 'https://api.thegraph.com/ipfs/',// https://api.pinata.cloud
   redis: {
     host: process.env.REDIS_HOST,
     expiration: parseInt(process.env.REDIS_EXPIRATION || '120', 10)

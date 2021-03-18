@@ -1,12 +1,15 @@
 import fs, { ReadStream } from 'fs'
 import assert from 'assert'
 import pinataSDK from '@pinata/sdk'
+import createClient from 'ipfs-http-client'
 
 import { Log } from '@libs/logger'
 import { config } from '@libs/config'
 
 const logger = Log({ service: 'pinata' })
 const pinata = pinataSDK(config.pinata.apiKey, config.pinata.apiSecret)
+
+const ipfs = createClient({ url: config.ipfsPinUrl })
 
 export async function uploadImage(path: string, address: string): Promise<string> {
   const file: ReadStream = fs.createReadStream(path)
@@ -19,13 +22,17 @@ export async function uploadImage(path: string, address: string): Promise<string
       }
     },
     pinataOptions: {
-      cidVersion: 0,
+      // cidVersion: 0,
+      hostNodes: [config.ipfsPinUrl]
     }
   }
 
+  const res = await ipfs.add(file)
+  logger.info('ipfs uploadFile res', { res })
   return pinata
-    .pinFileToIPFS(file, options)
+    .pinByHash(res.path, options)
     .then((result: any) => {
+      logger.info('Pinata uploadFile', { result })
       assert(result && result.IpfsHash, 'Pinata uploadFile invalid response')
       return result.IpfsHash
     })
@@ -51,7 +58,7 @@ export async function uploadMetadata(ipfsHashImage: string, address: string): Pr
     }
   };
 
-  return pinata.pinJSONToIPFS({
+  const content = {
     image: `ipfs://${ipfsHashImage}`,
     description: `Art of ${address}`,
     external_url: `https://art.art/id/${address}`,
@@ -64,7 +71,11 @@ export async function uploadMetadata(ipfsHashImage: string, address: string): Pr
         value: Date.now().toString()
       }
     ]
-  }, options)
+  }
+  const res = await ipfs.add({ content: JSON.stringify(content) })
+  // logger.info('ipfs uploadMetadata res', { res })
+
+  return pinata.pinByHash(res.path, options)
     .then((result: any) => {
       // logger.info('result uploadMetadata', { result })
       assert(result && result.IpfsHash, 'Pinata uploadMetadata invalid response')
