@@ -66,7 +66,7 @@ export async function uploadMetadata(ipfsHashImage: string, address: string): Pr
     ]
   }, options)
     .then((result: any) => {
-      logger.info('result uploadMetadata', { result })
+      // logger.info('result uploadMetadata', { result })
       assert(result && result.IpfsHash, 'Pinata uploadMetadata invalid response')
       return result.IpfsHash
     })
@@ -86,7 +86,7 @@ export async function find(address: string): Promise<any> {
       },
     })
     .then((result: any) => {
-      logger.info('result find', { result })
+      // logger.info('result find', { result })
       assert(result && Array.isArray(result.rows), 'Pinata find invalid response')
       return result.rows.length > 0 ? {
         ipfsHashMetadata: result.rows[0].ipfs_pin_hash,
