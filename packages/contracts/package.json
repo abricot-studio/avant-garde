@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "npm run compile && npm run scripts:publish",
     "compile": "hardhat compile",
     "node": "hardhat node",
     "test": "hardhat test",

@@ -1,8 +1,8 @@
 {
-  "name": "@arbart/monorepo",
   "private": true,
   "scripts": {
     "install": "lerna bootstrap",
+    "build": "lerna run build",
     "test": "lerna run test",
     "prettier": "prettier --check .",
     "prettier:write": "prettier --write ."
