@@ -1,4 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import { VercelRequest, VercelResponse } from '@vercel/node'
 import loadTf from 'tfjs-node-lambda'
 import axios from 'axios'
 import { tmpdir } from 'os'
@@ -17,7 +17,7 @@ const logger = Log({ service: 'generation' })
 let tf: typeof import('@tensorflow/tfjs') = null
 const signer = new Wallet(config.privateKey)
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async (req: VercelRequest, res: VercelResponse) => {
 
   const address = req.body.address
 
