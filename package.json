@@ -10,5 +10,8 @@
   "devDependencies": {
     "prettier": "^2.2.1",
     "lerna": "^4.0.0"
+  },
+  "dependencies": {
+    "vercel": "^21.3.3"
   }
 }

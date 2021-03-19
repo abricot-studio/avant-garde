@@ -2,28 +2,22 @@
   "name": "nftart-serverless",
   "version": "1.0.0",
   "description": "",
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
-  },
+  "scripts": {},
   "engines": {
     "node": "12.x"
   },
   "dependencies": {
     "@pinata/sdk": "^1.1.13",
+    "@vercel/node": "^1.9.1",
     "assert": "^2.0.0",
     "axios": "^0.21.1",
+    "ethers": "^5.0.32",
     "ioredis": "^4.24.2",
     "jpeg-js": "^0.4.3",
-    "next": "^10.0.9",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
     "tfjs-node-lambda": "^2.0.4",
     "winston": "^3.3.3"
   },
   "devDependencies": {
-    "@types/react": "^17.0.3",
     "@tensorflow/tfjs-node": "^3.3.0",
     "@types/node": "^14.14.35",
     "typescript": "^4.2.3"

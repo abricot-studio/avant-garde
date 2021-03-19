@@ -1,7 +1,7 @@
 import fs from 'fs'
 import assert from 'assert'
 import Jpeg from 'jpeg-js'
-import { Log } from '@libs/logger'
+import { Log } from '../logger'
 
 const logger = Log({ service: 'viewer' })
 

@@ -1,20 +1,30 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import { VercelRequest, VercelResponse } from '@vercel/node'
 import loadTf from 'tfjs-node-lambda'
 import axios from 'axios'
 import { tmpdir } from 'os'
+import { Wallet } from '@ethersproject/wallet'
 
-import { config } from '@libs/config'
-import { Log } from '@libs/logger'
-import { getRedis } from '@libs/redis'
-import { Render } from '@libs/image/render'
-import generate from '@libs/image/generate'
-import Pinata from '@libs/pinata'
+import { config } from '../libs/config'
+import { Log } from '../libs/logger'
+import { getRedis } from '../libs/redis'
+import { Render } from '../libs/image/render'
+import generate from '../libs/image/generate'
+import Pinata from '../libs/pinata'
+import { signURI } from '../libs/sign'
 
 const logger = Log({ service: 'generation' })
 
 let tf: typeof import('@tensorflow/tfjs') = null
+const signer = new Wallet(config.privateKey)
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async (req: VercelRequest, res: VercelResponse) => {
+
+  if(req.method === 'OPTIONS') {
+
+    return res.status(200).end()
+
+  }
+
   const address = req.body.address
 
   const existIpfsHash = await Pinata.find(address)
@@ -23,35 +33,37 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     logger.info('existIpfsHash', {
       address,
       ipfsHashMetadata: existIpfsHash.ipfsHashMetadata,
-      ipfsHashImage: existIpfsHash.ipfsHashImage,
+      ipfsHashImage: existIpfsHash.ipfsHashImage
     })
+    const signature = await signURI(`ipfs://${existIpfsHash.ipfsHashMetadata}`, address, signer);
+
     return res.status(200).json({
       status: 'success',
       ipfsHashMetadata: existIpfsHash.ipfsHashMetadata,
       ipfsHashImage: existIpfsHash.ipfsHashImage,
+      signature
     })
+
   }
 
   const redis = await getRedis()
-  const resSetNx = await redis.set(
-    address,
-    'processing',
-    'NX',
-    'EX',
-    config.redis.expiration
-  )
+  const resSetNx = await redis.set(address, 'processing', 'NX', 'EX', config.redis.expiration)
   logger.info('resSetNx', { resSetNx })
 
   if (resSetNx !== 'OK') {
+
     logger.info('processing', { address })
     return res.status(200).json({
       status: 'processing',
       ipfsHashMetadata: null,
       ipfsHashImage: null,
+      signature: null
     })
+
   }
 
   if (!tf || !tf.sequential) {
+
     logger.info('fetch tf', { address })
     const response = await axios.get(
       'https://github.com/jlarmstrongiv/tfjs-node-lambda/releases/download/v2.0.4/nodejs12.x-tf3.3.0.br',
@@ -59,6 +71,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     )
     tf = await loadTf(response.data)
     logger.info('loaded tf', { address })
+
   }
 
   logger.info('start processing', { address })
@@ -77,9 +90,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   logger.info('end processing', { address, ipfsHashMetadata, ipfsHashImage })
 
   await redis.del(address)
+  const signature = await signURI(`ipfs://${ipfsHashMetadata}`, address, signer);
+
   res.status(200).json({
     status: 'success',
     ipfsHashMetadata,
     ipfsHashImage,
+    signature
   })
+
 }

@@ -1,4 +1,4 @@
-import { Log } from '@libs/logger'
+import { Log } from '../logger'
 
 const logger = Log({ service: 'Model' })
 
