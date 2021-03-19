@@ -4,7 +4,7 @@ import WalletConnectProvider from '@walletconnect/web3-provider';
 import { providers } from 'ethers';
 import Web3Modal from 'web3modal';
 
-import { CONFIG } from '../config';
+import config from '../config';
 import { remove } from '../lib/store'
 
 export const clearWalletConnect = (): void => {
@@ -34,7 +34,7 @@ const providerOptions = {
   walletconnect: {
     package: WalletConnectProvider,
     options: {
-      infuraId: CONFIG.infuraId,
+      infuraId: config.infuraId,
     },
   },
 };
