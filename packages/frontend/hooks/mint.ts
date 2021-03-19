@@ -1,19 +1,36 @@
 import { useCallback, useState } from 'react'
+import { Contract } from 'ethers'
+import { useMemo } from 'react'
 import { useMyToken } from './tokens'
 import { useWeb3 } from '../contexts/Web3Context'
-// import abi from '@arbart/contracts/dist/ArbArt.abi.json'
+import abi from '../../contracts/dist/ArbArt.abi.json'
+import config from '../config'
 
 export const useMint = () => {
-  const { address } = useWeb3();
+  const { address, provider } = useWeb3();
   const { refresh } = useMyToken(address);
   const [isMinting, setIsMinting] = useState<boolean>(false);
 
-  // console.log(abi);
-  const mint = useCallback(() => {
+  const contract = useMemo(() =>
+      provider ?
+        new Contract(config.contractAddress, abi, provider.getSigner())
+        :
+        null,
+    [provider]
+  );
+
+  const mint = useCallback((generationResult) => {
     setIsMinting(true);
-    refresh();
-    setIsMinting(false);
-  }, [refresh]);
+    contract.mint(generationResult.ipfsHashMetadata, generationResult.signerAddress, generationResult.signature).then(tx =>
+      tx.wait()
+    ).then(() => {
+      refresh();
+      setIsMinting(false);
+    }).catch(error => {
+      console.error(error);
+      setIsMinting(false);
+    });
+  }, [refresh, contract]);
 
   return { mint, isMinting };
 }
