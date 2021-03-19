@@ -19,7 +19,7 @@ dataSources:
         - ArbArt
       abis:
         - name: ArbArt
-          file: ./abi/ArbArt.json
+          file: ../contracts/dist/ArbArt.abi.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer

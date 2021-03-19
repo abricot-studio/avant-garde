@@ -1,5 +1,4 @@
 {
-  "name": "@arbart/monorepo",
   "private": true,
   "scripts": {
     "install": "lerna bootstrap",

@@ -4,7 +4,7 @@ import Hero from '../components/Home/Hero'
 import Tokens from '../components/Home/Tokens'
 import MyToken from '../components/Home/MyToken'
 
-import abi from '@arbart/contracts/dist/ArbArt.abi.json'
+import abi from '../../contracts/dist/ArbArt.abi.json'
 
 const seoData = {
   title: 'View Brain',
@@ -21,7 +21,7 @@ export default function Home() {
       <Hero />
       <MyToken />
       <Tokens />
-      {abi}
+      {JSON.stringify(abi)}
     </Layout>
   )
 }
