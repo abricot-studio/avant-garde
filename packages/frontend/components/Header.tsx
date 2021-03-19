@@ -22,7 +22,7 @@ function LoginButton() {
         >
           Disconnect
         </Button>
-      </Flex>
+      </Box>
     )
   }
 
