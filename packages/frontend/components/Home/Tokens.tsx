@@ -14,7 +14,7 @@ export default function Tokens() {
       <Heading>Existing tokens</Heading>
       <VStack spacing={8}>
         {tokens.map((token) => (
-          <Box>
+          <Box key={token.id}>
             <Image src={getIpfsUrl(token.metadata.image)} boxSize={200} />
             {token.owner}
           </Box>
