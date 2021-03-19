@@ -2,4 +2,14 @@ type ArbArtToken @entity {
   id: ID!
   owner: Bytes!
   uri: String!
+  metadata: ArbArtTokenMetadata
+}
+
+type ArbArtTokenMetadata @entity {
+  id: ID!
+  image: String!
+  name: String!
+  description: String!
+  external_url: String!
+  parent: ArbArtToken!
 }

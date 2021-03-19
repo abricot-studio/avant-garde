@@ -1,23 +1,31 @@
 import { useMemo } from 'react'
-import {useWindowScroll} from 'react-use';
+import { useWindowScroll } from 'react-use'
 import { Button, Flex, Link, Box, HStack, Text } from './ui'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faWallet } from '@fortawesome/free-solid-svg-icons'
 import { useWeb3 } from '../contexts/Web3Context'
 
+function Address({ children }) {
+  return (
+    <Text>{children}</Text>
+  )
+}
 
 function LoginButton() {
-  const { connect, disconnect, isConnecting, isConnected } = useWeb3();
+  const { connect, disconnect, isConnecting, address, isConnected } = useWeb3()
 
-  if(isConnected) {
+  if (isConnected) {
     return (
-      <Button
-        variant="solid"
-        onClick={disconnect}
-        leftIcon={<FontAwesomeIcon icon={faWallet} size="1x" />}
-      >
-        Disconnect
-      </Button>
+      <Box>
+        <Address>{address}</Address>
+        <Button
+          variant="solid"
+          onClick={disconnect}
+          leftIcon={<FontAwesomeIcon icon={faWallet} size="1x" />}
+        >
+          Disconnect
+        </Button>
+      </Box>
     )
   }
 
@@ -31,10 +39,10 @@ function LoginButton() {
     >
       Connect
     </Button>
-  );
+  )
 }
 export default function Header() {
-  const {y} = useWindowScroll();
+  const { y } = useWindowScroll()
   const scrolled = useMemo(() => y > 80, [y])
 
   return (
@@ -60,15 +68,11 @@ export default function Header() {
           onClick={() => window.scroll(0, 0)}
           _hover={{ textDecoration: 'none' }}
         >
-          <Text
-            textStyle="h1"
-          >
-            Ab-Art
-          </Text>
+          <Text textStyle="h1">Ab-Art</Text>
         </Link>
 
         <HStack spacing={8} display={{ base: 'none', md: 'flex' }}>
-          <LoginButton/>
+          <LoginButton />
         </HStack>
       </Flex>
     </Box>
