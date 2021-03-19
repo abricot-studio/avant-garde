@@ -2,6 +2,7 @@ import Layout from '../components/Layout'
 import SEO from '../components/utils/SEO'
 import Hero from '../components/Home/Hero'
 import Tokens from '../components/Home/Tokens'
+import MyToken from '../components/Home/MyToken'
 
 const seoData = {
   title: 'View Brain',
@@ -16,6 +17,7 @@ export default function Home() {
     <Layout>
       <SEO data={seoData} />
       <Hero />
+      <MyToken />
       <Tokens />
     </Layout>
   )

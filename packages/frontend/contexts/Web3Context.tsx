@@ -88,6 +88,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
       setProvider(ethersProvider)
       setIsConnecting(false)
       setIsConnected(true)
+
     } catch (_) {
       setIsConnecting(false)
       disconnect()
