@@ -35,7 +35,7 @@ export default async (req: VercelRequest, res: VercelResponse) => {
       ipfsHashMetadata: existIpfsHash.ipfsHashMetadata,
       ipfsHashImage: existIpfsHash.ipfsHashImage
     })
-    const signature = await signURI(`ipfs://${existIpfsHash.ipfsHashMetadata}`, address, signer);
+    const signature = await signURI(existIpfsHash.ipfsHashMetadata, address, signer);
 
     return res.status(200).json({
       status: 'success',
@@ -92,7 +92,7 @@ export default async (req: VercelRequest, res: VercelResponse) => {
   logger.info('end processing', { address, ipfsHashMetadata, ipfsHashImage })
 
   await redis.del(address)
-  const signature = await signURI(`ipfs://${ipfsHashMetadata}`, address, signer);
+  const signature = await signURI(ipfsHashMetadata, address, signer);
 
   res.status(200).json({
     status: 'success',
