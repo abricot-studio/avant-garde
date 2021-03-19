@@ -2,8 +2,8 @@ import fs, { ReadStream } from 'fs'
 import assert from 'assert'
 import pinataSDK from '@pinata/sdk'
 
-import { Log } from '@libs/logger'
-import { config } from '@libs/config'
+import { Log } from './logger'
+import { config } from './config'
 
 const logger = Log({ service: 'pinata' })
 const pinata = pinataSDK(config.pinata.apiKey, config.pinata.apiSecret)

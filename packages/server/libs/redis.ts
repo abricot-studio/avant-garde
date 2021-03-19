@@ -1,5 +1,5 @@
 import Redis from 'ioredis'
-import { config } from '@libs/config'
+import { config } from './config'
 
 const redis = new Redis(config.redis.host, {
   retryStrategy(times) {

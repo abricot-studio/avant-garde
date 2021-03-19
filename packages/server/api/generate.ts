@@ -4,13 +4,13 @@ import axios from 'axios'
 import { tmpdir } from 'os'
 import { Wallet } from '@ethersproject/wallet'
 
-import { config } from '@libs/config'
-import { Log } from '@libs/logger'
-import { getRedis } from '@libs/redis'
-import { Render } from '@libs/image/render'
-import generate from '@libs/image/generate'
-import Pinata from '@libs/pinata'
-import { signURI } from '@libs/sign'
+import { config } from '../libs/config'
+import { Log } from '../libs/logger'
+import { getRedis } from '../libs/redis'
+import { Render } from '../libs/image/render'
+import generate from '../libs/image/generate'
+import Pinata from '../libs/pinata'
+import { signURI } from '../libs/sign'
 
 const logger = Log({ service: 'generation' })
 
