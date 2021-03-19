@@ -89,9 +89,11 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
       setIsConnecting(false)
       setIsConnected(true)
 
-      ethersProvider.provider.on('accountsChanged', (accounts) => {
-        setAddress(accounts[0]);
-      })
+      if(ethersProvider.provider?.on) {
+        ethersProvider.provider.on('accountsChanged', (accounts) => {
+          setAddress(accounts[0]);
+        })
+      }
 
     } catch (_) {
       setIsConnecting(false)
