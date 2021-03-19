@@ -13,8 +13,7 @@ describe('ArbArt', function () {
   })
 
   beforeEach(async () => {
-    memory.baseURI = 'afuihez'
-    memory.contract = await memory.Contract.deploy(memory.baseURI)
+    memory.contract = await memory.Contract.deploy()
     await memory.contract.deployed()
     
     memory.manager = memory.signers[0];
@@ -22,7 +21,6 @@ describe('ArbArt', function () {
   })
 
   it('sets up the contract', async () => {
-    expect(await memory.contract.baseURI()).to.eq(memory.baseURI)
     expect(await memory.contract.name()).to.eq('ArbArt')
     expect(await memory.contract.symbol()).to.eq('ARBT')
     expect(await memory.contract.hasRole(MANAGER_ROLE, memory.manager.address)).to.be.true
@@ -37,7 +35,7 @@ describe('ArbArt', function () {
 
     const tokenId = memory.other.address
     expect(await memory.contract.ownerOf(tokenId)).to.eq(memory.other.address)
-    expect(await memory.contract.tokenURI(tokenId)).to.eq(`${memory.baseURI}${uri}`)
+    expect(await memory.contract.tokenURI(tokenId)).to.eq(uri)
   })
 
   it("can't mint two times", async () => {
@@ -64,21 +62,6 @@ describe('ArbArt', function () {
     await expect(
       memory.contract.connect(memory.other).mint(uri, memory.manager.address, invalidSignature)
     ).to.be.revertedWith('Invalid recovered address')
-  })
-
-  it('update base URI', async () => {
-    const newBaseURI = 'azetrdfc'
-    await memory.contract.connect(memory.manager).setBaseURI(newBaseURI)
-    expect(await memory.contract.baseURI()).to.eq(newBaseURI)
-
-    const uri = 'Qmsfzefi221ifjzifj';
-    const signature = await signMintingRequest(uri, memory.other.address,memory.manager);
-    await memory.contract.connect(memory.other).mint(uri, memory.manager.address, signature)
-    expect(await memory.contract.tokenURI(memory.other.address)).to.eq(`${newBaseURI}${uri}`)
-
-    await expect(
-      memory.contract.connect(memory.other).setBaseURI(newBaseURI)
-    ).to.be.revertedWith('Only MANAGER_ROLE can call this method')
   })
 
 })

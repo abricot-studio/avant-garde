@@ -13,8 +13,6 @@ contract ArbArt is ERC721URIStorage, AccessControlEnumerable {
 
   bytes32 public constant MANAGER_ROLE = keccak256("MANAGER_ROLE");
 
-  string public baseURI;
-
   modifier onlyManager() { // Modifier
     require(
       hasRole(MANAGER_ROLE, msg.sender),
@@ -23,22 +21,8 @@ contract ArbArt is ERC721URIStorage, AccessControlEnumerable {
     _;
   }
 
-  constructor(string memory _newBaseURI) ERC721("ArbArt", "ARBT") {
+  constructor() ERC721("ArbArt", "ARBT") {
     _setupRole(MANAGER_ROLE, msg.sender);
-    _setBaseURI(_newBaseURI);
-  }
-
-  function setBaseURI(string memory _newBaseURI) external onlyManager returns (bool) {
-    return _setBaseURI(_newBaseURI);
-  }
-
-  function _setBaseURI(string memory _newBaseURI) internal returns (bool) {
-    baseURI = _newBaseURI;
-    return true;
-  }
-
-  function _baseURI() internal override view returns (string memory) {
-    return baseURI;
   }
 
   function mint(string memory _uri, address _signer, bytes memory _signature)
