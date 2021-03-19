@@ -8,19 +8,24 @@ import { config } from '@libs/config'
 const logger = Log({ service: 'pinata' })
 const pinata = pinataSDK(config.pinata.apiKey, config.pinata.apiSecret)
 
-export async function uploadImage(path: string, address: string): Promise<string> {
+export async function uploadImage(
+  path: string,
+  address: string
+): Promise<string> {
   const file: ReadStream = fs.createReadStream(path)
 
   const options = {
     pinataMetadata: {
-      name: `file_${config.env === 'production' ? address : address + Date.now()}`,
+      name: `file_${
+        config.env === 'production' ? address : address + Date.now()
+      }`,
       keyvalues: {
-        address
-      }
+        address,
+      },
     },
     pinataOptions: {
       cidVersion: 0,
-    }
+    },
   }
 
   return pinata
@@ -36,38 +41,47 @@ export async function uploadImage(path: string, address: string): Promise<string
     })
 }
 
-export async function uploadMetadata(ipfsHashImage: string, address: string): Promise<any> {
-
+export async function uploadMetadata(
+  ipfsHashImage: string,
+  address: string
+): Promise<any> {
   const options = {
     pinataMetadata: {
       name: `metadata_${address}`,
       keyvalues: {
         address,
-        ipfsHashImage
-      }
+        ipfsHashImage,
+      },
     },
     pinataOptions: {
-      cidVersion: 0
-    }
-  };
+      cidVersion: 0,
+    },
+  }
 
-  return pinata.pinJSONToIPFS({
-    image: `ipfs://${ipfsHashImage}`,
-    description: `Art of ${address}`,
-    external_url: `https://art.art/id/${address}`,
-    name: address,
-    background_color: '585858',
-    attributes: [
+  return pinata
+    .pinJSONToIPFS(
       {
-        display_type: 'date',
-        trait_type: 'birthday',
-        value: Date.now().toString()
-      }
-    ]
-  }, options)
+        image: `ipfs://${ipfsHashImage}`,
+        description: `Art of ${address}`,
+        external_url: `https://art.art/id/${address}`,
+        name: address,
+        background_color: '585858',
+        attributes: [
+          {
+            display_type: 'date',
+            trait_type: 'birthday',
+            value: Date.now().toString(),
+          },
+        ],
+      },
+      options
+    )
     .then((result: any) => {
       logger.info('result uploadMetadata', { result })
-      assert(result && result.IpfsHash, 'Pinata uploadMetadata invalid response')
+      assert(
+        result && result.IpfsHash,
+        'Pinata uploadMetadata invalid response'
+      )
       return result.IpfsHash
     })
     .catch((error: Error) => {
@@ -75,7 +89,6 @@ export async function uploadMetadata(ipfsHashImage: string, address: string): Pr
 
       throw error
     })
-
 }
 
 export async function find(address: string): Promise<any> {
@@ -87,11 +100,16 @@ export async function find(address: string): Promise<any> {
     })
     .then((result: any) => {
       logger.info('result find', { result })
-      assert(result && Array.isArray(result.rows), 'Pinata find invalid response')
-      return result.rows.length > 0 ? {
-        ipfsHashMetadata: result.rows[0].ipfs_pin_hash,
-        ipfsHashImage: result.rows[0].metadata.keyvalues.ipfsHashImage,
-      } : false
+      assert(
+        result && Array.isArray(result.rows),
+        'Pinata find invalid response'
+      )
+      return result.rows.length > 0
+        ? {
+            ipfsHashMetadata: result.rows[0].ipfs_pin_hash,
+            ipfsHashImage: result.rows[0].metadata.keyvalues.ipfsHashImage,
+          }
+        : false
     })
     .catch((error: any) => {
       logger.error('Pinata find error', error)
@@ -99,6 +117,5 @@ export async function find(address: string): Promise<any> {
       throw error
     })
 }
-
 
 export default { uploadImage, find, uploadMetadata }

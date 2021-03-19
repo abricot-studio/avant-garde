@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { AppProps } from 'next/app'
-import { createClient, Provider as URQLProvider } from 'urql';
+import { createClient, Provider as URQLProvider } from 'urql'
 import { ChakraProvider } from '@chakra-ui/react'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { config as faConfig } from '@fortawesome/fontawesome-svg-core'
@@ -12,7 +12,7 @@ import config from '../config'
 
 const client = createClient({
   url: config.subgraphUrl,
-});
+})
 
 faConfig.autoAddCss = false
 

@@ -40,8 +40,8 @@ const config: Config = {
   },
   redis: {
     host: process.env.REDIS_HOST,
-    expiration: parseInt(process.env.REDIS_EXPIRATION || '120', 10)
-  }
+    expiration: parseInt(process.env.REDIS_EXPIRATION || '120', 10),
+  },
 }
 
 export { config }

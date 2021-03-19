@@ -14,19 +14,19 @@ query {
     }
   }
 }
-`;
+`
 
 export const useTokens = () => {
   const [result] = useQuery({
     query: TokensQuery,
-  });
-  const { data, fetching, error } = result;
+  })
+  const { data, fetching, error } = result
 
-  const tokens = data?.arbArtTokens;
+  const tokens = data?.arbArtTokens
 
   return {
     tokens,
     fetching,
     error,
-  };
+  }
 }

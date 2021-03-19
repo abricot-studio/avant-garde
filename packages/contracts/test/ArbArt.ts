@@ -1,12 +1,12 @@
-import { ethers } from "hardhat";
+import { ethers } from 'hardhat'
 
 const { expect } = require('chai')
 
 const { MANAGER_ROLE, signMintingRequest } = require('../lib/ArbArt')
 
-const memory: any = {};
+const memory: any = {}
 
-const tokenURI = uri => `ipfs://${uri}`
+const tokenURI = (uri) => `ipfs://${uri}`
 
 describe('ArbArt', function () {
   before(async () => {
@@ -17,23 +17,31 @@ describe('ArbArt', function () {
   beforeEach(async () => {
     memory.contract = await memory.Contract.deploy()
     await memory.contract.deployed()
-    
-    memory.manager = memory.signers[0];
+
+    memory.manager = memory.signers[0]
     memory.other = memory.signers[1]
   })
 
   it('sets up the contract', async () => {
     expect(await memory.contract.name()).to.eq('ArbArt')
     expect(await memory.contract.symbol()).to.eq('ARBT')
-    expect(await memory.contract.hasRole(MANAGER_ROLE, memory.manager.address)).to.be.true
-    expect(await memory.contract.hasRole(MANAGER_ROLE, memory.other.address)).to.be.false
+    expect(await memory.contract.hasRole(MANAGER_ROLE, memory.manager.address))
+      .to.be.true
+    expect(await memory.contract.hasRole(MANAGER_ROLE, memory.other.address)).to
+      .be.false
   })
 
   it('mint', async () => {
-    const uri = 'Qmsfzefi221ifjzifj';
-    const signature = await signMintingRequest(uri, memory.other.address,memory.manager);
+    const uri = 'Qmsfzefi221ifjzifj'
+    const signature = await signMintingRequest(
+      uri,
+      memory.other.address,
+      memory.manager
+    )
 
-    await memory.contract.connect(memory.other).mint(uri, memory.manager.address, signature)
+    await memory.contract
+      .connect(memory.other)
+      .mint(uri, memory.manager.address, signature)
 
     const tokenId = memory.other.address
     expect(await memory.contract.ownerOf(tokenId)).to.eq(memory.other.address)
@@ -41,29 +49,50 @@ describe('ArbArt', function () {
   })
 
   it("can't mint two times", async () => {
-    const uri = 'Qmsfzefi221ifjzifj';
-    const signature = await signMintingRequest(uri, memory.other.address, memory.manager);
-    await memory.contract.connect(memory.other).mint(uri, memory.manager.address, signature)
+    const uri = 'Qmsfzefi221ifjzifj'
+    const signature = await signMintingRequest(
+      uri,
+      memory.other.address,
+      memory.manager
+    )
+    await memory.contract
+      .connect(memory.other)
+      .mint(uri, memory.manager.address, signature)
 
     await expect(
-      memory.contract.connect(memory.other).mint(uri, memory.manager.address, signature)
+      memory.contract
+        .connect(memory.other)
+        .mint(uri, memory.manager.address, signature)
     ).to.be.revertedWith('ERC721: token already minted')
   })
-  
+
   it("can't mint with signer not manager", async () => {
-    const uri = 'Qmsfzefi221ifjzifj';
-    const validSignature = await signMintingRequest(uri, memory.other.address,memory.manager);
-    const invalidSignature = await signMintingRequest(uri, memory.other.address,memory.other);
+    const uri = 'Qmsfzefi221ifjzifj'
+    const validSignature = await signMintingRequest(
+      uri,
+      memory.other.address,
+      memory.manager
+    )
+    const invalidSignature = await signMintingRequest(
+      uri,
+      memory.other.address,
+      memory.other
+    )
 
     await expect(
-      memory.contract.connect(memory.other).mint(uri, memory.other.address, validSignature)
+      memory.contract
+        .connect(memory.other)
+        .mint(uri, memory.other.address, validSignature)
     ).to.be.revertedWith('Only accepting signatures from MANAGER_ROLE')
     await expect(
-      memory.contract.connect(memory.other).mint(uri, memory.other.address, invalidSignature)
+      memory.contract
+        .connect(memory.other)
+        .mint(uri, memory.other.address, invalidSignature)
     ).to.be.revertedWith('Only accepting signatures from MANAGER_ROLE')
     await expect(
-      memory.contract.connect(memory.other).mint(uri, memory.manager.address, invalidSignature)
+      memory.contract
+        .connect(memory.other)
+        .mint(uri, memory.manager.address, invalidSignature)
     ).to.be.revertedWith('Invalid recovered address')
   })
-
 })

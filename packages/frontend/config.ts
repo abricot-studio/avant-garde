@@ -2,7 +2,9 @@ export default {
   infuraId:
     process.env.NEXT_PUBLIC_INFURA_ID || '781d8466252d47508e177b8637b1c2fd',
   ipfsEndpoint:
-    process.env.NEXT_PUBLIC_IPFS_ENDPOINT || 'https://gateway.pinata.cloud/ipfs/',
+    process.env.NEXT_PUBLIC_IPFS_ENDPOINT ||
+    'https://gateway.pinata.cloud/ipfs/',
   subgraphUrl:
-    process.env.NEXT_PUBLIC_SUBGRAPH_URL || 'http://127.0.0.1:8000/subgraphs/name/pakokrew/arbart',
-};
+    process.env.NEXT_PUBLIC_SUBGRAPH_URL ||
+    'http://127.0.0.1:8000/subgraphs/name/pakokrew/arbart',
+}

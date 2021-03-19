@@ -1,4 +1,4 @@
-import { HardhatUserConfig } from "hardhat/config";
+import { HardhatUserConfig } from 'hardhat/config'
 import '@nomiclabs/hardhat-waffle'
 
 const config: HardhatUserConfig = {
@@ -11,4 +11,4 @@ const config: HardhatUserConfig = {
   },
 }
 
-export default config;
+export default config

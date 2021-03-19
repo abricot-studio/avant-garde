@@ -3,7 +3,7 @@ import { ArbArt, Transfer } from '../generated/ArbArt/ArbArt'
 import { ArbArtToken, ArbArtTokenMetadata } from '../generated/schema'
 
 export function processItem(value: JSONValue, arbArtTokenId: Value): void {
-  let metadata = value.toObject();
+  let metadata = value.toObject()
 
   let arbArtTokenMetadata = new ArbArtTokenMetadata(arbArtTokenId.toString())
   arbArtTokenMetadata.image = metadata.get('image').toString()
@@ -13,7 +13,6 @@ export function processItem(value: JSONValue, arbArtTokenId: Value): void {
   arbArtTokenMetadata.parent = arbArtTokenId.toString()
   arbArtTokenMetadata.save()
 }
-
 
 export function handleTransfer(event: Transfer): void {
   let tokenId = event.params.tokenId.toHexString()
@@ -29,7 +28,7 @@ export function handleTransfer(event: Transfer): void {
 
   arbArt.owner = to
   arbArt.uri = tokenURI
-  arbArt.metadata = tokenId;
+  arbArt.metadata = tokenId
   arbArt.save()
 
   ipfs.mapJSON(tokenURI, 'processItem', Value.fromString(arbArt.id.toString()))

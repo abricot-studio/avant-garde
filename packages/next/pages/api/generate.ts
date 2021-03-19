@@ -15,7 +15,6 @@ const logger = Log({ service: 'generation' })
 let tf: typeof import('@tensorflow/tfjs') = null
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-
   const address = req.body.address
 
   const existIpfsHash = await Pinata.find(address)
@@ -24,32 +23,35 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     logger.info('existIpfsHash', {
       address,
       ipfsHashMetadata: existIpfsHash.ipfsHashMetadata,
-      ipfsHashImage: existIpfsHash.ipfsHashImage
+      ipfsHashImage: existIpfsHash.ipfsHashImage,
     })
     return res.status(200).json({
       status: 'success',
       ipfsHashMetadata: existIpfsHash.ipfsHashMetadata,
-      ipfsHashImage: existIpfsHash.ipfsHashImage
+      ipfsHashImage: existIpfsHash.ipfsHashImage,
     })
   }
 
   const redis = await getRedis()
-  const resSetNx = await redis.set(address, 'processing', 'NX', 'EX', config.redis.expiration)
+  const resSetNx = await redis.set(
+    address,
+    'processing',
+    'NX',
+    'EX',
+    config.redis.expiration
+  )
   logger.info('resSetNx', { resSetNx })
 
   if (resSetNx !== 'OK') {
-
     logger.info('processing', { address })
     return res.status(200).json({
       status: 'processing',
       ipfsHashMetadata: null,
       ipfsHashImage: null,
     })
-
   }
 
   if (!tf || !tf.sequential) {
-
     logger.info('fetch tf', { address })
     const response = await axios.get(
       'https://github.com/jlarmstrongiv/tfjs-node-lambda/releases/download/v2.0.4/nodejs12.x-tf3.3.0.br',
@@ -57,7 +59,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     )
     tf = await loadTf(response.data)
     logger.info('loaded tf', { address })
-
   }
 
   logger.info('start processing', { address })
@@ -81,5 +82,4 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     ipfsHashMetadata,
     ipfsHashImage,
   })
-
 }
