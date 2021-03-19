@@ -6,7 +6,11 @@
   "scripts": {
     "compile": "hardhat compile",
     "node": "hardhat node",
-    "test": "hardhat test"
+    "test": "hardhat test",
+    "scripts": "hardhat --network localhost run",
+    "scripts:deploy": "npm run scripts ./scripts/deploy.ts",
+    "scripts:publish": "npm run scripts ./scripts/publish.ts",
+    "scripts:seed": "npm run scripts ./scripts/seed.ts"
   },
   "author": "Pacien Boisson",
   "license": "ISC",

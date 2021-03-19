@@ -1,3 +1,4 @@
+const fs = require("fs");
 import { ethers } from 'hardhat'
 import { signMintingRequest } from '../lib/ArbArt'
 
@@ -21,9 +22,11 @@ const metadata = {
 }
 
 async function main() {
+  const contractName = 'ArbArt';
+
   const accounts = await ethers.getSigners()
-  const Contract = await ethers.getContractFactory('ArbArt')
-  const contract = await Contract.deploy(IPFS_DOMAIN)
+  const contractAddress = fs.readFileSync(`./artifacts/${contractName}.address`).toString();
+  const contract = await ethers.getContractAt(contractName, contractAddress)
 
   const buffer = new TextEncoder().encode(JSON.stringify(metadata))
   const file = await ipfs.add(buffer)

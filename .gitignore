@@ -2,6 +2,5 @@
 .DS_Store
 .idea
 lerna-debug.log
-**/dist
 **/.env
 .vercel

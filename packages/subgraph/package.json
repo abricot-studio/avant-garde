@@ -11,7 +11,8 @@
   },
   "devDependencies": {
     "@graphprotocol/graph-cli": "^0.20.0",
-    "@graphprotocol/graph-ts": "^0.20.0"
+    "@graphprotocol/graph-ts": "^0.20.0",
+    "@arbart/contracts": "1.0.0"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
