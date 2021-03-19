@@ -1,10 +1,9 @@
 import React, { useMemo } from 'react'
 import { useWindowScroll } from 'react-use'
-import { Button, Flex, Link, Box, HStack, Text, Address, Heading } from './ui'
+import { Button, Flex, Link, Box, HStack, Address, Heading } from './ui'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faWallet } from '@fortawesome/free-solid-svg-icons'
 import { useWeb3 } from '../contexts/Web3Context'
-
 
 function LoginButton() {
   const { connect, disconnect, isConnecting, address, isConnected } = useWeb3()
@@ -22,7 +21,7 @@ function LoginButton() {
         >
           Disconnect
         </Button>
-      </Box>
+      </Flex>
     )
   }
 

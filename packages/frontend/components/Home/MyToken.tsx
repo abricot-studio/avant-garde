@@ -19,18 +19,18 @@ export default function MyToken() {
       direction="column"
       align="center"
     >
-        <Heading
-          mb={4}
-        >
-          My image
-        </Heading>
-        {myToken ?
-          <Box>
-            <TokenImage arbArtToken={myToken} />
-          </Box>
-          :
-          <Generate />
-        }
+      <Heading
+        mb={4}
+      >
+        My image
+      </Heading>
+      {myToken ?
+        <Box>
+          <TokenImage arbArtToken={myToken} />
+        </Box>
+        :
+        <Generate />
+      }
     </Flex>
   )
 }
