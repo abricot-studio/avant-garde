@@ -19,6 +19,12 @@ const signer = new Wallet(config.privateKey)
 
 export default async (req: VercelRequest, res: VercelResponse) => {
 
+  if(req.method === 'OPTIONS'){
+
+    return res.status(200).end()
+
+  }
+
   const address = req.body.address
 
   const existIpfsHash = await Pinata.find(address)
