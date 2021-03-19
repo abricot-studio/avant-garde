@@ -25,6 +25,10 @@ contract ArbArt is ERC721URIStorage, AccessControlEnumerable {
     _setupRole(MANAGER_ROLE, msg.sender);
   }
 
+  function _baseURI() internal override view returns (string memory) {
+    return "ipfs://";
+  }
+
   function mint(string memory _uri, address _signer, bytes memory _signature)
   public
   returns (uint256 _tokenId)

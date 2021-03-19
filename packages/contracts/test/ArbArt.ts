@@ -6,6 +6,8 @@ const { MANAGER_ROLE, signMintingRequest } = require('../lib/ArbArt')
 
 const memory: any = {};
 
+const tokenURI = uri => `ipfs://${uri}`
+
 describe('ArbArt', function () {
   before(async () => {
     memory.signers = await ethers.getSigners()
@@ -35,7 +37,7 @@ describe('ArbArt', function () {
 
     const tokenId = memory.other.address
     expect(await memory.contract.ownerOf(tokenId)).to.eq(memory.other.address)
-    expect(await memory.contract.tokenURI(tokenId)).to.eq(uri)
+    expect(await memory.contract.tokenURI(tokenId)).to.eq(tokenURI(uri))
   })
 
   it("can't mint two times", async () => {
