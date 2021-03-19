@@ -22,27 +22,29 @@ const metadata = {
 }
 
 async function main() {
+  console.log('Seeding...')
+
   const contractName = 'ArbArt';
+
+  const buffer = new TextEncoder().encode(JSON.stringify(metadata))
+  const file = await ipfs.add(buffer)
+  const uri = file.cid.toString()
+  console.log('Uploaded metadata to IPFS. cid: ', uri);
 
   const accounts = await ethers.getSigners()
   const contractAddress = fs.readFileSync(`./artifacts/${contractName}.address`).toString();
   const contract = await ethers.getContractAt(contractName, contractAddress)
 
-  const buffer = new TextEncoder().encode(JSON.stringify(metadata))
-  const file = await ipfs.add(buffer)
-
-  const uri = file.cid.toString()
   const manager = accounts[0]
   const minter = accounts[1]
   const signature = await signMintingRequest(uri, minter.address, manager)
 
   await contract.connect(minter).mint(uri, manager.address, signature)
 
-  console.log('Seeded data.')
-  console.log('Contract address:', contract.address)
-  console.log('Token URI:', uri)
+  console.log('Contract deployed. address:', contract.address)
   console.log('Manager:', manager.address)
   console.log('Minter:', minter.address)
+  console.log('Seeded data.')
 }
 
 main()
