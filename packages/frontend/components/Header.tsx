@@ -1,23 +1,20 @@
 import { useMemo } from 'react'
 import { useWindowScroll } from 'react-use'
-import { Button, Flex, Link, Box, HStack, Text } from './ui'
+import { Button, Flex, Link, Box, HStack, Text, Address } from './ui'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faWallet } from '@fortawesome/free-solid-svg-icons'
 import { useWeb3 } from '../contexts/Web3Context'
 
-function Address({ children }) {
-  return (
-    <Text>{children}</Text>
-  )
-}
 
 function LoginButton() {
   const { connect, disconnect, isConnecting, address, isConnected } = useWeb3()
 
   if (isConnected) {
     return (
-      <Box>
-        <Address>{address}</Address>
+      <Flex align="center">
+        <Box w={200} mr={4}>
+          <Address>{address}</Address>
+        </Box>
         <Button
           variant="solid"
           onClick={disconnect}
@@ -25,7 +22,7 @@ function LoginButton() {
         >
           Disconnect
         </Button>
-      </Box>
+      </Flex>
     )
   }
 

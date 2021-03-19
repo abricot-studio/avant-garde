@@ -17,3 +17,15 @@ export const Button = ({ variant = undefined, children, ...props }) => (
     </Text>
   </ChakraButton>
 )
+
+export function Address({ children, ...props }) {
+  return (
+    <Text
+      isTruncated
+      maxWidth="100%"
+      {...props}
+    >
+      {children}
+    </Text>
+  )
+}

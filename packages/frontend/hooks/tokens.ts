@@ -56,11 +56,18 @@ export const useMyToken = (address?: string) => {
   })
   const { data, fetching, error } = result
 
-  const myToken: ArbArtToken | null = data?.arbArtToken || null;
+  const myToken: ArbArtToken | null = address && data?.arbArtToken || null;
 
   const refresh = useCallback(() => {
     reexecuteQuery({ requestPolicy: 'network-only' });
   }, [reexecuteQuery]);
+
+  useEffect(() => {
+    if(myToken || !address) return;
+
+    const timer = setInterval(() => refresh, 5000);
+    return () => clearInterval(timer);
+  }, [refresh, myToken])
 
   return {
     myToken,
@@ -74,8 +81,9 @@ interface TokensQuery {
   first?: number,
   skip?: number,
 }
+
 export const useTokens = (query: TokensQuery = {}) => {
-  const [result] = useQuery({
+  const [result, reexecuteQuery] = useQuery({
     query: TokensQuery,
     variables: {
       first: query.first || 100,
@@ -86,10 +94,20 @@ export const useTokens = (query: TokensQuery = {}) => {
 
   const tokens: ArbArtToken[] | null = data?.arbArtTokens || null;
 
+  const refresh = useCallback(() => {
+    reexecuteQuery({ requestPolicy: 'network-only' });
+  }, [reexecuteQuery]);
+
+  useEffect(() => {
+    const timer = setInterval(() => refresh, 5000);
+    return () => clearInterval(timer);
+  }, [refresh]);
+
   return {
     tokens,
     fetching,
     error,
+    refresh,
   }
 }
 

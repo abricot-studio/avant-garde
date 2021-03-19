@@ -1,7 +1,26 @@
 import React from 'react'
-import { Box, VStack, Heading } from '../ui'
+import { Flex, Address, Box, Wrap, WrapItem, Heading } from '../ui'
 import { useTokens } from '../../hooks/tokens'
 import { TokenImage } from '../ui/TokenImage'
+
+function TokenCard({ token }) {
+  return (
+    <Flex
+      width="250px"
+      height="260px"
+      borderRadius={15}
+      boxShadow="base"
+      align="center"
+      direction="column"
+      p={4}
+    >
+      <TokenImage arbArtToken={token} />
+      <Address mt={2}      >
+        {token.owner}
+      </Address>
+    </Flex>
+  );
+}
 
 export default function Tokens() {
   const { tokens, fetching, error } = useTokens()
@@ -12,14 +31,14 @@ export default function Tokens() {
   return (
     <Box as="section" mb={12}>
       <Heading>Existing tokens</Heading>
-      <VStack spacing={8}>
-        {tokens.map((token) => (
-          <Box key={token.id}>
-            <TokenImage arbArtToken={token} />
-            {token.owner}
-          </Box>
-        ))}
-      </VStack>
+      <Wrap spacing="30px" justify="center" m={8}>
+        {tokens
+          .map((token) => (
+            <WrapItem>
+              <TokenCard key={token.id} token={token}/>
+            </WrapItem>
+          ))}
+      </Wrap>
     </Box>
   )
 }
