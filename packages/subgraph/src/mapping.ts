@@ -28,8 +28,8 @@ export function handleTransfer(event: Transfer): void {
 
   arbArt.owner = to
   arbArt.uri = tokenURI
-  arbArt.metadata = tokenId
+  // arbArt.metadata = tokenId
   arbArt.save()
 
-  ipfs.mapJSON(tokenURI, 'processItem', Value.fromString(arbArt.id.toString()))
+  // ipfs.mapJSON(tokenURI, 'processItem', Value.fromString(arbArt.id.toString()))
 }

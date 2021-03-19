@@ -1,9 +1,9 @@
 import React from 'react'
-import { Box, VStack, Heading, Image } from '../ui'
+import { Box, Heading } from '../ui'
 import { useMyToken } from '../../hooks/tokens'
-import { getIpfsUrl } from '../../lib/ipfs'
 import { useWeb3 } from '../../contexts/Web3Context'
 import Generate from './Generate'
+import { TokenImage } from '../ui/TokenImage'
 
 export default function MyToken() {
   const { address } = useWeb3();
@@ -17,7 +17,7 @@ export default function MyToken() {
       <Heading>My image</Heading>
       {myToken ?
         <Box>
-          <Image src={getIpfsUrl(myToken.metadata.image)} boxSize={200} />
+          <TokenImage arbArtToken={myToken} />
         </Box>
         :
         <Generate />

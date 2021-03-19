@@ -1,7 +1,7 @@
 import React from 'react'
-import { Box, VStack, Heading, Image } from '../ui'
+import { Box, VStack, Heading } from '../ui'
 import { useTokens } from '../../hooks/tokens'
-import { getIpfsUrl } from '../../lib/ipfs'
+import { TokenImage } from '../ui/TokenImage'
 
 export default function Tokens() {
   const { tokens, fetching, error } = useTokens()
@@ -15,7 +15,7 @@ export default function Tokens() {
       <VStack spacing={8}>
         {tokens.map((token) => (
           <Box key={token.id}>
-            <Image src={getIpfsUrl(token.metadata.image)} boxSize={200} />
+            <TokenImage arbArtToken={token} />
             {token.owner}
           </Box>
         ))}

@@ -2,7 +2,7 @@ type ArbArtToken @entity {
   id: ID!
   owner: Bytes!
   uri: String!
-  metadata: ArbArtTokenMetadata
+  # metadata: ArbArtTokenMetadata
 }
 
 type ArbArtTokenMetadata @entity {
