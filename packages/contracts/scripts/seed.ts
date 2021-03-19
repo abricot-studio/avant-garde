@@ -25,9 +25,7 @@ async function main() {
   const contractName = 'ArbArt';
 
   const accounts = await ethers.getSigners()
-  const contractAddress = JSON.parse(fs
-    .readFileSync(`./dist/${contractName}.address.json`)
-    .toString());
+  const contractAddress = fs.readFileSync(`./artifacts/${contractName}.address`).toString();
   const contract = await ethers.getContractAt(contractName, contractAddress)
 
   const buffer = new TextEncoder().encode(JSON.stringify(metadata))
