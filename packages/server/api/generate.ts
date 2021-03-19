@@ -41,7 +41,8 @@ export default async (req: VercelRequest, res: VercelResponse) => {
       status: 'success',
       ipfsHashMetadata: existIpfsHash.ipfsHashMetadata,
       ipfsHashImage: existIpfsHash.ipfsHashImage,
-      signature
+      signature,
+      signerAddress: signer.address
     })
 
   }
@@ -57,7 +58,8 @@ export default async (req: VercelRequest, res: VercelResponse) => {
       status: 'processing',
       ipfsHashMetadata: null,
       ipfsHashImage: null,
-      signature: null
+      signature: null,
+      signerAddress: signer.address
     })
 
   }
@@ -96,7 +98,8 @@ export default async (req: VercelRequest, res: VercelResponse) => {
     status: 'success',
     ipfsHashMetadata,
     ipfsHashImage,
-    signature
+    signature,
+    signerAddress: signer.address
   })
 
 }
