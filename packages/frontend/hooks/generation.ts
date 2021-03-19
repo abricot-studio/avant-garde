@@ -6,20 +6,21 @@ const generateApi = axios.create({
   baseURL: config.generateUrl
 });
 
-export enum TokenGenerationStatus {
+export enum ImageGenerationStatus {
   SUCCESS =  'success',
   PROCESSING = 'processing',
 }
 
-export interface TokenGeneration {
-  status: TokenGenerationStatus;
+export interface ImageGeneration {
+  status: ImageGenerationStatus;
   ipfsHashMetadata: string;
   ipfsHashImage: string;
+  signerAddress: string;
   signature: string;
 }
 
 export const useImageGeneration = () => {
-  const [generationResult, setGenerationResult] = useState<TokenGeneration | null>(null);
+  const [generationResult, setGenerationResult] = useState<ImageGeneration | null>(null);
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
 
   const generateImage = useCallback(async (address: string) => {

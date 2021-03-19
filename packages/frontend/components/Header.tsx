@@ -1,23 +1,19 @@
-import { useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { useWindowScroll } from 'react-use'
-import { Button, Flex, Link, Box, HStack, Text } from './ui'
+import { Button, Flex, Link, Box, HStack, Address, Heading } from './ui'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faWallet } from '@fortawesome/free-solid-svg-icons'
 import { useWeb3 } from '../contexts/Web3Context'
-
-function Address({ children }) {
-  return (
-    <Text>{children}</Text>
-  )
-}
 
 function LoginButton() {
   const { connect, disconnect, isConnecting, address, isConnected } = useWeb3()
 
   if (isConnected) {
     return (
-      <Box>
-        <Address>{address}</Address>
+      <Flex align="center">
+        <Box w={200} mr={4}>
+          <Address>{address}</Address>
+        </Box>
         <Button
           variant="solid"
           onClick={disconnect}
@@ -25,7 +21,7 @@ function LoginButton() {
         >
           Disconnect
         </Button>
-      </Box>
+      </Flex>
     )
   }
 
@@ -68,7 +64,16 @@ export default function Header() {
           onClick={() => window.scroll(0, 0)}
           _hover={{ textDecoration: 'none' }}
         >
-          <Text textStyle="h1">Ab-Art</Text>
+          <Heading
+            as="h1"
+            textStyle="h1"
+            textAlign="center"
+            layerStyle={'textGradient'}
+            fontSize={{ base: '2rem', sm: '3rem', md: '4rem' }}
+            maxWidth="50rem"
+          >
+            View Brain
+          </Heading>
         </Link>
 
         <HStack spacing={8} display={{ base: 'none', md: 'flex' }}>

@@ -1,7 +1,26 @@
 import React from 'react'
-import { Box, VStack, Heading, Image } from '../ui'
+import { Flex, Address, Box, Wrap, WrapItem, Heading } from '../ui'
 import { useTokens } from '../../hooks/tokens'
-import { getIpfsUrl } from '../../lib/ipfs'
+import { TokenImage } from '../ui/TokenImage'
+
+function TokenCard({ token }) {
+  return (
+    <Flex
+      width="250px"
+      height="260px"
+      borderRadius={15}
+      boxShadow="base"
+      align="center"
+      direction="column"
+      p={4}
+    >
+      <TokenImage arbArtToken={token} />
+      <Address mt={2}      >
+        {token.owner}
+      </Address>
+    </Flex>
+  );
+}
 
 export default function Tokens() {
   const { tokens, fetching, error } = useTokens()
@@ -10,16 +29,21 @@ export default function Tokens() {
   if (error) return <p>Oh no... {error.message}</p>
 
   return (
-    <Box as="section" mb={12}>
+    <Flex
+      as="section"
+      mb={12}
+      direction="column"
+      align="center"
+    >
       <Heading>Existing tokens</Heading>
-      <VStack spacing={8}>
-        {tokens.map((token) => (
-          <Box key={token.id}>
-            <Image src={getIpfsUrl(token.metadata.image)} boxSize={200} />
-            {token.owner}
-          </Box>
-        ))}
-      </VStack>
-    </Box>
+      <Wrap spacing="30px" justify="center" m={8}>
+        {tokens
+          .map((token) => (
+            <WrapItem>
+              <TokenCard key={token.id} token={token}/>
+            </WrapItem>
+          ))}
+      </Wrap>
+    </Flex>
   )
 }

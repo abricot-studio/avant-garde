@@ -1,9 +1,9 @@
 import React from 'react'
-import { Box, VStack, Heading, Image } from '../ui'
+import { Flex, Box, Heading } from '../ui'
 import { useMyToken } from '../../hooks/tokens'
-import { getIpfsUrl } from '../../lib/ipfs'
 import { useWeb3 } from '../../contexts/Web3Context'
 import Generate from './Generate'
+import { TokenImage } from '../ui/TokenImage'
 
 export default function MyToken() {
   const { address } = useWeb3();
@@ -13,15 +13,24 @@ export default function MyToken() {
   if (error) return <p>Oh no... {error.message}</p>
 
   return (
-    <Box as="section" mb={12}>
-      <Heading>My image</Heading>
+    <Flex
+      as="section"
+      mb={12}
+      direction="column"
+      align="center"
+    >
+      <Heading
+        mb={4}
+      >
+        My image
+      </Heading>
       {myToken ?
         <Box>
-          <Image src={getIpfsUrl(myToken.metadata.image)} boxSize={200} />
+          <TokenImage arbArtToken={myToken} />
         </Box>
         :
         <Generate />
       }
-    </Box>
+    </Flex>
   )
 }

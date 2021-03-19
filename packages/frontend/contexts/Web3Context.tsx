@@ -54,10 +54,6 @@ const web3Modal =
     providerOptions,
   })
 
-interface ExternalEventProvider extends providers.ExternalProvider {
-  on?: (any) => void
-}
-
 interface Web3ContextProviderOptions {
   children: React.ReactElement
 }
@@ -95,7 +91,9 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
 
       if(modalProvider.on) {
         modalProvider.on('accountsChanged', (accounts) => {
+          const ethersProvider = new providers.Web3Provider(modalProvider)
           setAddress(accounts[0]);
+          setProvider(ethersProvider)
         })
       }
 

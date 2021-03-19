@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box, Button, Image } from '../ui'
-import { useImageGeneration, TokenGenerationStatus } from '../../hooks/generation'
+import { useImageGeneration, ImageGenerationStatus, ImageGeneration } from '../../hooks/generation'
 import { getIpfsUrl } from '../../lib/ipfs'
 import { useWeb3 } from '../../contexts/Web3Context'
 import { useMint } from '../../hooks/mint'
@@ -13,21 +13,21 @@ function LoginToGenerate() {
   );
 }
 
-function GenerationResult({ generationResult }) {
+function GenerationResult({ generationResult }: { generationResult: ImageGeneration }) {
   const { mint, isMinting } = useMint();
 
-  if(generationResult.status === TokenGenerationStatus.PROCESSING) {
+  if(generationResult.status === ImageGenerationStatus.PROCESSING) {
     // TODO poll
     return (
       <p>Your image is being generated</p>
     );
-  } else if(generationResult.status === TokenGenerationStatus.SUCCESS) {
+  } else if(generationResult.status === ImageGenerationStatus.SUCCESS) {
     return (
       <Box>
         <Image src={getIpfsUrl(generationResult.ipfsHashImage)} boxSize={200} />
 
         <Button
-          onClick={() => mint()}
+          onClick={() => mint(generationResult)}
           isLoading={isMinting}
           loadingText="Minting token..."
         >
