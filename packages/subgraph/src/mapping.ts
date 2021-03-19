@@ -32,5 +32,5 @@ export function handleTransfer(event: Transfer): void {
   arbArt.metadata = tokenId;
   arbArt.save()
 
-  // ipfs.mapJSON(tokenURI, 'processItem', Value.fromString(arbArt.id.toString()))
+  ipfs.mapJSON(tokenURI, 'processItem', Value.fromString(arbArt.id.toString()))
 }
