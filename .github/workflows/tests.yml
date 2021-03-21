@@ -25,6 +25,6 @@ jobs:
         env:
           CI: true
       - name: Testing
-        run: npm test
+        run: npm test:coverage
         env:
           CI: true

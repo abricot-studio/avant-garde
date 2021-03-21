@@ -20,13 +20,13 @@ contract ArbArt is ERC721URIStorage, AccessControlEnumerable {
   uint256 baseFees = 100;
   address payable fessReceiver;
 
-  modifier onlyManager() { // Modifier
-    require(
-      hasRole(MANAGER_ROLE, msg.sender),
-      "Only MANAGER_ROLE can call this method"
-    );
-    _;
-  }
+//  modifier onlyManager() { // Modifier
+//    require(
+//      hasRole(MANAGER_ROLE, msg.sender),
+//      "Only MANAGER_ROLE can call this method"
+//    );
+//    _;
+//  }
 
   constructor(address payable _fessReceiver) ERC721("ArbArt", "ARBT") {
     fessReceiver = _fessReceiver;
