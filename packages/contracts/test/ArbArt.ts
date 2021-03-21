@@ -99,6 +99,7 @@ describe('ArbArt', function () {
     expect(await memory.contract.ownerOf(tokenId)).to.eq(memory.other.address)
     expect(await memory.contract.tokenURI(tokenId)).to.eq(tokenURI(uri))
     expect(await memory.contract.currentMintWithFeesPrice()).to.eq(ethers.utils.parseEther('0.00044') )
+    expect(await memory.contract.currentBurnPrice()).to.eq(ethers.utils.parseEther('0.0001') )
     expect(await ethers.provider.getBalance(memory.contract.address) ).to.eq(ethers.utils.parseEther('0.0001') )
     expect(await ethers.provider.getBalance(memory.feesReceiver.address) )
       .to.eq(feesReceiverOriginalBalance.add(ethers.utils.parseEther('0.00001') ) )
@@ -249,8 +250,8 @@ describe('ArbArt', function () {
       })
 
     expect(await ethers.provider.getBalance(memory.contract.address) ).to.eq(ethers.utils.parseEther('0.0001').add(ethers.utils.parseEther('0.0004') ) )
-    const mintWithFeesPriceEndMint = await memory.contract.currentMintWithFeesPrice()
-    expect(mintWithFeesPriceEndMint).to.eq(ethers.utils.parseEther('0.00099') )
+    expect(await memory.contract.currentMintWithFeesPrice() ).to.eq(ethers.utils.parseEther('0.00099') )
+    expect(await memory.contract.currentBurnPrice() ).to.eq(ethers.utils.parseEther('0.0004') )
 
     // burn w1
     const minterOriginal1Balance = await ethers.provider.getBalance(memory.other.address)
@@ -261,6 +262,10 @@ describe('ArbArt', function () {
 
     const receipt1 = await txBurn1.wait();
     const feesInEth1 = txBurn1.gasPrice.mul(receipt1.gasUsed)
+
+    expect(await ethers.provider.getBalance(memory.contract.address) ).to.eq(ethers.utils.parseEther('0.0005').sub(ethers.utils.parseEther('0.0004') ) )
+    expect(await memory.contract.currentMintWithFeesPrice() ).to.eq(ethers.utils.parseEther('0.00044') )
+    expect(await memory.contract.currentBurnPrice() ).to.eq(ethers.utils.parseEther('0.0001') )
 
     // burn w2
 
