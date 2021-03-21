@@ -248,6 +248,7 @@ describe('ArbArt', function () {
         value: mintWithFeesPrice2
       })
 
+    expect(await ethers.provider.getBalance(memory.contract.address) ).to.eq(ethers.utils.parseEther('0.0001').add(ethers.utils.parseEther('0.0004') ) )
     const mintWithFeesPriceEndMint = await memory.contract.currentMintWithFeesPrice()
     expect(mintWithFeesPriceEndMint).to.eq(ethers.utils.parseEther('0.00099') )
 
