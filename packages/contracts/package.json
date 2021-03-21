@@ -7,7 +7,7 @@
     "build": "npm run compile && npm run scripts:publish",
     "compile": "hardhat compile",
     "node": "hardhat node",
-    "test": "hardhat test",
+    "test": "hardhat test --logs",
     "test:coverage": "hardhat coverage",
     "scripts": "hardhat --network localhost run",
     "scripts:deploy": "npm run scripts ./scripts/deploy.ts",
@@ -27,6 +27,7 @@
     "ethereum-waffle": "^3.3.0",
     "ethers": "^5.0.32",
     "hardhat": "^2.1.1",
+    "hardhat-tracer": "^1.0.0-alpha.2",
     "solidity-coverage": "^0.7.16",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.3"
