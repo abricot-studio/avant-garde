@@ -2,6 +2,16 @@ import { HardhatUserConfig } from 'hardhat/config'
 import '@nomiclabs/hardhat-waffle'
 
 const config: HardhatUserConfig = {
+  /*
+  networks: {
+    hardhat: {
+      mining: {
+        auto: false,
+        interval: 5000
+      }
+    }
+  },
+  */
   solidity: {
     compilers: [
       {

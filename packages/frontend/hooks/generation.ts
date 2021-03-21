@@ -23,16 +23,23 @@ export const useImageGeneration = () => {
   const [generationResult, setGenerationResult] = useState<ImageGeneration | null>(null);
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
 
-  const generateImage = useCallback(async (address: string) => {
+  const generateImage = useCallback((address: string) => {
     setIsGenerating(true);
 
-    const res = await generateApi({
+    generateApi({
       method: 'POST',
       data: { address },
+    })
+      .then(result => {
+        setGenerationResult(result.data);
+        setIsGenerating(false);
+      })
+      .catch(error => {
+        setGenerationResult(null);
+        console.error(error);
+      setIsGenerating(false);
     });
 
-    setGenerationResult(res.data);
-    setIsGenerating(false);
   }, []);
 
   return { generateImage, isGenerating, generationResult };

@@ -20,21 +20,17 @@ export const clearWalletConnect = (): void => {
 }
 
 export type Web3ContextType = {
-  provider: providers.Web3Provider | null
   connect: () => Promise<void>
   disconnect: () => void
   isConnecting: boolean
-  isConnected: boolean
-  address: string | null
+  account: Web3Account | null
 }
 
 export const Web3Context = createContext<Web3ContextType>({
-  provider: null,
   connect: async () => {},
   disconnect: () => undefined,
   isConnecting: false,
-  isConnected: false,
-  address: null,
+  account: null,
 })
 
 const providerOptions = {
@@ -54,6 +50,11 @@ const web3Modal =
     providerOptions,
   })
 
+interface Web3Account {
+  provider: providers.Web3Provider
+  address: string
+}
+
 interface Web3ContextProviderOptions {
   children: React.ReactElement
 }
@@ -61,19 +62,15 @@ interface Web3ContextProviderOptions {
 export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
   children,
 }) => {
-  const [provider, setProvider] = useState<providers.Web3Provider | null>(null)
-  const [isConnected, setIsConnected] = useState<boolean>(false)
+  const [web3AccountData, setWeb3AccountData] = useState<Web3Account | null>(null)
   const [isConnecting, setIsConnecting] = useState<boolean>(false)
-  const [address, setAddress] = useState<string | null>(null)
   const calledOnce = useRef<boolean>(false)
 
   const disconnect = useCallback(() => {
+    setWeb3AccountData(null)
+    setIsConnecting(false)
     web3Modal.clearCachedProvider()
     clearWalletConnect()
-    setAddress(null)
-    setProvider(null)
-    setIsConnecting(false)
-    setIsConnected(false)
   }, [])
 
   const connect = useCallback(async () => {
@@ -84,16 +81,18 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
       const ethersProvider = new providers.Web3Provider(modalProvider)
       const ethAddress = await ethersProvider.getSigner().getAddress()
 
-      setAddress(ethAddress)
-      setProvider(ethersProvider)
+      setWeb3AccountData({
+        provider: ethersProvider,
+        address: ethAddress,
+      })
       setIsConnecting(false)
-      setIsConnected(true)
 
       if(modalProvider.on) {
         modalProvider.on('accountsChanged', (accounts) => {
-          const ethersProvider = new providers.Web3Provider(modalProvider)
-          setAddress(accounts[0]);
-          setProvider(ethersProvider)
+          setWeb3AccountData({
+            provider: new providers.Web3Provider(modalProvider),
+            address: accounts[0],
+          })
         })
       }
 
@@ -115,12 +114,10 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
   return (
     <Web3Context.Provider
       value={{
-        provider,
+        account: web3AccountData,
         connect,
         disconnect,
-        isConnected,
         isConnecting,
-        address,
       }}
     >
       {children}

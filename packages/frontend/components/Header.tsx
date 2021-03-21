@@ -6,13 +6,13 @@ import { faWallet } from '@fortawesome/free-solid-svg-icons'
 import { useWeb3 } from '../contexts/Web3Context'
 
 function LoginButton() {
-  const { connect, disconnect, isConnecting, address, isConnected } = useWeb3()
+  const { connect, disconnect, isConnecting, account } = useWeb3()
 
-  if (isConnected) {
+  if (account) {
     return (
       <Flex align="center">
         <Box w={200} mr={4}>
-          <Address>{address}</Address>
+          <Address>{account.address}</Address>
         </Box>
         <Button
           variant="solid"

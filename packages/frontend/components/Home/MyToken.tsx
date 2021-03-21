@@ -1,16 +1,13 @@
 import React from 'react'
 import { Flex, Box, Heading } from '../ui'
 import { useMyToken } from '../../hooks/tokens'
-import { useWeb3 } from '../../contexts/Web3Context'
 import Generate from './Generate'
 import { TokenImage } from '../ui/TokenImage'
 
 export default function MyToken() {
-  const { address } = useWeb3();
-  const { myToken, fetching, error } = useMyToken(address)
+  const { myToken, fetching } = useMyToken()
 
   if (fetching) return <p>Loading...</p>
-  if (error) return <p>Oh no... {error.message}</p>
 
   return (
     <Flex

@@ -1,7 +1,10 @@
 import gql from 'graphql-tag'
+import { Provider } from "@ethersproject/abstract-provider";
 import { useEffect, useCallback, useState } from 'react'
 import { useQuery } from 'urql'
 import { getIpfsData } from '../lib/ipfs'
+import { getContract } from '../lib/contracts'
+import { useWeb3 } from '../contexts/Web3Context'
 
 export interface ArbArtToken {
   id: string;
@@ -46,35 +49,71 @@ const TokensQuery = gql`
   }
 `
 
-export const useMyToken = (address?: string) => {
-  const [result, reexecuteQuery] = useQuery({
-    query: MyTokenQuery,
-    variables: {
-      address: address?.toLowerCase(),
-    },
-    pause: !address,
-  })
-  const { data, fetching, error } = result
+async function fetchToken(provider: Provider, tokenId: string) {
+  const contract = getContract(provider);
+  const owner = await contract.ownerOf(tokenId)
+    .catch(error => {
+      if(error.message.includes('owner query for nonexistent token')) {
+        return null;
+      }
+    });
+  if(!owner) {
+    return null;
+  }
+  const tokenUri = await contract.tokenURI(tokenId)
 
-  const myToken: ArbArtToken | null = address && data?.arbArtToken || null;
+  const arbArtToken: ArbArtToken = {
+    id: tokenId,
+    owner,
+    uri: tokenUri,
+  };
+  return arbArtToken;
+}
 
-  const refresh = useCallback(() => {
-    reexecuteQuery({ requestPolicy: 'network-only' });
-  }, [reexecuteQuery]);
+export const useMyToken = () => {
+  const { account } = useWeb3();
+  const [fetching, setFetching] = useState<boolean>(true);
+  const [myToken, setMyToken] = useState<ArbArtToken | null>(null);
 
   useEffect(() => {
-    if(myToken || !address) return;
+    if(!account) {
+      setMyToken(null)
+      setFetching(false)
+      return;
+    }
 
-    const timer = setInterval(() => refresh, 5000);
-    return () => clearInterval(timer);
-  }, [refresh, myToken])
+    const { address, provider } = account;
+
+    setFetching(true)
+    const poll = () => {
+      fetchToken(account.provider, address)
+        .then((arbArtToken: ArbArtToken | null) => {
+          if(!arbArtToken) {
+            setMyToken(null)
+            setFetching(false)
+            return;
+          }
+          provider.removeListener('block', poll);
+          setMyToken(arbArtToken);
+          setFetching(false)
+        })
+        .catch(error => {
+          setMyToken(null)
+          setFetching(false)
+          console.error(error);
+        });
+    }
+
+    provider.on('block', poll);
+    return () => {
+      provider.removeListener('block', poll);
+    }
+  }, [account]);
 
   return {
     myToken,
     fetching,
-    error,
-    refresh,
-  }
+  };
 }
 
 interface TokensQuery {
