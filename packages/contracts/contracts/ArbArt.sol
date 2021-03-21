@@ -107,6 +107,7 @@ contract ArbArt is ERC721URIStorage, AccessControlEnumerable {
     return AccessControlEnumerable.supportsInterface(interfaceId) || ERC721.supportsInterface(interfaceId);
   }
 
+  // see https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/Address.sol
   function sendValue(address payable recipient, uint256 amount) internal {
     require(address(this).balance >= amount, "Address: insufficient balance");
 
