@@ -12,7 +12,7 @@ import { parseUnits } from 'ethers/lib/utils'
 
 const config: HardhatUserConfig = {
   preprocess: {
-    eachLine: removeConsoleLog( (hre) => hre.network.name !== 'localhost'),
+    eachLine: removeConsoleLog( (hre) => hre.network.name !== 'localhost' && hre.network.name !== 'hardhat'),
   },
   gasReporter: {
     currency: 'EUR',
