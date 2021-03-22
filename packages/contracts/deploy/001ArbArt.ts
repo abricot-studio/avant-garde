@@ -5,11 +5,11 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const {deployments, getNamedAccounts} = hre;
   const {deploy} = deployments;
 
-  const a = await getNamedAccounts();
+  const namedAccounts = await getNamedAccounts();
 
   await deploy('ArbArt', {
-    from: a.deployer,
-    args: [],
+    from: namedAccounts.deployer,
+    args: [namedAccounts.manager],
     log: true
   });
 };

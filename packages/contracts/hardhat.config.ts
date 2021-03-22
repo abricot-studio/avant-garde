@@ -30,16 +30,23 @@ const config: HardhatUserConfig = {
   },
   namedAccounts: {
     deployer: 0,
+    manager: 1,
   },
   networks: {
     localhost: {
       url: `http://localhost:8545`,
-      accounts: ['0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80'] //hardhat 0
+      accounts: [
+        '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80', // hardhat 0
+        '0x630af0fbddb248b53f97ecf899ce11878d9dcd7e718574c92607153027632135' // 0xE4D29ec42F4057EfF92c9124c82844b2689f9C6d
+      ]
     },
     rinkeby: {
       url: `https://eth-rinkeby.alchemyapi.io/v2/${process.env.ALCHEMY_API_KEY}`,
       gasPrice: parseUnits('5', 'gwei').toNumber(),
-      accounts: [`0x${process.env.RINKEBY_PRIVATE_KEY || 'ac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80'}`]
+      accounts: [
+        `0x${process.env.RINKEBY_PRIVATE_KEY || 'ac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80'}`, // hardhat 0
+        '0x630af0fbddb248b53f97ecf899ce11878d9dcd7e718574c92607153027632135'// 0xE4D29ec42F4057EfF92c9124c82844b2689f9C6d
+      ]
     }
   },
 }
