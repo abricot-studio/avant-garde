@@ -10,7 +10,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   await deploy('ArbArt', {
     from: a.deployer,
     args: [],
-    log: true,
+    log: true
   });
 };
 export default func;
