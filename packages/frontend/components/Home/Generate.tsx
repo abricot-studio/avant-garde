@@ -41,10 +41,10 @@ function GenerationResult({ generationResult }: { generationResult: ImageGenerat
 }
 
 export default function Generate() {
-  const { address } = useWeb3();
+  const { account } = useWeb3();
   const { generateImage, isGenerating, generationResult } = useImageGeneration();
 
-  if(!address) return <LoginToGenerate/>;
+  if(!account) return <LoginToGenerate/>;
 
   return (
     <Box as="section" mb={12}>
@@ -54,7 +54,7 @@ export default function Generate() {
         <Box>
           <p>You image is not generated yet</p>
           <Button
-            onClick={() => generateImage(address)}
+            onClick={() => generateImage(account.address)}
             isLoading={isGenerating}
             loadingText="Generating image"
           >

@@ -4,6 +4,16 @@ import 'solidity-coverage'
 import 'hardhat-tracer'
 
 const config: HardhatUserConfig = {
+  /*
+  networks: {
+    hardhat: {
+      mining: {
+        auto: false,
+        interval: 5000
+      }
+    }
+  },
+  */
   solidity: {
     compilers: [
       {

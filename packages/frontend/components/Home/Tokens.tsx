@@ -1,5 +1,5 @@
 import React from 'react'
-import { Flex, Address, Box, Wrap, WrapItem, Heading } from '../ui'
+import { Flex, Address, Wrap, WrapItem, Heading } from '../ui'
 import { useTokens } from '../../hooks/tokens'
 import { TokenImage } from '../ui/TokenImage'
 
@@ -39,8 +39,8 @@ export default function Tokens() {
       <Wrap spacing="30px" justify="center" m={8}>
         {tokens
           .map((token) => (
-            <WrapItem>
-              <TokenCard key={token.id} token={token}/>
+            <WrapItem key={token.id}>
+              <TokenCard token={token}/>
             </WrapItem>
           ))}
       </Wrap>
