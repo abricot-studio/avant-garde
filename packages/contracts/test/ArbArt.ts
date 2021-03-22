@@ -1,12 +1,11 @@
 import { ethers } from 'hardhat'
+import { expect } from 'chai'
 
-const { expect } = require('chai')
-
-const { MANAGER_ROLE, signMintingRequest } = require('../lib/ArbArt')
+import { MANAGER_ROLE, signMintingRequest } from '../lib/ArbArt'
 
 const memory: any = {}
 
-const tokenURI = (uri) => `ipfs://${uri}`
+const tokenURI = (uri: string) => `ipfs://${uri}`
 
 describe('ArbArt', function () {
   before(async () => {
