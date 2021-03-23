@@ -14,6 +14,7 @@ contract ArbArt is ERC721URIStorage, AccessControlEnumerable {
   using Counters for Counters.Counter;
   using Address for address payable;
 
+  bytes32 public constant MANAGER_ROLE = keccak256("MANAGER_ROLE");
   Counters.Counter countMint;
 
   uint256 fees = 10; // 10%
@@ -28,8 +29,8 @@ contract ArbArt is ERC721URIStorage, AccessControlEnumerable {
   //    _;
   //  }
 
-  constructor(address _admin, address payable _feesReceiver) ERC721("ArbArt", "ARBT") {
-    _setupRole(DEFAULT_ADMIN_ROLE, _admin);
+  constructor(address _manager, address payable _feesReceiver) ERC721("ArbArt", "ARBT") {
+    _setupRole(MANAGER_ROLE, _manager);
     feesReceiver = _feesReceiver;
     countMint._value = 1;
   }
@@ -42,8 +43,8 @@ contract ArbArt is ERC721URIStorage, AccessControlEnumerable {
 
     // Check signature and if signer is manager
     require(
-      hasRole(DEFAULT_ADMIN_ROLE, _signer),
-      "Only accepting signatures from DEFAULT_ADMIN_ROLE"
+      hasRole(MANAGER_ROLE, _signer),
+      "Only accepting signatures from MANAGER_ROLE"
     );
     bytes memory _message = abi.encodePacked(_uri, msg.sender, _signer);
     address _recoveredAddress = keccak256(_message).toEthSignedMessageHash().recover(_signature);
