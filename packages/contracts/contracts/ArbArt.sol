@@ -21,8 +21,8 @@ contract ArbArt is ERC721URIStorage, AccessControlEnumerable {
     _;
   }
 
-  constructor() ERC721("ArbArt", "ARBT") {
-    _setupRole(MANAGER_ROLE, msg.sender);
+  constructor(address _manager) ERC721("ArbArt", "ARBT") {
+    _setupRole(MANAGER_ROLE, _manager);
   }
 
   function _baseURI() internal override view returns (string memory) {

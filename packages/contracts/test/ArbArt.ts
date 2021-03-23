@@ -1,12 +1,11 @@
 import { ethers } from 'hardhat'
+import { expect } from 'chai'
 
-const { expect } = require('chai')
-
-const { MANAGER_ROLE, signMintingRequest } = require('../lib/ArbArt')
+import { MANAGER_ROLE, signMintingRequest } from '../lib/ArbArt'
 
 const memory: any = {}
 
-const tokenURI = (uri) => `ipfs://${uri}`
+const tokenURI = (uri: string) => `ipfs://${uri}`
 
 describe('ArbArt', function () {
   before(async () => {
@@ -15,11 +14,12 @@ describe('ArbArt', function () {
   })
 
   beforeEach(async () => {
-    memory.contract = await memory.Contract.deploy()
-    await memory.contract.deployed()
-
-    memory.manager = memory.signers[0]
+    memory.deployer = memory.signers[0]
+    memory.manager = memory.signers[memory.signers.length -1]
     memory.other = memory.signers[1]
+
+    memory.contract = await memory.Contract.deploy(memory.manager.address)
+    await memory.contract.deployed()
   })
 
   it('sets up the contract', async () => {
@@ -29,6 +29,9 @@ describe('ArbArt', function () {
       .to.be.true
     expect(await memory.contract.hasRole(MANAGER_ROLE, memory.other.address)).to
       .be.false
+    expect(await memory.contract.hasRole(MANAGER_ROLE, memory.deployer.address)).to
+      .be.false
+
   })
 
   it('mint', async () => {

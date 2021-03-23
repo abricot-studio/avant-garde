@@ -1,9 +1,14 @@
-import abi from '../../contracts/dist/ArbArt.abi.json'
+import networks from '../../contracts/deployments/networks.json'
 import { Contract } from 'ethers'
 import { Provider } from "@ethersproject/abstract-provider";
 import { Signer } from "@ethersproject/abstract-signer";
-import config from '../config'
 
 export function getContract(providerOrSigner?: Signer | Provider) {
-  return new Contract(config.contractAddress, abi, providerOrSigner)
+  const chainId = 1; // TODO
+  const contractInfo = networks[chainId];
+  if(!contractInfo) {
+    throw new Error('unsupported network')
+  }
+  const { address, abi } = contractInfo
+  return new Contract(address, abi, providerOrSigner)
 }

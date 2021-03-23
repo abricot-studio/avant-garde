@@ -6,7 +6,7 @@ export async function signMintingRequest(
   uri: string,
   minter: string,
   signer: Signer
-) {
+) : Promise<string> {
   const aURI = utils.toUtf8Bytes(uri)
   const aMinter = utils.arrayify(minter)
   const aSigner = utils.arrayify(await signer.getAddress())
