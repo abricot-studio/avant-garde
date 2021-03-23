@@ -12,6 +12,7 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 contract ArbArt is ERC721URIStorage, AccessControlEnumerable {
   using ECDSA for bytes32;
   using Counters for Counters.Counter;
+  using Address for address payable;
 
   bytes32 public constant MANAGER_ROLE = keccak256("MANAGER_ROLE");
   Counters.Counter countMint;
@@ -58,7 +59,7 @@ contract ArbArt is ERC721URIStorage, AccessControlEnumerable {
     _tokenId = uint256(uint160(bytes20(msg.sender)));
     _safeMint(msg.sender, _tokenId);
     _setTokenURI(_tokenId, _uri);
-    sendValue(feesReceiver, mintFees);
+    feesReceiver.sendValue(mintFees);
 
     return _tokenId;
 
@@ -70,7 +71,7 @@ contract ArbArt is ERC721URIStorage, AccessControlEnumerable {
 
     countMint.decrement();
     _burn(_tokenId);
-    sendValue(payable(msg.sender), currentPrice() );
+    payable(msg.sender).sendValue(currentPrice() );
 
     return true;
 
@@ -109,15 +110,6 @@ contract ArbArt is ERC721URIStorage, AccessControlEnumerable {
 
   function supportsInterface(bytes4 interfaceId) public view override(ERC721, AccessControlEnumerable) returns (bool) {
     return AccessControlEnumerable.supportsInterface(interfaceId) || ERC721.supportsInterface(interfaceId);
-  }
-
-  // see https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/Address.sol
-  function sendValue(address payable recipient, uint256 amount) internal {
-    require(address(this).balance >= amount, "Address: insufficient balance");
-
-    // solhint-disable-next-line avoid-low-level-calls, avoid-call-value
-    (bool success, ) = recipient.call{ value: amount }("");
-    require(success, "Address: unable to send value, recipient may have reverted");
   }
 
 }

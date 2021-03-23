@@ -8,7 +8,7 @@
       },
       {
         "internalType": "address payable",
-        "name": "_fessReceiver",
+        "name": "_feesReceiver",
         "type": "address"
       }
     ],

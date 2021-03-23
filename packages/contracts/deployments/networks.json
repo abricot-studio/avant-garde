@@ -1,6 +1,6 @@
 {
   "4": {
-    "address": "0x6529888e14634937B0fb19cca58a38Ed63c56d9e",
+    "address": "0x5AF51E6f8F6c98531f4C26F2964136614f3fcEb9",
     "abi": [
       {
         "inputs": [
@@ -11,7 +11,7 @@
           },
           {
             "internalType": "address payable",
-            "name": "_fessReceiver",
+            "name": "_feesReceiver",
             "type": "address"
           }
         ],
