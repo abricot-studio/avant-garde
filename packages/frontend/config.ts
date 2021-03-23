@@ -11,7 +11,4 @@ export default {
     process.env.NEXT_PUBLIC_GENERATE_URL ||
     'https://nftart-fct.vercel.app/api/generate',
     // 'http://localhost:4000/api/generate',
-  contractAddress:
-    process.env.NEXT_PUBLIC_CONTRACT_ADDRESS ||
-    '0x5fbdb2315678afecb367f032d93f642f64180aa3',
 }

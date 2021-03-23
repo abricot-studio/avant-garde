@@ -16,7 +16,8 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   });
 
   const networkData = {
-    network: hre.network.name,
+    abiNetwork: hre.network.name,
+    network: hre.network.name === 'localhost' ?  'mainnet' : hre.network.name,
     address: deployment.address,
     startBlock: deployment.receipt?.blockNumber,
   };
@@ -35,7 +36,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
     let networksABI: Record<number, any>
     try {
-      networksABI = fs.readFileSync('./deployments/networks.json')
+      networksABI = JSON.parse(fs.readFileSync('./deployments/networks.json').toString())
     } catch(_) {
       networksABI = {}
     }

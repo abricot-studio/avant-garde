@@ -3,18 +3,21 @@
   "private": true,
   "version": "0.1.0",
   "scripts": {
-    "create-prod": "graph create julesgoullee/arbart --node https://api.thegraph.com/deploy/",
-    "create-local": "graph create julesgoullee/arbart --node http://127.0.0.1:8020",
+    "create:prod": "graph create julesgoullee/arbart --node https://api.thegraph.com/deploy/",
+    "create:local": "graph create julesgoullee/arbart --node http://127.0.0.1:8020",
     "codegen": "graph codegen",
     "build": "npm run codegen",
-    "deploy-prod": "graph deploy --debug --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/ julesgoullee/arbart",
-    "deploy-local": "graph deploy --debug --ipfs http://localhost:5001 --node http://127.0.0.1:8020 julesgoullee/arbart"
+    "prepare:local": "mustache ../contracts/deployments/localhost/config.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:rinkeby": "mustache ../contracts/deployments/rinkeby/config.json subgraph.template.yaml > subgraph.yaml",
+    "deploy:local": "npm run prepare:local && graph deploy --debug --ipfs http://localhost:5001 --node http://127.0.0.1:8020 julesgoullee/arbart",
+    "deploy:rinkeby": "npm run prepare:rinkeby && graph deploy --debug --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/ julesgoullee/arbart"
   },
   "devDependencies": {
     "@graphprotocol/graph-cli": "^0.20.0",
     "@graphprotocol/graph-ts": "^0.20.0",
     "babel-polyfill": "^6.26.0",
-    "babel-register": "^6.26.0"
+    "babel-register": "^6.26.0",
+    "mustache": "^4.1.0"
   },
   "dependencies": {}
 }
