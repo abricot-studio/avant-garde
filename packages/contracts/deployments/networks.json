@@ -1,12 +1,12 @@
 {
   "4": {
-    "address": "0x5AF51E6f8F6c98531f4C26F2964136614f3fcEb9",
+    "address": "0x24522a519A335cDD5e7eC59166f70C68A81Cd774",
     "abi": [
       {
         "inputs": [
           {
             "internalType": "address",
-            "name": "_manager",
+            "name": "_admin",
             "type": "address"
           },
           {
@@ -171,19 +171,6 @@
       {
         "inputs": [],
         "name": "DEFAULT_ADMIN_ROLE",
-        "outputs": [
-          {
-            "internalType": "bytes32",
-            "name": "",
-            "type": "bytes32"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "MANAGER_ROLE",
         "outputs": [
           {
             "internalType": "bytes32",
@@ -759,18 +746,18 @@
     ]
   },
   "31337": {
-    "address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+    "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
     "abi": [
       {
         "inputs": [
           {
             "internalType": "address",
-            "name": "_manager",
+            "name": "_admin",
             "type": "address"
           },
           {
             "internalType": "address payable",
-            "name": "_fessReceiver",
+            "name": "_feesReceiver",
             "type": "address"
           }
         ],
@@ -930,19 +917,6 @@
       {
         "inputs": [],
         "name": "DEFAULT_ADMIN_ROLE",
-        "outputs": [
-          {
-            "internalType": "bytes32",
-            "name": "",
-            "type": "bytes32"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "MANAGER_ROLE",
         "outputs": [
           {
             "internalType": "bytes32",

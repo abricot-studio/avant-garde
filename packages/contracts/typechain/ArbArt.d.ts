@@ -23,7 +23,6 @@ import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 interface ArbArtInterface extends ethers.utils.Interface {
   functions: {
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
-    "MANAGER_ROLE()": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "burn(uint256)": FunctionFragment;
@@ -56,10 +55,6 @@ interface ArbArtInterface extends ethers.utils.Interface {
 
   encodeFunctionData(
     functionFragment: "DEFAULT_ADMIN_ROLE",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "MANAGER_ROLE",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -165,10 +160,6 @@ interface ArbArtInterface extends ethers.utils.Interface {
 
   decodeFunctionResult(
     functionFragment: "DEFAULT_ADMIN_ROLE",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "MANAGER_ROLE",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
@@ -312,10 +303,6 @@ export class ArbArt extends Contract {
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<[string]>;
 
     "DEFAULT_ADMIN_ROLE()"(overrides?: CallOverrides): Promise<[string]>;
-
-    MANAGER_ROLE(overrides?: CallOverrides): Promise<[string]>;
-
-    "MANAGER_ROLE()"(overrides?: CallOverrides): Promise<[string]>;
 
     approve(
       to: string,
@@ -599,10 +586,6 @@ export class ArbArt extends Contract {
 
   "DEFAULT_ADMIN_ROLE()"(overrides?: CallOverrides): Promise<string>;
 
-  MANAGER_ROLE(overrides?: CallOverrides): Promise<string>;
-
-  "MANAGER_ROLE()"(overrides?: CallOverrides): Promise<string>;
-
   approve(
     to: string,
     tokenId: BigNumberish,
@@ -874,10 +857,6 @@ export class ArbArt extends Contract {
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
     "DEFAULT_ADMIN_ROLE()"(overrides?: CallOverrides): Promise<string>;
-
-    MANAGER_ROLE(overrides?: CallOverrides): Promise<string>;
-
-    "MANAGER_ROLE()"(overrides?: CallOverrides): Promise<string>;
 
     approve(
       to: string,
@@ -1207,10 +1186,6 @@ export class ArbArt extends Contract {
 
     "DEFAULT_ADMIN_ROLE()"(overrides?: CallOverrides): Promise<BigNumber>;
 
-    MANAGER_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
-
-    "MANAGER_ROLE()"(overrides?: CallOverrides): Promise<BigNumber>;
-
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -1490,10 +1465,6 @@ export class ArbArt extends Contract {
     "DEFAULT_ADMIN_ROLE()"(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
-
-    MANAGER_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    "MANAGER_ROLE()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     approve(
       to: string,

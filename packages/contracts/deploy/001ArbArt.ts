@@ -11,7 +11,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
   const deployment = await deploy(contractName, {
     from: namedAccounts.deployer,
-    args: [namedAccounts.manager, namedAccounts.feesReceiver],
+    args: [namedAccounts.admin, namedAccounts.feesReceiver],
     log: true
   });
 
