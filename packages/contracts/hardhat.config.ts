@@ -19,7 +19,9 @@ const config: HardhatUserConfig = {
   },
   gasReporter: {
     currency: 'EUR',
-    gasPrice: parseUnits('5', 'gwei').toNumber()
+    enabled: true,
+    coinmarketcap: process.env.COINMARKETCAP_API_KEY,
+    gasPrice: 100 // in gwei
   },
   etherscan: {
     apiKey: process.env.ETHERSCAN_API_KEY
