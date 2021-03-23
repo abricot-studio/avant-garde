@@ -1,15 +1,14 @@
 //SPDX-License-Identifier: Unlicense
-pragma solidity 0.8.1;
+pragma solidity 0.8.3;
 
 import "hardhat/console.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
-import "@openzeppelin/contracts/access/AccessControlEnumerable.sol";
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
-contract ArbArt is ERC721URIStorage, AccessControlEnumerable {
+contract ArbArt is ERC721URIStorage, AccessControl {
   using ECDSA for bytes32;
   using Counters for Counters.Counter;
   using Address for address payable;
@@ -108,8 +107,8 @@ contract ArbArt is ERC721URIStorage, AccessControlEnumerable {
     return _current ** 2 * (10 ** 18) / 10000; // x^2 / 10000
   }
 
-  function supportsInterface(bytes4 interfaceId) public view override(ERC721, AccessControlEnumerable) returns (bool) {
-    return AccessControlEnumerable.supportsInterface(interfaceId) || ERC721.supportsInterface(interfaceId);
+  function supportsInterface(bytes4 interfaceId) public view override(ERC721, AccessControl) returns (bool) {
+    return AccessControl.supportsInterface(interfaceId) || ERC721.supportsInterface(interfaceId);
   }
 
 }
