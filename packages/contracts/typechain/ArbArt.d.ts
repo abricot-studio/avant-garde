@@ -12,6 +12,7 @@ import {
   Contract,
   ContractTransaction,
   Overrides,
+  PayableOverrides,
   CallOverrides,
 } from "ethers";
 import { BytesLike } from "@ethersproject/bytes";
@@ -25,6 +26,11 @@ interface ArbArtInterface extends ethers.utils.Interface {
     "MANAGER_ROLE()": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
+    "burn(uint256)": FunctionFragment;
+    "currentBurnPrice()": FunctionFragment;
+    "currentMintPrice()": FunctionFragment;
+    "currentMintWithFeesPrice()": FunctionFragment;
+    "currentPrice()": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
     "getRoleAdmin(bytes32)": FunctionFragment;
     "getRoleMember(bytes32,uint256)": FunctionFragment;
@@ -33,8 +39,11 @@ interface ArbArtInterface extends ethers.utils.Interface {
     "hasRole(bytes32,address)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "mint(string,address,bytes)": FunctionFragment;
+    "mintPriceFor(uint256)": FunctionFragment;
+    "mintWithFeesPriceFor(uint256)": FunctionFragment;
     "name()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
+    "priceFor(uint256)": FunctionFragment;
     "renounceRole(bytes32,address)": FunctionFragment;
     "revokeRole(bytes32,address)": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
@@ -58,6 +67,23 @@ interface ArbArtInterface extends ethers.utils.Interface {
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
+  encodeFunctionData(functionFragment: "burn", values: [BigNumberish]): string;
+  encodeFunctionData(
+    functionFragment: "currentBurnPrice",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "currentMintPrice",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "currentMintWithFeesPrice",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "currentPrice",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "getApproved",
     values: [BigNumberish]
@@ -90,9 +116,21 @@ interface ArbArtInterface extends ethers.utils.Interface {
     functionFragment: "mint",
     values: [string, string, BytesLike]
   ): string;
+  encodeFunctionData(
+    functionFragment: "mintPriceFor",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "mintWithFeesPriceFor",
+    values: [BigNumberish]
+  ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "ownerOf",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "priceFor",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
@@ -135,6 +173,23 @@ interface ArbArtInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "currentBurnPrice",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "currentMintPrice",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "currentMintWithFeesPrice",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "currentPrice",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "getApproved",
     data: BytesLike
@@ -158,8 +213,17 @@ interface ArbArtInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "mintPriceFor",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "mintWithFeesPriceFor",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "priceFor", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceRole",
     data: BytesLike
@@ -272,6 +336,38 @@ export class ArbArt extends Contract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
+    burn(
+      _tokenId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "burn(uint256)"(
+      _tokenId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    currentBurnPrice(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    "currentBurnPrice()"(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    currentMintPrice(
+      overrides?: CallOverrides
+    ): Promise<[BigNumber, BigNumber]>;
+
+    "currentMintPrice()"(
+      overrides?: CallOverrides
+    ): Promise<[BigNumber, BigNumber]>;
+
+    currentMintWithFeesPrice(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    "currentMintWithFeesPrice()"(
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    currentPrice(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    "currentPrice()"(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
@@ -351,15 +447,39 @@ export class ArbArt extends Contract {
       _uri: string,
       _signer: string,
       _signature: BytesLike,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     "mint(string,address,bytes)"(
       _uri: string,
       _signer: string,
       _signature: BytesLike,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    mintPriceFor(
+      _current: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber] & { _currentPrice: BigNumber; _fees: BigNumber }
+    >;
+
+    "mintPriceFor(uint256)"(
+      _current: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber] & { _currentPrice: BigNumber; _fees: BigNumber }
+    >;
+
+    mintWithFeesPriceFor(
+      _current: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    "mintWithFeesPriceFor(uint256)"(
+      _current: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
 
     name(overrides?: CallOverrides): Promise<[string]>;
 
@@ -374,6 +494,16 @@ export class ArbArt extends Contract {
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[string]>;
+
+    priceFor(
+      _current: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    "priceFor(uint256)"(
+      _current: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
 
     renounceRole(
       role: BytesLike,
@@ -492,6 +622,34 @@ export class ArbArt extends Contract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
+  burn(
+    _tokenId: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "burn(uint256)"(
+    _tokenId: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  currentBurnPrice(overrides?: CallOverrides): Promise<BigNumber>;
+
+  "currentBurnPrice()"(overrides?: CallOverrides): Promise<BigNumber>;
+
+  currentMintPrice(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
+
+  "currentMintPrice()"(
+    overrides?: CallOverrides
+  ): Promise<[BigNumber, BigNumber]>;
+
+  currentMintWithFeesPrice(overrides?: CallOverrides): Promise<BigNumber>;
+
+  "currentMintWithFeesPrice()"(overrides?: CallOverrides): Promise<BigNumber>;
+
+  currentPrice(overrides?: CallOverrides): Promise<BigNumber>;
+
+  "currentPrice()"(overrides?: CallOverrides): Promise<BigNumber>;
+
   getApproved(
     tokenId: BigNumberish,
     overrides?: CallOverrides
@@ -571,15 +729,39 @@ export class ArbArt extends Contract {
     _uri: string,
     _signer: string,
     _signature: BytesLike,
-    overrides?: Overrides & { from?: string | Promise<string> }
+    overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   "mint(string,address,bytes)"(
     _uri: string,
     _signer: string,
     _signature: BytesLike,
-    overrides?: Overrides & { from?: string | Promise<string> }
+    overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
+
+  mintPriceFor(
+    _current: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<
+    [BigNumber, BigNumber] & { _currentPrice: BigNumber; _fees: BigNumber }
+  >;
+
+  "mintPriceFor(uint256)"(
+    _current: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<
+    [BigNumber, BigNumber] & { _currentPrice: BigNumber; _fees: BigNumber }
+  >;
+
+  mintWithFeesPriceFor(
+    _current: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  "mintWithFeesPriceFor(uint256)"(
+    _current: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
 
   name(overrides?: CallOverrides): Promise<string>;
 
@@ -591,6 +773,16 @@ export class ArbArt extends Contract {
     tokenId: BigNumberish,
     overrides?: CallOverrides
   ): Promise<string>;
+
+  priceFor(
+    _current: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  "priceFor(uint256)"(
+    _current: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
 
   renounceRole(
     role: BytesLike,
@@ -706,6 +898,33 @@ export class ArbArt extends Contract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    burn(_tokenId: BigNumberish, overrides?: CallOverrides): Promise<boolean>;
+
+    "burn(uint256)"(
+      _tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    currentBurnPrice(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "currentBurnPrice()"(overrides?: CallOverrides): Promise<BigNumber>;
+
+    currentMintPrice(
+      overrides?: CallOverrides
+    ): Promise<[BigNumber, BigNumber]>;
+
+    "currentMintPrice()"(
+      overrides?: CallOverrides
+    ): Promise<[BigNumber, BigNumber]>;
+
+    currentMintWithFeesPrice(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "currentMintWithFeesPrice()"(overrides?: CallOverrides): Promise<BigNumber>;
+
+    currentPrice(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "currentPrice()"(overrides?: CallOverrides): Promise<BigNumber>;
+
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
@@ -795,6 +1014,30 @@ export class ArbArt extends Contract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    mintPriceFor(
+      _current: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber] & { _currentPrice: BigNumber; _fees: BigNumber }
+    >;
+
+    "mintPriceFor(uint256)"(
+      _current: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber] & { _currentPrice: BigNumber; _fees: BigNumber }
+    >;
+
+    mintWithFeesPriceFor(
+      _current: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "mintWithFeesPriceFor(uint256)"(
+      _current: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     name(overrides?: CallOverrides): Promise<string>;
 
     "name()"(overrides?: CallOverrides): Promise<string>;
@@ -805,6 +1048,16 @@ export class ArbArt extends Contract {
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    priceFor(
+      _current: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "priceFor(uint256)"(
+      _current: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     renounceRole(
       role: BytesLike,
@@ -977,6 +1230,32 @@ export class ArbArt extends Contract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    burn(
+      _tokenId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "burn(uint256)"(
+      _tokenId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    currentBurnPrice(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "currentBurnPrice()"(overrides?: CallOverrides): Promise<BigNumber>;
+
+    currentMintPrice(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "currentMintPrice()"(overrides?: CallOverrides): Promise<BigNumber>;
+
+    currentMintWithFeesPrice(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "currentMintWithFeesPrice()"(overrides?: CallOverrides): Promise<BigNumber>;
+
+    currentPrice(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "currentPrice()"(overrides?: CallOverrides): Promise<BigNumber>;
+
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
@@ -1059,14 +1338,34 @@ export class ArbArt extends Contract {
       _uri: string,
       _signer: string,
       _signature: BytesLike,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     "mint(string,address,bytes)"(
       _uri: string,
       _signer: string,
       _signature: BytesLike,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    mintPriceFor(
+      _current: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "mintPriceFor(uint256)"(
+      _current: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    mintWithFeesPriceFor(
+      _current: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "mintWithFeesPriceFor(uint256)"(
+      _current: BigNumberish,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     name(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1080,6 +1379,16 @@ export class ArbArt extends Contract {
 
     "ownerOf(uint256)"(
       tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    priceFor(
+      _current: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "priceFor(uint256)"(
+      _current: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1208,6 +1517,40 @@ export class ArbArt extends Contract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    burn(
+      _tokenId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "burn(uint256)"(
+      _tokenId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    currentBurnPrice(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    "currentBurnPrice()"(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    currentMintPrice(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    "currentMintPrice()"(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    currentMintWithFeesPrice(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "currentMintWithFeesPrice()"(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    currentPrice(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    "currentPrice()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
@@ -1290,14 +1633,34 @@ export class ArbArt extends Contract {
       _uri: string,
       _signer: string,
       _signature: BytesLike,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     "mint(string,address,bytes)"(
       _uri: string,
       _signer: string,
       _signature: BytesLike,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    mintPriceFor(
+      _current: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "mintPriceFor(uint256)"(
+      _current: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    mintWithFeesPriceFor(
+      _current: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "mintWithFeesPriceFor(uint256)"(
+      _current: BigNumberish,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
@@ -1311,6 +1674,16 @@ export class ArbArt extends Contract {
 
     "ownerOf(uint256)"(
       tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    priceFor(
+      _current: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "priceFor(uint256)"(
+      _current: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

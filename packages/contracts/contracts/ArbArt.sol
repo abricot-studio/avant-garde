@@ -18,7 +18,7 @@ contract ArbArt is ERC721URIStorage, AccessControlEnumerable {
 
   uint256 fees = 10; // 10%
   uint256 baseFees = 100;
-  address payable fessReceiver;
+  address payable feesReceiver;
 
   //  modifier onlyManager() { // Modifier
   //    require(
@@ -28,8 +28,10 @@ contract ArbArt is ERC721URIStorage, AccessControlEnumerable {
   //    _;
   //  }
 
-  constructor(address _manager, address payable _fessReceiver) ERC721("ArbArt", "ARBT") {
+  constructor(address _manager, address payable _feesReceiver) ERC721("ArbArt", "ARBT") {
     _setupRole(MANAGER_ROLE, _manager);
+    feesReceiver = _feesReceiver;
+    countMint._value = 1;
   }
 
   function _baseURI() internal override pure returns (string memory) {
@@ -56,7 +58,7 @@ contract ArbArt is ERC721URIStorage, AccessControlEnumerable {
     _tokenId = uint256(uint160(bytes20(msg.sender)));
     _safeMint(msg.sender, _tokenId);
     _setTokenURI(_tokenId, _uri);
-    sendValue(fessReceiver, mintFees);
+    sendValue(feesReceiver, mintFees);
 
     return _tokenId;
 
