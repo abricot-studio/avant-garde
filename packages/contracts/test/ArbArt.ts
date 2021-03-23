@@ -1,12 +1,11 @@
 import { ethers } from 'hardhat'
+import { expect } from 'chai'
 
-const { expect } = require('chai')
-
-const { MANAGER_ROLE, signMintingRequest } = require('../lib/ArbArt')
+import { MANAGER_ROLE, signMintingRequest } from '../lib/ArbArt'
 
 const memory: any = {}
 
-const tokenURI = (uri) => `ipfs://${uri}`
+const tokenURI = (uri: string) => `ipfs://${uri}`
 
 describe('ArbArt', function () {
   before(async () => {
@@ -15,14 +14,14 @@ describe('ArbArt', function () {
   })
 
   beforeEach(async () => {
-
-    memory.manager = memory.signers[0]
-    memory.feesReceiver = memory.signers[memory.signers.length - 1]
+    memory.deployer = memory.signers[0]
+    memory.manager = memory.signers[memory.signers.length -1]
+    memory.feesReceiver = memory.signers[memory.signers.length - 2]
     memory.other = memory.signers[1]
     memory.other2 = memory.signers[2]
-    memory.contract = await memory.Contract.deploy(memory.feesReceiver.address)
-    await memory.contract.deployed()
 
+    memory.contract = await memory.Contract.deploy(memory.manager.address, memory.feesReceiver.address)
+    await memory.contract.deployed()
   })
 
   it('sets up the contract', async () => {
@@ -32,6 +31,9 @@ describe('ArbArt', function () {
       .to.be.true
     expect(await memory.contract.hasRole(MANAGER_ROLE, memory.other.address)).to
       .be.false
+    expect(await memory.contract.hasRole(MANAGER_ROLE, memory.deployer.address)).to
+      .be.false
+
   })
 
   it('priceFor', async () => {

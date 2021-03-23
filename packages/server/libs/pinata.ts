@@ -56,7 +56,7 @@ export async function uploadMetadata(ipfsHashImage: string, address: string): Pr
     description: `Art of ${address}`,
     external_url: `https://art.art/id/${address}`,
     name: address,
-    background_color: '585858',
+    // background_color: 'ffffff',
     attributes: [
       {
         display_type: 'date',

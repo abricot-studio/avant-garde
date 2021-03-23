@@ -6,11 +6,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: ArbArt
-    network: mainnet
+    network: {{ network }}
     source:
       abi: ArbArt
-      address: '0x5fbdb2315678afecb367f032d93f642f64180aa3'
-      startBlock: 0
+      address: '{{ address }}'
+      startBlock: {{ startBlock }}
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -19,7 +19,7 @@ dataSources:
         - ArbArt
       abis:
         - name: ArbArt
-          file: ../contracts/dist/ArbArt.abi.json
+          file: ../contracts/deployments/{{ abiNetwork }}/ArbArt.abi.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer

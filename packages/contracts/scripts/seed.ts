@@ -1,10 +1,10 @@
-const fs = require("fs");
+import fs from 'fs'
 import { ethers } from 'hardhat'
 import { signMintingRequest } from '../lib/ArbArt'
 
-const ipfsHttp = require('ipfs-http-client')
+import ipfsHttp from 'ipfs-http-client'
 const IPFS_DOMAIN = 'http://localhost:5001'
-const ipfs = ipfsHttp(IPFS_DOMAIN)
+const ipfs = ipfsHttp({ url: IPFS_DOMAIN })
 
 const metadata = {
   image: 'ipfs://QmXYK43wPMNoQyoCvvBQ2YWmUbsfgk1CMsH4QtFnELPzdE',
