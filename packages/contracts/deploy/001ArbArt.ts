@@ -4,7 +4,7 @@ import {DeployFunction} from 'hardhat-deploy/types';
 
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const contractName = 'ArbArt'
-  const {deployments, getNamedAccounts} = hre;
+  const {deployments, getNamedAccounts, getChainId} = hre;
   const {deploy} = deployments;
 
   const namedAccounts = await getNamedAccounts();
@@ -31,26 +31,24 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     JSON.stringify(deployment.abi, null, 2)
   )
 
-  const chainId = hre.network.config.chainId
-  if(chainId) {
+  const chainId = await getChainId();
 
-    let networksABI: Record<number, any>
-    try {
-      networksABI = JSON.parse(fs.readFileSync('./deployments/networks.json').toString())
-    } catch(_) {
-      networksABI = {}
-    }
-
-    networksABI[chainId] = {
-      address: deployment.address,
-      abi: deployment.abi,
-    }
-
-    fs.writeFileSync(
-      './deployments/networks.json',
-      JSON.stringify(networksABI, null, 2)
-    )
+  let networksABI: Record<number, any>
+  try {
+    networksABI = JSON.parse(fs.readFileSync('./deployments/networks.json').toString())
+  } catch(_) {
+    networksABI = {}
   }
+
+  networksABI[Number(chainId)] = {
+    address: deployment.address,
+    abi: deployment.abi,
+  }
+
+  fs.writeFileSync(
+    './deployments/networks.json',
+    JSON.stringify(networksABI, null, 2)
+  )
 
 };
 export default func;

@@ -43,14 +43,12 @@ const config: HardhatUserConfig = {
   },
   networks: {
     localhost: {
-      chainId: 31337,
       url: `http://localhost:8545`,
       accounts: [
         defaultPrivateKey,
       ]
     },
     rinkeby: {
-      chainId: 4,
       url: `https://eth-rinkeby.alchemyapi.io/v2/${process.env.ALCHEMY_API_KEY}`,
       gasPrice: parseUnits('5', 'gwei').toNumber(),
       accounts: [
