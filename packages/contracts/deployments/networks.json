@@ -1,6 +1,6 @@
 {
   "4": {
-    "address": "0xC38313D8db4B176b5A4D973D0cc749cDBCD29DBd",
+    "address": "0xF091333236ad892daFC2F25f908A60bD9101C028",
     "abi": [
       {
         "inputs": [
@@ -474,7 +474,7 @@
             "type": "uint256"
           }
         ],
-        "stateMutability": "view",
+        "stateMutability": "pure",
         "type": "function"
       },
       {
@@ -493,7 +493,7 @@
             "type": "uint256"
           }
         ],
-        "stateMutability": "view",
+        "stateMutability": "pure",
         "type": "function"
       },
       {

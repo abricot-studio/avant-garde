@@ -84,12 +84,12 @@ contract ArbArt is ERC721URIStorage, AccessControl {
     return mintWithFeesPriceFor(countMint.current() );
   }
 
-  function mintWithFeesPriceFor(uint256 _current) public view returns (uint256){
+  function mintWithFeesPriceFor(uint256 _current) public pure returns (uint256){
     (uint256 mintPrice, uint256 mintFees) = mintPriceFor(_current);
     return mintPrice + mintFees;
   }
 
-  function mintPriceFor(uint256 _current) public view returns (uint256 _currentPrice, uint256 _fees){
+  function mintPriceFor(uint256 _current) public pure returns (uint256 _currentPrice, uint256 _fees){
     _currentPrice = priceFor(_current);
     _fees = _currentPrice / fees;
   }
