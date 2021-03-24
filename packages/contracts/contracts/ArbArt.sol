@@ -16,17 +16,8 @@ contract ArbArt is ERC721URIStorage, AccessControl {
   bytes32 public constant MANAGER_ROLE = keccak256("MANAGER_ROLE");
   Counters.Counter countMint;
 
-  uint256 fees = 10; // 10%
-  uint256 baseFees = 100;
-  address payable feesReceiver;
-
-  //  modifier onlyManager() { // Modifier
-  //    require(
-  //      hasRole(MANAGER_ROLE, msg.sender),
-  //      "Only MANAGER_ROLE can call this method"
-  //    );
-  //    _;
-  //  }
+  uint8 constant fees = 10; // 10%
+  address payable public immutable feesReceiver;
 
   constructor(address _manager, address payable _feesReceiver) ERC721("ArbArt", "ARBT") {
     _setupRole(MANAGER_ROLE, _manager);
@@ -100,10 +91,10 @@ contract ArbArt is ERC721URIStorage, AccessControl {
 
   function mintPriceFor(uint256 _current) public view returns (uint256 _currentPrice, uint256 _fees){
     _currentPrice = priceFor(_current);
-    _fees = _currentPrice * fees / baseFees;
+    _fees = _currentPrice / fees;
   }
 
-  function priceFor(uint256 _current) public view returns (uint256){
+  function priceFor(uint256 _current) public pure returns (uint256){
     return _current ** 2 * (10 ** 18) / 10000; // x^2 / 10000
   }
 

@@ -31,6 +31,7 @@ interface ArbArtInterface extends ethers.utils.Interface {
     "currentMintPrice()": FunctionFragment;
     "currentMintWithFeesPrice()": FunctionFragment;
     "currentPrice()": FunctionFragment;
+    "feesReceiver()": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
     "getRoleAdmin(bytes32)": FunctionFragment;
     "grantRole(bytes32,address)": FunctionFragment;
@@ -80,6 +81,10 @@ interface ArbArtInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "currentPrice",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "feesReceiver",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -178,6 +183,10 @@ interface ArbArtInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "currentPrice",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "feesReceiver",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -349,6 +358,10 @@ export class ArbArt extends Contract {
     currentPrice(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     "currentPrice()"(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    feesReceiver(overrides?: CallOverrides): Promise<[string]>;
+
+    "feesReceiver()"(overrides?: CallOverrides): Promise<[string]>;
 
     getApproved(
       tokenId: BigNumberish,
@@ -610,6 +623,10 @@ export class ArbArt extends Contract {
 
   "currentPrice()"(overrides?: CallOverrides): Promise<BigNumber>;
 
+  feesReceiver(overrides?: CallOverrides): Promise<string>;
+
+  "feesReceiver()"(overrides?: CallOverrides): Promise<string>;
+
   getApproved(
     tokenId: BigNumberish,
     overrides?: CallOverrides
@@ -862,6 +879,10 @@ export class ArbArt extends Contract {
     currentPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
     "currentPrice()"(overrides?: CallOverrides): Promise<BigNumber>;
+
+    feesReceiver(overrides?: CallOverrides): Promise<string>;
+
+    "feesReceiver()"(overrides?: CallOverrides): Promise<string>;
 
     getApproved(
       tokenId: BigNumberish,
@@ -1172,6 +1193,10 @@ export class ArbArt extends Contract {
 
     "currentPrice()"(overrides?: CallOverrides): Promise<BigNumber>;
 
+    feesReceiver(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "feesReceiver()"(overrides?: CallOverrides): Promise<BigNumber>;
+
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
@@ -1444,6 +1469,10 @@ export class ArbArt extends Contract {
     currentPrice(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     "currentPrice()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    feesReceiver(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    "feesReceiver()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getApproved(
       tokenId: BigNumberish,
