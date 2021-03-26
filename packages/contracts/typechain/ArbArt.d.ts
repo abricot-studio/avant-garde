@@ -22,29 +22,25 @@ import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface ArbArtInterface extends ethers.utils.Interface {
   functions: {
-    "DEFAULT_ADMIN_ROLE()": FunctionFragment;
-    "MANAGER_ROLE()": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "burn(uint256)": FunctionFragment;
+    "changeFeesReceiver(address)": FunctionFragment;
+    "changeManager(address)": FunctionFragment;
     "currentBurnPrice()": FunctionFragment;
     "currentMintPrice()": FunctionFragment;
     "currentMintWithFeesPrice()": FunctionFragment;
     "currentPrice()": FunctionFragment;
     "feesReceiver()": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
-    "getRoleAdmin(bytes32)": FunctionFragment;
-    "grantRole(bytes32,address)": FunctionFragment;
-    "hasRole(bytes32,address)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
-    "mint(string,address,bytes)": FunctionFragment;
+    "manager()": FunctionFragment;
+    "mint(string,bytes)": FunctionFragment;
     "mintPriceFor(uint256)": FunctionFragment;
     "mintWithFeesPriceFor(uint256)": FunctionFragment;
     "name()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
     "priceFor(uint256)": FunctionFragment;
-    "renounceRole(bytes32,address)": FunctionFragment;
-    "revokeRole(bytes32,address)": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
@@ -54,19 +50,19 @@ interface ArbArtInterface extends ethers.utils.Interface {
   };
 
   encodeFunctionData(
-    functionFragment: "DEFAULT_ADMIN_ROLE",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "MANAGER_ROLE",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
     functionFragment: "approve",
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
   encodeFunctionData(functionFragment: "burn", values: [BigNumberish]): string;
+  encodeFunctionData(
+    functionFragment: "changeFeesReceiver",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "changeManager",
+    values: [string]
+  ): string;
   encodeFunctionData(
     functionFragment: "currentBurnPrice",
     values?: undefined
@@ -92,24 +88,13 @@ interface ArbArtInterface extends ethers.utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "getRoleAdmin",
-    values: [BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "grantRole",
-    values: [BytesLike, string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "hasRole",
-    values: [BytesLike, string]
-  ): string;
-  encodeFunctionData(
     functionFragment: "isApprovedForAll",
     values: [string, string]
   ): string;
+  encodeFunctionData(functionFragment: "manager", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "mint",
-    values: [string, string, BytesLike]
+    values: [string, BytesLike]
   ): string;
   encodeFunctionData(
     functionFragment: "mintPriceFor",
@@ -127,14 +112,6 @@ interface ArbArtInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "priceFor",
     values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "renounceRole",
-    values: [BytesLike, string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "revokeRole",
-    values: [BytesLike, string]
   ): string;
   encodeFunctionData(
     functionFragment: "safeTransferFrom",
@@ -158,17 +135,17 @@ interface ArbArtInterface extends ethers.utils.Interface {
     values: [string, string, BigNumberish]
   ): string;
 
-  decodeFunctionResult(
-    functionFragment: "DEFAULT_ADMIN_ROLE",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "MANAGER_ROLE",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "changeFeesReceiver",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "changeManager",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "currentBurnPrice",
     data: BytesLike
@@ -194,15 +171,10 @@ interface ArbArtInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "getRoleAdmin",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
-  decodeFunctionResult(
     functionFragment: "isApprovedForAll",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "manager", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "mintPriceFor",
@@ -215,11 +187,6 @@ interface ArbArtInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "priceFor", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "renounceRole",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "safeTransferFrom",
     data: BytesLike
@@ -242,17 +209,11 @@ interface ArbArtInterface extends ethers.utils.Interface {
   events: {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
-    "RoleAdminChanged(bytes32,bytes32,bytes32)": EventFragment;
-    "RoleGranted(bytes32,address,address)": EventFragment;
-    "RoleRevoked(bytes32,address,address)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "RoleAdminChanged"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "RoleGranted"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "RoleRevoked"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
 
@@ -300,14 +261,6 @@ export class ArbArt extends Contract {
   interface: ArbArtInterface;
 
   functions: {
-    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<[string]>;
-
-    "DEFAULT_ADMIN_ROLE()"(overrides?: CallOverrides): Promise<[string]>;
-
-    MANAGER_ROLE(overrides?: CallOverrides): Promise<[string]>;
-
-    "MANAGER_ROLE()"(overrides?: CallOverrides): Promise<[string]>;
-
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -334,6 +287,26 @@ export class ArbArt extends Contract {
 
     "burn(uint256)"(
       _tokenId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    changeFeesReceiver(
+      _newFeesReceiver: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "changeFeesReceiver(address)"(
+      _newFeesReceiver: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    changeManager(
+      _newManager: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "changeManager(address)"(
+      _newManager: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -373,37 +346,6 @@ export class ArbArt extends Contract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
-    getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<[string]>;
-
-    "getRoleAdmin(bytes32)"(
-      role: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
-    grantRole(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    "grantRole(bytes32,address)"(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    hasRole(
-      role: BytesLike,
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
-
-    "hasRole(bytes32,address)"(
-      role: BytesLike,
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
-
     isApprovedForAll(
       owner: string,
       operator: string,
@@ -416,16 +358,18 @@ export class ArbArt extends Contract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
+    manager(overrides?: CallOverrides): Promise<[string]>;
+
+    "manager()"(overrides?: CallOverrides): Promise<[string]>;
+
     mint(
       _uri: string,
-      _signer: string,
       _signature: BytesLike,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    "mint(string,address,bytes)"(
+    "mint(string,bytes)"(
       _uri: string,
-      _signer: string,
       _signature: BytesLike,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -477,30 +421,6 @@ export class ArbArt extends Contract {
       _current: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
-
-    renounceRole(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    "renounceRole(bytes32,address)"(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    revokeRole(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    "revokeRole(bytes32,address)"(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
 
     "safeTransferFrom(address,address,uint256)"(
       from: string,
@@ -568,14 +488,6 @@ export class ArbArt extends Contract {
     ): Promise<ContractTransaction>;
   };
 
-  DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
-
-  "DEFAULT_ADMIN_ROLE()"(overrides?: CallOverrides): Promise<string>;
-
-  MANAGER_ROLE(overrides?: CallOverrides): Promise<string>;
-
-  "MANAGER_ROLE()"(overrides?: CallOverrides): Promise<string>;
-
   approve(
     to: string,
     tokenId: BigNumberish,
@@ -602,6 +514,26 @@ export class ArbArt extends Contract {
 
   "burn(uint256)"(
     _tokenId: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  changeFeesReceiver(
+    _newFeesReceiver: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "changeFeesReceiver(address)"(
+    _newFeesReceiver: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  changeManager(
+    _newManager: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "changeManager(address)"(
+    _newManager: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -637,37 +569,6 @@ export class ArbArt extends Contract {
     overrides?: CallOverrides
   ): Promise<string>;
 
-  getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<string>;
-
-  "getRoleAdmin(bytes32)"(
-    role: BytesLike,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
-  grantRole(
-    role: BytesLike,
-    account: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  "grantRole(bytes32,address)"(
-    role: BytesLike,
-    account: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  hasRole(
-    role: BytesLike,
-    account: string,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
-
-  "hasRole(bytes32,address)"(
-    role: BytesLike,
-    account: string,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
-
   isApprovedForAll(
     owner: string,
     operator: string,
@@ -680,16 +581,18 @@ export class ArbArt extends Contract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
+  manager(overrides?: CallOverrides): Promise<string>;
+
+  "manager()"(overrides?: CallOverrides): Promise<string>;
+
   mint(
     _uri: string,
-    _signer: string,
     _signature: BytesLike,
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  "mint(string,address,bytes)"(
+  "mint(string,bytes)"(
     _uri: string,
-    _signer: string,
     _signature: BytesLike,
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -738,30 +641,6 @@ export class ArbArt extends Contract {
     _current: BigNumberish,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
-
-  renounceRole(
-    role: BytesLike,
-    account: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  "renounceRole(bytes32,address)"(
-    role: BytesLike,
-    account: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  revokeRole(
-    role: BytesLike,
-    account: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  "revokeRole(bytes32,address)"(
-    role: BytesLike,
-    account: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
 
   "safeTransferFrom(address,address,uint256)"(
     from: string,
@@ -826,14 +705,6 @@ export class ArbArt extends Contract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
-
-    "DEFAULT_ADMIN_ROLE()"(overrides?: CallOverrides): Promise<string>;
-
-    MANAGER_ROLE(overrides?: CallOverrides): Promise<string>;
-
-    "MANAGER_ROLE()"(overrides?: CallOverrides): Promise<string>;
-
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -857,6 +728,26 @@ export class ArbArt extends Contract {
 
     "burn(uint256)"(
       _tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    changeFeesReceiver(
+      _newFeesReceiver: string,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    "changeFeesReceiver(address)"(
+      _newFeesReceiver: string,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    changeManager(
+      _newManager: string,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    "changeManager(address)"(
+      _newManager: string,
       overrides?: CallOverrides
     ): Promise<boolean>;
 
@@ -894,37 +785,6 @@ export class ArbArt extends Contract {
       overrides?: CallOverrides
     ): Promise<string>;
 
-    getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<string>;
-
-    "getRoleAdmin(bytes32)"(
-      role: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
-    grantRole(
-      role: BytesLike,
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    "grantRole(bytes32,address)"(
-      role: BytesLike,
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    hasRole(
-      role: BytesLike,
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
-    "hasRole(bytes32,address)"(
-      role: BytesLike,
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
     isApprovedForAll(
       owner: string,
       operator: string,
@@ -937,16 +797,18 @@ export class ArbArt extends Contract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
+    manager(overrides?: CallOverrides): Promise<string>;
+
+    "manager()"(overrides?: CallOverrides): Promise<string>;
+
     mint(
       _uri: string,
-      _signer: string,
       _signature: BytesLike,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    "mint(string,address,bytes)"(
+    "mint(string,bytes)"(
       _uri: string,
-      _signer: string,
       _signature: BytesLike,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -995,30 +857,6 @@ export class ArbArt extends Contract {
       _current: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
-
-    renounceRole(
-      role: BytesLike,
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    "renounceRole(bytes32,address)"(
-      role: BytesLike,
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    revokeRole(
-      role: BytesLike,
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    "revokeRole(bytes32,address)"(
-      role: BytesLike,
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
 
     "safeTransferFrom(address,address,uint256)"(
       from: string,
@@ -1102,33 +940,6 @@ export class ArbArt extends Contract {
       { owner: string; operator: string; approved: boolean }
     >;
 
-    RoleAdminChanged(
-      role: BytesLike | null,
-      previousAdminRole: BytesLike | null,
-      newAdminRole: BytesLike | null
-    ): TypedEventFilter<
-      [string, string, string],
-      { role: string; previousAdminRole: string; newAdminRole: string }
-    >;
-
-    RoleGranted(
-      role: BytesLike | null,
-      account: string | null,
-      sender: string | null
-    ): TypedEventFilter<
-      [string, string, string],
-      { role: string; account: string; sender: string }
-    >;
-
-    RoleRevoked(
-      role: BytesLike | null,
-      account: string | null,
-      sender: string | null
-    ): TypedEventFilter<
-      [string, string, string],
-      { role: string; account: string; sender: string }
-    >;
-
     Transfer(
       from: string | null,
       to: string | null,
@@ -1140,14 +951,6 @@ export class ArbArt extends Contract {
   };
 
   estimateGas: {
-    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
-
-    "DEFAULT_ADMIN_ROLE()"(overrides?: CallOverrides): Promise<BigNumber>;
-
-    MANAGER_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
-
-    "MANAGER_ROLE()"(overrides?: CallOverrides): Promise<BigNumber>;
-
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -1174,6 +977,26 @@ export class ArbArt extends Contract {
 
     "burn(uint256)"(
       _tokenId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    changeFeesReceiver(
+      _newFeesReceiver: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "changeFeesReceiver(address)"(
+      _newFeesReceiver: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    changeManager(
+      _newManager: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "changeManager(address)"(
+      _newManager: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1207,40 +1030,6 @@ export class ArbArt extends Contract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getRoleAdmin(
-      role: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "getRoleAdmin(bytes32)"(
-      role: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    grantRole(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    "grantRole(bytes32,address)"(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    hasRole(
-      role: BytesLike,
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "hasRole(bytes32,address)"(
-      role: BytesLike,
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     isApprovedForAll(
       owner: string,
       operator: string,
@@ -1253,16 +1042,18 @@ export class ArbArt extends Contract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    manager(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "manager()"(overrides?: CallOverrides): Promise<BigNumber>;
+
     mint(
       _uri: string,
-      _signer: string,
       _signature: BytesLike,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    "mint(string,address,bytes)"(
+    "mint(string,bytes)"(
       _uri: string,
-      _signer: string,
       _signature: BytesLike,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -1309,30 +1100,6 @@ export class ArbArt extends Contract {
     "priceFor(uint256)"(
       _current: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    renounceRole(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    "renounceRole(bytes32,address)"(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    revokeRole(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    "revokeRole(bytes32,address)"(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     "safeTransferFrom(address,address,uint256)"(
@@ -1402,18 +1169,6 @@ export class ArbArt extends Contract {
   };
 
   populateTransaction: {
-    DEFAULT_ADMIN_ROLE(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "DEFAULT_ADMIN_ROLE()"(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    MANAGER_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    "MANAGER_ROLE()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -1443,6 +1198,26 @@ export class ArbArt extends Contract {
 
     "burn(uint256)"(
       _tokenId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    changeFeesReceiver(
+      _newFeesReceiver: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "changeFeesReceiver(address)"(
+      _newFeesReceiver: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    changeManager(
+      _newManager: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "changeManager(address)"(
+      _newManager: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1484,40 +1259,6 @@ export class ArbArt extends Contract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    getRoleAdmin(
-      role: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "getRoleAdmin(bytes32)"(
-      role: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    grantRole(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "grantRole(bytes32,address)"(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    hasRole(
-      role: BytesLike,
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "hasRole(bytes32,address)"(
-      role: BytesLike,
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     isApprovedForAll(
       owner: string,
       operator: string,
@@ -1530,16 +1271,18 @@ export class ArbArt extends Contract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    manager(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    "manager()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     mint(
       _uri: string,
-      _signer: string,
       _signature: BytesLike,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    "mint(string,address,bytes)"(
+    "mint(string,bytes)"(
       _uri: string,
-      _signer: string,
       _signature: BytesLike,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
@@ -1586,30 +1329,6 @@ export class ArbArt extends Contract {
     "priceFor(uint256)"(
       _current: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    renounceRole(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "renounceRole(bytes32,address)"(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    revokeRole(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "revokeRole(bytes32,address)"(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     "safeTransferFrom(address,address,uint256)"(

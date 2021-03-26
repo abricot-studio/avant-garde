@@ -4,45 +4,55 @@ pragma solidity 0.8.3;
 import "hardhat/console.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
-contract ArbArt is ERC721URIStorage, AccessControl {
+contract ArbArt is ERC721URIStorage {
   using ECDSA for bytes32;
   using Counters for Counters.Counter;
   using Address for address payable;
 
-  bytes32 public constant MANAGER_ROLE = keccak256("MANAGER_ROLE");
   Counters.Counter countMint;
 
   uint8 constant fees = 10; // 10%
-  address payable public immutable feesReceiver;
+  address payable public feesReceiver;
+  address public manager;
 
   constructor(address _manager, address payable _feesReceiver) ERC721("ArbArt", "ARBT") {
-    _setupRole(MANAGER_ROLE, _manager);
+    manager = _manager;
     feesReceiver = _feesReceiver;
     countMint._value = 1;
+  }
+
+  function changeFeesReceiver(address _newFeesReceiver) public returns (bool){
+
+    require(msg.sender == feesReceiver, "NFR");
+    feesReceiver = payable(_newFeesReceiver);
+    return true;
+
+  }
+
+  function changeManager(address _newManager) public returns (bool){
+
+    require(msg.sender == manager, "NM");
+    manager = _newManager;
+    return true;
+
   }
 
   function _baseURI() internal override pure returns (string memory) {
     return "ipfs://";
   }
 
-  function mint(string memory _uri, address _signer, bytes memory _signature) public payable returns (uint256 _tokenId) {
+  function mint(string memory _uri, bytes memory _signature) public payable returns (uint256 _tokenId) {
 
-    // Check signature and if signer is manager
-    require(
-      hasRole(MANAGER_ROLE, _signer),
-      "Only accepting signatures from MANAGER_ROLE"
-    );
-    bytes memory _message = abi.encodePacked(_uri, msg.sender, _signer);
+    bytes memory _message = abi.encodePacked(_uri, msg.sender);
     address _recoveredAddress = keccak256(_message).toEthSignedMessageHash().recover(_signature);
-    require(_signer == _recoveredAddress, "Invalid recovered address");
+    require(manager == _recoveredAddress, "NM");
 
     // Check price
     (uint256 price, uint256 mintFees) = currentMintPrice();
-    require(msg.value == price + mintFees, "ArbArt: amount invalid");
+    require(msg.value == price + mintFees, "AI");
     countMint.increment();
 
     // Mint token
@@ -57,7 +67,7 @@ contract ArbArt is ERC721URIStorage, AccessControl {
 
   function burn(uint256 _tokenId) public returns (bool){
 
-    require(ownerOf(_tokenId) == msg.sender, "ArbArt: not owner");
+    require(ownerOf(_tokenId) == msg.sender, "NO");
 
     countMint.decrement();
     _burn(_tokenId);
@@ -96,10 +106,6 @@ contract ArbArt is ERC721URIStorage, AccessControl {
 
   function priceFor(uint256 _current) public pure returns (uint256){
     return _current ** 2 * (10 ** 18) / 10000; // x^2 / 10000
-  }
-
-  function supportsInterface(bytes4 interfaceId) public view override(ERC721, AccessControl) returns (bool) {
-    return AccessControl.supportsInterface(interfaceId) || ERC721.supportsInterface(interfaceId);
   }
 
 }

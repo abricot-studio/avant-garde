@@ -1,6 +1,6 @@
 {
   "4": {
-    "address": "0xF091333236ad892daFC2F25f908A60bD9101C028",
+    "address": "0xBEFB598d66172fB2B518aD3e1B62e3a3ffBb2962",
     "abi": [
       {
         "inputs": [
@@ -73,81 +73,6 @@
         "inputs": [
           {
             "indexed": true,
-            "internalType": "bytes32",
-            "name": "role",
-            "type": "bytes32"
-          },
-          {
-            "indexed": true,
-            "internalType": "bytes32",
-            "name": "previousAdminRole",
-            "type": "bytes32"
-          },
-          {
-            "indexed": true,
-            "internalType": "bytes32",
-            "name": "newAdminRole",
-            "type": "bytes32"
-          }
-        ],
-        "name": "RoleAdminChanged",
-        "type": "event"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": true,
-            "internalType": "bytes32",
-            "name": "role",
-            "type": "bytes32"
-          },
-          {
-            "indexed": true,
-            "internalType": "address",
-            "name": "account",
-            "type": "address"
-          },
-          {
-            "indexed": true,
-            "internalType": "address",
-            "name": "sender",
-            "type": "address"
-          }
-        ],
-        "name": "RoleGranted",
-        "type": "event"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": true,
-            "internalType": "bytes32",
-            "name": "role",
-            "type": "bytes32"
-          },
-          {
-            "indexed": true,
-            "internalType": "address",
-            "name": "account",
-            "type": "address"
-          },
-          {
-            "indexed": true,
-            "internalType": "address",
-            "name": "sender",
-            "type": "address"
-          }
-        ],
-        "name": "RoleRevoked",
-        "type": "event"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": true,
             "internalType": "address",
             "name": "from",
             "type": "address"
@@ -167,32 +92,6 @@
         ],
         "name": "Transfer",
         "type": "event"
-      },
-      {
-        "inputs": [],
-        "name": "DEFAULT_ADMIN_ROLE",
-        "outputs": [
-          {
-            "internalType": "bytes32",
-            "name": "",
-            "type": "bytes32"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "MANAGER_ROLE",
-        "outputs": [
-          {
-            "internalType": "bytes32",
-            "name": "",
-            "type": "bytes32"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
       },
       {
         "inputs": [
@@ -240,6 +139,44 @@
           }
         ],
         "name": "burn",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "_newFeesReceiver",
+            "type": "address"
+          }
+        ],
+        "name": "changeFeesReceiver",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "_newManager",
+            "type": "address"
+          }
+        ],
+        "name": "changeManager",
         "outputs": [
           {
             "internalType": "bool",
@@ -342,67 +279,6 @@
       {
         "inputs": [
           {
-            "internalType": "bytes32",
-            "name": "role",
-            "type": "bytes32"
-          }
-        ],
-        "name": "getRoleAdmin",
-        "outputs": [
-          {
-            "internalType": "bytes32",
-            "name": "",
-            "type": "bytes32"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "role",
-            "type": "bytes32"
-          },
-          {
-            "internalType": "address",
-            "name": "account",
-            "type": "address"
-          }
-        ],
-        "name": "grantRole",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "role",
-            "type": "bytes32"
-          },
-          {
-            "internalType": "address",
-            "name": "account",
-            "type": "address"
-          }
-        ],
-        "name": "hasRole",
-        "outputs": [
-          {
-            "internalType": "bool",
-            "name": "",
-            "type": "bool"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
             "internalType": "address",
             "name": "owner",
             "type": "address"
@@ -425,16 +301,24 @@
         "type": "function"
       },
       {
+        "inputs": [],
+        "name": "manager",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
         "inputs": [
           {
             "internalType": "string",
             "name": "_uri",
             "type": "string"
-          },
-          {
-            "internalType": "address",
-            "name": "_signer",
-            "type": "address"
           },
           {
             "internalType": "bytes",
@@ -545,42 +429,6 @@
           }
         ],
         "stateMutability": "pure",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "role",
-            "type": "bytes32"
-          },
-          {
-            "internalType": "address",
-            "name": "account",
-            "type": "address"
-          }
-        ],
-        "name": "renounceRole",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "role",
-            "type": "bytes32"
-          },
-          {
-            "internalType": "address",
-            "name": "account",
-            "type": "address"
-          }
-        ],
-        "name": "revokeRole",
-        "outputs": [],
-        "stateMutability": "nonpayable",
         "type": "function"
       },
       {
@@ -802,81 +650,6 @@
         "inputs": [
           {
             "indexed": true,
-            "internalType": "bytes32",
-            "name": "role",
-            "type": "bytes32"
-          },
-          {
-            "indexed": true,
-            "internalType": "bytes32",
-            "name": "previousAdminRole",
-            "type": "bytes32"
-          },
-          {
-            "indexed": true,
-            "internalType": "bytes32",
-            "name": "newAdminRole",
-            "type": "bytes32"
-          }
-        ],
-        "name": "RoleAdminChanged",
-        "type": "event"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": true,
-            "internalType": "bytes32",
-            "name": "role",
-            "type": "bytes32"
-          },
-          {
-            "indexed": true,
-            "internalType": "address",
-            "name": "account",
-            "type": "address"
-          },
-          {
-            "indexed": true,
-            "internalType": "address",
-            "name": "sender",
-            "type": "address"
-          }
-        ],
-        "name": "RoleGranted",
-        "type": "event"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": true,
-            "internalType": "bytes32",
-            "name": "role",
-            "type": "bytes32"
-          },
-          {
-            "indexed": true,
-            "internalType": "address",
-            "name": "account",
-            "type": "address"
-          },
-          {
-            "indexed": true,
-            "internalType": "address",
-            "name": "sender",
-            "type": "address"
-          }
-        ],
-        "name": "RoleRevoked",
-        "type": "event"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": true,
             "internalType": "address",
             "name": "from",
             "type": "address"
@@ -896,32 +669,6 @@
         ],
         "name": "Transfer",
         "type": "event"
-      },
-      {
-        "inputs": [],
-        "name": "DEFAULT_ADMIN_ROLE",
-        "outputs": [
-          {
-            "internalType": "bytes32",
-            "name": "",
-            "type": "bytes32"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "MANAGER_ROLE",
-        "outputs": [
-          {
-            "internalType": "bytes32",
-            "name": "",
-            "type": "bytes32"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
       },
       {
         "inputs": [
@@ -969,6 +716,44 @@
           }
         ],
         "name": "burn",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "_newFeesReceiver",
+            "type": "address"
+          }
+        ],
+        "name": "changeFeesReceiver",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "_newManager",
+            "type": "address"
+          }
+        ],
+        "name": "changeManager",
         "outputs": [
           {
             "internalType": "bool",
@@ -1037,6 +822,19 @@
         "type": "function"
       },
       {
+        "inputs": [],
+        "name": "feesReceiver",
+        "outputs": [
+          {
+            "internalType": "address payable",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
         "inputs": [
           {
             "internalType": "uint256",
@@ -1050,67 +848,6 @@
             "internalType": "address",
             "name": "",
             "type": "address"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "role",
-            "type": "bytes32"
-          }
-        ],
-        "name": "getRoleAdmin",
-        "outputs": [
-          {
-            "internalType": "bytes32",
-            "name": "",
-            "type": "bytes32"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "role",
-            "type": "bytes32"
-          },
-          {
-            "internalType": "address",
-            "name": "account",
-            "type": "address"
-          }
-        ],
-        "name": "grantRole",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "role",
-            "type": "bytes32"
-          },
-          {
-            "internalType": "address",
-            "name": "account",
-            "type": "address"
-          }
-        ],
-        "name": "hasRole",
-        "outputs": [
-          {
-            "internalType": "bool",
-            "name": "",
-            "type": "bool"
           }
         ],
         "stateMutability": "view",
@@ -1141,16 +878,24 @@
         "type": "function"
       },
       {
+        "inputs": [],
+        "name": "manager",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
         "inputs": [
           {
             "internalType": "string",
             "name": "_uri",
             "type": "string"
-          },
-          {
-            "internalType": "address",
-            "name": "_signer",
-            "type": "address"
           },
           {
             "internalType": "bytes",
@@ -1190,7 +935,7 @@
             "type": "uint256"
           }
         ],
-        "stateMutability": "view",
+        "stateMutability": "pure",
         "type": "function"
       },
       {
@@ -1209,7 +954,7 @@
             "type": "uint256"
           }
         ],
-        "stateMutability": "view",
+        "stateMutability": "pure",
         "type": "function"
       },
       {
@@ -1261,42 +1006,6 @@
           }
         ],
         "stateMutability": "pure",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "role",
-            "type": "bytes32"
-          },
-          {
-            "internalType": "address",
-            "name": "account",
-            "type": "address"
-          }
-        ],
-        "name": "renounceRole",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "bytes32",
-            "name": "role",
-            "type": "bytes32"
-          },
-          {
-            "internalType": "address",
-            "name": "account",
-            "type": "address"
-          }
-        ],
-        "name": "revokeRole",
-        "outputs": [],
-        "stateMutability": "nonpayable",
         "type": "function"
       },
       {

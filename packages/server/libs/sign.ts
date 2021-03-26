@@ -5,8 +5,7 @@ export async function signURI(uri: string, minter: string, signer: Wallet): Prom
 
   const aURI = toUtf8Bytes(uri)
   const aMinter = arrayify(minter)
-  const aSigner = arrayify(await signer.getAddress())
-  const message = concat([aURI, aMinter, aSigner])
+  const message = concat([aURI, aMinter])
 
   const hash = keccak256(message)
   const aHash = arrayify(hash)

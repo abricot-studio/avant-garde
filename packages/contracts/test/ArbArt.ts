@@ -1,7 +1,7 @@
 import { ethers } from 'hardhat'
 import { expect } from 'chai'
 
-import { MANAGER_ROLE, signMintingRequest } from '../lib/ArbArt'
+import { signMintingRequest } from '../lib/ArbArt'
 
 const memory: any = {}
 
@@ -27,13 +27,10 @@ describe('ArbArt', function () {
   it('sets up the contract', async () => {
     expect(await memory.contract.name()).to.eq('ArbArt')
     expect(await memory.contract.symbol()).to.eq('ARBT')
-    expect(await memory.contract.hasRole(MANAGER_ROLE, memory.manager.address))
-      .to.be.true
-    expect(await memory.contract.hasRole(MANAGER_ROLE, memory.other.address)).to
-      .be.false
-    expect(await memory.contract.hasRole(MANAGER_ROLE, memory.deployer.address)).to
-      .be.false
-
+    expect(await memory.contract.feesReceiver())
+      .to.be.eq(memory.feesReceiver.address)
+    expect(await memory.contract.manager())
+      .to.be.eq(memory.manager.address)
   })
 
   it('priceFor', async () => {
@@ -74,7 +71,7 @@ describe('ArbArt', function () {
     expect(await memory.contract.mintWithFeesPriceFor('5000') ).to.eq(ethers.utils.parseEther('2750') );
     expect(await memory.contract.mintWithFeesPriceFor('10000') ).to.eq(ethers.utils.parseEther('11000') );
 
-  });
+  })
 
   it('mint', async () => {
 
@@ -91,7 +88,7 @@ describe('ArbArt', function () {
 
     const txMint = await memory.contract
       .connect(memory.other)
-      .mint(uri, memory.manager.address, signature, {
+      .mint(uri, signature, {
         value: mintWithFeesPrice
       })
     const receiptMint = await txMint.wait();
@@ -120,7 +117,7 @@ describe('ArbArt', function () {
     const mintWithFeesPrice = await memory.contract.currentMintWithFeesPrice()
     await memory.contract
       .connect(memory.other)
-      .mint(uri, memory.manager.address, signature, {
+      .mint(uri, signature, {
         value: mintWithFeesPrice
       })
 
@@ -128,7 +125,7 @@ describe('ArbArt', function () {
     await expect(
       memory.contract
         .connect(memory.other)
-        .mint(uri, memory.manager.address, signature, {
+        .mint(uri, signature, {
           value: mintWithFeesPrice1
         })
     ).to.be.revertedWith('ERC721: token already minted')
@@ -136,12 +133,12 @@ describe('ArbArt', function () {
 
   it("can't mint with signer not manager", async () => {
     const uri = 'Qmsfzefi221ifjzifj'
-    const validSignature = await signMintingRequest(
+    const validMinterSignature = await signMintingRequest(
       uri,
-      memory.other.address,
+      memory.manager.address,
       memory.manager
     )
-    const invalidSignature = await signMintingRequest(
+    const invalidSignerSignature = await signMintingRequest(
       uri,
       memory.other.address,
       memory.other
@@ -150,18 +147,13 @@ describe('ArbArt', function () {
     await expect(
       memory.contract
         .connect(memory.other)
-        .mint(uri, memory.other.address, validSignature)
-    ).to.be.revertedWith('Only accepting signatures from MANAGER_ROLE')
+        .mint(uri, invalidSignerSignature)
+    ).to.be.revertedWith('NM')
     await expect(
       memory.contract
         .connect(memory.other)
-        .mint(uri, memory.other.address, invalidSignature)
-    ).to.be.revertedWith('Only accepting signatures from MANAGER_ROLE')
-    await expect(
-      memory.contract
-        .connect(memory.other)
-        .mint(uri, memory.manager.address, invalidSignature)
-    ).to.be.revertedWith('Invalid recovered address')
+        .mint(uri, validMinterSignature)
+    ).to.be.revertedWith('NM')
   })
 
   it("can't mint with wrong value", async () => {
@@ -174,10 +166,10 @@ describe('ArbArt', function () {
     await expect(
       memory.contract
         .connect(memory.other)
-        .mint(uri, memory.manager.address, signature, {
+        .mint(uri, signature, {
           value: '123'
         })
-    ).to.be.revertedWith('ArbArt: amount invalid')
+    ).to.be.revertedWith('AI')
   })
 
   it('mint and burn', async () => {
@@ -193,7 +185,7 @@ describe('ArbArt', function () {
 
     await memory.contract
       .connect(memory.other)
-      .mint(uri, memory.manager.address, signature, {
+      .mint(uri, signature, {
         value: mintWithFeesPrice
       })
 
@@ -230,7 +222,7 @@ describe('ArbArt', function () {
     const tokenId1 = memory.other.address
     await memory.contract
       .connect(memory.other)
-      .mint(uri1, memory.manager.address, signature1, {
+      .mint(uri1, signature1, {
         value: mintWithFeesPrice1
       })
 
@@ -247,7 +239,7 @@ describe('ArbArt', function () {
     const tokenId2 = memory.other2.address
     await memory.contract
       .connect(memory.other2)
-      .mint(uri2, memory.manager.address, signature2, {
+      .mint(uri2, signature2, {
         value: mintWithFeesPrice2
       })
 
