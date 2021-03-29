@@ -1,6 +1,6 @@
 import Layout from '../components/Layout'
 import SEO from '../components/utils/SEO'
-import MyToken from '../components/Home/MyToken'
+import {Flex, Button, Heading } from '../components/ui'
 import Generate from '../components/Home/Generate'
 import React from 'react'
 import { useMyToken } from '../hooks/tokens'
@@ -29,13 +29,17 @@ const Generator: React.FC = () => {
 
   }, [myToken, router, fetching])
 
-  if (fetching) return <p>Loading...</p>
-
   return (
     <Layout>
       <SEO data={seoData} />
-      Generator
-      <Generate />
+        <Flex direction="column" align="center">
+          <Heading>Generator</Heading>
+          {fetching ?
+            <Button isLoading />
+            :
+            <Generate />
+          }
+        </Flex>
     </Layout>
   )
 }

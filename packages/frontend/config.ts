@@ -3,8 +3,8 @@ export default {
     process.env.NEXT_PUBLIC_INFURA_ID || '781d8466252d47508e177b8637b1c2fd',
   ipfsEndpoint:
     process.env.NEXT_PUBLIC_IPFS_ENDPOINT ||
-    // 'https://gateway.pinata.cloud/ipfs/',
-    'https://cloudflare-ipfs.com/ipfs/',
+    'https://gateway.pinata.cloud/ipfs/',
+    // 'https://cloudflare-ipfs.com/ipfs/',
   subgraphUrl:
     process.env.NEXT_PUBLIC_SUBGRAPH_URL ||
     'https://api.thegraph.com/subgraphs/name/julesgoullee/arbart',

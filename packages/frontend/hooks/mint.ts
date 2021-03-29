@@ -5,6 +5,8 @@ import { getContract } from '../lib/contracts'
 export const useMint = () => {
   const { account } = useWeb3();
   const [isMinting, setIsMinting] = useState<boolean>(false);
+  const [mintTx, setMintTx] = useState<string | null>(null);
+  const [minted, setMinted] = useState<boolean>(false);
 
   const mint = useCallback((generationResult) => {
     if(!account) {
@@ -16,10 +18,14 @@ export const useMint = () => {
     getContract(account.provider)
       .then(c => c.connect(account.provider.getSigner()))
       .then(contract =>
-        contract.mint(generationResult.ipfsHashMetadata, generationResult.signerAddress, generationResult.signature).then(tx =>
-          account.provider.waitForTransaction(tx.hash)
-        ))
+        contract.mint(generationResult.ipfsHashMetadata, generationResult.signerAddress, generationResult.signature)
+      )
+      .then(tx => {
+        setMintTx(tx.hash);
+        return account.provider.waitForTransaction(tx.hash)
+      })
       .then(() => {
+        setMinted(true);
         setIsMinting(false);
       })
       .catch(error => {
@@ -28,5 +34,5 @@ export const useMint = () => {
       });
   }, [account]);
 
-  return { mint, isMinting };
+  return { mint, minted, mintTx, isMinting };
 }
