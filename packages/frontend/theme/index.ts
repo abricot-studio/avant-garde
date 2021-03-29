@@ -1,7 +1,7 @@
 import { extendTheme, ColorMode } from '@chakra-ui/react'
 
 const config = {
-  initialColorMode: 'dark' as ColorMode,
+  initialColorMode: 'light' as ColorMode,
   useSystemColorMode: false,
 }
 
@@ -14,7 +14,7 @@ const styles = {
       background: 'theme',
     },
     a: {
-      color: '#FFFEF2',
+      color: '#000000',
       fontWeight: 300,
     },
     b: {
@@ -125,7 +125,7 @@ const colors = {
     600: '#11224D',
     800: '#0f214d',
   },
-  theme: '#4c1145',
+  theme: '#ffffff',
 }
 
 export default extendTheme({

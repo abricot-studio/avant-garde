@@ -1,8 +1,9 @@
 import Layout from '../components/Layout'
 import SEO from '../components/utils/SEO'
 import Hero from '../components/Home/Hero'
-import Tokens from '../components/Home/Tokens'
-import MyToken from '../components/Home/MyToken'
+import { Button, HStack } from '../components/ui'
+import Link from 'next/link'
+import React from 'react'
 
 const seoData = {
   title: 'View Brain',
@@ -17,8 +18,18 @@ export default function Home() {
     <Layout>
       <SEO data={seoData} />
       <Hero />
-      <MyToken />
-      <Tokens />
+      <HStack spacing={8} display={{ base: 'none', md: 'flex' }}>
+        <Link passHref href="/gallery">
+          <Button
+            as="a"
+          >Discover</Button>
+        </Link>
+        <Link passHref href="/about">
+          <Button
+            as="a"
+          >Learn more</Button>
+        </Link>
+      </HStack>
     </Layout>
   )
 }

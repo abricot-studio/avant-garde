@@ -2,23 +2,28 @@ import React from 'react'
 import { Flex, Address, Wrap, WrapItem, Heading } from '../ui'
 import { useTokens } from '../../hooks/tokens'
 import { TokenImage } from '../ui/TokenImage'
+import Link from 'next/link'
 
 function TokenCard({ token }) {
   return (
-    <Flex
-      width="250px"
-      height="260px"
-      borderRadius={15}
-      boxShadow="base"
-      align="center"
-      direction="column"
-      p={4}
-    >
-      <TokenImage arbArtToken={token} />
-      <Address mt={2}      >
-        {token.owner}
-      </Address>
-    </Flex>
+    <Link href={`/token/${token.id}`}>
+
+      <Flex
+        width="250px"
+        height="260px"
+        borderRadius={15}
+        boxShadow="base"
+        align="center"
+        direction="column"
+        p={4}
+      >
+        <TokenImage arbArtToken={token} />
+        <Address mt={2}      >
+          {token.owner}
+        </Address>
+      </Flex>
+    </Link>
+
   );
 }
 

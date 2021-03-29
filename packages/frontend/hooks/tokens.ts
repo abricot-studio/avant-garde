@@ -18,8 +18,8 @@ export interface ArbArtTokenMetadata {
   external_url: string;
 }
 
-const MyTokenQuery = gql`
-  query MyTokenQuery($address: ID!) {
+const TokenQuery = gql`
+  query TokenQuery($address: ID!) {
     arbArtToken(id: $address)  {
       id
       owner
@@ -144,6 +144,35 @@ export const useTokens = (query: TokensQuery = {}) => {
 
   return {
     tokens,
+    fetching,
+    error,
+    refresh,
+  }
+}
+
+
+export const useToken = (address: string) => {
+  const [result, reexecuteQuery] = useQuery({
+    query: TokenQuery,
+    variables: {
+      address: address.toLowerCase()
+    }
+  })
+  const { data, fetching, error } = result
+
+  const token: ArbArtToken | null = data?.arbArtToken || null;
+
+  const refresh = useCallback(() => {
+    reexecuteQuery({ requestPolicy: 'network-only' });
+  }, [reexecuteQuery]);
+
+  useEffect(() => {
+    const timer = setInterval(() => refresh, 5000);
+    return () => clearInterval(timer);
+  }, [refresh]);
+
+  return {
+    token,
     fetching,
     error,
     refresh,

@@ -4,7 +4,7 @@ import { Provider } from "@ethersproject/abstract-provider";
 import { Signer } from "@ethersproject/abstract-signer";
 
 export function getContract(providerOrSigner?: Signer | Provider) {
-  const chainId = 1; // TODO
+  const chainId = 4; // TODO
   const contractInfo = networks[chainId];
   if(!contractInfo) {
     throw new Error('unsupported network')

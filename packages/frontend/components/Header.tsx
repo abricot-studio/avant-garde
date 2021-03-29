@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
 import { useWindowScroll } from 'react-use'
-import { Button, Flex, Link, Box, HStack, Address, Heading } from './ui'
+import Link from 'next/link'
+import { Button, Flex, Box, HStack, Address, Heading } from './ui'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faWallet } from '@fortawesome/free-solid-svg-icons'
 import { useWeb3 } from '../contexts/Web3Context'
@@ -60,23 +61,34 @@ export default function Header() {
         justify="space-between"
         align="center"
       >
-        <Link
-          onClick={() => window.scroll(0, 0)}
-          _hover={{ textDecoration: 'none' }}
-        >
+
+        <Link href="/">
           <Heading
             as="h1"
             textStyle="h1"
             textAlign="center"
-            layerStyle={'textGradient'}
             fontSize={{ base: '2rem', sm: '3rem', md: '4rem' }}
             maxWidth="50rem"
-          >
-            View Brain
+          >Avant-Garde
           </Heading>
         </Link>
 
         <HStack spacing={8} display={{ base: 'none', md: 'flex' }}>
+          <Link passHref href="/generator">
+            <Button
+              as="a"
+            >Generator</Button>
+          </Link>
+          <Link passHref href="/about">
+            <Button
+              as="a"
+            >About</Button>
+          </Link>
+          <Link passHref href="/gallery">
+            <Button
+              as="a"
+            >Gallery</Button>
+          </Link>
           <LoginButton />
         </HStack>
       </Flex>
