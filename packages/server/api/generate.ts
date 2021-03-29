@@ -3,6 +3,7 @@ import loadTf from 'tfjs-node-lambda'
 import axios from 'axios'
 import { tmpdir } from 'os'
 import { Wallet } from '@ethersproject/wallet'
+import { getAddress } from 'ethers/lib/utils'
 
 import { config } from '../libs/config'
 import { Log } from '../libs/logger'
@@ -25,7 +26,29 @@ export default async (req: VercelRequest, res: VercelResponse) => {
 
   }
 
-  const address = req.body.address
+  let address = null;
+
+  try {
+
+    address = getAddress(req.body.address)
+
+  } catch (error){
+
+    logger.error('Address invalid', {
+      address,
+      error
+    })
+
+    return res.status(400).json({
+      status: 'error',
+      message: 'address is not valid',
+      ipfsHashMetadata: null,
+      ipfsHashImage: null,
+      signature: null,
+      signerAddress: signer.address
+    })
+
+  }
 
   const existIpfsHash = await Pinata.find(address)
 
