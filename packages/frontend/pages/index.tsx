@@ -1,8 +1,11 @@
+import React from 'react'
 import Layout from '../components/Layout'
 import SEO from '../components/utils/SEO'
 import Hero from '../components/Home/Hero'
 import Tokens from '../components/Home/Tokens'
 import MyToken from '../components/Home/MyToken'
+import { getSsrClient, wrapUrqlClient } from '../lib/graphql'
+import { TokensQuery, defaultTokensQueryVariables } from '../hooks/tokens'
 
 const seoData = {
   title: 'View Brain',
@@ -12,7 +15,7 @@ const seoData = {
     'nft,defi,ai,machine learning,deep learning,ethereum,crypto,blockchain,ETH',
 }
 
-export default function Home() {
+const Home: React.FC = () => {
   return (
     <Layout>
       <SEO data={seoData} />
@@ -22,3 +25,22 @@ export default function Home() {
     </Layout>
   )
 }
+
+export const getStaticProps = async () => {
+  const [ssrClient, ssrCache] = getSsrClient();
+
+  await ssrClient.query(
+    TokensQuery,
+    defaultTokensQueryVariables,
+  ).toPromise();
+
+  return {
+    props: {
+      urqlState: ssrCache.extractData(),
+    },
+    revalidate: 30,
+  };
+};
+
+export default wrapUrqlClient(Home);
+
