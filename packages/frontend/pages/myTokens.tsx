@@ -22,7 +22,7 @@ const MyTokensPage: React.FC = () => {
   const router = useRouter()
   const { tokens, fetching, error } = useMyTokens({
     ...defaultMyTokensQueryVariables,
-    address: account.address
+    address: account?.address
   })
 
   useEffect(() => {

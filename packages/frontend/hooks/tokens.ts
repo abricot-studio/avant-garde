@@ -190,11 +190,12 @@ export const useMyTokens = (tokensProps: MyTokensProps = defaultMyTokensQueryVar
       first: tokensProps.first,
       skip: tokensProps.skip,
       address: tokensProps.address
-    }
+    },
+    pause: !tokensProps.address,
   })
   const { data, fetching, error } = result
 
-  const tokens: ArbArtToken[] | null = data?.arbArtTokens || null;
+  const tokens: ArbArtToken[] | null = tokensProps.address && data?.arbArtTokens || [];
 
   const refresh = useCallback(() => {
     reexecuteQuery({ requestPolicy: 'network-only' });
