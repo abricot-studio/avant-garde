@@ -50,12 +50,13 @@ const TokensQuery = gql`
 `
 
 async function fetchToken(provider: Provider, tokenId: string) {
-  const contract = getContract(provider);
+  const contract = await getContract(provider);
   const owner = await contract.ownerOf(tokenId)
     .catch(error => {
       if(error.message.includes('owner query for nonexistent token')) {
         return null;
       }
+      throw error;
     });
   if(!owner) {
     return null;
