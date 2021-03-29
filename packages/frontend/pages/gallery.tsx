@@ -1,7 +1,7 @@
 import Layout from '../components/Layout'
 import SEO from '../components/utils/SEO'
 import Tokens from '../components/Home/Tokens'
-import { defaultTokensQueryVariables, TokensQuery } from '../hooks/tokens'
+import { defaultTokensQueryVariables, TokensQuery, useTokens } from '../hooks/tokens'
 import { getSsrClient, wrapUrqlClient } from '../lib/graphql'
 import { Heading } from '../components/ui'
 import React from 'react'
@@ -15,11 +15,14 @@ const seoData = {
 }
 
 const Gallery: React.FC = () => {
+  const { tokens, fetching, error } = useTokens({
+    ...defaultTokensQueryVariables,
+  })
   return (
     <Layout>
       <SEO data={seoData} />
       <Heading>Newly minted</Heading>
-      <Tokens />
+      <Tokens tokens={tokens} fetching={fetching} error={error}/>
     </Layout>
   )
 }

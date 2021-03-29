@@ -34,7 +34,22 @@ export const TokenQuery = gql`
   }
 `
 export const TokensQuery = gql`
-  query TokensQuery($address: String, $first: Int, $skip: Int) {
+  query TokensQuery($first: Int, $skip: Int) {
+    arbArtTokens(first: $first, skip: $skip)  {
+      id
+      owner
+      uri
+      #metadata {
+      #  name
+      #  description
+      #  external_url
+      #  image
+      #}
+    }
+  }
+`
+export const MyTokensQuery = gql`
+  query MyTokensQuery($address: String!, $first: Int, $skip: Int) {
     arbArtTokens(first: $first, skip: $skip, where: { owner: $address })  {
       id
       owner
@@ -118,13 +133,11 @@ export const useMyToken = () => {
 }
 
 export interface TokensProps {
-  address?: string
   first?: number,
   skip?: number,
 }
 
 export const defaultTokensQueryVariables:TokensProps = {
-  address: null,
   first: 100,
   skip: 0,
 };
@@ -134,8 +147,7 @@ export const useTokens = (tokensProps: TokensProps = defaultTokensQueryVariables
     query: TokensQuery,
     variables: {
       first: tokensProps.first,
-      skip: tokensProps.skip,
-      address: tokensProps.address
+      skip: tokensProps.skip
     }
   })
   const { data, fetching, error } = result
@@ -159,6 +171,42 @@ export const useTokens = (tokensProps: TokensProps = defaultTokensQueryVariables
   }
 }
 
+export interface MyTokensProps {
+  address: string
+  first?: number,
+  skip?: number,
+}
+
+export const defaultMyTokensQueryVariables:MyTokensProps = {
+  address: null,
+  first: 100,
+  skip: 0,
+};
+
+export const useMyTokens = (tokensProps: MyTokensProps = defaultMyTokensQueryVariables) => {
+  const [result, reexecuteQuery] = useQuery({
+    query: MyTokensQuery,
+    variables: {
+      first: tokensProps.first,
+      skip: tokensProps.skip,
+      address: tokensProps.address
+    }
+  })
+  const { data, fetching, error } = result
+
+  const tokens: ArbArtToken[] | null = data?.arbArtTokens || null;
+
+  const refresh = useCallback(() => {
+    reexecuteQuery({ requestPolicy: 'network-only' });
+  }, [reexecuteQuery]);
+
+  return {
+    tokens,
+    fetching,
+    error,
+    refresh,
+  }
+}
 
 export const useToken = (address: string) => {
   const [result, reexecuteQuery] = useQuery({

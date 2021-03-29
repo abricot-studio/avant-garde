@@ -1,10 +1,9 @@
 import React from 'react'
 import { Flex, Address, Wrap, WrapItem, Heading } from '../ui'
-import { defaultTokensQueryVariables, TokensProps, useTokens } from '../../hooks/tokens'
 import { TokenImage } from '../ui/TokenImage'
 import Link from 'next/link'
 
-function TokenCard({ token }) {
+export function TokenCard({ token }) {
   return (
     <Link href={`/token/${token.id}`}>
 
@@ -28,14 +27,12 @@ function TokenCard({ token }) {
 }
 
 export interface Props {
-  tokensProps?: TokensProps;
+  tokens?: any[];
+  fetching?: boolean;
+  error?: any;
 }
 
-export default function Tokens({ tokensProps }: Props) {
-  const { tokens, fetching, error } = useTokens({
-    ...defaultTokensQueryVariables,
-    ...tokensProps,
-  })
+export default function Tokens({ tokens, fetching, error }: Props) {
 
   if (fetching) return <p>Loading...</p>
   if (error) return <p>Oh no... {error.message}</p>

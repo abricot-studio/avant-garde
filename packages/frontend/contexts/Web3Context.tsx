@@ -63,7 +63,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
                                                                             children,
                                                                           }) => {
   const [web3AccountData, setWeb3AccountData] = useState<Web3Account | null>(null)
-  const [isConnecting, setIsConnecting] = useState<boolean>(false)
+  const [isConnecting, setIsConnecting] = useState<boolean>(true)
   const calledOnce = useRef<boolean>(false)
 
   const disconnect = useCallback(() => {
@@ -83,6 +83,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
           provider,
           address,
         })
+        setIsConnecting(false)
       })
       .catch(console.error);
   }, []);
@@ -94,7 +95,6 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
     try {
       const modalProvider = await web3Modal.connect()
       setWeb3Provider(modalProvider);
-      setIsConnecting(false)
 
       if(modalProvider.on) {
         modalProvider.on('accountsChanged', () => setWeb3Provider(modalProvider))
@@ -112,6 +112,8 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
 
     if (web3Modal.cachedProvider) {
       connect().catch(() => undefined)
+    } else {
+      setIsConnecting(false)
     }
   }, [connect])
 
