@@ -18,7 +18,7 @@ export interface ArbArtTokenMetadata {
   external_url: string;
 }
 
-const TokenQuery = gql`
+export const TokenQuery = gql`
   query TokenQuery($address: ID!) {
     arbArtToken(id: $address)  {
       id

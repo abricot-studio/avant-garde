@@ -1,7 +1,11 @@
 import { initUrqlClient, withUrqlClient } from 'next-urql';
-import { cacheExchange, Client, dedupExchange, fetchExchange, ssrExchange } from 'urql';
+import { createClient, cacheExchange, Client, dedupExchange, fetchExchange, ssrExchange } from 'urql';
 
 import config from '../config';
+
+export const defaultClient = createClient({
+  url: config.subgraphUrl,
+})
 
 export const getSsrClient = (): [Client, ReturnType<typeof ssrExchange>] => {
   const ssrCache = ssrExchange({ isClient: false });
