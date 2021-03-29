@@ -21,7 +21,7 @@ const Generator: React.FC = () => {
 
   useEffect(() => {
 
-    if(!fetching && myToken){
+    if(myToken){
 
       router.push(`/token/${myToken.id}`)
 

@@ -23,16 +23,16 @@ export default function Token({ id }) {
       </Heading>
       <Box>
         <TokenImage arbArtToken={token} />
-        <HStack>
-          <VStack>
-            <div>Date</div>
-            <div>Current Price</div>
-          </VStack>
-          <VStack>
-            <div>01/01/2021</div>
-            <div>0.1 ETH</div>
-          </VStack>
-        </HStack>
+        <VStack>
+          <HStack justify="space-between">
+            <Box>Date</Box>
+            <Box>01/01/2021</Box>
+          </HStack>
+          <HStack justify="space-between">
+            <Box>Current Price</Box>
+            <Box>0.1 ETH</Box>
+          </HStack>
+        </VStack>
       </Box>
     </Flex>
   )
