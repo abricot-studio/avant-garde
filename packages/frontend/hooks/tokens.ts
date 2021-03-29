@@ -34,8 +34,8 @@ export const TokenQuery = gql`
   }
 `
 export const TokensQuery = gql`
-  query TokensQuery($first: Int, $skip: Int) {
-    arbArtTokens(first: $first, skip: $skip)  {
+  query TokensQuery($address: String, $first: Int, $skip: Int) {
+    arbArtTokens(first: $first, skip: $skip, where: { owner: $address })  {
       id
       owner
       uri
@@ -117,22 +117,25 @@ export const useMyToken = () => {
   };
 }
 
-interface TokensQuery {
+export interface TokensProps {
+  address?: string
   first?: number,
   skip?: number,
 }
 
-export const defaultTokensQueryVariables = {
+export const defaultTokensQueryVariables:TokensProps = {
+  address: null,
   first: 100,
   skip: 0,
 };
 
-export const useTokens = (query: TokensQuery = defaultTokensQueryVariables) => {
+export const useTokens = (tokensProps: TokensProps = defaultTokensQueryVariables) => {
   const [result, reexecuteQuery] = useQuery({
     query: TokensQuery,
     variables: {
-      first: query.first,
-      skip: query.skip,
+      first: tokensProps.first,
+      skip: tokensProps.skip,
+      address: tokensProps.address
     }
   })
   const { data, fetching, error } = result

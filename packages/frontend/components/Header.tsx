@@ -90,6 +90,11 @@ export default function Header() {
             >Gallery</Button>
           </Link>
           <LoginButton />
+          <Link passHref href="/myTokens">
+            <Button
+              as="a"
+            >My tokens</Button>
+          </Link>
         </HStack>
       </Flex>
     </Box>

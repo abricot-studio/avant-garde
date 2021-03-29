@@ -3,6 +3,8 @@ import SEO from '../components/utils/SEO'
 import Tokens from '../components/Home/Tokens'
 import { defaultTokensQueryVariables, TokensQuery } from '../hooks/tokens'
 import { getSsrClient, wrapUrqlClient } from '../lib/graphql'
+import { Heading } from '../components/ui'
+import React from 'react'
 
 const seoData = {
   title: 'Gallery View Brain',
@@ -16,6 +18,7 @@ const Gallery: React.FC = () => {
   return (
     <Layout>
       <SEO data={seoData} />
+      <Heading>Newly minted</Heading>
       <Tokens />
     </Layout>
   )
