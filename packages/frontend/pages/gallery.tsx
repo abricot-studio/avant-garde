@@ -1,6 +1,8 @@
 import Layout from '../components/Layout'
 import SEO from '../components/utils/SEO'
 import Tokens from '../components/Home/Tokens'
+import { defaultTokensQueryVariables, TokensQuery } from '../hooks/tokens'
+import { getSsrClient, wrapUrqlClient } from '../lib/graphql'
 
 const seoData = {
   title: 'Gallery View Brain',
@@ -9,7 +11,8 @@ const seoData = {
   keywords:
     'Gallery,nft,defi,ai,machine learning,deep learning,ethereum,crypto,blockchain,ETH',
 }
-export default function Gallery() {
+
+const Gallery: React.FC = () => {
   return (
     <Layout>
       <SEO data={seoData} />
@@ -17,3 +20,22 @@ export default function Gallery() {
     </Layout>
   )
 }
+
+export const getStaticProps = async () => {
+  const [ssrClient, ssrCache] = getSsrClient();
+
+  await ssrClient.query(
+    TokensQuery,
+    defaultTokensQueryVariables,
+  ).toPromise();
+
+  return {
+    props: {
+      urqlState: ssrCache.extractData(),
+    },
+    revalidate: 30,
+  };
+};
+
+export default wrapUrqlClient(Gallery);
+

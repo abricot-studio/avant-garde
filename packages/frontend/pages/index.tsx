@@ -13,7 +13,7 @@ const seoData = {
     'nft,defi,ai,machine learning,deep learning,ethereum,crypto,blockchain,ETH',
 }
 
-export default function Home() {
+const Home: React.FC = () => {
   return (
     <Layout>
       <SEO data={seoData} />
@@ -33,3 +33,5 @@ export default function Home() {
     </Layout>
   )
 }
+
+export default Home;
