@@ -40,7 +40,7 @@ export default function Tokens() {
       direction="column"
       align="center"
     >
-      <Heading>Existing tokens</Heading>
+      <Heading>Newly minted</Heading>
       <Wrap spacing="30px" justify="center" m={8}>
         {tokens
           .map((token) => (

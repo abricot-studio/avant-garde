@@ -9,11 +9,10 @@ const seoData = {
   keywords:
     'Gallery,nft,defi,ai,machine learning,deep learning,ethereum,crypto,blockchain,ETH',
 }
-export default function Generator() {
+export default function Gallery() {
   return (
     <Layout>
       <SEO data={seoData} />
-      Gallery
       <Tokens />
     </Layout>
   )

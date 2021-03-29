@@ -1,5 +1,5 @@
 import React from 'react'
-import { Flex, Box, Heading } from '../ui'
+import { Flex, Box, Heading, HStack, VStack } from '../ui'
 import { useToken } from '../../hooks/tokens'
 import { TokenImage } from '../ui/TokenImage'
 
@@ -23,6 +23,16 @@ export default function Token({ id }) {
       </Heading>
       <Box>
         <TokenImage arbArtToken={token} />
+        <HStack>
+          <VStack>
+            <div>Date</div>
+            <div>Current Price</div>
+          </VStack>
+          <VStack>
+            <div>01/01/2021</div>
+            <div>0.1 ETH</div>
+          </VStack>
+        </HStack>
       </Box>
     </Flex>
   )
