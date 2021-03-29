@@ -18,7 +18,7 @@ function TokenCard({ token }) {
         p={4}
       >
         <TokenImage arbArtToken={token} />
-        <Address mt={2}      >
+        <Address mt={2}>
           {token.owner}
         </Address>
       </Flex>

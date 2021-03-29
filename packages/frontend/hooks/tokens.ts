@@ -143,10 +143,10 @@ export const useTokens = (query: TokensQuery = defaultTokensQueryVariables) => {
     reexecuteQuery({ requestPolicy: 'network-only' });
   }, [reexecuteQuery]);
 
-  useEffect(() => {
-    const timer = setInterval(() => refresh, 5000);
-    return () => clearInterval(timer);
-  }, [refresh]);
+  // useEffect(() => {
+  //   const timer = setInterval(() => refresh(), 5000);
+  //   return () => clearInterval(timer);
+  // }, [refresh]);
 
   return {
     tokens,
