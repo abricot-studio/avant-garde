@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { useWindowScroll } from 'react-use'
 import Link from 'next/link'
-import { Avatar, Button, Flex, Box, HStack, Heading, ButtonProps, forwardRef, Menu, MenuButton, MenuList, MenuItem } from './ui'
+import { Avatar, Button, Flex, Box, HStack, Heading, ButtonProps, forwardRef, Menu, MenuButton, MenuList, MenuItem as ChakraMenuItem, MenuItemProps } from './ui'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faWallet } from '@fortawesome/free-solid-svg-icons'
 import { useWeb3 } from '../contexts/Web3Context'
@@ -13,7 +13,7 @@ function NavButtonIcon({ color }){
       w={4}
       h={4}
       background={color}
-    ></Box>
+    />
   )
 }
 
@@ -23,7 +23,6 @@ interface NavButtonProps {
 }
 
 const NavButton = forwardRef<NavButtonProps & ButtonProps, "a">( ({ children, color, isSelected, ...props }, ref) => {
-
   return (
     <Button
       as="a"
@@ -38,6 +37,30 @@ const NavButton = forwardRef<NavButtonProps & ButtonProps, "a">( ({ children, co
       leftIcon={<NavButtonIcon color={color} />}
       {...props}
     >{children}</Button>
+  )
+})
+
+const MenuItem = forwardRef<MenuItemProps, "a">( ({ children, color, ...props }, ref) => {
+  return (
+    <ChakraMenuItem
+      as="a"
+      pr={6}
+      justifyContent="flex-end"
+      textStyle="caption"
+      cursor="pointer"
+      _hover={{
+        backgroundColor: "gray.700"
+      }}
+      _active={{
+        backgroundColor: "black"
+      }}
+      _focus={{
+        backgroundColor: "black"
+      }}
+      {...props}
+    >
+      {children}
+    </ChakraMenuItem>
   )
 })
 
@@ -59,7 +82,7 @@ function LoginButton() {
           as={Button}
           width="200px"
           variant="outline"
-          borderRadius="1rem"
+          borderRadius="4rem"
           border="1px"
           borderColor="black"
           rightIcon={<Avatar size="xs" />}
@@ -77,39 +100,11 @@ function LoginButton() {
           color="white"
         >
           <Link passHref href="/myItems">
-            <MenuItem
-              as="a"
-              justifyContent="flex-end"
-              textStyle="caption"
-              _hover={{
-                backgroundColor: "black"
-              }}
-              _active={{
-                backgroundColor: "black"
-              }}
-              _focus={{
-                backgroundColor: "black"
-              }}
-            >
+            <MenuItem>
               My items
             </MenuItem>
           </Link>
-          <MenuItem
-            as="a"
-            onClick={disconnect}
-            justifyContent="flex-end"
-            textStyle="caption"
-            cursor="pointer"
-            _hover={{
-              backgroundColor: "black"
-            }}
-            _active={{
-              backgroundColor: "black"
-            }}
-            _focus={{
-              backgroundColor: "black"
-            }}
-          >Disconnect</MenuItem>
+          <MenuItem>Disconnect</MenuItem>
         </MenuList>
       </Menu>
     )
@@ -119,7 +114,7 @@ function LoginButton() {
     <Button
       width="200px"
       variant="outline"
-      borderRadius="1rem"
+      borderRadius="4rem"
       border="1px"
       borderColor="black"
       onClick={connect}
@@ -145,7 +140,7 @@ export default function Header() {
       top="0"
       zIndex={10}
       transition="background-color 0.25s ease 0s;"
-      bg={scrolled && '#ffffff44'}
+      bg={scrolled && 'header'}
       sx={scrolled ? { backdropFilter: 'blur(10px)' } : undefined}
       borderBottom={scrolled && '1px solid'}
       borderColor="black"
