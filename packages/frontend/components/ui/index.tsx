@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text } from '@chakra-ui/react'
+import { ButtonProps, forwardRef, Text, Button as ChakraButton } from '@chakra-ui/react'
 
 export * from '@chakra-ui/react'
 
@@ -14,3 +14,17 @@ export function Address({ children, ...props }) {
     </Text>
   )
 }
+
+
+export const Button = forwardRef<ButtonProps, "a">( ({ children, ...props }, ref) => {
+
+  return (
+    <ChakraButton
+      ref={ref}
+      _focus={{
+        outline: "none"
+      }}
+      {...props}
+    >{children}</ChakraButton>
+  )
+})

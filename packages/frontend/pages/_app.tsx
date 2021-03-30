@@ -58,7 +58,7 @@ function App({ Component, pageProps }: AppProps) {
         )}
       </Head>
 
-      <GoogleFonts href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Montserrat:wght@100;200;300;400;500;600;700;800&display=swap" />
+      <GoogleFonts href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;600;700;800;900&family=Roboto+Mono:wght@100;200;300;400;500;600;700;800;900&display=swap" />
       <ChakraProvider theme={chakraTheme}>
         <Web3ContextProvider>
           <Component {...pageProps} />

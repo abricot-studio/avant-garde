@@ -1,28 +1,75 @@
 import React, { useMemo } from 'react'
 import { useWindowScroll } from 'react-use'
 import Link from 'next/link'
-import { Button, Flex, Box, HStack, Address, Heading } from './ui'
+import { Avatar, Button, Flex, Box, HStack, Heading, ButtonProps, forwardRef, Menu, MenuButton, MenuList, MenuItem } from './ui'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faWallet } from '@fortawesome/free-solid-svg-icons'
 import { useWeb3 } from '../contexts/Web3Context'
+import { useRouter } from 'next/router'
+
+function NavButtonIcon({ color }){
+  return (
+    <Box
+      w={4}
+      h={4}
+      background={color}
+    ></Box>
+  )
+}
+
+interface NavButtonProps {
+  color: string;
+  isSelected: boolean;
+}
+
+const NavButton = forwardRef<NavButtonProps & ButtonProps, "a">( ({ children, color, isSelected, ...props }, ref) => {
+
+  return (
+    <Button
+      as="a"
+      ref={ref}
+      variant="outline"
+      border="1px"
+      borderColor={isSelected ? color : "transparent"}
+      rounded="xl"
+      _hover={{
+        borderColor: color
+      }}
+      leftIcon={<NavButtonIcon color={color} />}
+      {...props}
+    >{children}</Button>
+  )
+})
+
+function displayAddress(address: string){
+
+  return `${address.slice(0, 8)}...${address.slice(address.length - 5, address.length)}`
+
+}
 
 function LoginButton() {
   const { connect, disconnect, isConnecting, account } = useWeb3()
 
   if (account) {
     return (
-      <Flex align="center">
-        <Box w={200} mr={4}>
-          <Address>{account.address}</Address>
-        </Box>
-        <Button
-          variant="solid"
-          onClick={disconnect}
-          leftIcon={<FontAwesomeIcon icon={faWallet} size="1x" />}
+      <Menu
+        matchWidth={true}
+      >
+        <MenuButton
+          as={Button}
+          rightIcon={<Avatar size="xs" />}
         >
-          Disconnect
-        </Button>
-      </Flex>
+          { displayAddress(account.address) }
+        </MenuButton>
+        <MenuList>
+          <Link passHref href="/myItems">
+            <MenuItem as="a">
+              My items
+            </MenuItem>
+          </Link>
+          <MenuItem as="a" onClick={disconnect}>Disconnect</MenuItem>
+        </MenuList>
+      </Menu>
     )
   }
 
@@ -37,9 +84,12 @@ function LoginButton() {
       Connect
     </Button>
   )
+
 }
+
 export default function Header() {
   const { y } = useWindowScroll()
+  const router = useRouter()
   const scrolled = useMemo(() => y > 80, [y])
 
   return (
@@ -69,32 +119,21 @@ export default function Header() {
             textAlign="center"
             fontSize={{ base: '2rem', sm: '3rem', md: '4rem' }}
             maxWidth="50rem"
-          >Avant-Garde
+          >AvantGarde
           </Heading>
         </Link>
 
         <HStack spacing={8} display={{ base: 'none', md: 'flex' }}>
           <Link passHref href="/generator">
-            <Button
-              as="a"
-            >Generator</Button>
+            <NavButton color="red" isSelected={router.pathname === '/generator'}>Generator</NavButton>
           </Link>
           <Link passHref href="/about">
-            <Button
-              as="a"
-            >About</Button>
+            <NavButton color="green" isSelected={router.pathname === '/about'}>About</NavButton>
           </Link>
           <Link passHref href="/gallery">
-            <Button
-              as="a"
-            >Gallery</Button>
+            <NavButton color="blue" isSelected={router.pathname === '/gallery'}>Gallery</NavButton>
           </Link>
           <LoginButton />
-          <Link passHref href="/myTokens">
-            <Button
-              as="a"
-            >My tokens</Button>
-          </Link>
         </HStack>
       </Flex>
     </Box>

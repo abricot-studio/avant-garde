@@ -1,6 +1,7 @@
 import { ColorModeScript } from '@chakra-ui/react'
 import NextDocument, { Html, Head, Main, NextScript } from 'next/document'
 import theme from '../theme'
+import { Flex } from '../components/ui'
 
 export default class Document extends NextDocument {
   render() {
@@ -9,8 +10,17 @@ export default class Document extends NextDocument {
         <Head />
         <body>
           <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-          <Main />
-          <NextScript />
+          <Flex
+            direction="column"
+            minHeight="100vh"
+            minWidth="100vw"
+            backgroundImage="url(/background.png)"
+            backgroundSize="cover"
+            backgroundRepeat="no-repeat"
+          >
+            <Main />
+            <NextScript />
+          </Flex>
         </body>
       </Html>
     )
