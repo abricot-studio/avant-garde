@@ -53,21 +53,63 @@ function LoginButton() {
   if (account) {
     return (
       <Menu
-        matchWidth={true}
+        offset={[0, -17]}
       >
         <MenuButton
           as={Button}
+          width="200px"
+          variant="outline"
+          borderRadius="1rem"
+          border="1px"
+          borderColor="black"
           rightIcon={<Avatar size="xs" />}
+          zIndex={2}
         >
           { displayAddress(account.address) }
         </MenuButton>
-        <MenuList>
+        <MenuList
+          minWidth="200px"
+          borderRadius="0"
+          borderBottomRadius="1rem"
+          pt={5}
+          zIndex={1}
+          background="black"
+          color="white"
+        >
           <Link passHref href="/myItems">
-            <MenuItem as="a">
+            <MenuItem
+              as="a"
+              justifyContent="flex-end"
+              textStyle="caption"
+              _hover={{
+                backgroundColor: "black"
+              }}
+              _active={{
+                backgroundColor: "black"
+              }}
+              _focus={{
+                backgroundColor: "black"
+              }}
+            >
               My items
             </MenuItem>
           </Link>
-          <MenuItem as="a" onClick={disconnect}>Disconnect</MenuItem>
+          <MenuItem
+            as="a"
+            onClick={disconnect}
+            justifyContent="flex-end"
+            textStyle="caption"
+            cursor="pointer"
+            _hover={{
+              backgroundColor: "black"
+            }}
+            _active={{
+              backgroundColor: "black"
+            }}
+            _focus={{
+              backgroundColor: "black"
+            }}
+          >Disconnect</MenuItem>
         </MenuList>
       </Menu>
     )
@@ -75,7 +117,11 @@ function LoginButton() {
 
   return (
     <Button
-      variant="solid"
+      width="200px"
+      variant="outline"
+      borderRadius="1rem"
+      border="1px"
+      borderColor="black"
       onClick={connect}
       leftIcon={<FontAwesomeIcon icon={faWallet} size="1x" />}
       isLoading={isConnecting}
@@ -119,6 +165,7 @@ export default function Header() {
             textAlign="center"
             fontSize={{ base: '2rem', sm: '3rem', md: '4rem' }}
             maxWidth="50rem"
+            cursor="pointer"
           >AvantGarde
           </Heading>
         </Link>
@@ -133,8 +180,8 @@ export default function Header() {
           <Link passHref href="/gallery">
             <NavButton color="blue" isSelected={router.pathname === '/gallery'}>Gallery</NavButton>
           </Link>
-          <LoginButton />
         </HStack>
+        <LoginButton />
       </Flex>
     </Box>
   )

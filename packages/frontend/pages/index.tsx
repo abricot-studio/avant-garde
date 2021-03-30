@@ -22,11 +22,21 @@ const Home: React.FC = () => {
         <Link passHref href="/gallery">
           <Button
             as="a"
+            variant="outline"
+            borderRadius="1rem"
+            border="2px"
+            borderColor="#C345FF"
+            _hover={{}}
           >Discover</Button>
         </Link>
         <Link passHref href="/about">
           <Button
             as="a"
+            variant="outline"
+            borderRadius="1rem"
+            border="2px"
+            borderColor="#F0FF45"
+            _hover={{}}
           >Learn more</Button>
         </Link>
       </HStack>

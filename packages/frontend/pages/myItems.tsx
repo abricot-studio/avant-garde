@@ -44,7 +44,9 @@ const MyTokensPage: React.FC = () => {
   return (
     <Layout>
       <SEO data={seoData} />
-      <Heading>Your items</Heading>
+      <Heading
+        textAlign="center"
+      >Your items</Heading>
       <Tokens tokens={tokens} fetching={fetching} error={error}/>
     </Layout>
   )
