@@ -14,8 +14,9 @@ export default function Hero() {
     >
       <Box
         position="absolute"
+        mt={9}
       >
-        <ImageFrame size={400} />
+        <ImageFrame size={350} />
       </Box>
 
       <Heading

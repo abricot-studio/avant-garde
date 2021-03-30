@@ -176,19 +176,21 @@ export default function Header() {
         align="center"
       >
 
-        <Link href="/">
-          <Heading
-            as="h1"
-            textStyle="h1"
-            textAlign="center"
-            fontSize={{ base: '2rem', sm: '3rem', md: '4rem' }}
-            maxWidth="50rem"
-            cursor="pointer"
-          >AvantGarde
-          </Heading>
-        </Link>
+        <Box>
+          <Link href="/">
+            <Heading
+              as="h1"
+              textStyle="h1"
+              textAlign="left"
+              fontSize={{ base: '2rem', sm: '3rem', md: '4rem' }}
+              cursor="pointer"
+            >AvantGarde
+            </Heading>
+          </Link>
+        </Box>
 
-        <HStack spacing={8} display={{ base: 'none', md: 'flex' }}>
+        <HStack spacing={8}>
+        <HStack spacing={4} display={{ base: 'none', md: 'flex' }}>
           <Link passHref href="/generator">
             <NavButton color="red" isSelected={router.pathname === '/generator'}>Generator</NavButton>
           </Link>
@@ -200,6 +202,7 @@ export default function Header() {
           </Link>
         </HStack>
         <LoginButton />
+        </HStack>
       </Flex>
     </Box>
   )

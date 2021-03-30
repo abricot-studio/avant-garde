@@ -1,18 +1,12 @@
 import React from 'react'
-import { Text, Image, Box } from './index'
+import { Image, Box } from './index'
 import { getIpfsUrl } from '../../lib/ipfs'
 import { ArbArtToken, useMetadata } from '../../hooks/tokens'
 
 export function TokenImage({ arbArtToken, size }: { arbArtToken: ArbArtToken, size: number }) {
   const metadata = useMetadata(arbArtToken);
 
-  if(!metadata) {
-    return (
-      <Text>Loading</Text>
-    )
-  }
-
-  return (<ImageFrame size={size} src={getIpfsUrl(metadata.image)}/>)
+  return (<ImageFrame size={size} src={metadata && getIpfsUrl(metadata.image)}/>)
 }
 
 export function ImageFrame({ src, size = 250 }: { src?: string, size?: number }) {
