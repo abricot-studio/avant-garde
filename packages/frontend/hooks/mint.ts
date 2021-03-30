@@ -1,12 +1,14 @@
 import { useCallback, useState } from 'react'
 import { useWeb3 } from '../contexts/Web3Context'
 import { getContract } from '../lib/contracts'
+import { useToken } from './tokens'
 
 export const useMint = () => {
   const { account } = useWeb3();
   const [isMinting, setIsMinting] = useState<boolean>(false);
   const [mintTx, setMintTx] = useState<string | null>(null);
   const [minted, setMinted] = useState<boolean>(false);
+  const { startPolling } = useToken(account?.address)
 
   const mint = useCallback((generationResult) => {
     if(!account) {
@@ -27,12 +29,13 @@ export const useMint = () => {
       .then(() => {
         setMinted(true);
         setIsMinting(false);
+        startPolling();
       })
       .catch(error => {
         console.error(error);
         setIsMinting(false);
       });
-  }, [account]);
+  }, [account, startPolling]);
 
   return { mint, minted, mintTx, isMinting };
 }

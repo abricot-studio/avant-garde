@@ -5,6 +5,7 @@ import { useQuery } from 'urql'
 import { getIpfsData } from '../lib/ipfs'
 import { getContract } from '../lib/contracts'
 import { useWeb3 } from '../contexts/Web3Context'
+import { usePolling } from './graphql'
 
 export interface ArbArtToken {
   id: string;
@@ -209,6 +210,7 @@ export const useMyTokens = (tokensProps: MyTokensProps = defaultMyTokensQueryVar
   }
 }
 
+
 export const useToken = (address?: string) => {
   const [result, reexecuteQuery] = useQuery({
     query: TokenQuery,
@@ -221,20 +223,20 @@ export const useToken = (address?: string) => {
 
   const token: ArbArtToken | null = address && data?.arbArtToken || null;
 
-  const refresh = useCallback(() => {
-    reexecuteQuery({ requestPolicy: 'network-only' });
-  }, [reexecuteQuery]);
+  const { refresh, startPolling, stopPolling } = usePolling(reexecuteQuery)
 
   useEffect(() => {
-    const timer = setInterval(() => refresh, 5000);
-    return () => clearInterval(timer);
-  }, [refresh]);
+    if(token) {
+      stopPolling();
+    }
+  }, [token]);
 
   return {
     token,
     fetching,
     error,
     refresh,
+    startPolling,
   }
 }
 

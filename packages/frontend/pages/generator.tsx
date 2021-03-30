@@ -35,7 +35,7 @@ const Generator: React.FC = () => {
           <Heading
             textAlign="center"
           >Generator</Heading>
-          {fetching ?
+          {(token || fetching) ?
             <Button isLoading />
             :
             <Generate />
