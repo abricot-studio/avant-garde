@@ -1,6 +1,5 @@
 import React from 'react'
-import Link from 'next/link'
-import { Text, Image } from './index'
+import { Text, Image, Center } from './index'
 import { getIpfsUrl } from '../../lib/ipfs'
 import { ArbArtToken, useMetadata } from '../../hooks/tokens'
 
@@ -14,9 +13,19 @@ export function TokenImage({ arbArtToken }: { arbArtToken: ArbArtToken }) {
   }
 
   return (
-    <Image
-      src={getIpfsUrl(metadata.image)}
-      boxSize={200}
-    />
+    <Center
+      borderRadius="full"
+      backgroundColor="#FFFFFF"
+      width={400}
+      height={400}
+      borderColor="white"
+      boxShadow="0px 10px 40px rgba(158, 158, 158, 0.15)"
+    >
+      <Image
+        src={getIpfsUrl(metadata.image)}
+        boxSize={350}
+        borderRadius="full"
+      />
+    </Center>
   )
 }

@@ -1,22 +1,19 @@
 import React from 'react'
-import { Flex, Address, Wrap, WrapItem, Heading } from '../ui'
+import { Flex, Address, Wrap, WrapItem, Box } from '../ui'
 import { TokenImage } from '../ui/TokenImage'
 import Link from 'next/link'
 
 export function TokenCard({ token }) {
   return (
     <Link href={`/token/${token.id}`}>
-
       <Flex
-        width="250px"
-        height="260px"
-        borderRadius={15}
-        boxShadow="base"
         align="center"
         direction="column"
-        p={4}
+        cursor="pointer"
       >
-        <TokenImage arbArtToken={token} />
+        <TokenImage
+          arbArtToken={token}
+        />
         <Address mt={2}>
           {token.owner}
         </Address>
@@ -34,8 +31,8 @@ export interface Props {
 
 export default function Tokens({ tokens, fetching, error }: Props) {
 
-  if (fetching) return <p>Loading...</p>
-  if (error) return <p>Oh no... {error.message}</p>
+  if (fetching) return <Box align="center" >Loading...</Box>
+  if (error) return <Box align="center" >Oh no... {error.message}</Box>
 
   return (
     <Flex

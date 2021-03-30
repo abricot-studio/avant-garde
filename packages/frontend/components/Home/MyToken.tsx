@@ -7,7 +7,7 @@ import { TokenImage } from '../ui/TokenImage'
 export default function MyToken() {
   const { myToken, fetching } = useMyToken()
 
-  if (fetching) return <p>Loading...</p>
+  if (fetching) return <Box align="center" >Loading...</Box>
 
   return (
     <Flex
