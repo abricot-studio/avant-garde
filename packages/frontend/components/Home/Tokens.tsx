@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { useDisclosure } from '@chakra-ui/hooks'
 
-export function TokenCard({ token, size, showAddress }) {
+function TokenCard({ token, size }) {
   return (
     <Link href={`/token/${token.id}`}>
       <Flex
@@ -18,12 +18,6 @@ export function TokenCard({ token, size, showAddress }) {
           arbArtToken={token}
           size={size}
         />
-        {
-          showAddress ?
-            <Address mt={2}>
-              {token.owner}
-            </Address> : ''
-        }
       </Flex>
     </Link>
 
@@ -62,7 +56,10 @@ export default function Tokens({ tokens, fetching, error }: Props) {
           {tokens
             .map( (token) => (
               <WrapItem key={token.id}>
-                <TokenCard size={250} showAddress={true} token={token}/>
+                <TokenCard size={250} token={token}/>
+                <Address mt={2}>
+                  {token.owner}
+                </Address>
               </WrapItem>
             ))}
         </Wrap>
@@ -87,28 +84,32 @@ export default function Tokens({ tokens, fetching, error }: Props) {
       direction="column"
       align="center"
     >
-      <Wrap spacing="30px" justify="center" align="center" m={8}>
-          <WrapItem>
-            <ScaleFade initialScale={0} in={isOpen}>
-              <TokenCard size={250} showAddress={false} token={tokensDisplayed[0]}/>
-            </ScaleFade>
-          </WrapItem>
+      <Flex justify="center" align="center" >
+        <Box display={{base: 'none', 'lg': 'block' }} mr={8}>
+          <ScaleFade initialScale={0} in={isOpen}>
+            <TokenCard size={250} token={tokensDisplayed[0]}/>
+          </ScaleFade>
+        </Box>
         <IconButton
           icon={<FontAwesomeIcon icon={faArrowLeft} size="1x" />}
           aria-label="Back"
           colorScheme="transparent"
           color="grey"
           _hover={{}}
-          onClick={() => setIndex(index === 0 ? tokens.length -1 : index - 1)}
+          onClick={() => {
+            onToggle()
+            setIndex(index === 0 ? tokens.length -1 : index - 1)
+          }}
           _focus={{
             outline: "none"
           }}
+          _active={{
+            outline: "none"
+          }}
         />
-        <WrapItem>
-          <ScaleFade initialScale={0} in={isOpen} >
-            <TokenCard size={350} showAddress={true} token={tokensDisplayed[1]}/>
-          </ScaleFade>
-        </WrapItem>
+        <ScaleFade initialScale={0} in={isOpen} >
+          <TokenCard size={350} token={tokensDisplayed[1]}/>
+        </ScaleFade>
         <IconButton
           icon={<FontAwesomeIcon icon={faArrowRight} size="1x" />}
           aria-label="Back"
@@ -122,13 +123,19 @@ export default function Tokens({ tokens, fetching, error }: Props) {
           _focus={{
             outline: "none"
           }}
+          _active={{
+            outline: "none"
+          }}
         />
-        <WrapItem>
+        <Box display={{base: 'none', 'lg': 'block' }} ml={8}>
           <ScaleFade initialScale={0} in={isOpen} >
-            <TokenCard size={250} showAddress={false} token={tokensDisplayed[2]}/>
+            <TokenCard size={250} token={tokensDisplayed[2]}/>
           </ScaleFade>
-        </WrapItem>
-      </Wrap>
+        </Box>
+      </Flex>
+      <Address mt={2}>
+        {tokensDisplayed[1].owner}
+      </Address>
     </Flex>
   )
 }
