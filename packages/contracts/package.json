@@ -15,7 +15,7 @@
     "scripts": "hardhat --network localhost run",
     "deploy:localhost": "hardhat --network localhost deploy",
     "deploy:rinkeby": "hardhat --network rinkeby deploy",
-    "verify:rinkeby": "hardhat verify --network rinkeby 0x571f64d948bfAe65D35062A2717201CA57B071Fe '0xE4D29ec42F4057EfF92c9124c82844b2689f9C6d'",
+    "verify:rinkeby": "hardhat verify --network rinkeby 0x8d9808B75A62ACda4011cd82F017D310738bD878 '0xE4D29ec42F4057EfF92c9124c82844b2689f9C6d'",
     "scripts:seed": "npm run scripts ./scripts/seed.ts"
   },
   "author": "Pacien Boisson",

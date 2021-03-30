@@ -14,7 +14,7 @@ function LoginToGenerate() {
 }
 
 function GenerationResult({ generationResult }: { generationResult: ImageGeneration }) {
-  const { mint, isMinting } = useMint();
+  const { mint, minted, isMinting } = useMint();
 
   if(generationResult.status === ImageGenerationStatus.PROCESSING) {
     // TODO poll
@@ -26,13 +26,21 @@ function GenerationResult({ generationResult }: { generationResult: ImageGenerat
       <Box>
         <Image src={getIpfsUrl(generationResult.ipfsHashImage)} boxSize={200} />
 
-        <Button
-          onClick={() => mint(generationResult)}
-          isLoading={isMinting}
-          loadingText="Minting token..."
-        >
-          Mint token
-        </Button>
+        {minted ?
+          <Button
+            isDisabled
+          >
+            Mint successful !
+          </Button>
+          :
+          <Button
+            onClick={() => mint(generationResult)}
+            isLoading={isMinting}
+            loadingText="Minting token..."
+          >
+            Mint token
+          </Button>
+        }
       </Box>
     );
   }

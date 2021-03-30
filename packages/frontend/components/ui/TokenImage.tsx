@@ -1,6 +1,7 @@
+import React from 'react'
+import Link from 'next/link'
 import { Text, Image } from './index'
 import { getIpfsUrl } from '../../lib/ipfs'
-import React from 'react'
 import { ArbArtToken, useMetadata } from '../../hooks/tokens'
 
 export function TokenImage({ arbArtToken }: { arbArtToken: ArbArtToken }) {

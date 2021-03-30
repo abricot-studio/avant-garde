@@ -1,8 +1,9 @@
 import Layout from '../components/Layout'
 import SEO from '../components/utils/SEO'
 import Hero from '../components/Home/Hero'
-import Tokens from '../components/Home/Tokens'
-import MyToken from '../components/Home/MyToken'
+import { Button, HStack } from '../components/ui'
+import Link from 'next/link'
+import React from 'react'
 
 const seoData = {
   title: 'View Brain',
@@ -12,13 +13,35 @@ const seoData = {
     'nft,defi,ai,machine learning,deep learning,ethereum,crypto,blockchain,ETH',
 }
 
-export default function Home() {
+const Home: React.FC = () => {
   return (
     <Layout>
       <SEO data={seoData} />
       <Hero />
-      <MyToken />
-      <Tokens />
+      <HStack spacing={8} justify="center" display={{ base: 'none', md: 'flex' }}>
+        <Link passHref href="/gallery">
+          <Button
+            as="a"
+            variant="outline"
+            borderRadius="1rem"
+            border="2px"
+            borderColor="#C345FF"
+            _hover={{}}
+          >Discover</Button>
+        </Link>
+        <Link passHref href="/about">
+          <Button
+            as="a"
+            variant="outline"
+            borderRadius="1rem"
+            border="2px"
+            borderColor="#F0FF45"
+            _hover={{}}
+          >Learn more</Button>
+        </Link>
+      </HStack>
     </Layout>
   )
 }
+
+export default Home;

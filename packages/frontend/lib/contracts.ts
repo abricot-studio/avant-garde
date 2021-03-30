@@ -1,11 +1,10 @@
 import networks from '../../contracts/deployments/networks.json'
 import { Contract } from 'ethers'
 import { Provider } from "@ethersproject/abstract-provider";
-import { Signer } from "@ethersproject/abstract-signer";
 
-export function getContract(providerOrSigner?: Signer | Provider) {
-  const chainId = 1; // TODO
-  const contractInfo = networks[chainId];
+export async function getContract(providerOrSigner?: Provider) {
+  const network = await providerOrSigner.getNetwork();
+  const contractInfo = networks[network.chainId];
   if(!contractInfo) {
     throw new Error('unsupported network')
   }
