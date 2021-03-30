@@ -86,7 +86,7 @@ async function fetchToken(provider: Provider, tokenId: string) {
   return arbArtToken;
 }
 
-export const useMyToken = () => {
+export const useMyTokenOnChain = () => {
   const { account } = useWeb3();
   const [fetching, setFetching] = useState<boolean>(true);
   const [myToken, setMyToken] = useState<ArbArtToken | null>(null);
@@ -209,16 +209,17 @@ export const useMyTokens = (tokensProps: MyTokensProps = defaultMyTokensQueryVar
   }
 }
 
-export const useToken = (address: string) => {
+export const useToken = (address?: string) => {
   const [result, reexecuteQuery] = useQuery({
     query: TokenQuery,
     variables: {
-      address: address.toLowerCase()
-    }
+      address: address?.toLowerCase()
+    },
+    pause: !address,
   })
   const { data, fetching, error } = result
 
-  const token: ArbArtToken | null = data?.arbArtToken || null;
+  const token: ArbArtToken | null = address && data?.arbArtToken || null;
 
   const refresh = useCallback(() => {
     reexecuteQuery({ requestPolicy: 'network-only' });
