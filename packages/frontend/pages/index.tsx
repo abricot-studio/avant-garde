@@ -17,8 +17,11 @@ const Home: React.FC = () => {
   return (
     <Layout>
       <SEO data={seoData} />
+
       <Hero />
+
       <HStack spacing={8} justify="center" display={{ base: 'none', md: 'flex' }}>
+
         <Link passHref href="/gallery">
           <Button
             as="a"

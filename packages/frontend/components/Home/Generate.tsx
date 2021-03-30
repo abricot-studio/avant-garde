@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react'
-import { ActionButton, Box, Flex, Image } from '../ui'
+import { ActionButton, Box, Flex } from '../ui'
 import { useImageGeneration, ImageGenerationStatus } from '../../hooks/generation'
 import { getIpfsUrl } from '../../lib/ipfs'
 import { useWeb3 } from '../../contexts/Web3Context'
 import { useMint } from '../../hooks/mint'
 import { useToken } from '../../hooks/tokens'
 import { useRouter } from 'next/router'
+import { ImageFrame } from '../ui/TokenImage'
 
 export default function Generate() {
   const { account, connect, isConnecting } = useWeb3();
@@ -66,15 +67,14 @@ export default function Generate() {
     )
   }
 
+  const imageSrc = generationResult && generationResult.status === ImageGenerationStatus.SUCCESS && getIpfsUrl(generationResult.ipfsHashImage);
   return (
     <Flex direction="column" align="center">
-      {generationResult && generationResult.status === ImageGenerationStatus.SUCCESS ?
-        <Image src={getIpfsUrl(generationResult.ipfsHashImage)} boxSize={200} />
-        :
-        <Box>Empty frame</Box>
-      }
+      <ImageFrame src={imageSrc} size={400} />
 
-      {cta}
+      <Box mt={8}>
+        {cta}
+      </Box>
     </Flex>
   )
 }

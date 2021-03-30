@@ -20,7 +20,7 @@ const Generator: React.FC = () => {
       <Flex direction="column" align="center">
         <Heading
           textAlign="center"
-          mb={4}
+          mb={8}
         >Generator</Heading>
         <Generate />
       </Flex>
