@@ -24,6 +24,7 @@ export const wrapUrqlClient = (AppOrPage: React.FC<any>) =>
   withUrqlClient(
     (_ssrExchange) => ({
       url: config.subgraphUrl,
+      requestPolicy: 'cache-and-network',
     }),
     {
       neverSuspend: true,

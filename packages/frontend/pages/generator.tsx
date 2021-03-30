@@ -3,9 +3,11 @@ import SEO from '../components/utils/SEO'
 import {Flex, Button, Heading } from '../components/ui'
 import Generate from '../components/Home/Generate'
 import React from 'react'
-import { useMyToken } from '../hooks/tokens'
+import { useToken } from '../hooks/tokens'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
+import { useWeb3 } from '../contexts/Web3Context'
+import { wrapUrqlClient } from '../lib/graphql'
 
 const seoData = {
   title: 'Generator View Brain',
@@ -16,18 +18,15 @@ const seoData = {
 }
 
 const Generator: React.FC = () => {
-  const { myToken, fetching } = useMyToken()
+  const { account } = useWeb3()
+  const { token, fetching } = useToken(account?.address)
   const router = useRouter()
 
   useEffect(() => {
-
-    if(myToken){
-
-      router.push(`/token/${myToken.id}`)
-
+    if(token){
+      router.push(`/token/${token.id}`)
     }
-
-  }, [myToken, router, fetching])
+  }, [token])
 
   return (
     <Layout>
@@ -36,7 +35,7 @@ const Generator: React.FC = () => {
           <Heading
             textAlign="center"
           >Generator</Heading>
-          {fetching ?
+          {(token || fetching) ?
             <Button isLoading />
             :
             <Generate />
@@ -46,4 +45,4 @@ const Generator: React.FC = () => {
   )
 }
 
-export default Generator
+export default wrapUrqlClient(Generator);
