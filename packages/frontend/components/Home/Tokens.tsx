@@ -88,7 +88,7 @@ export default function Tokens({ tokens, fetching, error }: Props) {
       align="center"
     >
       <Wrap spacing="30px" justify="center" align="center" m={8}>
-          <WrapItem key={tokensDisplayed[0].id}>
+          <WrapItem>
             <ScaleFade initialScale={0} in={isOpen}>
               <TokenCard size={250} showAddress={false} token={tokensDisplayed[0]}/>
             </ScaleFade>
@@ -104,7 +104,7 @@ export default function Tokens({ tokens, fetching, error }: Props) {
             outline: "none"
           }}
         />
-        <WrapItem key={tokensDisplayed[1].id}>
+        <WrapItem>
           <ScaleFade initialScale={0} in={isOpen} >
             <TokenCard size={350} showAddress={true} token={tokensDisplayed[1]}/>
           </ScaleFade>
@@ -123,7 +123,7 @@ export default function Tokens({ tokens, fetching, error }: Props) {
             outline: "none"
           }}
         />
-        <WrapItem key={tokensDisplayed[2].id}>
+        <WrapItem>
           <ScaleFade initialScale={0} in={isOpen} >
             <TokenCard size={250} showAddress={false} token={tokensDisplayed[2]}/>
           </ScaleFade>
