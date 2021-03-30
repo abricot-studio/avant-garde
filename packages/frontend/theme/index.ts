@@ -9,7 +9,7 @@ const styles = {
   global: {
     'html, body': {
       fontFamily: '"Roboto", sans-serif',
-      fontSize: '16px',
+      fontSize: ['14px', '16px'],
       fontWeight: 300,
     },
     a: {

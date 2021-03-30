@@ -33,7 +33,9 @@ const Generator: React.FC = () => {
     <Layout>
       <SEO data={seoData} />
         <Flex direction="column" align="center">
-          <Heading>Generator</Heading>
+          <Heading
+            textAlign="center"
+          >Generator</Heading>
           {fetching ?
             <Button isLoading />
             :

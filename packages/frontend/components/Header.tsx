@@ -145,10 +145,10 @@ export default function Header() {
       top="0"
       zIndex={10}
       transition="background-color 0.25s ease 0s;"
-      bg={scrolled && 'theme'}
+      bg={scrolled && '#ffffff44'}
       sx={scrolled ? { backdropFilter: 'blur(10px)' } : undefined}
       borderBottom={scrolled && '1px solid'}
-      borderColor="border.300"
+      borderColor="black"
     >
       <Flex
         as="nav"

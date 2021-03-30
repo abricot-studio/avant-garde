@@ -11,12 +11,16 @@ export default function Layout({ children }) {
         backgroundSize="cover"
         backgroundPosition="center"
         backgroundRepeat="no-repeat"
-        position="absolute"
+        position="fixed"
         zIndex={-1}
       />
       <Box>
         <Header />
-        <main>{children}</main>
+        <main>
+          <Box py={12}>
+            {children}
+          </Box>
+        </main>
       </Box>
     </Box>
   )
