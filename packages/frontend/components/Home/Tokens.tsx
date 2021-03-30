@@ -100,9 +100,12 @@ export default function Tokens({ tokens, fetching, error }: Props) {
             }}
           />
         }
-        <ScaleFade initialScale={0} in={isOpen} >
-          <TokenCard size={350} token={tokensDisplayed[1]}/>
-        </ScaleFade>
+        {
+          tokensDisplayed[1] &&
+          <ScaleFade initialScale={0} in={isOpen} >
+            <TokenCard size={350} token={tokensDisplayed[1]}/>
+          </ScaleFade>
+        }
         {
           tokensDisplayed[2] && <IconButton
             icon={<FontAwesomeIcon icon={faArrowRight} size="1x" />}
@@ -122,7 +125,6 @@ export default function Tokens({ tokens, fetching, error }: Props) {
             }}
           />
         }
-
         <Box display={{ base: 'none', 'lg': tokens.length > 1 ? 'block' : 'none'  }} ml={8}>
             <ScaleFade initialScale={0} in={isOpen}>
               {
@@ -134,9 +136,12 @@ export default function Tokens({ tokens, fetching, error }: Props) {
             </ScaleFade>
           </Box>
       </Flex>
-      <Address mt={2}>
-        {tokensDisplayed[1].owner}
-      </Address>
+      {
+        tokensDisplayed[1] &&
+          <Address mt={2}>
+            {tokensDisplayed[1].owner}
+          </Address>
+      }
     </Flex>
   )
 }
