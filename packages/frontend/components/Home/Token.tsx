@@ -34,12 +34,18 @@ export default function Token({ id }) {
           colorScheme="transparent"
           color="grey"
           _hover={{}}
+          _focus={{
+            outline: "none"
+          }}
           onClick={() => router.push('/gallery') }
         />
         {id}
       </Heading>
       <Box>
-        <TokenImage arbArtToken={token} />
+        <TokenImage
+          size={350}
+          arbArtToken={token}
+        />
         <VStack>
           <HStack justify="space-between">
             <Box>Date</Box>
