@@ -1,7 +1,22 @@
 import React, { useMemo } from 'react'
 import { useWindowScroll } from 'react-use'
 import Link from 'next/link'
-import { Avatar, Button, Flex, Box, HStack, Heading, ButtonProps, forwardRef, Menu, MenuButton, MenuList, MenuItem as ChakraMenuItem, MenuItemProps } from './ui'
+import {
+  Avatar,
+  Button,
+  Flex,
+  Box,
+  HStack,
+  Heading,
+  ButtonProps,
+  forwardRef,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem as ChakraMenuItem,
+  MenuItemProps,
+  IconButton,
+} from './ui'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faWallet } from '@fortawesome/free-solid-svg-icons'
 import { useWeb3 } from '../contexts/Web3Context'
@@ -85,6 +100,9 @@ function LoginButton() {
           borderRadius="4rem"
           border="1px"
           borderColor="black"
+          backgroundColor="white"
+          _hover={{}}
+          _active={{}}
           rightIcon={<Avatar size="xs" />}
           zIndex={2}
         >
@@ -104,7 +122,9 @@ function LoginButton() {
               My items
             </MenuItem>
           </Link>
-          <MenuItem>Disconnect</MenuItem>
+          <MenuItem
+            onClick={disconnect}
+          >Disconnect</MenuItem>
         </MenuList>
       </Menu>
     )
@@ -120,6 +140,9 @@ function LoginButton() {
       onClick={connect}
       leftIcon={<FontAwesomeIcon icon={faWallet} size="1x" />}
       isLoading={isConnecting}
+      backgroundColor="white"
+      _hover={{}}
+      _active={{}}
       loadingText="Connecting..."
     >
       Connect

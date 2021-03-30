@@ -50,17 +50,7 @@ export default function Tokens({ tokens, fetching, error }: Props) {
   if (fetching) return <Box align="center" >Loading...</Box>
   if (error) return <Box align="center" >Oh no... {error.message}</Box>
 
-  let tokensDisplayed
-
-  if(index + 3 > tokens.length){
-    tokensDisplayed = tokens
-      .slice(index, tokens.length)
-      .concat(tokens.slice(0, index + 3 - tokens.length) )
-  } else {
-    tokensDisplayed = tokens.slice(index, index + 3)
-  }
-
-  if(tokensDisplayed.length !== 3){
+  if(tokens.length < 3){
 
     return (
       <Flex
@@ -69,7 +59,7 @@ export default function Tokens({ tokens, fetching, error }: Props) {
         align="center"
       >
         <Wrap spacing="30px" justify="center" align="center" m={8}>
-          {tokensDisplayed
+          {tokens
             .map( (token) => (
               <WrapItem key={token.id}>
                 <TokenCard size={250} showAddress={true} token={token}/>
@@ -79,6 +69,16 @@ export default function Tokens({ tokens, fetching, error }: Props) {
       </Flex>
     )
 
+  }
+
+  let tokensDisplayed = []
+
+  if(index + 3 > tokens.length){
+    tokensDisplayed = tokens
+      .slice(index, tokens.length)
+      .concat(tokens.slice(0, index + 3 - tokens.length) )
+  } else {
+    tokensDisplayed = tokens.slice(index, index + 3)
   }
 
   return (
