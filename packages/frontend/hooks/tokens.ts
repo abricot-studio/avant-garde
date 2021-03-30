@@ -5,6 +5,7 @@ import { useQuery } from 'urql'
 import { getIpfsData } from '../lib/ipfs'
 import { getContract } from '../lib/contracts'
 import { useWeb3 } from '../contexts/Web3Context'
+import { usePolling } from './graphql'
 
 export interface ArbArtToken {
   id: string;
@@ -86,7 +87,7 @@ async function fetchToken(provider: Provider, tokenId: string) {
   return arbArtToken;
 }
 
-export const useMyToken = () => {
+export const useMyTokenOnChain = () => {
   const { account } = useWeb3();
   const [fetching, setFetching] = useState<boolean>(true);
   const [myToken, setMyToken] = useState<ArbArtToken | null>(null);
@@ -209,31 +210,33 @@ export const useMyTokens = (tokensProps: MyTokensProps = defaultMyTokensQueryVar
   }
 }
 
-export const useToken = (address: string) => {
+
+export const useToken = (address?: string) => {
   const [result, reexecuteQuery] = useQuery({
     query: TokenQuery,
     variables: {
-      address: address.toLowerCase()
-    }
+      address: address?.toLowerCase()
+    },
+    pause: !address,
   })
   const { data, fetching, error } = result
 
-  const token: ArbArtToken | null = data?.arbArtToken || null;
+  const token: ArbArtToken | null = address && data?.arbArtToken || null;
 
-  const refresh = useCallback(() => {
-    reexecuteQuery({ requestPolicy: 'network-only' });
-  }, [reexecuteQuery]);
+  const { refresh, startPolling, stopPolling } = usePolling(reexecuteQuery)
 
   useEffect(() => {
-    const timer = setInterval(() => refresh, 5000);
-    return () => clearInterval(timer);
-  }, [refresh]);
+    if(token) {
+      stopPolling();
+    }
+  }, [token]);
 
   return {
     token,
     fetching,
     error,
     refresh,
+    startPolling,
   }
 }
 
