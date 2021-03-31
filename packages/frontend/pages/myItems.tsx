@@ -1,12 +1,13 @@
 import Layout from '../components/Layout'
 import SEO from '../components/utils/SEO'
-import { Heading } from '../components/ui'
+import { Button, Heading, Box } from '../components/ui'
 import React, { useEffect } from 'react'
 import { useWeb3 } from '../contexts/Web3Context'
 import { wrapUrqlClient } from '../lib/graphql'
 import { useRouter } from 'next/router'
 import { defaultMyTokensQueryVariables, useMyTokens } from '../hooks/tokens'
 import Tokens from '../components/Home/Tokens'
+import Link from 'next/link'
 
 const seoData = {
   title: 'My tokens View Brain',
@@ -49,6 +50,22 @@ const MyTokensPage: React.FC = () => {
         mb={8}
       >Your items</Heading>
       <Tokens tokens={tokens} fetching={fetching} error={error}/>
+      <Box
+        align="center"
+        mt={12}
+      >
+        <Link passHref href="/gallery">
+          <Button
+            as="a"
+            variant="outline"
+            borderRadius="1rem"
+            border="2px"
+            borderColor="#3DDCC9"
+            color="#3DDCC9"
+            _hover={{}}
+          >Discover the gallery</Button>
+        </Link>
+      </Box>
     </Layout>
   )
 }
