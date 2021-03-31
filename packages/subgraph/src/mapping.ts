@@ -1,4 +1,4 @@
-import { log, ipfs, JSONValue, Value } from '@graphprotocol/graph-ts'
+import { log, ipfs, JSONValue, Value, Address } from '@graphprotocol/graph-ts'
 import { ArbArt, Transfer } from '../generated/ArbArt/ArbArt'
 import { ArbArtToken, ArbArtTokenMetadata } from '../generated/schema'
 
@@ -21,14 +21,24 @@ export function handleTransfer(event: Transfer): void {
   let arbArt = ArbArtToken.load(tokenId)
   if (arbArt === null) {
     arbArt = new ArbArtToken(tokenId)
-    arbArt.blockTimestamp = event.block.timestamp
+    arbArt.mintTimestamp = event.block.timestamp
+    arbArt.mintPrice = event.transaction.value
+
+    let contract = ArbArt.bind(event.address)
+    let tokenURI = contract.tokenURI(event.params.tokenId)
+    arbArt.tokenURI = tokenURI
+
   }
 
-  let contract = ArbArt.bind(event.address)
-  let tokenURI = contract.tokenURI(event.params.tokenId)
+  if(to.equals(Address.fromString('0x0000000000000000000000000000000000000000') ) ){
+    arbArt.burnTimestamp = event.block.timestamp
+    let contract = ArbArt.bind(event.address)
+    let burnPrice = contract.currentPrice()
+    arbArt.burnPrice = burnPrice
+
+  }
 
   arbArt.owner = to
-  arbArt.tokenURI = tokenURI
   // arbArt.metadata = tokenId
   arbArt.save()
 

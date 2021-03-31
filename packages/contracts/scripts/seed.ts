@@ -38,7 +38,10 @@ async function main() {
   const minter = accounts[0]
   const signature = await signMintingRequest(uri, minter.address, manager)
 
-  await contract.connect(minter).mint(uri, manager.address, signature)
+  const value = await contract.currentMintWithFeesPrice()
+  await contract.connect(minter).mint(uri, signature, {
+    value
+  })
 
   console.log('Contract deployed. address:', contract.address)
   console.log('Manager:', manager.address)
