@@ -86,7 +86,8 @@ async function fetchToken(provider: Provider, tokenId: string) {
   const arbArtToken: ArbArtToken = {
     id: tokenId,
     owner,
-    uri: tokenUri,
+    tokenURI: tokenUri,
+    blockTimestamp: 0
   };
   return arbArtToken;
 }
