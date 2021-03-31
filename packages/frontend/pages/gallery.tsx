@@ -23,6 +23,7 @@ const Gallery: React.FC = () => {
       <SEO data={seoData} />
       <Heading
         textAlign="center"
+        mb={8}
       >Newly minted</Heading>
       <Tokens tokens={tokens} fetching={fetching} error={error}/>
     </Layout>

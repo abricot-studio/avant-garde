@@ -1,12 +1,8 @@
 import Layout from '../components/Layout'
 import SEO from '../components/utils/SEO'
-import {Flex, Button, Heading } from '../components/ui'
+import { Flex, Heading } from '../components/ui'
 import Generate from '../components/Home/Generate'
 import React from 'react'
-import { useToken } from '../hooks/tokens'
-import { useEffect } from 'react'
-import { useRouter } from 'next/router'
-import { useWeb3 } from '../contexts/Web3Context'
 import { wrapUrqlClient } from '../lib/graphql'
 
 const seoData = {
@@ -18,29 +14,16 @@ const seoData = {
 }
 
 const Generator: React.FC = () => {
-  const { account } = useWeb3()
-  const { token, fetching } = useToken(account?.address)
-  const router = useRouter()
-
-  useEffect(() => {
-    if(token){
-      router.push(`/token/${token.id}`)
-    }
-  }, [token])
-
   return (
     <Layout>
       <SEO data={seoData} />
-        <Flex direction="column" align="center">
-          <Heading
-            textAlign="center"
-          >Generator</Heading>
-          {(token || fetching) ?
-            <Button isLoading />
-            :
-            <Generate />
-          }
-        </Flex>
+      <Flex direction="column" align="center">
+        <Heading
+          textAlign="center"
+          mb={8}
+        >Generator</Heading>
+        <Generate />
+      </Flex>
     </Layout>
   )
 }

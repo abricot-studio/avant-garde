@@ -1,6 +1,6 @@
 import Layout from '../components/Layout'
 import SEO from '../components/utils/SEO'
-import { Button, Center, Heading, Text, Container } from '../components/ui'
+import { ActionButton, Center, Heading, Text, Container } from '../components/ui'
 import Link from 'next/link'
 import React from 'react'
 
@@ -11,35 +11,34 @@ const seoData = {
   keywords:
     'about,nft,defi,ai,machine learning,deep learning,ethereum,crypto,blockchain,ETH',
 }
+
+function Description() {
+  return (
+    <>
+      <Heading
+        textAlign="center"
+        mb={8}
+      >About</Heading>
+      <Text align="justify">
+        Abstract generative art with TensorFlow certified ownership on ethereum with nft. Using neuronal network architecture to output 3 values, defining RGB value for each pixel location. The Compositional pattern-producing network (CPPN) is composed of dense layers fully connected and activate by tangent hyperbolic. This network layer kernel bias are initialized with a determinist vector of initialisation derived from your ethereum address. Each pixel 2d coordinate vector get cross the network and output to rgb values.
+        The final image is stored forever on IPFS. Get a unique abstract nft for your address.
+      </Text>
+    </>
+  )
+}
 export default function About() {
   return (
     <Layout>
       <SEO data={seoData} />
       <Container
         maxW="container.sm"
-        // maxH="70vh"
-        // overflow="scroll"
       >
-        <Heading
-          textAlign="center"
-          mb={8}
-        >About</Heading>
-        <Text align="justify">
-          Abstract generative art with TensorFlow certified ownership on ethereum with nft. Using neuronal network architecture to output 3 values, defining RGB value for each pixel location. The Compositional pattern-producing network (CPPN) is composed of dense layers fully connected and activate by tangent hyperbolic. This network layer kernel bias are initialized with a determinist vector of initialisation derived from your ethereum address. Each pixel 2d coordinate vector get cross the network and output to rgb values.
-          The final image is stored forever on IPFS. Get a unique abstract nft for your address.
-        </Text>
-        <h1>NFT price chart</h1>
-        <Center mt={4}>
+        <Description />
+        <Center mt={8}>
           <Link passHref href="/generator">
-            <Button
+            <ActionButton
               as="a"
-              variant="outline"
-              borderRadius="1rem"
-              border="2px"
-              color="#FF45B5"
-              borderColor="#FF45B5"
-              _hover={{}}
-            >Generator yours</Button>
+            >Generate yours</ActionButton>
           </Link>
         </Center>
       </Container>

@@ -11,6 +11,8 @@ const styles = {
       fontFamily: '"Roboto", sans-serif',
       fontSize: ['14px', '16px'],
       fontWeight: 300,
+      background: 'theme',
+      minHeight: '100vh',
     },
     a: {
       color: '#000000',
@@ -108,10 +110,12 @@ const colors = {
     600: '#11224D',
     800: '#0f214d',
   },
-  theme: '#ffffff',
+  theme: '#f3f3f3',
   red: '#FB6B6B',
   green: '#6BFB9C',
   blue: '#6B93FB',
+  header: '#ffffff44',
+  pink: '#FF45B5',
 }
 
 export default extendTheme({

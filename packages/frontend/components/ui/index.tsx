@@ -17,7 +17,6 @@ export function Address({ children, ...props }) {
 
 
 export const Button = forwardRef<ButtonProps, "a">( ({ children, ...props }, ref) => {
-
   return (
     <ChakraButton
       ref={ref}
@@ -26,5 +25,24 @@ export const Button = forwardRef<ButtonProps, "a">( ({ children, ...props }, ref
       }}
       {...props}
     >{children}</ChakraButton>
+  )
+})
+
+interface ActionButtonProps {
+  color?: string;
+}
+export const ActionButton = forwardRef<ButtonProps & ActionButtonProps, "a">( ({ children, color = 'pink', ...props }, ref) => {
+  return (
+    <Button
+      ref={ref}
+      variant="outline"
+      border="2px"
+      color={color}
+      borderColor={color}
+      borderRadius="4rem"
+      size="lg"
+      _hover={{}}
+      {...props}
+    >{children}</Button>
   )
 })
