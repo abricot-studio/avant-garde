@@ -4,9 +4,11 @@ export default {
   ipfsEndpoint:
     process.env.NEXT_PUBLIC_IPFS_ENDPOINT ||
     'https://gateway.pinata.cloud/ipfs/',
+    // 'https://cloudflare-ipfs.com/ipfs/',
   subgraphUrl:
     process.env.NEXT_PUBLIC_SUBGRAPH_URL ||
-    'http://127.0.0.1:8000/subgraphs/name/pakokrew/arbart',
+    'https://api.thegraph.com/subgraphs/name/julesgoullee/arbart',
+    // 'http://127.0.0.1:8000/subgraphs/name/pakokrew/arbart',
   generateUrl:
     process.env.NEXT_PUBLIC_GENERATE_URL ||
     'https://nftart-fct.vercel.app/api/generate',

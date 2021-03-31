@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "start": "next start",
-    "export": "next build && next export",
+    "build": "next build",
+    "export": "npm run build && next export",
     "prettier": "prettier --write ."
   },
   "dependencies": {
@@ -24,6 +25,7 @@
     "graphql": "^15.5.0",
     "graphql-tag": "^2.11.0",
     "next": "^10.0.0",
+    "next-urql": "^3.0.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-use": "^17.2.1",

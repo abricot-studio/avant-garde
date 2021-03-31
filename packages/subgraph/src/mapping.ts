@@ -21,13 +21,14 @@ export function handleTransfer(event: Transfer): void {
   let arbArt = ArbArtToken.load(tokenId)
   if (arbArt === null) {
     arbArt = new ArbArtToken(tokenId)
+    arbArt.blockTimestamp = event.block.timestamp
   }
 
   let contract = ArbArt.bind(event.address)
   let tokenURI = contract.tokenURI(event.params.tokenId)
 
   arbArt.owner = to
-  arbArt.uri = tokenURI
+  arbArt.tokenURI = tokenURI
   // arbArt.metadata = tokenId
   arbArt.save()
 

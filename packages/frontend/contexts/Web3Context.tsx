@@ -60,10 +60,10 @@ interface Web3ContextProviderOptions {
 }
 
 export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
-  children,
-}) => {
+                                                                            children,
+                                                                          }) => {
   const [web3AccountData, setWeb3AccountData] = useState<Web3Account | null>(null)
-  const [isConnecting, setIsConnecting] = useState<boolean>(false)
+  const [isConnecting, setIsConnecting] = useState<boolean>(true)
   const calledOnce = useRef<boolean>(false)
 
   const disconnect = useCallback(() => {
@@ -73,29 +73,33 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
     clearWalletConnect()
   }, [])
 
+
+  const setWeb3Provider = useCallback((ethereum: providers.ExternalProvider) => {
+    const provider = new providers.Web3Provider(ethereum);
+    const signer = provider.getSigner();
+    signer.getAddress()
+      .then(address => {
+        setWeb3AccountData({
+          provider,
+          address,
+        })
+        setIsConnecting(false)
+      })
+      .catch(console.error);
+  }, []);
+
+
   const connect = useCallback(async () => {
     setIsConnecting(true)
 
     try {
       const modalProvider = await web3Modal.connect()
-      const ethersProvider = new providers.Web3Provider(modalProvider)
-      const ethAddress = await ethersProvider.getSigner().getAddress()
-
-      setWeb3AccountData({
-        provider: ethersProvider,
-        address: ethAddress,
-      })
-      setIsConnecting(false)
+      setWeb3Provider(modalProvider);
 
       if(modalProvider.on) {
-        modalProvider.on('accountsChanged', (accounts) => {
-          setWeb3AccountData({
-            provider: new providers.Web3Provider(modalProvider),
-            address: accounts[0],
-          })
-        })
+        modalProvider.on('accountsChanged', () => setWeb3Provider(modalProvider))
+        modalProvider.on('chainChanged', () => setWeb3Provider(modalProvider))
       }
-
     } catch (_) {
       setIsConnecting(false)
       disconnect()
@@ -108,6 +112,8 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
 
     if (web3Modal.cachedProvider) {
       connect().catch(() => undefined)
+    } else {
+      setIsConnecting(false)
     }
   }, [connect])
 

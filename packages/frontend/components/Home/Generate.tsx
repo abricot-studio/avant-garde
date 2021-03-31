@@ -1,67 +1,79 @@
-import React from 'react'
-import { Box, Button, Image } from '../ui'
-import { useImageGeneration, ImageGenerationStatus, ImageGeneration } from '../../hooks/generation'
+import React, { useEffect } from 'react'
+import { ActionButton, Box, Flex } from '../ui'
+import { useImageGeneration, ImageGenerationStatus } from '../../hooks/generation'
 import { getIpfsUrl } from '../../lib/ipfs'
 import { useWeb3 } from '../../contexts/Web3Context'
 import { useMint } from '../../hooks/mint'
-
-function LoginToGenerate() {
-  return (
-    <Box>
-      Please login first
-    </Box>
-  );
-}
-
-function GenerationResult({ generationResult }: { generationResult: ImageGeneration }) {
-  const { mint, isMinting } = useMint();
-
-  if(generationResult.status === ImageGenerationStatus.PROCESSING) {
-    // TODO poll
-    return (
-      <p>Your image is being generated</p>
-    );
-  } else if(generationResult.status === ImageGenerationStatus.SUCCESS) {
-    return (
-      <Box>
-        <Image src={getIpfsUrl(generationResult.ipfsHashImage)} boxSize={200} />
-
-        <Button
-          onClick={() => mint(generationResult)}
-          isLoading={isMinting}
-          loadingText="Minting token..."
-        >
-          Mint token
-        </Button>
-      </Box>
-    );
-  }
-
-  return (<p>Invalid generation status</p>);
-}
+import { useToken } from '../../hooks/tokens'
+import { useRouter } from 'next/router'
+import { ImageFrame } from '../ui/TokenImage'
 
 export default function Generate() {
-  const { account } = useWeb3();
+  const { account, connect, isConnecting } = useWeb3();
+  const { token, fetching } = useToken(account?.address)
   const { generateImage, isGenerating, generationResult } = useImageGeneration();
+  const { mint, minted, isMinting } = useMint();
+  const router = useRouter()
 
-  if(!account) return <LoginToGenerate/>;
+  useEffect(() => {
+    if(token){
+      router.push(`/token/${token.id}`)
+    }
+  }, [token])
 
+  let cta;
+  if(token || fetching) {
+    cta = (
+      <ActionButton
+        isLoading
+      >
+        Loading token...
+      </ActionButton>
+    );
+  } else if(minted) {
+    cta = (
+      <ActionButton
+        isDisabled
+      >
+        Mint successful !
+      </ActionButton>
+    );
+  } else if(!account) {
+    cta = (
+      <ActionButton
+        onClick={connect}
+        isLoading={isConnecting}
+      >Connect wallet</ActionButton>
+    );
+  } else if(generationResult) {
+    cta = (
+      <ActionButton
+        onClick={() => mint(generationResult)}
+        isLoading={isMinting}
+        loadingText="Minting token..."
+      >
+        Mint token
+      </ActionButton>
+    );
+  } else {
+    cta = (
+      <ActionButton
+        onClick={() => generateImage(account.address)}
+        isLoading={isGenerating}
+        loadingText="Generating image"
+      >
+        Generate
+      </ActionButton>
+    )
+  }
+
+  const imageSrc = generationResult && generationResult.status === ImageGenerationStatus.SUCCESS && getIpfsUrl(generationResult.ipfsHashImage);
   return (
-    <Box as="section" mb={12}>
-      {generationResult ?
-        <GenerationResult generationResult={generationResult}/>
-        :
-        <Box>
-          <p>You image is not generated yet</p>
-          <Button
-            onClick={() => generateImage(account.address)}
-            isLoading={isGenerating}
-            loadingText="Generating image"
-          >
-            Generate image
-          </Button>
-        </Box>
-      }
-    </Box>
+    <Flex direction="column" align="center">
+      <ImageFrame src={imageSrc} isLoading={isGenerating} size={350} />
+      <Box mt={8}>
+        {cta}
+      </Box>
+    </Flex>
   )
 }

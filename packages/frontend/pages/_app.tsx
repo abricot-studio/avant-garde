@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import { AppProps } from 'next/app'
-import { createClient, Provider as URQLProvider } from 'urql'
 import { ChakraProvider } from '@chakra-ui/react'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { config as faConfig } from '@fortawesome/fontawesome-svg-core'
@@ -8,11 +7,6 @@ import { config as faConfig } from '@fortawesome/fontawesome-svg-core'
 import chakraTheme from '../theme'
 import GoogleFonts from '../components/utils/Fonts'
 import { Web3ContextProvider } from '../contexts/Web3Context'
-import config from '../config'
-
-const client = createClient({
-  url: config.subgraphUrl,
-})
 
 faConfig.autoAddCss = false
 
@@ -64,12 +58,10 @@ function App({ Component, pageProps }: AppProps) {
         )}
       </Head>
 
-      <GoogleFonts href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Montserrat:wght@100;200;300;400;500;600;700;800&display=swap" />
+      <GoogleFonts href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;600;700;800;900&family=Roboto+Mono:wght@100;200;300;400;500;600;700;800;900&display=swap" />
       <ChakraProvider theme={chakraTheme}>
         <Web3ContextProvider>
-          <URQLProvider value={client}>
-            <Component {...pageProps} />
-          </URQLProvider>
+          <Component {...pageProps} />
         </Web3ContextProvider>
       </ChakraProvider>
     </>
