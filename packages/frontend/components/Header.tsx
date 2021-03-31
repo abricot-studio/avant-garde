@@ -113,6 +113,7 @@ function LoginButton() {
           borderRadius="0"
           borderBottomRadius="1rem"
           pt={5}
+          mr="2rem"
           zIndex={1}
           background="black"
           color="white"

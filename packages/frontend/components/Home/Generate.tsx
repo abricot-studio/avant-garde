@@ -70,8 +70,7 @@ export default function Generate() {
   const imageSrc = generationResult && generationResult.status === ImageGenerationStatus.SUCCESS && getIpfsUrl(generationResult.ipfsHashImage);
   return (
     <Flex direction="column" align="center">
-      <ImageFrame src={imageSrc} size={350} />
-
+      <ImageFrame src={imageSrc} isLoading={isGenerating} size={350} />
       <Box mt={8}>
         {cta}
       </Box>

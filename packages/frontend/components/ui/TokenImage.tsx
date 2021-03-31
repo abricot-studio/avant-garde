@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, Box } from './index'
+import { Image, Box, ScaleFade } from './index'
 import { getIpfsUrl } from '../../lib/ipfs'
 import { ArbArtToken, useMetadata } from '../../hooks/tokens'
 
@@ -9,7 +9,7 @@ export function TokenImage({ arbArtToken, size }: { arbArtToken: ArbArtToken, si
   return (<ImageFrame size={size} src={metadata && getIpfsUrl(metadata.image)}/>)
 }
 
-export function ImageFrame({ src, size = 250 }: { src?: string, size?: number }) {
+export function ImageFrame({ src, size = 250, isLoading }: { src?: string, size?: number, isLoading?: boolean }) {
   return (
     <Box
       borderRadius="full"
@@ -30,12 +30,23 @@ export function ImageFrame({ src, size = 250 }: { src?: string, size?: number })
           position="absolute"
           overflow="hidden"
         >
-          {src &&
-          <Image
-            src={src}
-            boxSize="100%"
-          />
-          }
+          <ScaleFade initialScale={0} in={src && !isLoading}>
+            <Image
+              src={src}
+              boxSize="100%"
+            />
+          </ScaleFade>
+          <ScaleFade initialScale={0} in={isLoading}>
+            <Box
+              bgColor="white"
+              opacity={0.5}
+              style={{ filter: "blur(20px)" }}>
+              <video width="100%" height="100%" autoPlay loop >
+                <source src="../TEST-ANIM-AVANTGARDE.webm" type="video/webm"/>
+                Your browser does not support the video tag.
+              </video>
+            </Box>
+          </ScaleFade>
         </Box>
 
         <Box
