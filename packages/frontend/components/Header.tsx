@@ -54,6 +54,8 @@ const NavButton = forwardRef<NavButtonProps & ButtonProps, "a">( ({ children, co
       _hover={{
         borderColor: color
       }}
+      _active={{}}
+      _focus={{}}
       leftIcon={<NavButtonIcon color={color} />}
       {...props}
     >{children}</Button>
@@ -100,12 +102,16 @@ function LoginButton() {
       >
         <MenuButton
           as={Button}
-          width="200px"
+          width={{ base: '100px', sm: '200px', md: '200px' }}
           variant="outline"
           borderRadius="4rem"
           border="1px"
           borderColor="black"
           backgroundColor="white"
+          textTransform="none"
+          fontWeight={300}
+          fontFamily="Roboto, sans-serif"
+          fontSize={{ base: '1rem', sm: '1em', md: '1rem' }}
           _hover={{}}
           _active={{}}
           rightIcon={<Avatar size="xs" />}
@@ -114,7 +120,7 @@ function LoginButton() {
           { displayAddress(account.address) }
         </MenuButton>
         <MenuList
-          minWidth="200px"
+          minWidth={{ base: '100px', sm: '200px', md: '200px' }}
           borderRadius="0"
           borderBottomRadius="1rem"
           pt={5}
