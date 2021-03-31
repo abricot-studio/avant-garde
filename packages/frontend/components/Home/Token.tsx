@@ -4,6 +4,7 @@ import { useToken } from '../../hooks/tokens'
 import { TokenImage } from '../ui/TokenImage'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import { faReddit, faTwitter, faInstagram } from '@fortawesome/free-brands-svg-icons'
 import { useRouter } from 'next/router'
 
 export default function Token({ id }) {
@@ -49,14 +50,55 @@ export default function Token({ id }) {
         <VStack>
           <HStack justify="space-between">
             <Box>Date</Box>
-            <Box>{new Date(token.blockTimestamp * 1000).toLocaleDateString()}</Box>
+            <Box>{new Date(token.blockTimestamp * 1000).toISOString()}</Box>
           </HStack>
           <HStack justify="space-between">
             <Box>Current Price</Box>
             <Box>0.1 ETH</Box>
           </HStack>
+          <HStack spacing={12}>
+            <IconButton
+              icon={<FontAwesomeIcon icon={faReddit} size="3x" />}
+              aria-label="Back"
+              colorScheme="transparent"
+              color="black"
+              _hover={{}}
+              _focus={{
+                outline: "none"
+              }}
+              _active={{
+                outline: "none"
+              }}
+            />
+            <IconButton
+              icon={<FontAwesomeIcon icon={faTwitter} size="3x" />}
+              aria-label="Back"
+              colorScheme="transparent"
+              color="black"
+              _hover={{}}
+              _focus={{
+                outline: "none"
+              }}
+              _active={{
+                outline: "none"
+              }}
+            />
+            <IconButton
+              icon={<FontAwesomeIcon icon={faInstagram} size="3x" />}
+              aria-label="Back"
+              colorScheme="transparent"
+              color="black"
+              _hover={{}}
+              _focus={{
+                outline: "none"
+              }}
+              _active={{
+                outline: "none"
+              }}
+            />
+          </HStack>
         </VStack>
-      </Box>
-    </Flex>
-  )
+    </Box>
+</Flex>
+)
 }
