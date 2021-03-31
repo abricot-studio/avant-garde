@@ -71,7 +71,7 @@ export default function Tokens({ tokens, fetching, error }: Props) {
       align="center"
     >
       <Flex justify="center" align="center" >
-          <Box display={{base: 'none', 'lg': tokens.length > 1 ? 'block' : 'none' }} mr={8}>
+          <Box display={{base: 'none', 'lg': tokens.length > 1 ? 'block' : 'none' }} mr={8} >
             <ScaleFade initialScale={0} in={isOpen}>
               {
                 tokensDisplayed[0] ?

@@ -96,11 +96,9 @@ const textStyles = {
   },
   appName: {
     fontFamily: '"Roboto Mono", sans-serif',
-    fontWeight: 300,
-    textTransform: 'uppercase',
-    letterSpacing: '0.14rem',
+    fontWeight: 800,
     lineHeight: 1,
-    fontSize: ['1.8rem', '2rem', '2.5rem', '2.5rem'],
+    fontSize: ['1rem', '1rem', '2rem', '2rem'],
   },
 }
 

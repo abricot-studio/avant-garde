@@ -7,7 +7,7 @@ import {
   Flex,
   Box,
   HStack,
-  Heading,
+  Text,
   ButtonProps,
   forwardRef,
   Menu,
@@ -45,7 +45,12 @@ const NavButton = forwardRef<NavButtonProps & ButtonProps, "a">( ({ children, co
       variant="outline"
       border="1px"
       borderColor={isSelected ? color : "transparent"}
+      textTransform="none"
+      fontWeight={500}
+      fontFamily="'Roboto Mono', sans-serif"
+      fontSize={{ base: '0.5rem', sm: '1em', md: '1rem' }}
       rounded="xl"
+      size="sm"
       _hover={{
         borderColor: color
       }}
@@ -172,21 +177,18 @@ export default function Header() {
       <Flex
         as="nav"
         px={{ base: '1.5rem', lg: '2rem' }}
-        py={{ base: '1rem', lg: '1.5rem' }}
+        py={{ base: '0.5rem', lg: '1rem' }}
         justify="space-between"
         align="center"
       >
 
         <Box>
           <Link href="/">
-            <Heading
-              as="h1"
-              textStyle="h1"
-              textAlign="left"
-              fontSize={{ base: '2rem', sm: '3rem', md: '4rem' }}
+            <Text
+              textStyle="appName"
               cursor="pointer"
             >AvantGarde
-            </Heading>
+            </Text>
           </Link>
         </Box>
 
