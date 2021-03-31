@@ -1,6 +1,6 @@
-import fs from 'fs'
 import { ethers } from 'hardhat'
 import { signMintingRequest } from '../lib/ArbArt'
+import Deployments from '../deployments/localhost/ArbArt.json'
 
 import ipfsHttp from 'ipfs-http-client'
 const IPFS_DOMAIN = 'http://localhost:5001'
@@ -24,19 +24,18 @@ const metadata = {
 async function main() {
   console.log('Seeding...')
 
-  const contractName = 'ArbArt';
-
   const buffer = new TextEncoder().encode(JSON.stringify(metadata))
   const file = await ipfs.add(buffer)
   const uri = file.cid.toString()
   console.log('Uploaded metadata to IPFS. cid: ', uri);
 
   const accounts = await ethers.getSigners()
-  const contractAddress = fs.readFileSync(`./artifacts/${contractName}.address`).toString();
-  const contract = await ethers.getContractAt(contractName, contractAddress)
 
-  const manager = accounts[0]
-  const minter = accounts[1]
+  const contractAddress = Deployments.address;
+  const contract = await ethers.getContractAt('ArbArt', contractAddress)
+
+  const manager = new ethers.Wallet('0x630af0fbddb248b53f97ecf899ce11878d9dcd7e718574c92607153027632135')
+  const minter = accounts[0]
   const signature = await signMintingRequest(uri, minter.address, manager)
 
   await contract.connect(minter).mint(uri, manager.address, signature)
