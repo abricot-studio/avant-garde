@@ -153,6 +153,10 @@ function LoginButton() {
       leftIcon={<FontAwesomeIcon icon={faWallet} size="1x" />}
       isLoading={isConnecting}
       backgroundColor="white"
+      textTransform="uppercase"
+      fontWeight={500}
+      fontFamily="'Roboto Mono', sans-serif"
+      fontSize={{ base: '1rem', sm: '1em', md: '1rem' }}
       _hover={{}}
       _active={{}}
       loadingText="Connecting..."
