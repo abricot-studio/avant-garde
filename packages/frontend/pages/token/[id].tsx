@@ -20,7 +20,7 @@ const TokenPage: React.FC = () => {
   const { id } = router.query
 
   if(!id || router.isFallback){
-    return <p>loqdinh</p>
+    return <p>Loading</p>
   }
   return (
     <Layout>

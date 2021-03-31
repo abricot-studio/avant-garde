@@ -49,7 +49,7 @@ export default function Token({ id }) {
         <VStack>
           <HStack justify="space-between">
             <Box>Date</Box>
-            <Box>01/01/2021</Box>
+            <Box>{new Date(token.blockTimestamp * 1000).toLocaleDateString()}</Box>
           </HStack>
           <HStack justify="space-between">
             <Box>Current Price</Box>

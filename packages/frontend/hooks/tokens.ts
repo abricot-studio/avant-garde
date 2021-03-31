@@ -10,7 +10,8 @@ import { usePolling } from './graphql'
 export interface ArbArtToken {
   id: string;
   owner: string;
-  uri: string;
+  tokenURI: string;
+  blockTimestamp: number;
 }
 export interface ArbArtTokenMetadata {
   name: string;
@@ -24,7 +25,8 @@ export const TokenQuery = gql`
     arbArtToken(id: $address)  {
       id
       owner
-      uri
+      tokenURI
+      blockTimestamp
       #metadata {
       #  name
       #  description
@@ -36,10 +38,11 @@ export const TokenQuery = gql`
 `
 export const TokensQuery = gql`
   query TokensQuery($first: Int, $skip: Int) {
-    arbArtTokens(first: $first, skip: $skip)  {
+    arbArtTokens(first: $first, orderBy: blockTimestamp, orderDirection: desc, skip: $skip)  {
       id
       owner
-      uri
+      tokenURI
+      blockTimestamp
       #metadata {
       #  name
       #  description
@@ -51,10 +54,11 @@ export const TokensQuery = gql`
 `
 export const MyTokensQuery = gql`
   query MyTokensQuery($address: String!, $first: Int, $skip: Int) {
-    arbArtTokens(first: $first, skip: $skip, where: { owner: $address })  {
+    arbArtTokens(first: $first, skip: $skip, orderBy: blockTimestamp, orderDirection: desc, where: { owner: $address })  {
       id
       owner
-      uri
+      tokenURI
+      blockTimestamp
       #metadata {
       #  name
       #  description
@@ -82,7 +86,8 @@ async function fetchToken(provider: Provider, tokenId: string) {
   const arbArtToken: ArbArtToken = {
     id: tokenId,
     owner,
-    uri: tokenUri,
+    tokenURI: tokenUri,
+    blockTimestamp: 0
   };
   return arbArtToken;
 }
@@ -244,7 +249,7 @@ export const useMetadata = (arbArtToken: ArbArtToken): ArbArtTokenMetadata | nul
   const [metadata, setMetadata] = useState<ArbArtTokenMetadata | null>(null);
 
   useEffect(() => {
-    getIpfsData(arbArtToken.uri)
+    getIpfsData(arbArtToken.tokenURI)
       .then(setMetadata)
       .catch(console.error)
   }, [arbArtToken]);
