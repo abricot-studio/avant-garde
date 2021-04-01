@@ -12,6 +12,9 @@ contract ArbArt is ERC721URIStorage {
   using Counters for Counters.Counter;
   using Address for address payable;
 
+  event Minted(uint256 indexed tokenId, uint256 indexed mintPrice);
+  event Burned(uint256 indexed tokenId, uint256 indexed burnPrice);
+
   Counters.Counter countMint;
 
   uint8 constant fees = 10; // 10%
@@ -61,6 +64,7 @@ contract ArbArt is ERC721URIStorage {
     _setTokenURI(_tokenId, _uri);
     feesReceiver.sendValue(mintFees);
 
+    emit Minted(_tokenId, msg.value);
     return _tokenId;
 
   }
@@ -71,7 +75,10 @@ contract ArbArt is ERC721URIStorage {
 
     countMint.decrement();
     _burn(_tokenId);
-    payable(msg.sender).sendValue(currentPrice() );
+    uint256 burnPrice = currentPrice();
+    payable(msg.sender).sendValue(burnPrice);
+
+    emit Burned(_tokenId, burnPrice);
 
     return true;
 

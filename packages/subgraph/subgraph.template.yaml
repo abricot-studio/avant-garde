@@ -21,6 +21,10 @@ dataSources:
         - name: ArbArt
           file: ../contracts/deployments/{{ abiNetwork }}/ArbArt.abi.json
       eventHandlers:
+        - event: Minted(indexed uint256,indexed uint256)
+          handler: handleMinted
+        - event: Burned(indexed uint256,indexed uint256)
+          handler: handleBurned
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
       file: ./src/mapping.ts

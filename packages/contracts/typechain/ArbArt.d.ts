@@ -209,11 +209,15 @@ interface ArbArtInterface extends ethers.utils.Interface {
   events: {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
+    "Burned(uint256,uint256)": EventFragment;
+    "Minted(uint256,uint256)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Burned"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Minted"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
 
@@ -938,6 +942,22 @@ export class ArbArt extends Contract {
     ): TypedEventFilter<
       [string, string, boolean],
       { owner: string; operator: string; approved: boolean }
+    >;
+
+    Burned(
+      tokenId: BigNumberish | null,
+      burnPrice: BigNumberish | null
+    ): TypedEventFilter<
+      [BigNumber, BigNumber],
+      { tokenId: BigNumber; burnPrice: BigNumber }
+    >;
+
+    Minted(
+      tokenId: BigNumberish | null,
+      mintPrice: BigNumberish | null
+    ): TypedEventFilter<
+      [BigNumber, BigNumber],
+      { tokenId: BigNumber; mintPrice: BigNumber }
     >;
 
     Transfer(

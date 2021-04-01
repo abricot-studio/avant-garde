@@ -20,7 +20,7 @@ export const useMint = () => {
     getContract(account.provider)
       .then(c => c.connect(account.provider.getSigner()))
       .then(contract =>
-        contract.mint(generationResult.ipfsHashMetadata, generationResult.signerAddress, generationResult.signature)
+        contract.mint(generationResult.ipfsHashMetadata, generationResult.signature)
       )
       .then(tx => {
         setMintTx(tx.hash);

@@ -3,7 +3,7 @@ type ArbArtToken @entity {
   owner: Bytes!
   tokenURI: String!
   mintTimestamp: BigInt!
-  mintPrice: BigInt!
+  mintPrice: BigInt
   burnTimestamp: BigInt
   burnPrice: BigInt
   # metadata: ArbArtTokenMetadata
