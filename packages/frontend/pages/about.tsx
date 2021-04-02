@@ -1,6 +1,6 @@
 import Layout from '../components/Layout'
 import SEO from '../components/utils/SEO'
-import { ActionButton, Center, Heading, Text, Container } from '../components/ui'
+import { ActionButton, Center, Heading, Text, Container, Button } from '../components/ui'
 import Link from 'next/link'
 import React from 'react'
 
@@ -38,6 +38,10 @@ export default function About() {
           <Link passHref href="/generator">
             <ActionButton
               as="a"
+              bgColor="white"
+              px={24}
+              _hover={{}}
+              _active={{}}
             >Generate yours</ActionButton>
           </Link>
         </Center>

@@ -1,6 +1,6 @@
 import Layout from '../components/Layout'
 import SEO from '../components/utils/SEO'
-import { Button, Heading, Box } from '../components/ui'
+import { Button, Heading, Box, ActionButton } from '../components/ui'
 import React, { useEffect } from 'react'
 import { useWeb3 } from '../contexts/Web3Context'
 import { wrapUrqlClient } from '../lib/graphql'
@@ -62,7 +62,10 @@ const MyTokensPage: React.FC = () => {
             border="2px"
             borderColor="#3DDCC9"
             color="#3DDCC9"
+            bgColor="white"
+            px={24}
             _hover={{}}
+            _active={{}}
           >Discover the gallery</Button>
         </Link>
       </Box>

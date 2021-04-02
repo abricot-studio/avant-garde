@@ -1,5 +1,5 @@
 import React from 'react'
-import { Flex, Box, Heading, HStack, VStack, IconButton, ActionButton } from '../ui'
+import { Flex, Box, Heading, HStack, VStack, IconButton, ActionButton, Text } from '../ui'
 import { useToken, useTokenPriceBurn } from '../../hooks/tokens'
 import { TokenImage } from '../ui/TokenImage'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -24,6 +24,15 @@ function BurnButton({ token }){
     return (
       <ActionButton
         isLoading
+        variant="outline"
+        borderRadius="1rem"
+        border="2px"
+        borderColor="#C345FF"
+        color="#C345FF"
+        bgColor="white"
+        px={12}
+        _hover={{}}
+        _active={{}}
       >
         Loading burn price...
       </ActionButton>
@@ -41,8 +50,16 @@ function BurnButton({ token }){
       onClick={() => burn(token.id)}
       isLoading={isBurning}
       loadingText="Burning token..."
-    >Burn for Ξ
-      {utils.formatEther(utils.parseUnits(tokenBurnPrice.currentPrice, 'wei') )}
+      variant="outline"
+      borderRadius="1rem"
+      border="2px"
+      borderColor="#C345FF"
+      color="#C345FF"
+      bgColor="white"
+      px={12}
+      _hover={{}}
+      _active={{}}
+    >Burn for <Text ml={4}>Ξ {utils.formatEther(utils.parseUnits(tokenBurnPrice.currentPrice, 'wei') )}</Text>
     </ActionButton>
   )
 }

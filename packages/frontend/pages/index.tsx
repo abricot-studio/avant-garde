@@ -30,7 +30,10 @@ const Home: React.FC = () => {
             borderRadius="1rem"
             border="2px"
             borderColor="#C345FF"
+            bgColor="white"
+            px={12}
             _hover={{}}
+            _active={{}}
           >Discover</Button>
         </Link>
         <Link passHref href="/about">
@@ -40,7 +43,10 @@ const Home: React.FC = () => {
             borderRadius="1rem"
             border="2px"
             borderColor="#F0FF45"
+            bgColor="white"
+            px={12}
             _hover={{}}
+            _active={{}}
           >Learn more</Button>
         </Link>
       </HStack>

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { utils } from 'ethers'
-import { ActionButton, Box, Flex } from '../ui'
+import { ActionButton, Box, Flex, Text } from '../ui'
 import { useImageGeneration, ImageGenerationStatus } from '../../hooks/generation'
 import { getIpfsUrl } from '../../lib/ipfs'
 import { useWeb3 } from '../../contexts/Web3Context'
@@ -28,6 +28,14 @@ export default function Generate() {
     cta = (
       <ActionButton
         isLoading
+        borderRadius="1rem"
+        border="2px"
+        borderColor="#C345FF"
+        color="#C345FF"
+        bgColor="white"
+        px={12}
+        _hover={{}}
+        _active={{}}
       >
         Loading token...
       </ActionButton>
@@ -36,6 +44,14 @@ export default function Generate() {
     cta = (
       <ActionButton
         isLoading
+        borderRadius="1rem"
+        border="2px"
+        borderColor="#C345FF"
+        color="#C345FF"
+        bgColor="white"
+        px={12}
+        _hover={{}}
+        _active={{}}
       >
         Loading mint price...
       </ActionButton>
@@ -44,6 +60,14 @@ export default function Generate() {
     cta = (
       <ActionButton
         isDisabled
+        borderRadius="1rem"
+        border="2px"
+        borderColor="#C345FF"
+        color="#C345FF"
+        bgColor="white"
+        px={12}
+        _hover={{}}
+        _active={{}}
       >
         Mint successful !
       </ActionButton>
@@ -53,6 +77,14 @@ export default function Generate() {
       <ActionButton
         onClick={connect}
         isLoading={isConnecting}
+        borderRadius="1rem"
+        border="2px"
+        borderColor="#C345FF"
+        color="#C345FF"
+        bgColor="white"
+        px={12}
+        _hover={{}}
+        _active={{}}
       >Connect wallet</ActionButton>
     );
   } else if(generationResult) {
@@ -61,8 +93,16 @@ export default function Generate() {
         onClick={() => mint(generationResult)}
         isLoading={isMinting}
         loadingText="Minting token..."
+        borderRadius="1rem"
+        border="2px"
+        borderColor="#C345FF"
+        color="#C345FF"
+        bgColor="white"
+        px={12}
+        _hover={{}}
+        _active={{}}
       >
-        Mint for Ξ {utils.formatEther(utils.parseUnits(tokenMintPrice.total, 'wei') )}
+        Mint for <Text ml={4}>Ξ {utils.formatEther(utils.parseUnits(tokenMintPrice.total, 'wei') )}</Text>
       </ActionButton>
     );
   } else {
@@ -70,7 +110,15 @@ export default function Generate() {
       <ActionButton
         onClick={() => generateImage(account.address)}
         isLoading={isGenerating}
-        loadingText="Generating image"
+        loadingText="~30sec Processing..."
+        borderRadius="1rem"
+        border="2px"
+        borderColor="#C345FF"
+        color="#C345FF"
+        bgColor="white"
+        px={12}
+        _hover={{}}
+        _active={{}}
       >
         Generate
       </ActionButton>
