@@ -152,7 +152,9 @@ export default function Token({ id }) {
             />
           </HStack>
         </VStack>
-        <BurnButton token={token} />
+        <Box align="center" mt={8}>
+          <BurnButton token={token} />
+        </Box>
       </Box>
     </Flex>
   )
