@@ -11,8 +11,22 @@ export interface ArbArtToken {
   id: string;
   owner: string;
   tokenURI: string;
-  blockTimestamp: number;
+  mintTimestamp: string;
+  mintPrice?: string;
+  burnTimestamp?: string;
+  burnPrice?: string;
 }
+
+export interface ArbArtTokenMintPrice {
+  currentPrice: string;
+  fees: string;
+  total: string;
+}
+
+export interface ArbArtTokenBurnPrice {
+  currentPrice: string;
+}
+
 export interface ArbArtTokenMetadata {
   name: string;
   image: string;
@@ -26,7 +40,10 @@ export const TokenQuery = gql`
       id
       owner
       tokenURI
-      blockTimestamp
+      mintTimestamp
+      mintPrice
+      burnTimestamp
+      burnPrice
       #metadata {
       #  name
       #  description
@@ -38,11 +55,14 @@ export const TokenQuery = gql`
 `
 export const TokensQuery = gql`
   query TokensQuery($first: Int, $skip: Int) {
-    arbArtTokens(first: $first, orderBy: blockTimestamp, orderDirection: desc, skip: $skip)  {
+    arbArtTokens(first: $first, orderBy: mintTimestamp, orderDirection: desc, skip: $skip)  {
       id
       owner
       tokenURI
-      blockTimestamp
+      mintTimestamp
+      mintPrice
+      burnTimestamp
+      burnPrice
       #metadata {
       #  name
       #  description
@@ -54,11 +74,14 @@ export const TokensQuery = gql`
 `
 export const MyTokensQuery = gql`
   query MyTokensQuery($address: String!, $first: Int, $skip: Int) {
-    arbArtTokens(first: $first, skip: $skip, orderBy: blockTimestamp, orderDirection: desc, where: { owner: $address })  {
+    arbArtTokens(first: $first, skip: $skip, orderBy: mintTimestamp, orderDirection: desc, where: { owner: $address })  {
       id
       owner
       tokenURI
-      blockTimestamp
+      mintTimestamp
+      mintPrice
+      burnTimestamp
+      burnPrice
       #metadata {
       #  name
       #  description
@@ -136,6 +159,118 @@ export const useMyTokenOnChain = () => {
     myToken,
     fetching,
   };
+}
+
+export async function fetchTokenPriceMint(provider: Provider) {
+  const contract = await getContract(provider);
+  const tokenMintPrice = await contract.currentMintPrice()
+  const arbArtTokenMintPrice: ArbArtTokenMintPrice = {
+    currentPrice: tokenMintPrice[0].toString(),
+    fees: tokenMintPrice[1].toString(),
+    total: tokenMintPrice[0].add(tokenMintPrice[1]).toString()
+  };
+  return arbArtTokenMintPrice;
+}
+
+export const useTokenMintPrice = () => {
+  const { account } = useWeb3();
+  const [fetchingMint, setFetchingMint] = useState<boolean>(true);
+  const [tokenMintPrice, setTokenMintPrice] = useState<ArbArtTokenMintPrice | null>(null);
+
+  useEffect(() => {
+    if(!account) {
+      setTokenMintPrice(null)
+      setFetchingMint(false)
+      return;
+    }
+
+    const { provider } = account;
+
+    setFetchingMint(true)
+    const poll = () => {
+      fetchTokenPriceMint(account.provider)
+        .then((arbArtTokenMintPrice: ArbArtTokenMintPrice | null) => {
+          if(!arbArtTokenMintPrice) {
+            setTokenMintPrice(null)
+            setFetchingMint(false)
+            return;
+          }
+          provider.removeListener('block', poll);
+          setTokenMintPrice(arbArtTokenMintPrice);
+          setFetchingMint(false)
+        })
+        .catch(error => {
+          setTokenMintPrice(null)
+          setFetchingMint(false)
+          console.error(error);
+        });
+    }
+
+    provider.on('block', poll);
+    return () => {
+      provider.removeListener('block', poll);
+    }
+  }, [account]);
+
+  return {
+    tokenMintPrice,
+    fetchingMint,
+  };
+}
+
+async function fetchTokenBurnMint(provider: Provider) {
+  const contract = await getContract(provider);
+  const tokenBurnPrice = await contract.currentPrice()
+  const arbArtTokenBurnPrice: ArbArtTokenBurnPrice = {
+    currentPrice: tokenBurnPrice.currentPrice.toString(),
+  };
+  return arbArtTokenBurnPrice;
+}
+
+export const useTokenBurnPrice = () => {
+  const { account } = useWeb3();
+  const [fetching, setFetching] = useState<boolean>(true);
+  const [tokenBurnPrice, setTokenBurnPrice] = useState<ArbArtTokenBurnPrice | null>(null);
+
+  useEffect(() => {
+    if(!account) {
+      setTokenBurnPrice(null)
+      setFetching(false)
+      return;
+    }
+
+    const { provider } = account;
+
+    setFetching(true)
+    const poll = () => {
+      fetchTokenBurnMint(account.provider)
+        .then((arbArtTokenBurnPrice: ArbArtTokenBurnPrice | null) => {
+          if(!arbArtTokenBurnPrice) {
+            setTokenBurnPrice(null)
+            setFetching(false)
+            return;
+          }
+          provider.removeListener('block', poll);
+          setTokenBurnPrice(arbArtTokenBurnPrice);
+          setFetching(false)
+        })
+        .catch(error => {
+          setTokenBurnPrice(null)
+          setFetching(false)
+          console.error(error);
+        });
+    }
+
+    provider.on('block', poll);
+    return () => {
+      provider.removeListener('block', poll);
+    }
+  }, [account]);
+
+  return {
+    tokenBurnPrice,
+    fetching,
+  }
 }
 
 export interface TokensProps {

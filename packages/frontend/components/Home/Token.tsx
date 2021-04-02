@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { faReddit, faTwitter, faInstagram } from '@fortawesome/free-brands-svg-icons'
 import { useRouter } from 'next/router'
+import { utils } from 'ethers'
 
 export default function Token({ id }) {
   const { token, fetching } = useToken(id)
@@ -50,11 +51,11 @@ export default function Token({ id }) {
         <VStack>
           <HStack justify="space-between">
             <Box>Date</Box>
-            <Box>{new Date(token.blockTimestamp * 1000).toISOString()}</Box>
+            <Box>{new Date(Number(token.mintTimestamp) * 1000).toISOString()}</Box>
           </HStack>
           <HStack justify="space-between">
-            <Box>Current Price</Box>
-            <Box>0.1 ETH</Box>
+            <Box>Mint Price</Box>
+            <Box>Ξ {utils.formatEther(utils.parseUnits(token.mintPrice, 'wei') )}</Box>
           </HStack>
           <HStack spacing={12}>
             <IconButton

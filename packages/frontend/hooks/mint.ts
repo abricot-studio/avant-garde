@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react'
 import { useWeb3 } from '../contexts/Web3Context'
 import { getContract } from '../lib/contracts'
-import { useToken } from './tokens'
+import { ArbArtTokenMintPrice, useToken, fetchTokenPriceMint } from './tokens'
 
 export const useMint = () => {
   const { account } = useWeb3();
@@ -17,24 +17,30 @@ export const useMint = () => {
 
     setIsMinting(true);
 
-    getContract(account.provider)
-      .then(c => c.connect(account.provider.getSigner()))
-      .then(contract =>
-        contract.mint(generationResult.ipfsHashMetadata, generationResult.signature)
-      )
-      .then(tx => {
-        setMintTx(tx.hash);
-        return account.provider.waitForTransaction(tx.hash)
+    fetchTokenPriceMint(account.provider)
+      .then( (arbArtTokenMintPrice: ArbArtTokenMintPrice) => {
+
+        getContract(account.provider)
+          .then(c => c.connect(account.provider.getSigner()))
+          .then(contract =>
+            contract.mint(generationResult.ipfsHashMetadata, generationResult.signature, {
+              value: arbArtTokenMintPrice.total
+            })
+          )
+          .then(tx => {
+            setMintTx(tx.hash);
+            return account.provider.waitForTransaction(tx.hash)
+          })
+          .then(() => {
+            setMinted(true);
+            setIsMinting(false);
+            startPolling();
+          })
+          .catch(error => {
+            console.error(error);
+            setIsMinting(false);
+          });
       })
-      .then(() => {
-        setMinted(true);
-        setIsMinting(false);
-        startPolling();
-      })
-      .catch(error => {
-        console.error(error);
-        setIsMinting(false);
-      });
   }, [account, startPolling]);
 
   return { mint, minted, mintTx, isMinting };
