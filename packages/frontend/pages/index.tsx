@@ -4,6 +4,7 @@ import Hero from '../components/Home/Hero'
 import { Button, HStack } from '../components/ui'
 import Link from 'next/link'
 import React from 'react'
+import { wrapUrqlClient } from '../lib/graphql'
 
 const seoData = {
   title: 'View Brain',
@@ -47,4 +48,4 @@ const Home: React.FC = () => {
   )
 }
 
-export default Home;
+export default wrapUrqlClient(Home);
