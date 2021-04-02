@@ -31,6 +31,7 @@ function BurnButton({ token }){
         color="#C345FF"
         bgColor="white"
         px={12}
+        rounded="full"
         _hover={{}}
         _active={{}}
       >
@@ -57,6 +58,7 @@ function BurnButton({ token }){
       color="#C345FF"
       bgColor="white"
       px={12}
+      rounded="full"
       _hover={{}}
       _active={{}}
     >Burn for <Text ml={4}>Ξ {utils.formatEther(utils.parseUnits(tokenBurnPrice.currentPrice, 'wei') )}</Text>

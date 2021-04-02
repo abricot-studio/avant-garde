@@ -40,6 +40,7 @@ export default function About() {
               as="a"
               bgColor="white"
               px={24}
+              rounded="full"
               _hover={{}}
               _active={{}}
             >Generate yours</ActionButton>

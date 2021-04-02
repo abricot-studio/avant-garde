@@ -32,6 +32,7 @@ const Home: React.FC = () => {
             borderColor="#C345FF"
             bgColor="white"
             px={12}
+            rounded="full"
             _hover={{}}
             _active={{}}
           >Discover</Button>
@@ -45,6 +46,7 @@ const Home: React.FC = () => {
             borderColor="#F0FF45"
             bgColor="white"
             px={12}
+            rounded="full"
             _hover={{}}
             _active={{}}
           >Learn more</Button>

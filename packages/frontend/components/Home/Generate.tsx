@@ -34,6 +34,7 @@ export default function Generate() {
         color="#C345FF"
         bgColor="white"
         px={12}
+        rounded="full"
         _hover={{}}
         _active={{}}
       >
@@ -50,6 +51,7 @@ export default function Generate() {
         color="#C345FF"
         bgColor="white"
         px={12}
+        rounded="full"
         _hover={{}}
         _active={{}}
       >
@@ -66,6 +68,7 @@ export default function Generate() {
         color="#C345FF"
         bgColor="white"
         px={12}
+        rounded="full"
         _hover={{}}
         _active={{}}
       >
@@ -83,6 +86,7 @@ export default function Generate() {
         color="#C345FF"
         bgColor="white"
         px={12}
+        rounded="full"
         _hover={{}}
         _active={{}}
       >Connect wallet</ActionButton>
@@ -99,6 +103,7 @@ export default function Generate() {
         color="#C345FF"
         bgColor="white"
         px={12}
+        rounded="full"
         _hover={{}}
         _active={{}}
       >
@@ -117,6 +122,7 @@ export default function Generate() {
         color="#C345FF"
         bgColor="white"
         px={12}
+        rounded="full"
         _hover={{}}
         _active={{}}
       >
@@ -128,7 +134,14 @@ export default function Generate() {
   const imageSrc = generationResult && generationResult.status === ImageGenerationStatus.SUCCESS && getIpfsUrl(generationResult.ipfsHashImage);
   return (
     <Flex direction="column" align="center">
-      <ImageFrame src={imageSrc} isLoading={isGenerating} size={350} />
+      <Box position="absolute" top="35%">
+      </Box>
+      <ImageFrame
+        src={imageSrc}
+        isLoading={isGenerating}
+        size={350}
+        isQuestion={!isGenerating && !generationResult}
+      />
       <Box mt={8}>
         {cta}
       </Box>

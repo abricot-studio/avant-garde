@@ -64,6 +64,7 @@ const MyTokensPage: React.FC = () => {
             color="#3DDCC9"
             bgColor="white"
             px={24}
+            rounded="full"
             _hover={{}}
             _active={{}}
           >Discover the gallery</Button>

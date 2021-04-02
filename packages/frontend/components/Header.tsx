@@ -48,9 +48,10 @@ const NavButton = forwardRef<NavButtonProps & ButtonProps, "a">( ({ children, co
       textTransform="none"
       fontWeight={500}
       fontFamily="'Roboto Mono', sans-serif"
-      fontSize={{ base: '0.5rem', sm: '1em', md: '1rem' }}
+      fontSize={{ base: '0.5rem', sm: '1rem', md: '1rem' }}
       rounded="xl"
       size="sm"
+      py="1rem"
       _hover={{
         borderColor: color
       }}
@@ -104,14 +105,14 @@ function LoginButton() {
           as={Button}
           width={{ base: '100px', sm: '200px', md: '200px' }}
           variant="outline"
-          borderRadius="4rem"
+          rounded="full"
           border="1px"
           borderColor="black"
           backgroundColor="white"
           textTransform="none"
           fontWeight={300}
           fontFamily="Roboto, sans-serif"
-          fontSize={{ base: '1rem', sm: '1em', md: '1rem' }}
+          fontSize={{ base: '1rem', sm: '1rem', md: '1rem' }}
           _hover={{}}
           _active={{}}
           rightIcon={<Avatar size="xs" />}
@@ -146,7 +147,6 @@ function LoginButton() {
     <Button
       width="200px"
       variant="outline"
-      borderRadius="4rem"
       border="1px"
       borderColor="black"
       onClick={connect}
@@ -156,9 +156,10 @@ function LoginButton() {
       textTransform="uppercase"
       fontWeight={500}
       fontFamily="'Roboto Mono', sans-serif"
-      fontSize={{ base: '1rem', sm: '1em', md: '1rem' }}
+      fontSize={{ base: '1rem', sm: '1rem', md: '1rem' }}
       _hover={{}}
       _active={{}}
+      rounded="full"
       loadingText="Connecting..."
     >
       Connect
