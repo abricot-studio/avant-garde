@@ -2,7 +2,18 @@ import Layout from '../components/Layout'
 import SEO from '../components/utils/SEO'
 import { ActionButton, Center, Heading, Text, Container, Button } from '../components/ui'
 import Link from 'next/link'
-import React from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
+import {
+  VictoryChart,
+  VictoryLine,
+  VictoryAxis,
+  VictoryBar,
+  VictoryScatter,
+  VictoryGroup,
+  VictoryLabel,
+  VictoryTooltip,
+  VictoryVoronoiContainer,
+} from 'victory'
 
 const seoData = {
   title: 'About View Brain',
@@ -26,6 +37,223 @@ function Description() {
     </>
   )
 }
+
+function priceFor(i){
+
+  return Math.pow(i, 2) / 10000
+
+}
+
+function Chart(){
+
+  const [stopSsr, setStopSsr] = useState(false)
+
+  useEffect(() =>{
+    setStopSsr(true)
+  }, [])
+
+  const { dataPast, dataNext, mintCounter, currentPrice } = useMemo( () => {
+
+    const mintCounter = 100
+    const currentPrice = priceFor(mintCounter)
+    const dataPast = []
+    const dataNext = []
+
+    for(let i = 0; i <= mintCounter; i++){
+      dataPast.push({
+        x: i,
+        y: priceFor(i)
+      })
+    }
+
+    for(let i = mintCounter; i < mintCounter * 3; i++){
+      dataNext.push({
+        x: i,
+        y: priceFor(i)
+      })
+    }
+
+    return { dataPast, dataNext, mintCounter, currentPrice}
+
+  }, [])
+
+  if(!stopSsr){
+    return null
+  }
+
+  return (
+    <VictoryChart
+      domain={{ x: [0, dataNext[dataNext.length -1].x], y: [0, dataNext[dataNext.length -1].y] }}
+      containerComponent={
+        <VictoryVoronoiContainer
+          voronoiDimension="x"
+          labels={ ({ datum }) => {
+            // console.log(datum.childName)
+            return `Price: Ξ ${datum.y}\nMinted: ${datum.x}`
+          }}
+
+          labelComponent={<VictoryTooltip
+            cornerRadius={0}
+            style={{
+              textAlign: 'left',
+              fontFamily: "Roboto Mono",
+              fontSize: 7,
+              fontWeight: 500,
+            }}
+            flyoutStyle={{
+              fill: "white",
+            }}
+          />}
+        />
+      }
+    >
+
+      <VictoryAxis
+        dependentAxis
+        tickFormat={(y) => (`Ξ ${y}`)}
+        // // label="Price"
+        // labelComponent={
+        //   <VictoryLabel
+        //     verticalAnchor="middle"
+        //     textAnchor="end"
+        //     style={{
+        //       fontFamily: "Roboto Mono",
+        //     }}
+        //     text={"fgsdh"}
+        //   />
+        // }
+        style={{
+          tickLabels: {
+            fontFamily: "Roboto Mono",
+            fontSize: 9,
+          },
+          // axis: { stroke: "#756f6a" },
+          axisLabel: {
+            // fontSize: 10,
+          },
+        }}
+      />
+      <VictoryLabel
+        x={30}
+        y={30}
+        style={{
+          fontFamily: "Roboto Mono",
+          fontSize: 15,
+        }}
+        text={"Price"}
+      />
+      <VictoryAxis
+        // tickFormat={(x) => x}
+        // label="Minted"
+        style={{
+          tickLabels: {
+            fontFamily: "Roboto Mono",
+            fontSize: 10,
+          },
+          // axis: { stroke: "#756f6a" },
+          axisLabel: {
+            fontFamily: "Roboto Mono",
+            fontSize: 15,
+          },
+        }}
+      />
+      <VictoryLabel
+        x={370}
+        y={235}
+        style={{
+          fontFamily: "Roboto Mono",
+          fontSize: 15,
+        }}
+        text={"Minted"}
+      />
+      <VictoryLine
+        interpolation="natural"
+        style={{
+          data: {
+            stroke: "#00FFC2",
+            strokeWidth: 2,
+          }
+        }}
+        data={dataPast}
+        x="x"
+        y="y"
+      />
+      <VictoryLine
+        interpolation="natural"
+        style={{
+          data: {
+            stroke: "#00FFC2",
+            strokeWidth: 2,
+            strokeDasharray: "10,5"
+          }
+        }}
+        data={dataNext}
+        x="x"
+        y="y"
+        labelComponent={
+          <VictoryTooltip
+          />
+        }
+      />
+      <VictoryScatter
+        style={{
+          data: {
+            fill: "red",
+            // fillOpacity: 0.1,
+            // stroke: "#c43a31",
+            // strokeWidth: 1
+          },
+          labels: {
+            fontFamily: "Roboto Mono",
+            fontSize: 15, fill: "#c43a31", padding: 8
+          }
+        }}
+        size={5}
+        data={[{ x: mintCounter, y: currentPrice }]}
+        x="x"
+        y="y"
+        labels={({ datum }) => datum.x}
+      />
+
+
+      <VictoryLine
+        style={{
+          data: { stroke: "red", width: 5 }
+        }}
+        labelComponent={
+          <VictoryLabel
+            verticalAnchor="middle"
+            textAnchor="start"
+            x={60}
+            style={{
+              fontFamily: "Roboto Mono",
+              fontSize: 12
+            }}
+          />
+        }
+        data={[
+          { x: 0, y: currentPrice, label: currentPrice},
+          { x: mintCounter, y: currentPrice, label: ''}
+        ]}
+      />
+      <VictoryBar
+        standalone={false}
+        style={{
+          data: {
+            fill: "red",
+            width: 3
+          }
+        }}
+
+        data={[{ x: mintCounter, y: currentPrice }]}
+        x="x"
+        y="y"
+      />
+
+    </VictoryChart>
+  )
+}
+
 export default function About() {
   return (
     <Layout>
@@ -34,6 +262,7 @@ export default function About() {
         maxW="container.sm"
       >
         <Description />
+        <Chart />
         <Center mt={8}>
           <Link passHref href="/generator">
             <ActionButton
