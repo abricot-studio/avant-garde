@@ -5,14 +5,14 @@ import { useImageGeneration, ImageGenerationStatus } from '../../hooks/generatio
 import { getIpfsUrl } from '../../lib/ipfs'
 import { useWeb3 } from '../../contexts/Web3Context'
 import { useMint } from '../../hooks/mint'
-import { useToken, useTokenMintPrice } from '../../hooks/tokens'
+import { useToken, useTokenPriceMint } from '../../hooks/tokens'
 import { useRouter } from 'next/router'
 import { ImageFrame } from '../ui/TokenImage'
 
 export default function Generate() {
   const { account, connect, isConnecting } = useWeb3();
   const { token, fetching } = useToken(account?.address)
-  const { tokenMintPrice, fetchingMint } = useTokenMintPrice()
+  const { tokenMintPrice, fetching: fetchingMint } = useTokenPriceMint()
   const { generateImage, isGenerating, generationResult } = useImageGeneration();
   const { mint, minted, isMinting } = useMint();
   const router = useRouter()
@@ -37,7 +37,7 @@ export default function Generate() {
       <ActionButton
         isLoading
       >
-        Loading token price...
+        Loading mint price...
       </ActionButton>
     );
   } else if(minted) {

@@ -139,7 +139,7 @@ export default function Tokens({ tokens, fetching, error }: Props) {
       {
         tokensDisplayed[1] &&
           <Address mt={2}>
-            {tokensDisplayed[1].owner}
+            {tokensDisplayed[1].id}
           </Address>
       }
     </Flex>
