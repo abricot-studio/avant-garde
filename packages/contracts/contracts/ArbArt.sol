@@ -15,7 +15,7 @@ contract ArbArt is ERC721URIStorage {
   event Minted(uint256 indexed tokenId, uint256 indexed mintPrice);
   event Burned(uint256 indexed tokenId, uint256 indexed burnPrice);
 
-  Counters.Counter countMint;
+  Counters.Counter public countMint;
 
   uint8 constant fees = 10; // 10%
   address payable public feesReceiver;
@@ -24,7 +24,6 @@ contract ArbArt is ERC721URIStorage {
   constructor(address _manager, address payable _feesReceiver) ERC721("ArbArt", "ARBT") {
     manager = _manager;
     feesReceiver = _feesReceiver;
-    countMint._value = 1;
   }
 
   function changeFeesReceiver(address _newFeesReceiver) public returns (bool){
@@ -86,19 +85,19 @@ contract ArbArt is ERC721URIStorage {
 
   // Price
   function currentPrice() public view returns (uint256){
-    return priceFor(countMint.current() );
+    return priceFor(countMint.current() + 1);
   }
 
   function currentMintPrice() public view returns (uint256, uint256){
-    return mintPriceFor(countMint.current() );
+    return mintPriceFor(countMint.current() + 1);
   }
 
   function currentBurnPrice() public view returns (uint256){
-    return priceFor(countMint.current() - 1);
+    return priceFor(countMint.current());
   }
 
   function currentMintWithFeesPrice() public view returns (uint256){
-    return mintWithFeesPriceFor(countMint.current() );
+    return mintWithFeesPriceFor(countMint.current() + 1);
   }
 
   function mintWithFeesPriceFor(uint256 _current) public pure returns (uint256){

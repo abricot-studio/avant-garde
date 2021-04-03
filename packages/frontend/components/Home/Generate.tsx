@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { utils } from 'ethers'
-import { ActionButton, Box, Flex, Text } from '../ui'
+import { ActionButton, Box, Flex, HStack, Text, VStack } from '../ui'
 import { useImageGeneration, ImageGenerationStatus } from '../../hooks/generation'
 import { getIpfsUrl } from '../../lib/ipfs'
 import { useWeb3 } from '../../contexts/Web3Context'
@@ -93,22 +93,61 @@ export default function Generate() {
     );
   } else if(generationResult) {
     cta = (
-      <ActionButton
-        onClick={() => mint(generationResult)}
-        isLoading={isMinting}
-        loadingText="Minting token..."
-        borderRadius="1rem"
-        border="2px"
-        borderColor="#C345FF"
-        color="#C345FF"
-        bgColor="white"
-        px={12}
-        rounded="full"
-        _hover={{}}
-        _active={{}}
-      >
-        Mint for <Text ml={4}>Ξ {utils.formatEther(utils.parseUnits(tokenMintPrice.total, 'wei') )}</Text>
-      </ActionButton>
+      <Box>
+        <ActionButton
+          onClick={() => mint(generationResult)}
+          isLoading={isMinting}
+          loadingText="Minting token..."
+          borderRadius="1rem"
+          border="2px"
+          borderColor="#C345FF"
+          color="#C345FF"
+          bgColor="white"
+          px={12}
+          rounded="full"
+          _hover={{}}
+          _active={{}}
+        >
+          Mint for <Text ml={4}>Ξ {utils.formatEther(utils.parseUnits(tokenMintPrice.total, 'wei') )}</Text>
+        </ActionButton>
+        <HStack
+          mt={4}
+          justifyContent="center"
+        >
+          <VStack
+            alignItems="start"
+          >
+            {/*<Flex*/}
+            {/*  fontWeight={500}*/}
+            {/*>*/}
+            {/* Minted*/}
+            {/*</Flex>*/}
+            <Flex
+              fontWeight={500}
+            >
+              Price
+            </Flex>
+            <Flex
+              fontWeight={500}
+            >
+              Platform fees
+            </Flex>
+          </VStack>
+          <VStack
+            alignItems="start"
+          >
+            {/*<Flex ml={4}>*/}
+            {/*  2*/}
+            {/*</Flex>*/}
+            <Flex>
+              <Text ml={4}>Ξ {utils.formatEther(utils.parseUnits(tokenMintPrice.fees, 'wei') )}</Text>
+            </Flex>
+            <Flex>
+              <Text ml={4}>Ξ {utils.formatEther(utils.parseUnits(tokenMintPrice.currentPrice, 'wei') )}</Text>
+            </Flex>
+          </VStack>
+        </HStack>
+      </Box>
     );
   } else {
     cta = (

@@ -138,7 +138,11 @@ export default function Tokens({ tokens, fetching, error }: Props) {
       </Flex>
       {
         tokensDisplayed[1] &&
-          <Address mt={2}>
+          <Address
+            mt={2}
+            fontWeight={700}
+            fontSize={{ base: '0.8rem', sm: '1rem', md: '1.2rem' }}
+          >
             {tokensDisplayed[1].id}
           </Address>
       }

@@ -9,7 +9,6 @@ import {
   VictoryAxis,
   VictoryBar,
   VictoryScatter,
-  VictoryGroup,
   VictoryLabel,
   VictoryTooltip,
   VictoryVoronoiContainer,
@@ -54,7 +53,7 @@ function Chart(){
 
   const { dataPast, dataNext, mintCounter, currentPrice } = useMemo( () => {
 
-    const mintCounter = 100
+    const mintCounter = 5
     const currentPrice = priceFor(mintCounter)
     const dataPast = []
     const dataNext = []
@@ -82,175 +81,205 @@ function Chart(){
   }
 
   return (
-    <VictoryChart
-      domain={{ x: [0, dataNext[dataNext.length -1].x], y: [0, dataNext[dataNext.length -1].y] }}
-      containerComponent={
-        <VictoryVoronoiContainer
-          voronoiDimension="x"
-          labels={ ({ datum }) => {
-            // console.log(datum.childName)
-            return `Price: Ξ ${datum.y}\nMinted: ${datum.x}`
-          }}
+    <>
+      <Heading
+        textAlign="center"
+        mb={8}
+        fontSize={20}
+      >Price bounding curve</Heading>
+      <VictoryChart
+        domain={{ x: [0, dataNext[dataNext.length -1].x], y: [0, dataNext[dataNext.length -1].y] }}
+        containerComponent={
+          <VictoryVoronoiContainer
+            voronoiDimension="x"
+            labels={ ({ datum }) => {
+              if(datum.x === 0){
+                return null
+              }
+              if(datum.childName === 'linetNext' && datum.x === mintCounter){
+                return null
+              }
 
-          labelComponent={<VictoryTooltip
-            cornerRadius={0}
-            style={{
-              textAlign: 'left',
-              fontFamily: "Roboto Mono",
-              fontSize: 7,
-              fontWeight: 500,
-            }}
-            flyoutStyle={{
-              fill: "white",
-            }}
-          />}
-        />
-      }
-    >
+              if(['linetPast', 'linetNext'].includes(datum.childName) ){
 
-      <VictoryAxis
-        dependentAxis
-        tickFormat={(y) => (`Ξ ${y}`)}
-        // // label="Price"
-        // labelComponent={
-        //   <VictoryLabel
-        //     verticalAnchor="middle"
-        //     textAnchor="end"
-        //     style={{
-        //       fontFamily: "Roboto Mono",
-        //     }}
-        //     text={"fgsdh"}
-        //   />
-        // }
-        style={{
-          tickLabels: {
-            fontFamily: "Roboto Mono",
-            fontSize: 9,
-          },
-          // axis: { stroke: "#756f6a" },
-          axisLabel: {
-            // fontSize: 10,
-          },
-        }}
-      />
-      <VictoryLabel
-        x={30}
-        y={30}
-        style={{
-          fontFamily: "Roboto Mono",
-          fontSize: 15,
-        }}
-        text={"Price"}
-      />
-      <VictoryAxis
-        // tickFormat={(x) => x}
-        // label="Minted"
-        style={{
-          tickLabels: {
-            fontFamily: "Roboto Mono",
-            fontSize: 10,
-          },
-          // axis: { stroke: "#756f6a" },
-          axisLabel: {
+                return `Price: Ξ ${datum.y}\nMinted: ${datum.x}`
+              }
+              return null
+            }}
+            labelComponent={<VictoryTooltip
+              cornerRadius={0}
+              style={{
+                fontFamily: "Roboto Mono",
+                letterSpacing: "-3%",
+                fontSize: 7,
+                fontWeight: 500,
+              }}
+              flyoutStyle={{
+                fill: "white",
+              }}
+            />}
+          />
+        }
+      >
+        <VictoryLabel
+          x={330}
+          y={40}
+          style={{
             fontFamily: "Roboto Mono",
             fontSize: 15,
-          },
-        }}
-      />
-      <VictoryLabel
-        x={370}
-        y={235}
-        style={{
-          fontFamily: "Roboto Mono",
-          fontSize: 15,
-        }}
-        text={"Minted"}
-      />
-      <VictoryLine
-        interpolation="natural"
-        style={{
-          data: {
-            stroke: "#00FFC2",
-            strokeWidth: 2,
-          }
-        }}
-        data={dataPast}
-        x="x"
-        y="y"
-      />
-      <VictoryLine
-        interpolation="natural"
-        style={{
-          data: {
-            stroke: "#00FFC2",
-            strokeWidth: 2,
-            strokeDasharray: "10,5"
-          }
-        }}
-        data={dataNext}
-        x="x"
-        y="y"
-        labelComponent={
-          <VictoryTooltip
-          />
-        }
-      />
-      <VictoryScatter
-        style={{
-          data: {
-            fill: "red",
-            // fillOpacity: 0.1,
-            // stroke: "#c43a31",
-            // strokeWidth: 1
-          },
-          labels: {
+            borderBottom: "1px solid black"
+          }}
+          text={"x²"}
+        />
+        <VictoryLine
+          name="formulaUnderscore"
+          style={{
+            data: {
+              stroke: "black",
+              strokeWidth: 2,
+            }
+          }}
+          data={[
+            {x: dataNext[dataNext.length -1].x - (dataNext[dataNext.length -1].x * 0.25), y: dataNext[dataNext.length -1].y},
+            {x: dataNext[dataNext.length -1].x - (dataNext[dataNext.length -1].x * 0.11), y: dataNext[dataNext.length -1].y},
+          ]}
+          x="x"
+          y="y"
+        />
+        <VictoryLabel
+          x={315}
+          y={60}
+          style={{
             fontFamily: "Roboto Mono",
-            fontSize: 15, fill: "#c43a31", padding: 8
-          }
-        }}
-        size={5}
-        data={[{ x: mintCounter, y: currentPrice }]}
-        x="x"
-        y="y"
-        labels={({ datum }) => datum.x}
-      />
-
-
-      <VictoryLine
-        style={{
-          data: { stroke: "red", width: 5 }
-        }}
-        labelComponent={
-          <VictoryLabel
-            verticalAnchor="middle"
-            textAnchor="start"
-            x={60}
-            style={{
+            fontSize: 15,
+            borderBottom: "1px solid black"
+          }}
+          text={"10000"}
+        />
+        <VictoryAxis
+          dependentAxis
+          tickFormat={(y) => (`Ξ ${y}`)}
+          style={{
+            tickLabels: {
               fontFamily: "Roboto Mono",
-              fontSize: 12
-            }}
-          />
-        }
-        data={[
-          { x: 0, y: currentPrice, label: currentPrice},
-          { x: mintCounter, y: currentPrice, label: ''}
-        ]}
-      />
-      <VictoryBar
-        standalone={false}
-        style={{
-          data: {
-            fill: "red",
-            width: 3
+              fontSize: 9,
+            },
+          }}
+        />
+        <VictoryLabel
+          x={30}
+          y={30}
+          style={{
+            fontFamily: "Roboto Mono",
+            fontSize: 15,
+          }}
+          text={"Price"}
+        />
+        <VictoryAxis
+          style={{
+            tickLabels: {
+              fontFamily: "Roboto Mono",
+              fontSize: 10,
+            },
+            axisLabel: {
+              fontFamily: "Roboto Mono",
+              fontSize: 15,
+            },
+          }}
+        />
+        <VictoryLabel
+          x={370}
+          y={235}
+          style={{
+            fontFamily: "Roboto Mono",
+            fontSize: 15,
+          }}
+          text={"Minted"}
+        />
+
+        <VictoryLine
+          name="linetPast"
+          interpolation="natural"
+          style={{
+            data: {
+              stroke: "#00FFC2",
+              strokeWidth: 2,
+            }
+          }}
+          data={dataPast}
+          x="x"
+          y="y"
+        />
+        <VictoryLine
+          name="linetNext"
+          interpolation="natural"
+          style={{
+            data: {
+              stroke: "#00FFC2",
+              strokeWidth: 2,
+              strokeDasharray: "10,5"
+            }
+          }}
+          data={dataNext}
+          x="x"
+          y="y"
+        />
+
+        <VictoryScatter
+          name="currentPoint"
+          style={{
+            data: {
+              fill: "red",
+            },
+            labels: {
+              fontFamily: "Roboto Mono",
+              fontSize: 15, fill: "#c43a31", padding: 8
+            }
+          }}
+          size={5}
+          data={[{ x: mintCounter, y: currentPrice }]}
+          x="x"
+          y="y"
+          labels={({ datum }) => datum.x}
+        />
+        <VictoryLine
+          name="currentHLine"
+          style={{
+            data: { stroke: "red", width: 5 }
+          }}
+          labelComponent={
+            <VictoryLabel
+              verticalAnchor="middle"
+              textAnchor="start"
+              x={60}
+              style={{
+                fontFamily: "Roboto Mono",
+                fontSize: 12
+              }}
+            />
           }
-        }}
+          labels={({ datum }) => datum.x}
+          data={[
+            { x: 0, y: currentPrice, label: currentPrice},
+            { x: mintCounter, y: currentPrice, label: ''}
+          ]}
+        />
+        <VictoryBar
+          name="currentVLine"
+          style={{
+            data: {
+              fill: "red",
+              width: 3
+            }
+          }}
 
-        data={[{ x: mintCounter, y: currentPrice }]}
-        x="x"
-        y="y"
-      />
+          data={[{ x: mintCounter, y: currentPrice }]}
+          x="x"
+          y="y"
+        />
 
-    </VictoryChart>
+      </VictoryChart>
+    </>
   )
 }
 
