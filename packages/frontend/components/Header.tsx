@@ -48,10 +48,10 @@ const NavButton = forwardRef<NavButtonProps & ButtonProps, "a">( ({ children, co
       textTransform="none"
       fontWeight={500}
       fontFamily="'Roboto Mono', sans-serif"
+      lineHeight={1}
       fontSize={{ base: '0.5rem', sm: '1rem', md: '1rem' }}
       rounded="xl"
       size="sm"
-      py="1rem"
       _hover={{
         borderColor: color
       }}
@@ -171,7 +171,7 @@ function LoginButton() {
 export default function Header() {
   const { y } = useWindowScroll()
   const router = useRouter()
-  const scrolled = useMemo(() => y > 80, [y])
+  const scrolled = useMemo(() => y > 60, [y])
 
   return (
     <Box

@@ -296,9 +296,6 @@ export default function About() {
           <Link passHref href="/generator">
             <ActionButton
               as="a"
-              bgColor="white"
-              px={24}
-              rounded="full"
               _hover={{}}
               _active={{}}
             >Generate yours</ActionButton>

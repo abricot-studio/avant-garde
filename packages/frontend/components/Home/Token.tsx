@@ -1,5 +1,5 @@
 import React from 'react'
-import { Flex, Box, Heading, HStack, VStack, IconButton, ActionButton, Text, Icon } from '../ui'
+import { Flex, Box, Heading, HStack, VStack, IconButton, ActionButton, Text, Icon, Card } from '../ui'
 import { useToken, useTokenPriceBurn } from '../../hooks/tokens'
 import { TokenImage } from '../ui/TokenImage'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -37,19 +37,8 @@ function BurnButton({ token }){
     return (
       <ActionButton
         isLoading
-        variant="outline"
-        borderRadius="1rem"
-        border="2px"
-        borderColor="#C345FF"
-        color="#C345FF"
-        bgColor="white"
-        px={12}
-        rounded="full"
-        _hover={{}}
-        _active={{}}
-      >
-        Loading burn price...
-      </ActionButton>
+        loadingText="Loading burn price..."
+      />
     )
   } else if(burned){
     return (
@@ -64,16 +53,6 @@ function BurnButton({ token }){
       onClick={() => burn(token.id)}
       isLoading={isBurning}
       loadingText="Burning token..."
-      variant="outline"
-      borderRadius="1rem"
-      border="2px"
-      borderColor="#C345FF"
-      color="#C345FF"
-      bgColor="white"
-      px={12}
-      rounded="full"
-      _hover={{}}
-      _active={{}}
     >Burn for <Text ml={4}>Ξ {utils.formatEther(utils.parseUnits(tokenBurnPrice.currentPrice, 'wei') )}</Text>
     </ActionButton>
   )
@@ -114,49 +93,58 @@ export default function Token({ id }) {
         />
         {id}
       </Heading>
-      <Box>
         <TokenImage
           size={350}
           arbArtToken={token}
         />
-        <HStack
-          justifyContent="center"
+
+        <Card
           mt={8}
         >
-          <VStack
-            justify="space-between"
-            alignItems="start"
+          <HStack
+            justifyContent="center"
           >
-            <Box
-              fontWeight={500}
-            >Mint Date</Box>
-            <Box
-              fontWeight={500}
-            >Mint Price</Box>
+            <VStack
+              justify="space-between"
+              alignItems="start"
+            >
+              <Box
+                fontWeight={500}
+              >Mint Date</Box>
+              <Box
+                fontWeight={500}
+              >Mint Price</Box>
+              {
+                token.burnTimestamp &&
+                <Box>Burn Date</Box>
+              }
+            </VStack>
+            <VStack
+              justify="space-between"
+              alignItems="start"
+            >
+              <Box>{moment(Number(token.mintTimestamp) * 1000).format('YYYY-MM-DD')}</Box>
+              <Box>Ξ {utils.formatEther(utils.parseUnits(token.mintPrice, 'wei') )}</Box>
+              {
+                token.burnTimestamp &&
+                <Box>{moment(Number(token.burnTimestamp) * 1000).format()}</Box>
+              }
+            </VStack>
             {
-              token.burnTimestamp &&
-              <Box>Burn Date</Box>
+              token.burnPrice &&
+              <HStack justify="space-between">
+                <Box>Burn Price</Box>
+                <Box>Ξ {utils.formatEther(utils.parseUnits(token.burnPrice, 'wei') )}</Box>
+              </HStack>
             }
-          </VStack>
-          <VStack
-            justify="space-between"
-            alignItems="start"
-          >
-            <Box>{moment(Number(token.mintTimestamp) * 1000).format('YYYY-MM-DD')}</Box>
-            <Box>Ξ {utils.formatEther(utils.parseUnits(token.mintPrice, 'wei') )}</Box>
-            {
-              token.burnTimestamp &&
-              <Box>{moment(Number(token.burnTimestamp) * 1000).format()}</Box>
-            }
-          </VStack>
-          {
-            token.burnPrice &&
-            <HStack justify="space-between">
-              <Box>Burn Price</Box>
-              <Box>Ξ {utils.formatEther(utils.parseUnits(token.burnPrice, 'wei') )}</Box>
-            </HStack>
-          }
-        </HStack>
+          </HStack>
+
+        </Card>
+
+      <Box align="center" mt={8}>
+        <BurnButton token={token} />
+      </Box>
+
         <HStack
           spacing={12}
           mt={8}
@@ -202,11 +190,6 @@ export default function Token({ id }) {
             }}
           />
         </HStack>
-
-        <Box align="center" mt={8}>
-          <BurnButton token={token} />
-        </Box>
-      </Box>
     </Flex>
   )
 }

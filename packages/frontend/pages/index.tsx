@@ -1,7 +1,7 @@
 import Layout from '../components/Layout'
 import SEO from '../components/utils/SEO'
 import Hero from '../components/Home/Hero'
-import { Button, HStack } from '../components/ui'
+import { ActionButton, Button, HStack } from '../components/ui'
 import Link from 'next/link'
 import React from 'react'
 import { wrapUrqlClient } from '../lib/graphql'
@@ -27,7 +27,7 @@ const Home: React.FC = () => {
           <Button
             as="a"
             variant="outline"
-            borderRadius="1rem"
+            borderRadius="full"
             border="2px"
             borderColor="#C345FF"
             bgColor="white"
@@ -35,22 +35,15 @@ const Home: React.FC = () => {
             rounded="full"
             _hover={{}}
             _active={{}}
+            w="10rem"
           >Discover</Button>
         </Link>
-        <Link passHref href="/about">
-          <Button
-            as="a"
-            variant="outline"
-            borderRadius="1rem"
-            border="2px"
-            borderColor="#F0FF45"
-            bgColor="white"
-            px={12}
-            rounded="full"
-            _hover={{}}
-            _active={{}}
-          >Learn more</Button>
-        </Link>
+          <Link passHref href="/about">
+            <ActionButton
+              as="a"
+              w="10rem"
+            >Learn more</ActionButton>
+          </Link>
       </HStack>
     </Layout>
   )
