@@ -235,6 +235,7 @@ export default function Header() {
               textStyle="appName"
               leftIcon={<LogoIcon />}
               bgColor="transparent"
+              textTransform="none"
               _hover={{
               }}
               _active={{

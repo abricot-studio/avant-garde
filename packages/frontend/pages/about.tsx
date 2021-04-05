@@ -167,7 +167,7 @@ function Chart(){
           style={{
             tickLabels: {
               fontFamily: "Roboto Mono",
-              fontSize: 9,
+              fontSize: 8,
             },
           }}
         />
@@ -181,6 +181,7 @@ function Chart(){
           text={"Price"}
         />
         <VictoryAxis
+          tickFormat={ (x) => x}
           style={{
             tickLabels: {
               fontFamily: "Roboto Mono",
