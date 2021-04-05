@@ -42,7 +42,7 @@ export default function Tokens({ tokens, fetching, error }: Props) {
   }, [isOpen])
 
   const tokensDisplayed = useMemo<any[]>(() => {
-    if(!tokens){
+    if(!tokens || tokens.length === 0){
       return []
     }
     if(tokens.length < 3){
@@ -64,6 +64,18 @@ export default function Tokens({ tokens, fetching, error }: Props) {
   if (fetching) return <Box align="center" >Loading...</Box>
   if (error) return <Box align="center" >Oh no... {error.message}</Box>
 
+  if(tokensDisplayed.length === 0){
+
+    return (
+      <Flex
+        as="section"
+        direction="column"
+        align="center"
+      >Nothing yet</Flex>
+    )
+
+  }
+
   return (
     <Flex
       as="section"
@@ -71,80 +83,78 @@ export default function Tokens({ tokens, fetching, error }: Props) {
       align="center"
     >
       <Flex justify="center" align="center" >
-          <Box display={{base: 'none', 'lg': tokens.length > 1 ? 'block' : 'none' }} mr={8} >
-            <ScaleFade initialScale={0} in={isOpen}>
-              {
-                tokensDisplayed[0] ?
-                  <TokenCard size={250} token={tokensDisplayed[0]} />
-                  :
-                  <ImageFrame size={250} />
-              }
-            </ScaleFade>
-          </Box>
-        {
-          tokensDisplayed[0] && <IconButton
-            icon={<FontAwesomeIcon icon={faArrowLeft} size="1x" />}
-            aria-label="Back"
-            colorScheme="transparent"
-            color="grey"
-            _hover={{}}
-            onClick={() => {
-              onToggle()
-              setIndex(index === 0 ? tokens.length - 1 : index - 1)
-            }}
-            _focus={{
-              outline: "none"
-            }}
-            _active={{
-              outline: "none"
-            }}
-          />
-        }
+        <Box display={{base: 'none', 'lg': tokens.length > 1 ? 'block' : 'none' }} mr={8} mt={24}>
+          <ScaleFade initialScale={0} in={isOpen}>
+            {
+              tokensDisplayed[0] ?
+                <TokenCard size={250} token={tokensDisplayed[0]} />
+                :
+                <ImageFrame size={250} />
+            }
+          </ScaleFade>
+        </Box>
+        <IconButton
+          icon={<FontAwesomeIcon icon={faArrowLeft} size="1x" />}
+          aria-label="Back"
+          colorScheme="transparent"
+          color="grey"
+          _hover={{}}
+          isDisabled={!tokensDisplayed[0]}
+          onClick={() => {
+            onToggle()
+            setIndex(index === 0 ? tokens.length - 1 : index - 1)
+          }}
+          _focus={{
+            outline: "none"
+          }}
+          _active={{
+            outline: "none"
+          }}
+        />
         {
           tokensDisplayed[1] &&
           <ScaleFade initialScale={0} in={isOpen} >
             <TokenCard size={350} token={tokensDisplayed[1]}/>
           </ScaleFade>
         }
-        {
-          tokensDisplayed[2] && <IconButton
-            icon={<FontAwesomeIcon icon={faArrowRight} size="1x" />}
-            aria-label="Back"
-            colorScheme="transparent"
-            color="grey"
-            _hover={{}}
-            onClick={() => {
-              onToggle()
-              setIndex(index === tokens.length -1 ? 0 : index + 1)
-            }}
-            _focus={{
-              outline: "none"
-            }}
-            _active={{
-              outline: "none"
-            }}
-          />
-        }
-        <Box display={{ base: 'none', 'lg': tokens.length > 1 ? 'block' : 'none'  }} ml={8}>
-            <ScaleFade initialScale={0} in={isOpen}>
-              {
-                tokensDisplayed[2] ?
-                  <TokenCard size={250} token={tokensDisplayed[2]} />
-                  :
-                  <ImageFrame size={250} />
-              }
-            </ScaleFade>
-          </Box>
+        <IconButton
+          icon={<FontAwesomeIcon icon={faArrowRight} size="1x" />}
+          aria-label="Back"
+          colorScheme="transparent"
+          color="grey"
+          _hover={{}}
+          isDisabled={!tokensDisplayed[2]}
+          onClick={() => {
+            onToggle()
+            setIndex(index === tokens.length -1 ? 0 : index + 1)
+          }}
+          _focus={{
+            outline: "none"
+          }}
+          _active={{
+            outline: "none"
+          }}
+        />
+        <Box display={{ base: 'none', 'lg': tokens.length > 1 ? 'block' : 'none'  }} ml={8} mt={24}>
+          <ScaleFade initialScale={0} in={isOpen}>
+            {
+              tokensDisplayed[2] ?
+                <TokenCard size={250} token={tokensDisplayed[2]} />
+                :
+                <ImageFrame size={250} />
+            }
+          </ScaleFade>
+        </Box>
       </Flex>
       {
         tokensDisplayed[1] &&
-          <Address
-            mt={2}
-            fontWeight={700}
-            fontSize={{ base: '0.8rem', sm: '1rem', md: '1.2rem' }}
-          >
-            {tokensDisplayed[1].id}
-          </Address>
+        <Address
+          mt={2}
+          fontWeight={700}
+          fontSize={{ base: '0.8rem', sm: '1rem', md: '1.2rem' }}
+        >
+          {tokensDisplayed[1].id}
+        </Address>
       }
     </Flex>
   )

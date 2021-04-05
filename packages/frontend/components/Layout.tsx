@@ -13,7 +13,7 @@ export default function Layout({ children }) {
     >
       <Header />
       <main>
-        <Box py={12}>
+        <Box py={4}>
           {children}
         </Box>
       </main>

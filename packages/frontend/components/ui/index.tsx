@@ -35,6 +35,7 @@ export const Button = forwardRef<ButtonProps, "a">( ({ children, ...props }, ref
       _focus={{
         outline: "none"
       }}
+      lineHeight={1}
       {...props}
     >{children}</ChakraButton>
   )

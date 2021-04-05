@@ -17,11 +17,7 @@ const Generator: React.FC = () => {
   return (
     <Layout>
       <SEO data={seoData} />
-      <Flex direction="column" align="center">
-        <Heading
-          textAlign="center"
-          mb={8}
-        >Generator</Heading>
+      <Flex direction="column" align="center" mt={75}>
         <Generate />
       </Flex>
     </Layout>

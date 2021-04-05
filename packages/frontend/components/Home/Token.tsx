@@ -68,7 +68,7 @@ export default function Token({ id }) {
   return (
     <Flex
       as="section"
-      mb={12}
+      mt={4}
       direction="column"
       align="center"
     >
