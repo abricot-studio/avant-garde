@@ -1,6 +1,6 @@
 import Layout from '../components/Layout'
 import SEO from '../components/utils/SEO'
-import { ActionButton, Center, Heading, Text, Container, Button } from '../components/ui'
+import { ActionButton, Center, Heading, Text, Container, Box } from '../components/ui'
 import Link from 'next/link'
 import React, { useEffect, useMemo, useState } from 'react'
 import {
@@ -13,6 +13,7 @@ import {
   VictoryTooltip,
   VictoryVoronoiContainer,
 } from 'victory'
+import { useTokenCountMint } from '../hooks/tokens'
 
 const seoData = {
   title: 'About View Brain',
@@ -45,15 +46,19 @@ function priceFor(i){
 
 function Chart(){
 
-  const [stopSsr, setStopSsr] = useState(false)
+  const { tokenCountMint, fetching } = useTokenCountMint()
 
-  useEffect(() =>{
-    setStopSsr(true)
-  }, [])
-
-  const { dataPast, dataNext, mintCounter, currentPrice } = useMemo( () => {
-
-    const mintCounter = 5
+  const { dataPast, dataNext, mintCounter, currentPrice, isLoading } = useMemo( () => {
+    if(fetching || !tokenCountMint){
+      return {
+        dataPast: [],
+        dataNext: [],
+        mintCounter: 0,
+        currentPrice: 0,
+        isLoading: true
+      }
+    }
+    const mintCounter = Number(tokenCountMint.current)
     const currentPrice = priceFor(mintCounter)
     const dataPast = []
     const dataNext = []
@@ -72,12 +77,12 @@ function Chart(){
       })
     }
 
-    return { dataPast, dataNext, mintCounter, currentPrice}
+    return { dataPast, dataNext, mintCounter, currentPrice, isLoading: false}
 
-  }, [])
+  }, [fetching, tokenCountMint])
 
-  if(!stopSsr){
-    return null
+  if(isLoading){
+    return <Box>Loading...</Box>
   }
 
   return (

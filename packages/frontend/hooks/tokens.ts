@@ -27,6 +27,10 @@ export interface ArbArtTokenBurnPrice {
   currentPrice: string;
 }
 
+export interface ArbArtTokenCountMint {
+  current: string;
+}
+
 export interface ArbArtTokenMetadata {
   name: string;
   image: string;
@@ -269,6 +273,48 @@ export const useTokenPriceBurn = () => {
 
   return {
     tokenBurnPrice,
+    fetching,
+  }
+}
+
+export async function fetchTokenCountMint(provider?: Provider) {
+  const contract = await getContract(provider);
+  const tokenCountMint = await contract.countMint()
+  const arbArtTokenCountMint: ArbArtTokenCountMint = {
+    current: tokenCountMint.toString(),
+  };
+
+  return arbArtTokenCountMint;
+}
+
+export const useTokenCountMint = () => {
+  const { account } = useWeb3();
+  const [fetching, setFetching] = useState<boolean>(true);
+  const [tokenCountMint, setTokenCountMint] = useState<ArbArtTokenCountMint | null>(null);
+
+  useEffect(() => {
+
+    setFetching(true)
+    fetchTokenCountMint(account?.provider)
+      .then((tokenCountMint: ArbArtTokenCountMint | null) => {
+        if(!tokenCountMint) {
+          setTokenCountMint(null)
+          setFetching(false)
+          return;
+        }
+        setTokenCountMint(tokenCountMint);
+        setFetching(false)
+      })
+      .catch(error => {
+        setTokenCountMint(null)
+        setFetching(false)
+        console.error(error);
+      });
+
+  }, [account]);
+
+  return {
+    tokenCountMint,
     fetching,
   }
 }
