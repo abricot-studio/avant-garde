@@ -303,6 +303,8 @@ export default function About() {
               as="a"
               _hover={{}}
               _active={{}}
+              position="fixed"
+              bottom={4}
             >Generate yours</ActionButton>
           </Link>
         </Center>
