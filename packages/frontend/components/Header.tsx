@@ -99,7 +99,7 @@ function LoginButton() {
   if (account) {
     return (
       <Menu
-        offset={[0, -17]}
+        offset={[0, -20]}
       >
         <MenuButton
           as={Button}
@@ -124,14 +124,15 @@ function LoginButton() {
           minWidth={{ base: '100px', sm: '200px', md: '200px' }}
           borderRadius="0"
           borderBottomRadius="1rem"
-          pt={5}
           mr="2rem"
           zIndex={1}
           background="black"
           color="white"
         >
           <Link passHref href="/myItems">
-            <MenuItem>
+            <MenuItem
+              mt={3}
+            >
               My items
             </MenuItem>
           </Link>
@@ -204,18 +205,18 @@ export default function Header() {
         </Box>
 
         <HStack spacing={8}>
-        <HStack spacing={4} display={{ base: 'none', md: 'flex' }}>
-          <Link passHref href="/generator">
-            <NavButton color="red" isSelected={router.pathname === '/generator'}>Generator</NavButton>
-          </Link>
-          <Link passHref href="/about">
-            <NavButton color="green" isSelected={router.pathname === '/about'}>About</NavButton>
-          </Link>
-          <Link passHref href="/gallery">
-            <NavButton color="blue" isSelected={router.pathname === '/gallery'}>Gallery</NavButton>
-          </Link>
-        </HStack>
-        <LoginButton />
+          <HStack spacing={4} display={{ base: 'none', md: 'flex' }}>
+            <Link passHref href="/generator">
+              <NavButton color="red" isSelected={router.pathname === '/generator'}>Generator</NavButton>
+            </Link>
+            <Link passHref href="/about">
+              <NavButton color="green" isSelected={router.pathname === '/about'}>About</NavButton>
+            </Link>
+            <Link passHref href="/gallery">
+              <NavButton color="blue" isSelected={router.pathname === '/gallery'}>Gallery</NavButton>
+            </Link>
+          </HStack>
+          <LoginButton />
         </HStack>
       </Flex>
     </Box>
