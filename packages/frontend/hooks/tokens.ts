@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 import { Provider } from "@ethersproject/abstract-provider";
-import { useEffect, useCallback, useState } from 'react'
+import { useEffect, useCallback, useState, useMemo } from 'react'
 import { useQuery } from 'urql'
 import { getIpfsData } from '../lib/ipfs'
 import { getContract } from '../lib/contracts'
@@ -447,4 +447,14 @@ export const useMetadata = (arbArtToken: ArbArtToken): ArbArtTokenMetadata | nul
   }, [arbArtToken]);
 
   return metadata;
+}
+
+export const useCanMint = () => {
+  const { account } = useWeb3();
+  const { token, fetching } = useToken(account?.address)
+
+  return useMemo<boolean>(() =>
+    !account || !fetching && !token,
+    [account, token, fetching]
+  );
 }

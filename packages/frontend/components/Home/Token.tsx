@@ -136,6 +136,7 @@ export default function Token({ id }) {
             <HStack justify="space-between">
               <Box>Burn Price</Box>
               <Box>Ξ {utils.formatEther(utils.parseUnits(token.burnPrice, 'wei') )}</Box>
+              <Box>Burn Price</Box>
             </HStack>
           }
         </HStack>

@@ -11,7 +11,7 @@ import {
   VictoryTooltip,
   VictoryVoronoiContainer,
 } from 'victory'
-import { useTokenCountMint } from '../../hooks/tokens'
+import { useCanMint, useTokenCountMint } from '../../hooks/tokens'
 import { ImageFrame } from '../ui/TokenImage'
 
 function Description() {
@@ -298,6 +298,8 @@ function Chart(){
 }
 
 export function About() {
+  const canMint = useCanMint();
+
   return (
     <Box
       position="relative"
@@ -329,13 +331,16 @@ export function About() {
         <Box mt={4}>
           <Chart />
         </Box>
-        <Center mt={8}>
-          <Link passHref href="/generator">
-            <ActionButton
-              as="a"
-            >Generate yours</ActionButton>
-          </Link>
-        </Center>
+        {
+          canMint &&
+          <Center mt={8}>
+            <Link passHref href="/generator">
+              <ActionButton
+                as="a"
+              >Generate yours</ActionButton>
+            </Link>
+          </Center>
+        }
       </Container>
     </Box>
   )

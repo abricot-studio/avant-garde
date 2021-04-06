@@ -1,9 +1,14 @@
 import React from 'react'
 import { ActionButton, Box, Button, Center, Heading, HStack, VStack } from '../ui'
-import { ImageFrame } from '../ui/TokenImage'
+import { TokenImage, ImageFrame } from '../ui/TokenImage'
 import Link from 'next/link'
+import { useWeb3 } from '../../contexts/Web3Context'
+import { useToken } from '../../hooks/tokens'
 
 export default function Hero() {
+  const { account } = useWeb3();
+  const { token } = useToken(account?.address)
+
   return (
     <VStack
       as="section"
@@ -16,7 +21,13 @@ export default function Hero() {
         position="absolute"
         opacity="0.8"
       >
-        <ImageFrame size={350} />
+        {token ?
+          <Box opacity="0.5">
+            <TokenImage size={350} arbArtToken={token} />
+          </Box>
+          :
+          <ImageFrame size={350} />
+        }
       </Box>
 
       <Center
@@ -48,13 +59,22 @@ export default function Hero() {
 
       <HStack spacing={8} justify="center" display={{ base: 'none', md: 'flex' }}>
 
-        <Link passHref href="/generate">
-          <ActionButton
-            as="a"
-            w="12rem"
-          >Generate yours</ActionButton>
-        </Link>
-
+        {
+          token ?
+            <Link passHref href={`/gallery}`}>
+              <ActionButton
+                as="a"
+                w="12rem"
+              >Gallery</ActionButton>
+            </Link>
+            :
+            <Link passHref href="/generator">
+              <ActionButton
+                as="a"
+                w="12rem"
+              >Generate yours</ActionButton>
+            </Link>
+        }
         <Link passHref href="/about">
           <Button
             as="a"

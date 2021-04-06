@@ -3,6 +3,7 @@ import SEO from '../components/utils/SEO'
 import React from 'react'
 
 import { About } from '../components/Home/About'
+import { wrapUrqlClient } from '../lib/graphql'
 
 const seoData = {
   title: 'About Avant Garde',
@@ -12,7 +13,7 @@ const seoData = {
     'about,nft,defi,ai,machine learning,deep learning,ethereum,crypto,blockchain,ETH',
 }
 
-export default function AboutPage() {
+function AboutPage() {
   return (
     <Layout>
       <SEO data={seoData} />
@@ -20,3 +21,5 @@ export default function AboutPage() {
     </Layout>
   )
 }
+
+export default wrapUrqlClient(AboutPage);

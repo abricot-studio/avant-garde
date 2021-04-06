@@ -1,10 +1,12 @@
 import React, { useMemo, useEffect } from 'react'
-import { Flex, Address, Box, IconButton, ScaleFade } from '../ui'
+import { Flex, Address, Box, IconButton, ScaleFade, Center, ActionButton, Container } from '../ui'
 import { ImageFrame, TokenImage } from '../ui/TokenImage'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { useDisclosure } from '@chakra-ui/hooks'
+import { useWeb3 } from '../../contexts/Web3Context'
+import { useCanMint, useToken } from '../../hooks/tokens'
 
 function TokenCard({ token, size }) {
   return (
@@ -31,6 +33,7 @@ export default function Tokens({ tokens, fetching, error, mine }: Props) {
   const { isOpen, onToggle } = useDisclosure({
     defaultIsOpen: true,
   })
+  const canMint = useCanMint();
 
   useEffect(() => {
     !isOpen && setTimeout(onToggle, 200)
@@ -144,6 +147,16 @@ export default function Tokens({ tokens, fetching, error, mine }: Props) {
         >
           {tokensDisplayed[1].id}
         </Address>
+      }
+      {
+        canMint &&
+        <Center mt={8}>
+          <Link passHref href="/generator">
+            <ActionButton
+              as="a"
+            >Generate yours</ActionButton>
+          </Link>
+        </Center>
       }
     </Flex>
   )
