@@ -4,8 +4,9 @@ export interface ConfigPinata {
 }
 
 export interface ConfigRedis {
-  host: string
-  expiration: number
+  url: string
+  expirationProcessing: number
+  expirationData: number
 }
 
 export interface ConfigImage {
@@ -41,8 +42,9 @@ const config: Config = {
   },
   privateKey: process.env.PRIVATE_KEY || '0x630af0fbddb248b53f97ecf899ce11878d9dcd7e718574c92607153027632135', //0xE4D29ec42F4057EfF92c9124c82844b2689f9C6d
   redis: {
-    host: process.env.REDIS_HOST,
-    expiration: parseInt(process.env.REDIS_EXPIRATION || '120', 10),
+    url: process.env.REDIS_URL,
+    expirationProcessing: parseInt(process.env.REDIS_EXPIRATION_PROCESSING || '120', 10),
+    expirationData: parseInt(process.env.REDIS_EXPIRATION_DATA || '604800', 10),
   },
 }
 

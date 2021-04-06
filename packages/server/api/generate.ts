@@ -17,6 +17,7 @@ const logger = Log({ service: 'generation' })
 
 let tf: typeof import('@tensorflow/tfjs') = null
 const signer = new Wallet(config.privateKey)
+let redis: typeof import('ioredis') = null
 
 export default async (req: VercelRequest, res: VercelResponse) => {
 
@@ -50,15 +51,64 @@ export default async (req: VercelRequest, res: VercelResponse) => {
 
   }
 
+  if(!redis){
+
+    redis = await getRedis()
+
+  }
+
+  const redisExisting = await redis.get(address)
+
+  if(redisExisting){
+
+    if(redisExisting === 'processing'){
+
+      logger.info('processing', { address })
+      return res.status(200).json({
+        status: 'processing',
+        ipfsHashMetadata: null,
+        ipfsHashImage: null,
+        signature: null,
+        signerAddress: signer.address
+      })
+
+    } else if(redisExisting.split(':').length === 3){
+
+      const [ ipfsHashMetadata, ipfsHashImage, signature ] = redisExisting.split(':')
+      logger.info('existIpfsHash in redis', {
+        address,
+        ipfsHashMetadata,
+        ipfsHashImage
+      })
+      return res.status(200).json({
+        status: 'success',
+        ipfsHashMetadata,
+        ipfsHashImage,
+        signature,
+        signerAddress: signer.address
+      })
+
+    } else {
+
+      logger.error('redis data incorrect', {
+        address,
+        redisExisting
+      })
+
+    }
+
+  }
+
   const existIpfsHash = await Pinata.find(address)
 
   if (existIpfsHash) {
-    logger.info('existIpfsHash', {
+    logger.info('existIpfsHash in pinata', {
       address,
       ipfsHashMetadata: existIpfsHash.ipfsHashMetadata,
       ipfsHashImage: existIpfsHash.ipfsHashImage
     })
     const signature = await signURI(existIpfsHash.ipfsHashMetadata, address, signer);
+    await redis.set(address, `${existIpfsHash.ipfsHashMetadata}:${existIpfsHash.ipfsHashImage}:${signature}`, 'EX', config.redis.expirationData)
 
     return res.status(200).json({
       status: 'success',
@@ -70,9 +120,7 @@ export default async (req: VercelRequest, res: VercelResponse) => {
 
   }
 
-  const redis = await getRedis()
-  const resSetNx = await redis.set(address, 'processing', 'NX', 'EX', config.redis.expiration)
-  logger.info('resSetNx', { resSetNx })
+  const resSetNx = await redis.set(address, 'processing', 'NX', 'EX', config.redis.expirationProcessing)
 
   if (resSetNx !== 'OK') {
 
@@ -114,8 +162,8 @@ export default async (req: VercelRequest, res: VercelResponse) => {
 
   logger.info('end processing', { address, ipfsHashMetadata, ipfsHashImage })
 
-  await redis.del(address)
-  const signature = await signURI(ipfsHashMetadata, address, signer);
+  const signature = await signURI(ipfsHashMetadata, address, signer)
+  await redis.set(address, `${ipfsHashMetadata}:${ipfsHashImage}:${signature}`, 'EX', config.redis.expirationData)
 
   res.status(200).json({
     status: 'success',

@@ -1,7 +1,7 @@
 import Redis from 'ioredis'
 import { config } from './config'
 
-const redis = new Redis(config.redis.host, {
+const redis = new Redis(config.redis.url, {
   retryStrategy(times) {
     return Math.min(times * 50, 2000)
   },
