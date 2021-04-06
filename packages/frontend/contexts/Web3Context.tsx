@@ -52,7 +52,8 @@ const web3Modal =
 
 interface Web3Account {
   provider: providers.Web3Provider
-  address: string
+  address: string,
+  chainId: number,
 }
 
 interface Web3ContextProviderOptions {
@@ -78,13 +79,17 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
     const provider = new providers.Web3Provider(ethereum);
     const signer = provider.getSigner();
     signer.getAddress()
-      .then(address => {
-        setWeb3AccountData({
-          provider,
-          address,
-        })
-        setIsConnecting(false)
-      })
+      .then(address =>
+        provider.getNetwork()
+          .then(network => {
+            setWeb3AccountData({
+              provider,
+              address,
+              chainId: network.chainId,
+            })
+            setIsConnecting(false)
+          })
+      )
       .catch(console.error);
   }, []);
 
