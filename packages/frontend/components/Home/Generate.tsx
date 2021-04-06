@@ -104,7 +104,7 @@ export default function Generate() {
       </Card>
       }
 
-      {generationResult &&
+      {(tokenMintPrice && generationResult) &&
       <Card mt={8}>
         <HStack
           justifyContent="center"

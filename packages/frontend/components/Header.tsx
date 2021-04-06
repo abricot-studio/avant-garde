@@ -248,13 +248,13 @@ export default function Header() {
         <HStack spacing={8}>
           <HStack spacing={4} display={{ base: 'none', md: 'flex' }}>
             <Link passHref href="/generator">
-              <NavButton color="red" isSelected={router.pathname === '/generator'}>Generator</NavButton>
+              <NavButton color="reddy" isSelected={router.pathname === '/generator'}>Generator</NavButton>
             </Link>
             <Link passHref href="/about">
-              <NavButton color="green" isSelected={router.pathname === '/about'}>About</NavButton>
+              <NavButton color="greeny" isSelected={router.pathname === '/about'}>About</NavButton>
             </Link>
             <Link passHref href="/gallery">
-              <NavButton color="blue" isSelected={router.pathname === '/gallery'}>Gallery</NavButton>
+              <NavButton color="bluey" isSelected={router.pathname === '/gallery'}>Gallery</NavButton>
             </Link>
           </HStack>
           <LoginButton />
