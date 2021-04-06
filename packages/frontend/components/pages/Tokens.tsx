@@ -5,18 +5,18 @@ import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { useDisclosure } from '@chakra-ui/hooks'
-import { useWeb3 } from '../../contexts/Web3Context'
-import { useCanMint, useToken } from '../../hooks/tokens'
+import { useCanMint } from '../../hooks/tokens'
 
 function TokenCard({ token, size }) {
   return (
-    <Link href={`/token/${token.id}`}>
-      <TokenImage
-        arbArtToken={token}
-        size={size}
-      />
+    <Link href={`/token/${token.id}`} passHref>
+      <a>
+        <TokenImage
+          arbArtToken={token}
+          size={size}
+        />
+      </a>
     </Link>
-
   );
 }
 
