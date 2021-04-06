@@ -49,7 +49,12 @@ const MyTokensPage: React.FC = () => {
         textAlign="center"
         mb={8}
       >Your items</Heading>
-      <Tokens tokens={tokens} fetching={fetching} error={error}/>
+      <Tokens
+        tokens={tokens}
+        fetching={fetching}
+        error={error}
+        mine
+      />
       <Box
         align="center"
         mt={12}

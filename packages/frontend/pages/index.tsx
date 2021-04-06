@@ -1,10 +1,9 @@
 import Layout from '../components/Layout'
 import SEO from '../components/utils/SEO'
 import Hero from '../components/Home/Hero'
-import { ActionButton, Button, HStack } from '../components/ui'
-import Link from 'next/link'
 import React from 'react'
 import { wrapUrqlClient } from '../lib/graphql'
+import { Heading } from '../components/ui'
 
 const seoData = {
   title: 'Avant Garde',
@@ -18,33 +17,11 @@ const Home: React.FC = () => {
   return (
     <Layout>
       <SEO data={seoData} />
-
+      <Heading
+        color="transparent"
+        mb={8}
+      >Home</Heading>
       <Hero />
-
-      <HStack spacing={8} justify="center" display={{ base: 'none', md: 'flex' }}>
-
-        <Link passHref href="/gallery">
-          <Button
-            as="a"
-            variant="outline"
-            borderRadius="full"
-            border="2px"
-            borderColor="#C345FF"
-            bgColor="white"
-            px={12}
-            rounded="full"
-            _hover={{}}
-            _active={{}}
-            w="10rem"
-          >Discover</Button>
-        </Link>
-          <Link passHref href="/about">
-            <ActionButton
-              as="a"
-              w="10rem"
-            >Learn more</ActionButton>
-          </Link>
-      </HStack>
     </Layout>
   )
 }

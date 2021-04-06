@@ -9,16 +9,10 @@ import { useDisclosure } from '@chakra-ui/hooks'
 function TokenCard({ token, size }) {
   return (
     <Link href={`/token/${token.id}`}>
-      <Flex
-        align="center"
-        direction="column"
-        cursor="pointer"
-      >
-        <TokenImage
-          arbArtToken={token}
-          size={size}
-        />
-      </Flex>
+      <TokenImage
+        arbArtToken={token}
+        size={size}
+      />
     </Link>
 
   );
@@ -28,9 +22,10 @@ export interface Props {
   tokens?: any[];
   fetching?: boolean;
   error?: any;
+  mine?: boolean;
 }
 
-export default function Tokens({ tokens, fetching, error }: Props) {
+export default function Tokens({ tokens, fetching, error, mine }: Props) {
 
   const [index, setIndex] = React.useState(0)
   const { isOpen, onToggle } = useDisclosure({
@@ -71,7 +66,15 @@ export default function Tokens({ tokens, fetching, error }: Props) {
         as="section"
         direction="column"
         align="center"
-      >Nothing yet</Flex>
+      >
+        {
+          mine ?
+            'You do not own any token yet.'
+            :
+            'No token have been minted yet.'
+        }
+
+      </Flex>
     )
 
   }
@@ -84,7 +87,7 @@ export default function Tokens({ tokens, fetching, error }: Props) {
     >
       <Flex justify="center" align="center" >
         <Box display={{base: 'none', 'lg': tokens.length > 1 ? 'block' : 'none' }} mr={8} mt={24}>
-          <ScaleFade initialScale={0} in={isOpen}>
+          <ScaleFade in={isOpen}>
             {
               tokensDisplayed[0] ?
                 <TokenCard size={250} token={tokensDisplayed[0]} />
@@ -95,48 +98,34 @@ export default function Tokens({ tokens, fetching, error }: Props) {
         </Box>
         <IconButton
           icon={<FontAwesomeIcon icon={faArrowLeft} size="1x" />}
-          aria-label="Back"
-          colorScheme="transparent"
+          aria-label="Previous token"
           color="grey"
-          _hover={{}}
+          variant="link"
           isDisabled={!tokensDisplayed[0]}
           onClick={() => {
             onToggle()
             setIndex(index === 0 ? tokens.length - 1 : index - 1)
           }}
-          _focus={{
-            outline: "none"
-          }}
-          _active={{
-            outline: "none"
-          }}
         />
         {
           tokensDisplayed[1] &&
-          <ScaleFade initialScale={0} in={isOpen} >
+          <ScaleFade in={isOpen} >
             <TokenCard size={350} token={tokensDisplayed[1]}/>
           </ScaleFade>
         }
         <IconButton
           icon={<FontAwesomeIcon icon={faArrowRight} size="1x" />}
-          aria-label="Back"
-          colorScheme="transparent"
+          aria-label="Next token"
+          variant="link"
           color="grey"
-          _hover={{}}
           isDisabled={!tokensDisplayed[2]}
           onClick={() => {
             onToggle()
             setIndex(index === tokens.length -1 ? 0 : index + 1)
           }}
-          _focus={{
-            outline: "none"
-          }}
-          _active={{
-            outline: "none"
-          }}
         />
         <Box display={{ base: 'none', 'lg': tokens.length > 1 ? 'block' : 'none'  }} ml={8} mt={24}>
-          <ScaleFade initialScale={0} in={isOpen}>
+          <ScaleFade in={isOpen}>
             {
               tokensDisplayed[2] ?
                 <TokenCard size={250} token={tokensDisplayed[2]} />
@@ -149,8 +138,8 @@ export default function Tokens({ tokens, fetching, error }: Props) {
       {
         tokensDisplayed[1] &&
         <Address
-          mt={2}
-          fontWeight={700}
+          mt={8}
+          fontWeight={400}
           fontSize={{ base: '0.8rem', sm: '1rem', md: '1.2rem' }}
         >
           {tokensDisplayed[1].id}

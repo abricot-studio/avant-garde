@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import Link from 'next/link'
 import { utils } from 'ethers'
 import { ActionButton, Box, Card, Flex, HStack, Text, VStack } from '../ui'
 import { useImageGeneration, ImageGenerationStatus } from '../../hooks/generation'
@@ -29,7 +30,7 @@ export default function Generate() {
       <ActionButton
         isLoading
         loadingText="Loading token..."
-     />
+      />
     );
   } else if(minted) {
     cta = (
@@ -71,7 +72,7 @@ export default function Generate() {
       <ActionButton
         onClick={() => generateImage(account.address)}
         isLoading={isGenerating}
-        loadingText="~30sec Processing..."
+        loadingText="Generating"
       >
         Generate
       </ActionButton>
@@ -81,19 +82,30 @@ export default function Generate() {
   const imageSrc = generationResult && generationResult.status === ImageGenerationStatus.SUCCESS && getIpfsUrl(generationResult.ipfsHashImage);
   return (
     <Flex direction="column" align="center">
-      <Box position="absolute" top="35%">
-      </Box>
       <ImageFrame
         src={imageSrc}
         isLoading={isGenerating}
         size={350}
         isQuestion={!isGenerating && !generationResult}
       />
+
       <Box mt={8}>
         {cta}
       </Box>
+
+      {isGenerating &&
+      <Card mt={8}>
+        <Flex direction="column" align="center">
+          <Text>Your image is being generated.</Text>
+          <Text>The processing can take up to 30 seconds.</Text>
+          <Text>Each image is uniquely generated from your Ethereum address by deep learning algorithms </Text>
+          <Link href="/about">Learn more </Link>
+        </Flex>
+      </Card>
+      }
+
       {generationResult &&
-        <Card mt={8}>
+      <Card mt={8}>
         <HStack
           justifyContent="center"
         >
@@ -122,7 +134,7 @@ export default function Generate() {
             </Flex>
           </VStack>
         </HStack>
-        </Card>
+      </Card>
       }
     </Flex>
   )

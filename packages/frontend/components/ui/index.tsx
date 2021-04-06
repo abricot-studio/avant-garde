@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Flex, HStack, ButtonProps, forwardRef, Text, Spinner, Button as ChakraButton } from '@chakra-ui/react'
+import { Box, Flex, HStack, IconButton as ChakraIconButton, IconButtonProps, ButtonProps, forwardRef, Text, Spinner, Button as ChakraButton } from '@chakra-ui/react'
 
 export * from '@chakra-ui/react'
 
@@ -32,12 +32,33 @@ export const Button = forwardRef<ButtonProps, "a">( ({ children, ...props }, ref
   return (
     <ChakraButton
       ref={ref}
+      fontWeight={500}
+      size="md"
       _focus={{
+        outline: "none"
+      }}
+      _active={{
         outline: "none"
       }}
       lineHeight={1}
       {...props}
     >{children}</ChakraButton>
+  )
+})
+export const IconButton = forwardRef<IconButtonProps, "a">( ({ children, ...props }, ref) => {
+  return (
+    <ChakraIconButton
+      ref={ref}
+      _hover={{}}
+      lineHeight={1}
+      _focus={{
+        outline: "none"
+      }}
+      _active={{
+        outline: "none"
+      }}
+      {...props}
+    >{children}</ChakraIconButton>
   )
 })
 
@@ -51,6 +72,7 @@ export const ActionButton = forwardRef<ButtonProps & ActionButtonProps, "a">( ({
       variant="outline"
       border="0"
       size="md"
+      fontWeight={500}
       px={0}
       _active={{}}
       _hover={{}}

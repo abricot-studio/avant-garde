@@ -93,103 +93,104 @@ export default function Token({ id }) {
         />
         {id}
       </Heading>
-        <TokenImage
-          size={350}
-          arbArtToken={token}
-        />
 
-        <Card
-          mt={8}
+      <TokenImage
+        size={350}
+        arbArtToken={token}
+      />
+
+      <Card
+        mt={8}
+      >
+        <HStack
+          justifyContent="center"
         >
-          <HStack
-            justifyContent="center"
+          <VStack
+            justify="space-between"
+            alignItems="start"
           >
-            <VStack
-              justify="space-between"
-              alignItems="start"
-            >
-              <Box
-                fontWeight={500}
-              >Mint Date</Box>
-              <Box
-                fontWeight={500}
-              >Mint Price</Box>
-              {
-                token.burnTimestamp &&
-                <Box>Burn Date</Box>
-              }
-            </VStack>
-            <VStack
-              justify="space-between"
-              alignItems="start"
-            >
-              <Box>{moment(Number(token.mintTimestamp) * 1000).format('YYYY-MM-DD')}</Box>
-              <Box>Ξ {utils.formatEther(utils.parseUnits(token.mintPrice, 'wei') )}</Box>
-              {
-                token.burnTimestamp &&
-                <Box>{moment(Number(token.burnTimestamp) * 1000).format()}</Box>
-              }
-            </VStack>
+            <Box
+              fontWeight={500}
+            >Mint Date</Box>
+            <Box
+              fontWeight={500}
+            >Mint Price</Box>
             {
-              token.burnPrice &&
-              <HStack justify="space-between">
-                <Box>Burn Price</Box>
-                <Box>Ξ {utils.formatEther(utils.parseUnits(token.burnPrice, 'wei') )}</Box>
-              </HStack>
+              token.burnTimestamp &&
+              <Box>Burn Date</Box>
             }
-          </HStack>
+          </VStack>
+          <VStack
+            justify="space-between"
+            alignItems="start"
+          >
+            <Box>{moment(Number(token.mintTimestamp) * 1000).format('YYYY-MM-DD')}</Box>
+            <Box>Ξ {utils.formatEther(utils.parseUnits(token.mintPrice, 'wei') )}</Box>
+            {
+              token.burnTimestamp &&
+              <Box>{moment(Number(token.burnTimestamp) * 1000).format()}</Box>
+            }
+          </VStack>
+          {
+            token.burnPrice &&
+            <HStack justify="space-between">
+              <Box>Burn Price</Box>
+              <Box>Ξ {utils.formatEther(utils.parseUnits(token.burnPrice, 'wei') )}</Box>
+            </HStack>
+          }
+        </HStack>
 
-        </Card>
+      </Card>
 
       <Box align="center" mt={8}>
         <BurnButton token={token} />
       </Box>
 
-        <HStack
-          spacing={12}
-          mt={8}
-          justifyContent="center"
-        >
-          <IconButton
-            icon={<FontAwesomeIcon icon={faRedditAlien} size="2x" />}
-            aria-label="Back"
-            colorScheme="transparent"
-            color="black"
-            _hover={{}}
-            _focus={{
-              outline: "none"
-            }}
-            _active={{
-              outline: "none"
-            }}
-          />
-          <IconButton
-            icon={<TwitterIcon w={8} h={8} />}
-            aria-label="Back"
-            colorScheme="transparent"
-            color="black"
-            _hover={{}}
-            _focus={{
-              outline: "none"
-            }}
-            _active={{
-              outline: "none"
-            }}
-          />
-          <IconButton
-            icon={<InstagramIcon w={8} h={8} />}
-            aria-label="Back"
-            colorScheme="transparent"
-            color="black"
-            _hover={{}}
-            _focus={{
-              outline: "none"
-            }}
-            _active={{
-              outline: "none"
-            }}
-          />
-        </HStack>
+      <HStack
+        spacing={12}
+        mt={8}
+        justifyContent="center"
+      >
+        <IconButton
+          icon={<FontAwesomeIcon icon={faRedditAlien} size="2x" />}
+          aria-label="Back"
+          colorScheme="transparent"
+          color="black"
+          _hover={{}}
+          _focus={{
+            outline: "none"
+          }}
+          _active={{
+            outline: "none"
+          }}
+        />
+        <IconButton
+          icon={<TwitterIcon w={8} h={8} />}
+          aria-label="Back"
+          colorScheme="transparent"
+          color="black"
+          _hover={{}}
+          _focus={{
+            outline: "none"
+          }}
+          _active={{
+            outline: "none"
+          }}
+        />
+        <IconButton
+          icon={<InstagramIcon w={8} h={8} />}
+          aria-label="Back"
+          colorScheme="transparent"
+          color="black"
+          _hover={{}}
+          _focus={{
+            outline: "none"
+          }}
+          _active={{
+            outline: "none"
+          }}
+        />
+      </HStack>
     </Flex>
   )
 }

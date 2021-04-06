@@ -32,7 +32,7 @@ const components = {
     baseStyle: {
       fontWeight: 700,
       textTransform: 'uppercase',
-      cursor: 'pointer'
+      cursor: 'pointer',
     },
     variants: {},
   },
@@ -114,6 +114,7 @@ const colors = {
   blue: '#6B93FB',
   header: '#ffffff44',
   pink: '#FF45B5',
+  pupu: '#C345FF',
 }
 
 export default extendTheme({

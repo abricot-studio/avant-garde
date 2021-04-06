@@ -90,8 +90,6 @@ const NavButton = forwardRef<NavButtonProps & ButtonProps, "a">( ({ children, co
       _hover={{
         borderColor: color
       }}
-      _active={{}}
-      _focus={{}}
       leftIcon={<NavButtonIcon color={color} />}
       {...props}
     >{children}</Button>
