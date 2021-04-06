@@ -1,7 +1,7 @@
 import Layout from '../components/Layout'
 import SEO from '../components/utils/SEO'
 import { Flex, Heading } from '../components/ui'
-import Generate from '../components/Home/Generate'
+import Generate from '../components/pages/Generate'
 import React from 'react'
 import { wrapUrqlClient } from '../lib/graphql'
 

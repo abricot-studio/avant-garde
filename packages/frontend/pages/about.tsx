@@ -2,7 +2,7 @@ import Layout from '../components/Layout'
 import SEO from '../components/utils/SEO'
 import React from 'react'
 
-import { About } from '../components/Home/About'
+import { About } from '../components/pages/About'
 import { wrapUrqlClient } from '../lib/graphql'
 
 const seoData = {

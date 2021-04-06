@@ -1,6 +1,6 @@
 import Layout from '../components/Layout'
 import SEO from '../components/utils/SEO'
-import Tokens from '../components/Home/Tokens'
+import Tokens from '../components/pages/Tokens'
 import { defaultTokensQueryVariables, TokensQuery, useTokens } from '../hooks/tokens'
 import { getSsrClient, wrapUrqlClient } from '../lib/graphql'
 import { Heading } from '../components/ui'

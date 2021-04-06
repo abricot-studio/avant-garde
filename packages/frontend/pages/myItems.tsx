@@ -6,7 +6,7 @@ import { useWeb3 } from '../contexts/Web3Context'
 import { wrapUrqlClient } from '../lib/graphql'
 import { useRouter } from 'next/router'
 import { defaultMyTokensQueryVariables, useCanMint, useMyTokens } from '../hooks/tokens'
-import Tokens from '../components/Home/Tokens'
+import Tokens from '../components/pages/Tokens'
 import Link from 'next/link'
 
 const seoData = {
