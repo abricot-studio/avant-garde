@@ -426,14 +426,14 @@ export const useToken = (address?: string) => {
   }
 }
 
-const metaDataCache = {};
+const metadataCache = {};
 
 export const useMetadata = (arbArtToken: ArbArtToken): ArbArtTokenMetadata | null => {
   const [metadata, setMetadata] = useState<ArbArtTokenMetadata | null>(null);
 
   useEffect(() => {
-    if(metaDataCache[arbArtToken.tokenURI]) {
-      setMetadata(metaDataCache[arbArtToken.tokenURI]);
+    if(metadataCache[arbArtToken.tokenURI]) {
+      setMetadata(metadataCache[arbArtToken.tokenURI]);
       return;
     }
 
@@ -441,7 +441,7 @@ export const useMetadata = (arbArtToken: ArbArtToken): ArbArtTokenMetadata | nul
     getIpfsData(arbArtToken.tokenURI)
       .then(metadata => {
         setMetadata(metadata);
-        metaDataCache[arbArtToken.tokenURI] = metadata;
+        metadataCache[arbArtToken.tokenURI] = metadata;
       })
       .catch(console.error)
   }, [arbArtToken]);

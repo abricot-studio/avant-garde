@@ -70,7 +70,7 @@ export default function Generate() {
   } else {
     cta = (
       <ActionButton
-        onClick={() => generateImage(account.address)}
+        onClick={() => generateImage()}
         isLoading={isGenerating}
         loadingText="Generating"
       >
