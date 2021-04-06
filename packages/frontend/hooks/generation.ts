@@ -1,6 +1,8 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import config from '../config'
+import { useToast } from '../components/ui'
+import { useWeb3 } from '../contexts/Web3Context'
 
 const generateApi = axios.create({
   baseURL: config.generateUrl
@@ -19,28 +21,62 @@ export interface ImageGeneration {
   signature: string;
 }
 
+const generationCache = {};
+
 export const useImageGeneration = () => {
+  const { account } = useWeb3();
+
   const [generationResult, setGenerationResult] = useState<ImageGeneration | null>(null);
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
+  const toast = useToast()
 
-  const generateImage = useCallback((address: string) => {
+  useEffect(() => {
+    if(!account || !generationCache[account.address]) {
+      setGenerationResult(null);
+    } else {
+      setGenerationResult(generationCache[account.address]);
+    }
+    setIsGenerating(false);
+  }, [account])
+
+  const generateImage = useCallback(() => {
+    if(!account) {
+      throw new Error('cannot generate if not connected 👎')
+    }
+
     setIsGenerating(true);
 
     generateApi({
       method: 'POST',
-      data: { address },
+      data: { address: account.address },
     })
       .then(result => {
         setGenerationResult(result.data);
         setIsGenerating(false);
+        generationCache[account.address] = result.data;
+
+        toast({
+          title: "🎉 Image generated",
+          description: 'Your image have been generated!',
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        })
       })
       .catch(error => {
         setGenerationResult(null);
         console.error(error);
-      setIsGenerating(false);
-    });
+        toast({
+          title: "⚠️ Generation error",
+          description: error.message,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        })
+        setIsGenerating(false);
+      });
 
-  }, []);
+  }, [account]);
 
   return { generateImage, isGenerating, generationResult };
 }

@@ -1,7 +1,8 @@
 import { useCallback, useState } from 'react'
 import { useWeb3 } from '../contexts/Web3Context'
 import { getContract } from '../lib/contracts'
-import { useToken } from './tokens'
+import { ArbArtTokenMintPrice, useToken, fetchTokenPriceMint } from './tokens'
+import { useToast } from '../components/ui'
 
 export const useMint = () => {
   const { account } = useWeb3();
@@ -9,6 +10,7 @@ export const useMint = () => {
   const [mintTx, setMintTx] = useState<string | null>(null);
   const [minted, setMinted] = useState<boolean>(false);
   const { startPolling } = useToken(account?.address)
+  const toast = useToast()
 
   const mint = useCallback((generationResult) => {
     if(!account) {
@@ -17,22 +19,42 @@ export const useMint = () => {
 
     setIsMinting(true);
 
-    getContract(account.provider)
-      .then(c => c.connect(account.provider.getSigner()))
-      .then(contract =>
-        contract.mint(generationResult.ipfsHashMetadata, generationResult.signerAddress, generationResult.signature)
+    fetchTokenPriceMint(account.provider)
+      .then( (arbArtTokenMintPrice: ArbArtTokenMintPrice) =>
+        getContract(account.provider)
+          .then(c => c.connect(account.provider.getSigner()))
+          .then(contract =>
+            contract.mint(generationResult.ipfsHashMetadata, generationResult.signature, {
+              value: arbArtTokenMintPrice.total
+            })
+          )
+          .then(tx => {
+            setMintTx(tx.hash);
+            return account.provider.waitForTransaction(tx.hash)
+          })
+          .then(() => {
+            setMinted(true);
+            setIsMinting(false);
+            startPolling();
+
+            toast({
+              title: "🎉 Token minted",
+              description: 'Your image have been minted on the blockchain!',
+              status: "success",
+              duration: 5000,
+              isClosable: true,
+            })
+          })
       )
-      .then(tx => {
-        setMintTx(tx.hash);
-        return account.provider.waitForTransaction(tx.hash)
-      })
-      .then(() => {
-        setMinted(true);
-        setIsMinting(false);
-        startPolling();
-      })
       .catch(error => {
         console.error(error);
+        toast({
+          title: "⚠️ Transaction error",
+          description: error.message,
+          status: "error",
+          duration: 20000,
+          isClosable: true,
+        })
         setIsMinting(false);
       });
   }, [account, startPolling]);

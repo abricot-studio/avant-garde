@@ -1,5 +1,6 @@
 import { Box } from './ui'
 import Header from './Header'
+import { NetworkChecker } from './utils/NetworkChecker'
 
 export default function Layout({ children }) {
   return (
@@ -13,8 +14,10 @@ export default function Layout({ children }) {
     >
       <Header />
       <main>
-        <Box py={12}>
-          {children}
+        <Box py={8}>
+          <NetworkChecker>
+            {children}
+          </NetworkChecker>
         </Box>
       </main>
     </Box>

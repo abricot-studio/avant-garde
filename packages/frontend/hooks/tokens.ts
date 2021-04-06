@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 import { Provider } from "@ethersproject/abstract-provider";
-import { useEffect, useCallback, useState } from 'react'
+import { useEffect, useCallback, useState, useMemo } from 'react'
 import { useQuery } from 'urql'
 import { getIpfsData } from '../lib/ipfs'
 import { getContract } from '../lib/contracts'
@@ -11,8 +11,26 @@ export interface ArbArtToken {
   id: string;
   owner: string;
   tokenURI: string;
-  blockTimestamp: number;
+  mintTimestamp: string;
+  mintPrice?: string;
+  burnTimestamp?: string;
+  burnPrice?: string;
 }
+
+export interface ArbArtTokenMintPrice {
+  currentPrice: string;
+  fees: string;
+  total: string;
+}
+
+export interface ArbArtTokenBurnPrice {
+  currentPrice: string;
+}
+
+export interface ArbArtTokenCountMint {
+  current: string;
+}
+
 export interface ArbArtTokenMetadata {
   name: string;
   image: string;
@@ -26,7 +44,10 @@ export const TokenQuery = gql`
       id
       owner
       tokenURI
-      blockTimestamp
+      mintTimestamp
+      mintPrice
+      burnTimestamp
+      burnPrice
       #metadata {
       #  name
       #  description
@@ -38,11 +59,14 @@ export const TokenQuery = gql`
 `
 export const TokensQuery = gql`
   query TokensQuery($first: Int, $skip: Int) {
-    arbArtTokens(first: $first, orderBy: blockTimestamp, orderDirection: desc, skip: $skip)  {
+    arbArtTokens(first: $first, orderBy: mintTimestamp, orderDirection: desc, skip: $skip)  {
       id
       owner
       tokenURI
-      blockTimestamp
+      mintTimestamp
+      mintPrice
+      burnTimestamp
+      burnPrice
       #metadata {
       #  name
       #  description
@@ -54,11 +78,14 @@ export const TokensQuery = gql`
 `
 export const MyTokensQuery = gql`
   query MyTokensQuery($address: String!, $first: Int, $skip: Int) {
-    arbArtTokens(first: $first, skip: $skip, orderBy: blockTimestamp, orderDirection: desc, where: { owner: $address })  {
+    arbArtTokens(first: $first, skip: $skip, orderBy: mintTimestamp, orderDirection: desc, where: { owner: $address })  {
       id
       owner
       tokenURI
-      blockTimestamp
+      mintTimestamp
+      mintPrice
+      burnTimestamp
+      burnPrice
       #metadata {
       #  name
       #  description
@@ -87,7 +114,7 @@ async function fetchToken(provider: Provider, tokenId: string) {
     id: tokenId,
     owner,
     tokenURI: tokenUri,
-    blockTimestamp: 0
+    mintTimestamp: '0'
   };
   return arbArtToken;
 }
@@ -136,6 +163,160 @@ export const useMyTokenOnChain = () => {
     myToken,
     fetching,
   };
+}
+
+export async function fetchTokenPriceMint(provider: Provider) {
+  const contract = await getContract(provider);
+  const tokenMintPrice = await contract.currentMintPrice()
+  const arbArtTokenMintPrice: ArbArtTokenMintPrice = {
+    currentPrice: tokenMintPrice[0].toString(),
+    fees: tokenMintPrice[1].toString(),
+    total: tokenMintPrice[0].add(tokenMintPrice[1]).toString()
+  };
+  return arbArtTokenMintPrice;
+}
+
+export const useTokenPriceMint = () => {
+  const { account } = useWeb3();
+  const [fetching, setFetching] = useState<boolean>(true);
+  const [tokenMintPrice, setTokenMintPrice] = useState<ArbArtTokenMintPrice | null>(null);
+
+  useEffect(() => {
+    if(!account) {
+      setTokenMintPrice(null)
+      setFetching(false)
+      return;
+    }
+
+    const { provider } = account;
+
+    setFetching(true)
+    const poll = () => {
+      fetchTokenPriceMint(account.provider)
+        .then((arbArtTokenMintPrice: ArbArtTokenMintPrice | null) => {
+          if(!arbArtTokenMintPrice) {
+            setTokenMintPrice(null)
+            setFetching(false)
+            return;
+          }
+          provider.removeListener('block', poll);
+          setTokenMintPrice(arbArtTokenMintPrice);
+          setFetching(false)
+        })
+        .catch(error => {
+          setTokenMintPrice(null)
+          setFetching(false)
+          console.error(error);
+        });
+    }
+
+    provider.on('block', poll);
+    return () => {
+      provider.removeListener('block', poll);
+    }
+  }, [account]);
+
+  return {
+    tokenMintPrice,
+    fetching,
+  };
+}
+
+export async function fetchTokenPriceBurn(provider: Provider) {
+  const contract = await getContract(provider);
+  const tokenBurnPrice = await contract.currentBurnPrice()
+  const arbArtTokenBurnPrice: ArbArtTokenBurnPrice = {
+    currentPrice: tokenBurnPrice.toString(),
+  };
+  return arbArtTokenBurnPrice;
+}
+
+export const useTokenPriceBurn = () => {
+  const { account } = useWeb3();
+  const [fetching, setFetching] = useState<boolean>(true);
+  const [tokenBurnPrice, setTokenBurnPrice] = useState<ArbArtTokenBurnPrice | null>(null);
+
+  useEffect(() => {
+    if(!account) {
+      setTokenBurnPrice(null)
+      setFetching(false)
+      return;
+    }
+
+    const { provider } = account;
+
+    setFetching(true)
+    const poll = () => {
+      fetchTokenPriceBurn(account.provider)
+        .then((arbArtTokenBurnPrice: ArbArtTokenBurnPrice | null) => {
+          if(!arbArtTokenBurnPrice) {
+            setTokenBurnPrice(null)
+            setFetching(false)
+            return;
+          }
+          provider.removeListener('block', poll);
+          setTokenBurnPrice(arbArtTokenBurnPrice);
+          setFetching(false)
+        })
+        .catch(error => {
+          setTokenBurnPrice(null)
+          setFetching(false)
+          console.error(error);
+        });
+    }
+
+    provider.on('block', poll);
+    return () => {
+      provider.removeListener('block', poll);
+    }
+  }, [account]);
+
+  return {
+    tokenBurnPrice,
+    fetching,
+  }
+}
+
+export async function fetchTokenCountMint(provider?: Provider) {
+  const contract = await getContract(provider);
+  const tokenCountMint = await contract.countMint()
+  const arbArtTokenCountMint: ArbArtTokenCountMint = {
+    current: tokenCountMint.toString(),
+  };
+
+  return arbArtTokenCountMint;
+}
+
+export const useTokenCountMint = () => {
+  const { account } = useWeb3();
+  const [fetching, setFetching] = useState<boolean>(true);
+  const [tokenCountMint, setTokenCountMint] = useState<ArbArtTokenCountMint | null>(null);
+
+  useEffect(() => {
+
+    setFetching(true)
+    fetchTokenCountMint(account?.provider)
+      .then((tokenCountMint: ArbArtTokenCountMint | null) => {
+        if(!tokenCountMint) {
+          setTokenCountMint(null)
+          setFetching(false)
+          return;
+        }
+        setTokenCountMint(tokenCountMint);
+        setFetching(false)
+      })
+      .catch(error => {
+        setTokenCountMint(null)
+        setFetching(false)
+        console.error(error);
+      });
+
+  }, [account]);
+
+  return {
+    tokenCountMint,
+    fetching,
+  }
 }
 
 export interface TokensProps {
@@ -245,14 +426,35 @@ export const useToken = (address?: string) => {
   }
 }
 
+const metadataCache = {};
+
 export const useMetadata = (arbArtToken: ArbArtToken): ArbArtTokenMetadata | null => {
   const [metadata, setMetadata] = useState<ArbArtTokenMetadata | null>(null);
 
   useEffect(() => {
+    if(metadataCache[arbArtToken.tokenURI]) {
+      setMetadata(metadataCache[arbArtToken.tokenURI]);
+      return;
+    }
+
+    setMetadata(null);
     getIpfsData(arbArtToken.tokenURI)
-      .then(setMetadata)
+      .then(metadata => {
+        setMetadata(metadata);
+        metadataCache[arbArtToken.tokenURI] = metadata;
+      })
       .catch(console.error)
   }, [arbArtToken]);
 
   return metadata;
+}
+
+export const useCanMint = () => {
+  const { account } = useWeb3();
+  const { token, fetching } = useToken(account?.address)
+
+  return useMemo<boolean>(() =>
+    !account || !fetching && !token,
+    [account, token, fetching]
+  );
 }

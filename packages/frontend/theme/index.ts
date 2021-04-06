@@ -32,7 +32,7 @@ const components = {
     baseStyle: {
       fontWeight: 700,
       textTransform: 'uppercase',
-      cursor: 'pointer'
+      cursor: 'pointer',
     },
     variants: {},
   },
@@ -109,11 +109,23 @@ const colors = {
     800: '#0f214d',
   },
   theme: '#f3f3f3',
-  red: '#FB6B6B',
-  green: '#6BFB9C',
-  blue: '#6B93FB',
+  reddy: '#fb6b6b',
+  greeny: '#6BFB9C',
+  bluey: '#6B93FB',
   header: '#ffffff44',
   pink: '#FF45B5',
+  pupu: '#C345FF',
+  red: {
+    100: '#FEEBEB',
+    200: '#FCC5C5',
+    300: '#FA9E9E',
+    400: '#F87777',
+    500: '#F65151',
+    600: '#F42A2A',
+    700: '#F31616',
+    800: '#D50B0B',
+    900: '#4E0404',
+  }
 }
 
 export default extendTheme({

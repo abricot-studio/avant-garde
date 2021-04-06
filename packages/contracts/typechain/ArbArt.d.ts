@@ -12,6 +12,7 @@ import {
   Contract,
   ContractTransaction,
   Overrides,
+  PayableOverrides,
   CallOverrides,
 } from "ethers";
 import { BytesLike } from "@ethersproject/bytes";
@@ -21,22 +22,26 @@ import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface ArbArtInterface extends ethers.utils.Interface {
   functions: {
-    "DEFAULT_ADMIN_ROLE()": FunctionFragment;
-    "MANAGER_ROLE()": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
+    "burn(uint256)": FunctionFragment;
+    "changeFeesReceiver(address)": FunctionFragment;
+    "changeManager(address)": FunctionFragment;
+    "countMint()": FunctionFragment;
+    "currentBurnPrice()": FunctionFragment;
+    "currentMintPrice()": FunctionFragment;
+    "currentMintWithFeesPrice()": FunctionFragment;
+    "currentPrice()": FunctionFragment;
+    "feesReceiver()": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
-    "getRoleAdmin(bytes32)": FunctionFragment;
-    "getRoleMember(bytes32,uint256)": FunctionFragment;
-    "getRoleMemberCount(bytes32)": FunctionFragment;
-    "grantRole(bytes32,address)": FunctionFragment;
-    "hasRole(bytes32,address)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
-    "mint(string,address,bytes)": FunctionFragment;
+    "manager()": FunctionFragment;
+    "mint(string,bytes)": FunctionFragment;
+    "mintPriceFor(uint256)": FunctionFragment;
+    "mintWithFeesPriceFor(uint256)": FunctionFragment;
     "name()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
-    "renounceRole(bytes32,address)": FunctionFragment;
-    "revokeRole(bytes32,address)": FunctionFragment;
+    "priceFor(uint256)": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
@@ -46,49 +51,60 @@ interface ArbArtInterface extends ethers.utils.Interface {
   };
 
   encodeFunctionData(
-    functionFragment: "DEFAULT_ADMIN_ROLE",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "MANAGER_ROLE",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
     functionFragment: "approve",
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
+  encodeFunctionData(functionFragment: "burn", values: [BigNumberish]): string;
+  encodeFunctionData(
+    functionFragment: "changeFeesReceiver",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "changeManager",
+    values: [string]
+  ): string;
+  encodeFunctionData(functionFragment: "countMint", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "currentBurnPrice",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "currentMintPrice",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "currentMintWithFeesPrice",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "currentPrice",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "feesReceiver",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "getApproved",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "getRoleAdmin",
-    values: [BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getRoleMember",
-    values: [BytesLike, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getRoleMemberCount",
-    values: [BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "grantRole",
-    values: [BytesLike, string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "hasRole",
-    values: [BytesLike, string]
-  ): string;
-  encodeFunctionData(
     functionFragment: "isApprovedForAll",
     values: [string, string]
   ): string;
+  encodeFunctionData(functionFragment: "manager", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "mint",
-    values: [string, string, BytesLike]
+    values: [string, BytesLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "mintPriceFor",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "mintWithFeesPriceFor",
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(
@@ -96,12 +112,8 @@ interface ArbArtInterface extends ethers.utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "renounceRole",
-    values: [BytesLike, string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "revokeRole",
-    values: [BytesLike, string]
+    functionFragment: "priceFor",
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "safeTransferFrom",
@@ -125,46 +137,59 @@ interface ArbArtInterface extends ethers.utils.Interface {
     values: [string, string, BigNumberish]
   ): string;
 
-  decodeFunctionResult(
-    functionFragment: "DEFAULT_ADMIN_ROLE",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "MANAGER_ROLE",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "changeFeesReceiver",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "changeManager",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "countMint", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "currentBurnPrice",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "currentMintPrice",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "currentMintWithFeesPrice",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "currentPrice",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "feesReceiver",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "getApproved",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "getRoleAdmin",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getRoleMember",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getRoleMemberCount",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
-  decodeFunctionResult(
     functionFragment: "isApprovedForAll",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "manager", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "renounceRole",
+    functionFragment: "mintPriceFor",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "mintWithFeesPriceFor",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "priceFor", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "safeTransferFrom",
     data: BytesLike
@@ -187,17 +212,15 @@ interface ArbArtInterface extends ethers.utils.Interface {
   events: {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
-    "RoleAdminChanged(bytes32,bytes32,bytes32)": EventFragment;
-    "RoleGranted(bytes32,address,address)": EventFragment;
-    "RoleRevoked(bytes32,address,address)": EventFragment;
+    "Burned(uint256,uint256)": EventFragment;
+    "Minted(uint256,uint256)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "RoleAdminChanged"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "RoleGranted"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "RoleRevoked"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Burned"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Minted"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
 
@@ -245,14 +268,6 @@ export class ArbArt extends Contract {
   interface: ArbArtInterface;
 
   functions: {
-    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<[string]>;
-
-    "DEFAULT_ADMIN_ROLE()"(overrides?: CallOverrides): Promise<[string]>;
-
-    MANAGER_ROLE(overrides?: CallOverrides): Promise<[string]>;
-
-    "MANAGER_ROLE()"(overrides?: CallOverrides): Promise<[string]>;
-
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -272,6 +287,70 @@ export class ArbArt extends Contract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
+    burn(
+      _tokenId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "burn(uint256)"(
+      _tokenId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    changeFeesReceiver(
+      _newFeesReceiver: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "changeFeesReceiver(address)"(
+      _newFeesReceiver: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    changeManager(
+      _newManager: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "changeManager(address)"(
+      _newManager: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    countMint(
+      overrides?: CallOverrides
+    ): Promise<[BigNumber] & { _value: BigNumber }>;
+
+    "countMint()"(
+      overrides?: CallOverrides
+    ): Promise<[BigNumber] & { _value: BigNumber }>;
+
+    currentBurnPrice(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    "currentBurnPrice()"(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    currentMintPrice(
+      overrides?: CallOverrides
+    ): Promise<[BigNumber, BigNumber]>;
+
+    "currentMintPrice()"(
+      overrides?: CallOverrides
+    ): Promise<[BigNumber, BigNumber]>;
+
+    currentMintWithFeesPrice(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    "currentMintWithFeesPrice()"(
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    currentPrice(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    "currentPrice()"(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    feesReceiver(overrides?: CallOverrides): Promise<[string]>;
+
+    "feesReceiver()"(overrides?: CallOverrides): Promise<[string]>;
+
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
@@ -281,59 +360,6 @@ export class ArbArt extends Contract {
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[string]>;
-
-    getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<[string]>;
-
-    "getRoleAdmin(bytes32)"(
-      role: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
-    getRoleMember(
-      role: BytesLike,
-      index: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
-    "getRoleMember(bytes32,uint256)"(
-      role: BytesLike,
-      index: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
-    getRoleMemberCount(
-      role: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
-    "getRoleMemberCount(bytes32)"(
-      role: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
-    grantRole(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    "grantRole(bytes32,address)"(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    hasRole(
-      role: BytesLike,
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
-
-    "hasRole(bytes32,address)"(
-      role: BytesLike,
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
 
     isApprovedForAll(
       owner: string,
@@ -347,19 +373,45 @@ export class ArbArt extends Contract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
+    manager(overrides?: CallOverrides): Promise<[string]>;
+
+    "manager()"(overrides?: CallOverrides): Promise<[string]>;
+
     mint(
       _uri: string,
-      _signer: string,
       _signature: BytesLike,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    "mint(string,address,bytes)"(
+    "mint(string,bytes)"(
       _uri: string,
-      _signer: string,
       _signature: BytesLike,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    mintPriceFor(
+      _current: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber] & { _currentPrice: BigNumber; _fees: BigNumber }
+    >;
+
+    "mintPriceFor(uint256)"(
+      _current: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber] & { _currentPrice: BigNumber; _fees: BigNumber }
+    >;
+
+    mintWithFeesPriceFor(
+      _current: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    "mintWithFeesPriceFor(uint256)"(
+      _current: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
 
     name(overrides?: CallOverrides): Promise<[string]>;
 
@@ -375,29 +427,15 @@ export class ArbArt extends Contract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
-    renounceRole(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
+    priceFor(
+      _current: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
 
-    "renounceRole(bytes32,address)"(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    revokeRole(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    "revokeRole(bytes32,address)"(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
+    "priceFor(uint256)"(
+      _current: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
 
     "safeTransferFrom(address,address,uint256)"(
       from: string,
@@ -465,14 +503,6 @@ export class ArbArt extends Contract {
     ): Promise<ContractTransaction>;
   };
 
-  DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
-
-  "DEFAULT_ADMIN_ROLE()"(overrides?: CallOverrides): Promise<string>;
-
-  MANAGER_ROLE(overrides?: CallOverrides): Promise<string>;
-
-  "MANAGER_ROLE()"(overrides?: CallOverrides): Promise<string>;
-
   approve(
     to: string,
     tokenId: BigNumberish,
@@ -492,6 +522,62 @@ export class ArbArt extends Contract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
+  burn(
+    _tokenId: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "burn(uint256)"(
+    _tokenId: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  changeFeesReceiver(
+    _newFeesReceiver: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "changeFeesReceiver(address)"(
+    _newFeesReceiver: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  changeManager(
+    _newManager: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "changeManager(address)"(
+    _newManager: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  countMint(overrides?: CallOverrides): Promise<BigNumber>;
+
+  "countMint()"(overrides?: CallOverrides): Promise<BigNumber>;
+
+  currentBurnPrice(overrides?: CallOverrides): Promise<BigNumber>;
+
+  "currentBurnPrice()"(overrides?: CallOverrides): Promise<BigNumber>;
+
+  currentMintPrice(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
+
+  "currentMintPrice()"(
+    overrides?: CallOverrides
+  ): Promise<[BigNumber, BigNumber]>;
+
+  currentMintWithFeesPrice(overrides?: CallOverrides): Promise<BigNumber>;
+
+  "currentMintWithFeesPrice()"(overrides?: CallOverrides): Promise<BigNumber>;
+
+  currentPrice(overrides?: CallOverrides): Promise<BigNumber>;
+
+  "currentPrice()"(overrides?: CallOverrides): Promise<BigNumber>;
+
+  feesReceiver(overrides?: CallOverrides): Promise<string>;
+
+  "feesReceiver()"(overrides?: CallOverrides): Promise<string>;
+
   getApproved(
     tokenId: BigNumberish,
     overrides?: CallOverrides
@@ -501,59 +587,6 @@ export class ArbArt extends Contract {
     tokenId: BigNumberish,
     overrides?: CallOverrides
   ): Promise<string>;
-
-  getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<string>;
-
-  "getRoleAdmin(bytes32)"(
-    role: BytesLike,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
-  getRoleMember(
-    role: BytesLike,
-    index: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
-  "getRoleMember(bytes32,uint256)"(
-    role: BytesLike,
-    index: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
-  getRoleMemberCount(
-    role: BytesLike,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
-  "getRoleMemberCount(bytes32)"(
-    role: BytesLike,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
-  grantRole(
-    role: BytesLike,
-    account: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  "grantRole(bytes32,address)"(
-    role: BytesLike,
-    account: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  hasRole(
-    role: BytesLike,
-    account: string,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
-
-  "hasRole(bytes32,address)"(
-    role: BytesLike,
-    account: string,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
 
   isApprovedForAll(
     owner: string,
@@ -567,19 +600,45 @@ export class ArbArt extends Contract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
+  manager(overrides?: CallOverrides): Promise<string>;
+
+  "manager()"(overrides?: CallOverrides): Promise<string>;
+
   mint(
     _uri: string,
-    _signer: string,
     _signature: BytesLike,
-    overrides?: Overrides & { from?: string | Promise<string> }
+    overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  "mint(string,address,bytes)"(
+  "mint(string,bytes)"(
     _uri: string,
-    _signer: string,
     _signature: BytesLike,
-    overrides?: Overrides & { from?: string | Promise<string> }
+    overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
+
+  mintPriceFor(
+    _current: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<
+    [BigNumber, BigNumber] & { _currentPrice: BigNumber; _fees: BigNumber }
+  >;
+
+  "mintPriceFor(uint256)"(
+    _current: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<
+    [BigNumber, BigNumber] & { _currentPrice: BigNumber; _fees: BigNumber }
+  >;
+
+  mintWithFeesPriceFor(
+    _current: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  "mintWithFeesPriceFor(uint256)"(
+    _current: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
 
   name(overrides?: CallOverrides): Promise<string>;
 
@@ -592,29 +651,15 @@ export class ArbArt extends Contract {
     overrides?: CallOverrides
   ): Promise<string>;
 
-  renounceRole(
-    role: BytesLike,
-    account: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
+  priceFor(
+    _current: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
 
-  "renounceRole(bytes32,address)"(
-    role: BytesLike,
-    account: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  revokeRole(
-    role: BytesLike,
-    account: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  "revokeRole(bytes32,address)"(
-    role: BytesLike,
-    account: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
+  "priceFor(uint256)"(
+    _current: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
 
   "safeTransferFrom(address,address,uint256)"(
     from: string,
@@ -679,14 +724,6 @@ export class ArbArt extends Contract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
-
-    "DEFAULT_ADMIN_ROLE()"(overrides?: CallOverrides): Promise<string>;
-
-    MANAGER_ROLE(overrides?: CallOverrides): Promise<string>;
-
-    "MANAGER_ROLE()"(overrides?: CallOverrides): Promise<string>;
-
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -706,6 +743,61 @@ export class ArbArt extends Contract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    burn(_tokenId: BigNumberish, overrides?: CallOverrides): Promise<boolean>;
+
+    "burn(uint256)"(
+      _tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    changeFeesReceiver(
+      _newFeesReceiver: string,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    "changeFeesReceiver(address)"(
+      _newFeesReceiver: string,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    changeManager(
+      _newManager: string,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    "changeManager(address)"(
+      _newManager: string,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    countMint(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "countMint()"(overrides?: CallOverrides): Promise<BigNumber>;
+
+    currentBurnPrice(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "currentBurnPrice()"(overrides?: CallOverrides): Promise<BigNumber>;
+
+    currentMintPrice(
+      overrides?: CallOverrides
+    ): Promise<[BigNumber, BigNumber]>;
+
+    "currentMintPrice()"(
+      overrides?: CallOverrides
+    ): Promise<[BigNumber, BigNumber]>;
+
+    currentMintWithFeesPrice(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "currentMintWithFeesPrice()"(overrides?: CallOverrides): Promise<BigNumber>;
+
+    currentPrice(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "currentPrice()"(overrides?: CallOverrides): Promise<BigNumber>;
+
+    feesReceiver(overrides?: CallOverrides): Promise<string>;
+
+    "feesReceiver()"(overrides?: CallOverrides): Promise<string>;
+
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
@@ -715,59 +807,6 @@ export class ArbArt extends Contract {
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<string>;
-
-    getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<string>;
-
-    "getRoleAdmin(bytes32)"(
-      role: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
-    getRoleMember(
-      role: BytesLike,
-      index: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
-    "getRoleMember(bytes32,uint256)"(
-      role: BytesLike,
-      index: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
-    getRoleMemberCount(
-      role: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "getRoleMemberCount(bytes32)"(
-      role: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    grantRole(
-      role: BytesLike,
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    "grantRole(bytes32,address)"(
-      role: BytesLike,
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    hasRole(
-      role: BytesLike,
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
-    "hasRole(bytes32,address)"(
-      role: BytesLike,
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
 
     isApprovedForAll(
       owner: string,
@@ -781,17 +820,43 @@ export class ArbArt extends Contract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
+    manager(overrides?: CallOverrides): Promise<string>;
+
+    "manager()"(overrides?: CallOverrides): Promise<string>;
+
     mint(
       _uri: string,
-      _signer: string,
       _signature: BytesLike,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    "mint(string,address,bytes)"(
+    "mint(string,bytes)"(
       _uri: string,
-      _signer: string,
       _signature: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    mintPriceFor(
+      _current: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber] & { _currentPrice: BigNumber; _fees: BigNumber }
+    >;
+
+    "mintPriceFor(uint256)"(
+      _current: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber] & { _currentPrice: BigNumber; _fees: BigNumber }
+    >;
+
+    mintWithFeesPriceFor(
+      _current: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "mintWithFeesPriceFor(uint256)"(
+      _current: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -806,29 +871,15 @@ export class ArbArt extends Contract {
       overrides?: CallOverrides
     ): Promise<string>;
 
-    renounceRole(
-      role: BytesLike,
-      account: string,
+    priceFor(
+      _current: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<BigNumber>;
 
-    "renounceRole(bytes32,address)"(
-      role: BytesLike,
-      account: string,
+    "priceFor(uint256)"(
+      _current: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<void>;
-
-    revokeRole(
-      role: BytesLike,
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    "revokeRole(bytes32,address)"(
-      role: BytesLike,
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<BigNumber>;
 
     "safeTransferFrom(address,address,uint256)"(
       from: string,
@@ -912,31 +963,20 @@ export class ArbArt extends Contract {
       { owner: string; operator: string; approved: boolean }
     >;
 
-    RoleAdminChanged(
-      role: BytesLike | null,
-      previousAdminRole: BytesLike | null,
-      newAdminRole: BytesLike | null
+    Burned(
+      tokenId: BigNumberish | null,
+      burnPrice: BigNumberish | null
     ): TypedEventFilter<
-      [string, string, string],
-      { role: string; previousAdminRole: string; newAdminRole: string }
+      [BigNumber, BigNumber],
+      { tokenId: BigNumber; burnPrice: BigNumber }
     >;
 
-    RoleGranted(
-      role: BytesLike | null,
-      account: string | null,
-      sender: string | null
+    Minted(
+      tokenId: BigNumberish | null,
+      mintPrice: BigNumberish | null
     ): TypedEventFilter<
-      [string, string, string],
-      { role: string; account: string; sender: string }
-    >;
-
-    RoleRevoked(
-      role: BytesLike | null,
-      account: string | null,
-      sender: string | null
-    ): TypedEventFilter<
-      [string, string, string],
-      { role: string; account: string; sender: string }
+      [BigNumber, BigNumber],
+      { tokenId: BigNumber; mintPrice: BigNumber }
     >;
 
     Transfer(
@@ -950,14 +990,6 @@ export class ArbArt extends Contract {
   };
 
   estimateGas: {
-    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
-
-    "DEFAULT_ADMIN_ROLE()"(overrides?: CallOverrides): Promise<BigNumber>;
-
-    MANAGER_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
-
-    "MANAGER_ROLE()"(overrides?: CallOverrides): Promise<BigNumber>;
-
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -977,6 +1009,60 @@ export class ArbArt extends Contract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    burn(
+      _tokenId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "burn(uint256)"(
+      _tokenId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    changeFeesReceiver(
+      _newFeesReceiver: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "changeFeesReceiver(address)"(
+      _newFeesReceiver: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    changeManager(
+      _newManager: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "changeManager(address)"(
+      _newManager: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    countMint(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "countMint()"(overrides?: CallOverrides): Promise<BigNumber>;
+
+    currentBurnPrice(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "currentBurnPrice()"(overrides?: CallOverrides): Promise<BigNumber>;
+
+    currentMintPrice(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "currentMintPrice()"(overrides?: CallOverrides): Promise<BigNumber>;
+
+    currentMintWithFeesPrice(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "currentMintWithFeesPrice()"(overrides?: CallOverrides): Promise<BigNumber>;
+
+    currentPrice(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "currentPrice()"(overrides?: CallOverrides): Promise<BigNumber>;
+
+    feesReceiver(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "feesReceiver()"(overrides?: CallOverrides): Promise<BigNumber>;
+
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
@@ -984,62 +1070,6 @@ export class ArbArt extends Contract {
 
     "getApproved(uint256)"(
       tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getRoleAdmin(
-      role: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "getRoleAdmin(bytes32)"(
-      role: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getRoleMember(
-      role: BytesLike,
-      index: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "getRoleMember(bytes32,uint256)"(
-      role: BytesLike,
-      index: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getRoleMemberCount(
-      role: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "getRoleMemberCount(bytes32)"(
-      role: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    grantRole(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    "grantRole(bytes32,address)"(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    hasRole(
-      role: BytesLike,
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "hasRole(bytes32,address)"(
-      role: BytesLike,
-      account: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1055,18 +1085,40 @@ export class ArbArt extends Contract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    manager(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "manager()"(overrides?: CallOverrides): Promise<BigNumber>;
+
     mint(
       _uri: string,
-      _signer: string,
       _signature: BytesLike,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    "mint(string,address,bytes)"(
+    "mint(string,bytes)"(
       _uri: string,
-      _signer: string,
       _signature: BytesLike,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    mintPriceFor(
+      _current: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "mintPriceFor(uint256)"(
+      _current: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    mintWithFeesPriceFor(
+      _current: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "mintWithFeesPriceFor(uint256)"(
+      _current: BigNumberish,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     name(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1083,28 +1135,14 @@ export class ArbArt extends Contract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    renounceRole(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
+    priceFor(
+      _current: BigNumberish,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    "renounceRole(bytes32,address)"(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    revokeRole(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    "revokeRole(bytes32,address)"(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
+    "priceFor(uint256)"(
+      _current: BigNumberish,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     "safeTransferFrom(address,address,uint256)"(
@@ -1174,18 +1212,6 @@ export class ArbArt extends Contract {
   };
 
   populateTransaction: {
-    DEFAULT_ADMIN_ROLE(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "DEFAULT_ADMIN_ROLE()"(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    MANAGER_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    "MANAGER_ROLE()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -1208,6 +1234,68 @@ export class ArbArt extends Contract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    burn(
+      _tokenId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "burn(uint256)"(
+      _tokenId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    changeFeesReceiver(
+      _newFeesReceiver: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "changeFeesReceiver(address)"(
+      _newFeesReceiver: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    changeManager(
+      _newManager: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "changeManager(address)"(
+      _newManager: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    countMint(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    "countMint()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    currentBurnPrice(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    "currentBurnPrice()"(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    currentMintPrice(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    "currentMintPrice()"(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    currentMintWithFeesPrice(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "currentMintWithFeesPrice()"(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    currentPrice(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    "currentPrice()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    feesReceiver(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    "feesReceiver()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
@@ -1215,62 +1303,6 @@ export class ArbArt extends Contract {
 
     "getApproved(uint256)"(
       tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getRoleAdmin(
-      role: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "getRoleAdmin(bytes32)"(
-      role: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getRoleMember(
-      role: BytesLike,
-      index: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "getRoleMember(bytes32,uint256)"(
-      role: BytesLike,
-      index: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getRoleMemberCount(
-      role: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "getRoleMemberCount(bytes32)"(
-      role: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    grantRole(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "grantRole(bytes32,address)"(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    hasRole(
-      role: BytesLike,
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "hasRole(bytes32,address)"(
-      role: BytesLike,
-      account: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1286,18 +1318,40 @@ export class ArbArt extends Contract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    manager(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    "manager()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     mint(
       _uri: string,
-      _signer: string,
       _signature: BytesLike,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    "mint(string,address,bytes)"(
+    "mint(string,bytes)"(
       _uri: string,
-      _signer: string,
       _signature: BytesLike,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    mintPriceFor(
+      _current: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "mintPriceFor(uint256)"(
+      _current: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    mintWithFeesPriceFor(
+      _current: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "mintWithFeesPriceFor(uint256)"(
+      _current: BigNumberish,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
@@ -1314,28 +1368,14 @@ export class ArbArt extends Contract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    renounceRole(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
+    priceFor(
+      _current: BigNumberish,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    "renounceRole(bytes32,address)"(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    revokeRole(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "revokeRole(bytes32,address)"(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
+    "priceFor(uint256)"(
+      _current: BigNumberish,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     "safeTransferFrom(address,address,uint256)"(
