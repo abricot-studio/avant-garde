@@ -14,9 +14,10 @@ import {
 import { useCanMint, useTokenCountMint } from '../../hooks/tokens'
 import { ImageFrame } from '../ui/TokenImage'
 import { bondingCurveFn, contractConstants, URLs } from '../../lib/constants'
-// import { faFileSignature } from '@fortawesome/free-solid-svg-icons'
+import { faFileSignature } from '@fortawesome/free-solid-svg-icons'
 import { faGithub, faTwitter, faDiscord } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useContract } from '../../hooks/contracts'
 
 const Title = ({ children }) => (
   <Heading
@@ -134,6 +135,8 @@ function LinkItem({ href, icon, label}) {
   )
 }
 function Links() {
+  const { etherscanURL: contractEtherscanURL } = useContract();
+
   return (
     <>
       <Title>Links</Title>
@@ -153,11 +156,11 @@ function Links() {
           icon={<FontAwesomeIcon icon={faTwitter} size="1x" />}
           label="Twitter"
         />
-        {/*<LinkItem*/}
-        {/*  href={contract.address}*/}
-        {/*  icon={<FontAwesomeIcon icon={faFileSignature} size="1x" />}*/}
-        {/*  label="Contracts"*/}
-        {/*/>*/}
+        <LinkItem
+          href={contractEtherscanURL}
+          icon={<FontAwesomeIcon icon={faFileSignature} size="1x" />}
+          label="Contracts"
+        />
       </Wrap>
     </>
   )

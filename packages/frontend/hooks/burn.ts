@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 import { useWeb3 } from '../contexts/Web3Context'
-import { getContract } from '../lib/contracts'
+import { getContractFromProvider } from '../lib/contracts'
 import { useToast } from '../components/ui'
 
 export const useBurn = () => {
@@ -19,7 +19,7 @@ export const useBurn = () => {
     setIsBurning(true);
     setError(null);
 
-    getContract(account.provider)
+    getContractFromProvider(account.provider)
       .then(c => c.connect(account.provider.getSigner()))
       .then(contract =>
         contract.burn(tokenId)
