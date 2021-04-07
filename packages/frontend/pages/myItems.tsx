@@ -45,7 +45,7 @@ const MyTokensPage: React.FC = () => {
       <Heading
         textAlign="center"
         mb={8}
-      >Your items</Heading>
+      >My items</Heading>
       <Tokens
         tokens={tokens}
         fetching={fetching}

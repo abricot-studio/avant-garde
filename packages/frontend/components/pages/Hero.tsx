@@ -92,7 +92,7 @@ export default function Hero() {
         </WrapItem>
       </Wrap>
 
-      <Box mt={16}>
+      <Box mt={8}>
         <Links/>
       </Box>
     </Box>
@@ -111,7 +111,7 @@ function LinkItem({ href, icon, label }) {
           aria-label={label}
           icon={icon}
           variant="link"
-          size="sm"
+          size="md"
         />
       </CLink>
     </WrapItem>

@@ -16,12 +16,10 @@ import { useWeb3 } from '../../contexts/Web3Context'
 import { WalletIcon } from './Icons'
 import { shortenAddress } from '@usedapp/core'
 
-const MenuItem = forwardRef<MenuItemProps, "a">( ({ children, color, ...props }, ref) => {
+export const MenuItem = forwardRef<MenuItemProps, "a">( ({ children, color, ...props }, ref) => {
   return (
     <ChakraMenuItem
       as="a"
-      pr={6}
-      justifyContent="flex-end"
       textStyle="caption"
       cursor="pointer"
       _hover={{
@@ -41,9 +39,9 @@ const MenuItem = forwardRef<MenuItemProps, "a">( ({ children, color, ...props },
 })
 
 function MainButton({ account }) {
-  const variant = useBreakpointValue({ base: "reduced", md: "full" });
+  const mobile = useBreakpointValue({ base: true, md: false })
 
-  if(variant === 'reduced') {
+  if(mobile) {
     return (
       <MenuButton
         as={IconButton}
@@ -63,7 +61,7 @@ function MainButton({ account }) {
   return (
     <MenuButton
       as={Button}
-      width={{ base: '100px', sm: '200px', md: '200px' }}
+      width="200px"
       variant="outline"
       rounded="full"
       border="1px"
@@ -84,33 +82,41 @@ function MainButton({ account }) {
 }
 
 export function LoginButton() {
+  const mobile = useBreakpointValue({ base: true, lg: false })
   const { connect, disconnect, isConnecting, account } = useWeb3()
 
   if (account) {
     return (
       <Menu
-        offset={[0, -20]}
+        offset={mobile ? undefined : [0, -25]}
+        placement="bottom"
       >
         <MainButton account={account} />
         <MenuList
-          minWidth={{ base: '100px', sm: '200px', md: '200px' }}
-          borderRadius="0"
-          borderBottomRadius="1rem"
-          mr="2rem"
           zIndex={1}
-          background="black"
+          bg="black"
           color="white"
+          borderRadius={mobile ? "1rem" : 0}
+          borderBottomRadius="1rem"
+          minWidth="200px"
+          overflow="hidden"
         >
           <Link passHref href="/myItems">
             <MenuItem
-              mt={3}
+              mt={mobile ? 0 : 4}
+              pr={6}
+              justifyContent="flex-end"
             >
               My items
             </MenuItem>
           </Link>
           <MenuItem
+            pr={6}
+            justifyContent="flex-end"
             onClick={disconnect}
-          >Disconnect</MenuItem>
+          >
+            Disconnect
+          </MenuItem>
         </MenuList>
       </Menu>
     )
