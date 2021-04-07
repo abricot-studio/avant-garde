@@ -127,6 +127,7 @@ function LinkItem({ href, icon, label}) {
         <Button
           leftIcon={icon}
           variant="outline"
+          colorScheme="white"
         >
           {label}
         </Button>
@@ -437,6 +438,7 @@ export function About() {
       </Flex>
 
       <Container
+        w="80%"
         maxW="container.sm"
         position="relative"
       >
