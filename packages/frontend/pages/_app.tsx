@@ -7,6 +7,7 @@ import { config as faConfig } from '@fortawesome/fontawesome-svg-core'
 import chakraTheme from '../theme'
 import GoogleFonts from '../components/utils/Fonts'
 import { Web3ContextProvider } from '../contexts/Web3Context'
+import config from '../config'
 
 faConfig.autoAddCss = false
 
@@ -46,12 +47,12 @@ function App({ Component, pageProps }: AppProps) {
           href="/favicons/favicon-16x16.png"
         />
 
-        {process.env.ENABLE_ANALYTICS && (
+        {config.enableAnalytics && (
           <script
             async
             defer
-            data-domain="plausible.tech"
-            src="https://plausible.tech/js/plausible.js"
+            data-domain="beta.avant-garde.gallery"
+            src="https://plausible.mooni.tech/js/plausible.js"
             integrity="sha384-A95mlioU57RAFEh+gc9a71Kc08jTjT+ESRKYiJtPoN5ZRsMiDDCWdHQWGk1Q4YGP"
             crossOrigin="anonymous"
           />
