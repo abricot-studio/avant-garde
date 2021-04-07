@@ -3,14 +3,14 @@
   "private": true,
   "version": "0.1.0",
   "scripts": {
-    "create:prod": "graph create julesgoullee/avant-garde --node https://api.thegraph.com/deploy/",
-    "create:local": "graph create julesgoullee/avant-garde --node http://127.0.0.1:8020",
+    "create:prod": "graph create abricot-studio/avant-garde-rinkeby --node https://api.thegraph.com/deploy/",
+    "create:local": "graph create abricot-studio/avant-garde-rinkeby --node http://127.0.0.1:8020",
     "codegen": "npm run prepare:local && graph codegen",
     "build": "npm run codegen",
     "prepare:local": "mustache ../contracts/deployments/localhost/config.json subgraph.template.yaml > subgraph.yaml",
     "prepare:rinkeby": "mustache ../contracts/deployments/rinkeby/config.json subgraph.template.yaml > subgraph.yaml",
-    "deploy:local": "npm run prepare:local && graph deploy --debug --ipfs http://localhost:5001 --node http://127.0.0.1:8020 julesgoullee/avant-garde",
-    "deploy:rinkeby": "npm run prepare:rinkeby && graph deploy --debug --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/ julesgoullee/avant-garde"
+    "deploy:local": "npm run prepare:local && graph deploy --debug --ipfs http://localhost:5001 --node http://127.0.0.1:8020 abricot-studio/avant-garde-rinkeby",
+    "deploy:rinkeby": "npm run prepare:rinkeby && graph deploy --debug --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/ abricot-studio/avant-garde-rinkeby"
   },
   "devDependencies": {
     "@graphprotocol/graph-cli": "^0.20.0",

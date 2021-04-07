@@ -1,6 +1,6 @@
 specVersion: 0.0.2
 description: Avant Garde
-repository: https://github.com/julesgoullee/avant-garde
+repository: https://github.com/abricot-studio/avant-garde
 schema:
   file: ./schema.graphql
 dataSources:
