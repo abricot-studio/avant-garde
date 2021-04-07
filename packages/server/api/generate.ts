@@ -14,9 +14,9 @@ import Pinata from '../libs/pinata'
 import { signURI } from '../libs/sign'
 
 const logger = Log({ service: 'generation' })
+const signer = new Wallet(config.privateKey)
 
 let tf: typeof import('@tensorflow/tfjs') = null
-const signer = new Wallet(config.privateKey)
 let redis: typeof import('ioredis') = null
 
 export default async (req: VercelRequest, res: VercelResponse) => {

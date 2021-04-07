@@ -14,7 +14,7 @@ import {
 import { useCanMint, useTokenCountMint } from '../../hooks/tokens'
 import { ImageFrame } from '../ui/TokenImage'
 import { bondingCurveFn, contractConstants, URLs } from '../../lib/constants'
-import { faFileSignature } from '@fortawesome/free-solid-svg-icons'
+// import { faFileSignature } from '@fortawesome/free-solid-svg-icons'
 import { faGithub, faTwitter, faDiscord } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
