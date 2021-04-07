@@ -3,15 +3,18 @@ import Link from 'next/link'
 import {
   Avatar,
   Button,
+  IconButton,
   forwardRef,
   Menu,
   MenuButton,
   MenuList,
   MenuItem as ChakraMenuItem,
   MenuItemProps,
+  useBreakpointValue,
 } from '../ui'
 import { useWeb3 } from '../../contexts/Web3Context'
 import { WalletIcon } from './Icons'
+import { shortenAddress } from '@usedapp/core'
 
 const MenuItem = forwardRef<MenuItemProps, "a">( ({ children, color, ...props }, ref) => {
   return (
@@ -37,10 +40,47 @@ const MenuItem = forwardRef<MenuItemProps, "a">( ({ children, color, ...props },
   )
 })
 
-function displayAddress(address: string){
+function MainButton({ account }) {
+  const variant = useBreakpointValue({ base: "reduced", md: "full" });
 
-  return `${address.slice(0, 8)}...${address.slice(address.length - 5, address.length)}`
+  if(variant === 'reduced') {
+    return (
+      <MenuButton
+        as={IconButton}
+        variant="outline"
+        rounded="full"
+        backgroundColor="white"
+        textTransform="none"
+        _hover={{}}
+        icon={<Avatar size="sm" />}
+        zIndex={2}
+      >
+        { shortenAddress(account.address) }
+      </MenuButton>
+    )
+  }
 
+  return (
+    <MenuButton
+      as={Button}
+      width={{ base: '100px', sm: '200px', md: '200px' }}
+      variant="outline"
+      rounded="full"
+      border="1px"
+      borderColor="black"
+      backgroundColor="white"
+      textTransform="none"
+      fontWeight={300}
+      fontFamily="Roboto, sans-serif"
+      fontSize={{ base: '1rem', sm: '1rem', md: '1rem' }}
+      _hover={{}}
+      _active={{}}
+      rightIcon={<Avatar size="xs" />}
+      zIndex={2}
+    >
+      { shortenAddress(account.address) }
+    </MenuButton>
+  )
 }
 
 export function LoginButton() {
@@ -51,25 +91,7 @@ export function LoginButton() {
       <Menu
         offset={[0, -20]}
       >
-        <MenuButton
-          as={Button}
-          width={{ base: '100px', sm: '200px', md: '200px' }}
-          variant="outline"
-          rounded="full"
-          border="1px"
-          borderColor="black"
-          backgroundColor="white"
-          textTransform="none"
-          fontWeight={300}
-          fontFamily="Roboto, sans-serif"
-          fontSize={{ base: '1rem', sm: '1rem', md: '1rem' }}
-          _hover={{}}
-          _active={{}}
-          rightIcon={<Avatar size="xs" />}
-          zIndex={2}
-        >
-          { displayAddress(account.address) }
-        </MenuButton>
+        <MainButton account={account} />
         <MenuList
           minWidth={{ base: '100px', sm: '200px', md: '200px' }}
           borderRadius="0"
