@@ -57,13 +57,13 @@ export async function uploadMetadata(ipfsHashImage: string, address: string): Pr
     external_url: `https://art.art/id/${address}`,
     name: address,
     // background_color: 'ffffff',
-    attributes: [
-      {
-        display_type: 'date',
-        trait_type: 'birthday',
-        value: Date.now().toString()
-      }
-    ]
+    // attributes: [
+    //   {
+    //     display_type: 'date',
+    //     trait_type: 'birthday',
+    //     value: Date.now().toString()
+    //   }
+    // ]
   }, options)
     .then((result: any) => {
       // logger.info('result uploadMetadata', { result })
