@@ -134,6 +134,7 @@ function LinkItem({ href, icon, label}) {
     </WrapItem>
   )
 }
+
 function Links() {
   const { etherscanURL: contractEtherscanURL } = useContract();
 
