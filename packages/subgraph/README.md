@@ -1,6 +1,6 @@
-# ArbArt Subgraph
+# AvantGarde Subgraph
 
-Run `npm run compile` in `@arbart/contracts` first
+Run `npm run compile` in `@avantGarde/contracts` first
 
 ```shell
 docker-compose up -d

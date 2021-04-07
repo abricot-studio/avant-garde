@@ -12,7 +12,7 @@ function TokenCard({ token, size }) {
     <Link href={`/token/${token.id}`} passHref>
       <a>
         <TokenImage
-          arbArtToken={token}
+          avantGardeToken={token}
           size={size}
         />
       </a>

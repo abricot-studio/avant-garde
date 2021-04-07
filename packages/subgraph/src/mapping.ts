@@ -1,46 +1,46 @@
 import { log, ipfs, JSONValue, Value } from '@graphprotocol/graph-ts'
-import { ArbArt, Minted, Transfer, Burned } from '../generated/ArbArt/ArbArt'
-import { ArbArtToken, ArbArtTokenMetadata } from '../generated/schema'
+import { AvantGarde, Minted, Transfer, Burned } from '../generated/AvantGarde/AvantGarde'
+import { AvantGardeToken, AvantGardeTokenMetadata } from '../generated/schema'
 
-export function processItem(value: JSONValue, arbArtTokenId: Value): void {
+export function processItem(value: JSONValue, avantGardeTokenId: Value): void {
   let metadata = value.toObject()
 
-  let arbArtTokenMetadata = new ArbArtTokenMetadata(arbArtTokenId.toString())
-  arbArtTokenMetadata.image = metadata.get('image').toString()
-  arbArtTokenMetadata.name = metadata.get('name').toString()
-  arbArtTokenMetadata.description = metadata.get('description').toString()
-  arbArtTokenMetadata.external_url = metadata.get('external_url').toString()
-  arbArtTokenMetadata.parent = arbArtTokenId.toString()
-  arbArtTokenMetadata.save()
+  let avantGardeTokenMetadata = new AvantGardeTokenMetadata(avantGardeTokenId.toString())
+  avantGardeTokenMetadata.image = metadata.get('image').toString()
+  avantGardeTokenMetadata.name = metadata.get('name').toString()
+  avantGardeTokenMetadata.description = metadata.get('description').toString()
+  avantGardeTokenMetadata.external_url = metadata.get('external_url').toString()
+  avantGardeTokenMetadata.parent = avantGardeTokenId.toString()
+  avantGardeTokenMetadata.save()
 }
 
 export function handleMinted(event: Minted): void {
 
   let tokenId = event.params.tokenId.toHexString()
-  let arbArt = ArbArtToken.load(tokenId)
-  let contract = ArbArt.bind(event.address)
+  let avantGarde = AvantGardeToken.load(tokenId)
+  let contract = AvantGarde.bind(event.address)
 
-  if(arbArt === null){
+  if(avantGarde === null){
 
-    arbArt = new ArbArtToken(tokenId)
+    avantGarde = new AvantGardeToken(tokenId)
     let tokenURI = contract.tokenURI(event.params.tokenId)
-    arbArt.tokenURI = tokenURI
+    avantGarde.tokenURI = tokenURI
 
   }
 
-  arbArt.mintTimestamp = event.block.timestamp
-  arbArt.mintPrice = event.params.mintPrice
+  avantGarde.mintTimestamp = event.block.timestamp
+  avantGarde.mintPrice = event.params.mintPrice
 
   let owner = contract.ownerOf(event.params.tokenId)
-  arbArt.owner = owner
+  avantGarde.owner = owner
 
-  // arbArt.metadata = tokenId
+  // avantGarde.metadata = tokenId
 
-  arbArt.save()
+  avantGarde.save()
 
   // let ipfsProtocolSuffix = 'ipfs://';
   // let ipfsHash = tokenURI.substring(ipfsProtocolSuffix.length)
-  // ipfs.mapJSON(tokenURI, 'processItem', Value.fromString(arbArt.id.toString()))
+  // ipfs.mapJSON(tokenURI, 'processItem', Value.fromString(avantGarde.id.toString()))
 
 }
 
@@ -48,11 +48,11 @@ export function handleBurned(event: Burned): void {
 
   let tokenId = event.params.tokenId.toHexString()
 
-  let arbArt = ArbArtToken.load(tokenId)
-  arbArt.burnTimestamp = event.block.timestamp
-  arbArt.burnPrice = event.params.burnPrice
+  let avantGarde = AvantGardeToken.load(tokenId)
+  avantGarde.burnTimestamp = event.block.timestamp
+  avantGarde.burnPrice = event.params.burnPrice
 
-  arbArt.save()
+  avantGarde.save()
 
 }
 
@@ -61,19 +61,19 @@ export function handleTransfer(event: Transfer): void {
   let tokenId = event.params.tokenId.toHexString()
   let to = event.params.to
 
-  let arbArt = ArbArtToken.load(tokenId)
+  let avantGarde = AvantGardeToken.load(tokenId)
 
-  if(arbArt === null){
+  if(avantGarde === null){
 
-    arbArt = new ArbArtToken(tokenId)
-    let contract = ArbArt.bind(event.address)
+    avantGarde = new AvantGardeToken(tokenId)
+    let contract = AvantGarde.bind(event.address)
     let tokenURI = contract.tokenURI(event.params.tokenId)
-    arbArt.mintTimestamp = event.block.timestamp
-    arbArt.tokenURI = tokenURI
+    avantGarde.mintTimestamp = event.block.timestamp
+    avantGarde.tokenURI = tokenURI
 
   }
 
-  arbArt.owner = to
-  arbArt.save()
+  avantGarde.owner = to
+  avantGarde.save()
 
 }

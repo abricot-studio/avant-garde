@@ -1,6 +1,6 @@
 import { ethers } from 'hardhat'
-import { signMintingRequest } from '../lib/ArbArt'
-import Deployments from '../deployments/localhost/ArbArt.json'
+import { signMintingRequest } from '../lib/AvantGarde'
+import Deployments from '../deployments/localhost/AvantGarde.json'
 
 import ipfsHttp from 'ipfs-http-client'
 const IPFS_DOMAIN = 'http://localhost:5001'
@@ -32,7 +32,7 @@ async function main() {
   const accounts = await ethers.getSigners()
 
   const contractAddress = Deployments.address;
-  const contract = await ethers.getContractAt('ArbArt', contractAddress)
+  const contract = await ethers.getContractAt('AvantGarde', contractAddress)
 
   const manager = new ethers.Wallet('0x630af0fbddb248b53f97ecf899ce11878d9dcd7e718574c92607153027632135')
   const minter = accounts[0]

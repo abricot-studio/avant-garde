@@ -1,4 +1,4 @@
-# Abstractive Art
+# Avant Garde
 
 Abstract generative art with TensorFlow certified ownership on ethereum with nft.
 Using neuronal network architecture to output 3 values, defining RGB value for each pixel location.

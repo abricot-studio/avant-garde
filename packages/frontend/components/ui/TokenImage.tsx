@@ -1,10 +1,10 @@
 import React from 'react'
 import { Image, Box, Text, Center } from './index'
 import { getIpfsUrl } from '../../lib/ipfs'
-import { ArbArtToken, useMetadata } from '../../hooks/tokens'
+import { AvantGardeToken, useMetadata } from '../../hooks/tokens'
 
-export function TokenImage({ arbArtToken, size }: { arbArtToken: ArbArtToken, size: number }) {
-  const metadata = useMetadata(arbArtToken);
+export function TokenImage({ avantGardeToken, size }: { avantGardeToken: AvantGardeToken, size: number }) {
+  const metadata = useMetadata(avantGardeToken);
 
   return (<ImageFrame size={size} src={metadata && getIpfsUrl(metadata.image)} />)
 }

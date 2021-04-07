@@ -1,4 +1,4 @@
-type ArbArtToken @entity {
+type AvantGardeToken @entity {
   id: ID!
   owner: Bytes!
   tokenURI: String!
@@ -6,14 +6,14 @@ type ArbArtToken @entity {
   mintPrice: BigInt
   burnTimestamp: BigInt
   burnPrice: BigInt
-  # metadata: ArbArtTokenMetadata
+  # metadata: AvantGardeTokenMetadata
 }
 
-type ArbArtTokenMetadata @entity {
+type AvantGardeTokenMetadata @entity {
   id: ID!
   image: String!
   name: String!
   description: String!
   external_url: String!
-  parent: ArbArtToken!
+  parent: AvantGardeToken!
 }

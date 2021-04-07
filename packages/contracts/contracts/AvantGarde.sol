@@ -1,4 +1,4 @@
-//SPDX-License-Identifier: Unlicense
+//SPDX-License-Identifier: MIT
 pragma solidity 0.8.3;
 
 import "hardhat/console.sol";
@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
-contract ArbArt is ERC721URIStorage {
+contract AvantGarde is ERC721URIStorage {
   using ECDSA for bytes32;
   using Counters for Counters.Counter;
   using Address for address payable;
@@ -21,7 +21,7 @@ contract ArbArt is ERC721URIStorage {
   address payable public feesReceiver;
   address public manager;
 
-  constructor(address _manager, address payable _feesReceiver) ERC721("ArbArt", "ARBT") {
+  constructor(address _manager, address payable _feesReceiver) ERC721("AvantGarde", "AVG") {
     manager = _manager;
     feesReceiver = _feesReceiver;
   }
