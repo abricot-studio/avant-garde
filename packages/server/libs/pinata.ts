@@ -53,8 +53,8 @@ export async function uploadMetadata(ipfsHashImage: string, address: string): Pr
 
   return pinata.pinJSONToIPFS({
     image: `ipfs://${ipfsHashImage}`,
-    description: `Art of ${address}`,
-    external_url: `https://art.art/id/${address}`,
+    description: `Avant garde art of ${address}`,
+    external_url: `${config.pinata.externalUrlBase}${address}`,
     name: address,
     // background_color: 'ffffff',
     // attributes: [
@@ -88,7 +88,7 @@ export async function find(address: string): Promise<any> {
     .then((result: any) => {
       // logger.info('result find', { result })
       assert(result && Array.isArray(result.rows), 'Pinata find invalid response')
-      return result.rows.length > 0 ? {
+      return result.rows.length > 0 && !result.rows[0].date_unpinned ? {
         ipfsHashMetadata: result.rows[0].ipfs_pin_hash,
         ipfsHashImage: result.rows[0].metadata.keyvalues.ipfsHashImage,
       } : false

@@ -55,6 +55,9 @@ export default async (req: VercelRequest, res: VercelResponse) => {
 
     redis = await getRedis()
 
+    // const keys = await redis.keys('*')
+    // await Promise.all(keys.map(key => redis.del(key) ) )
+
   }
 
   const redisExisting = await redis.get(address)
