@@ -8,7 +8,9 @@ AvantGarde is a digital artwork platform where users can mint unique NFT images 
 Mint and burn prices follow a bonding curve.
 
 https://beta.avant-garde.gallery
+
 https://twitter.com/avantgardenft
+
 https://twitter.com/abricotstudio
 
 ## Details
