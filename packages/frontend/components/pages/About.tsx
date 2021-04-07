@@ -1,4 +1,4 @@
-import { ActionButton, Center, Flex, Heading, Link as CLink, Spinner, Text, Container, Box, VStack } from '../ui'
+import { ActionButton, Button, Center, Flex, Heading, Link as CLink, Spinner, Text, Container, Box, VStack, Wrap, WrapItem } from '../ui'
 import Link from 'next/link'
 import React, { useMemo } from 'react'
 import {
@@ -13,7 +13,10 @@ import {
 } from 'victory'
 import { useCanMint, useTokenCountMint } from '../../hooks/tokens'
 import { ImageFrame } from '../ui/TokenImage'
-import { bondingCurveFn, contractConstants } from '../../lib/constants'
+import { bondingCurveFn, contractConstants, URLs } from '../../lib/constants'
+import { faFileSignature } from '@fortawesome/free-solid-svg-icons'
+import { faGithub, faTwitter, faDiscord } from '@fortawesome/free-brands-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const Title = ({ children }) => (
   <Heading
@@ -109,6 +112,53 @@ function Description() {
 
       <SubTitle>Chart</SubTitle>
       <Chart />
+    </>
+  )
+}
+
+function LinkItem({ href, icon, label}) {
+  return (
+    <WrapItem>
+      <CLink
+        href={href}
+        isExternal
+      >
+        <Button
+          leftIcon={icon}
+          variant="outline"
+        >
+          {label}
+        </Button>
+      </CLink>
+    </WrapItem>
+  )
+}
+function Links() {
+  return (
+    <>
+      <Title>Links</Title>
+      <Wrap justify="center">
+        <LinkItem
+          href={URLs.github}
+          icon={<FontAwesomeIcon icon={faGithub} size="1x" />}
+          label="Github"
+        />
+        <LinkItem
+          href={URLs.discord}
+          icon={<FontAwesomeIcon icon={faDiscord} size="1x" />}
+          label="discord"
+        />
+        <LinkItem
+          href={URLs.twitter}
+          icon={<FontAwesomeIcon icon={faTwitter} size="1x" />}
+          label="Twitter"
+        />
+        {/*<LinkItem*/}
+        {/*  href={contract.address}*/}
+        {/*  icon={<FontAwesomeIcon icon={faFileSignature} size="1x" />}*/}
+        {/*  label="Contracts"*/}
+        {/*/>*/}
+      </Wrap>
     </>
   )
 }
@@ -392,6 +442,7 @@ export function About() {
         >What's this ?</Heading>
 
         <Description />
+
         {
           canMint &&
           <Center my={8}>
@@ -402,6 +453,10 @@ export function About() {
             </Link>
           </Center>
         }
+
+        <Links />
+
+        <Box mt={8}/>
       </Container>
     </Box>
   )

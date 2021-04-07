@@ -1,8 +1,9 @@
 import { memoize } from 'lodash'
 
 export const URLs = {
-  'github': 'https://github.com/julesgoullee/nftart',
-  'discord': 'https://discord.gg/nftart',
+  github: 'https://github.com/abricot-studio/avant-garde',
+  twitter: 'https://twitter.com/abricotstudio',
+  discord: 'https://discord.gg/F9TYzCXr43',
 }
 
 export const contractConstants = {
