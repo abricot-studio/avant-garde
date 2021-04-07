@@ -13,6 +13,6 @@ export default {
     // 'http://127.0.0.1:8000/subgraphs/name/abricot-studio/avant-garde-rinkeby',
   generateUrl:
     process.env.NEXT_PUBLIC_GENERATE_URL ||
-    'https://avantgardebeta.vercel.app/api/generate',
+    'https://avantgardebeta-fct.vercel.app/api/generate',
     // 'http://localhost:4000/api/generate',
 }
