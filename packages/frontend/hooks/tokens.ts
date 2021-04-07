@@ -3,7 +3,7 @@ import { Provider } from "@ethersproject/abstract-provider";
 import { useEffect, useCallback, useState, useMemo } from 'react'
 import { useQuery } from 'urql'
 import { getIpfsData } from '../lib/ipfs'
-import { getContract } from '../lib/contracts'
+import { getContractFromProvider } from '../lib/contracts'
 import { useWeb3 } from '../contexts/Web3Context'
 import { usePolling } from './graphql'
 
@@ -97,7 +97,7 @@ export const MyTokensQuery = gql`
 `
 
 async function fetchToken(provider: Provider, tokenId: string) {
-  const contract = await getContract(provider);
+  const contract = await getContractFromProvider(provider);
   const owner = await contract.ownerOf(tokenId)
     .catch(error => {
       if(error.message.includes('owner query for nonexistent token')) {
@@ -166,7 +166,7 @@ export const useMyTokenOnChain = () => {
 }
 
 export async function fetchTokenPriceMint(provider: Provider) {
-  const contract = await getContract(provider);
+  const contract = await getContractFromProvider(provider);
   const tokenMintPrice = await contract.currentMintPrice()
   const avantGardeTokenMintPrice: AvantGardeTokenMintPrice = {
     currentPrice: tokenMintPrice[0].toString(),
@@ -223,7 +223,7 @@ export const useTokenPriceMint = () => {
 }
 
 export async function fetchTokenPriceBurn(provider: Provider) {
-  const contract = await getContract(provider);
+  const contract = await getContractFromProvider(provider);
   const tokenBurnPrice = await contract.currentBurnPrice()
   const avantGardeTokenBurnPrice: AvantGardeTokenBurnPrice = {
     currentPrice: tokenBurnPrice.toString(),
@@ -278,7 +278,7 @@ export const useTokenPriceBurn = () => {
 }
 
 export async function fetchTokenCountMint(provider?: Provider) {
-  const contract = await getContract(provider);
+  const contract = await getContractFromProvider(provider);
   const tokenCountMint = await contract.countMint()
   const avantGardeTokenCountMint: AvantGardeTokenCountMint = {
     current: tokenCountMint.toString(),

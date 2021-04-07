@@ -1,9 +1,14 @@
 import React from 'react'
-import { ActionButton, Box, Button, Center, Heading, HStack, VStack } from '../ui'
+import { ActionButton, Box, Button, Center, Link as CLink, Heading, IconButton, HStack, VStack, Wrap, WrapItem } from '../ui'
 import { TokenImage, ImageFrame } from '../ui/TokenImage'
 import Link from 'next/link'
 import { useWeb3 } from '../../contexts/Web3Context'
 import { useToken } from '../../hooks/tokens'
+import { useContract } from '../../hooks/contracts'
+import { URLs } from '../../lib/constants'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faDiscord, faGithub, faTwitter } from '@fortawesome/free-brands-svg-icons'
+import { faFileSignature } from '@fortawesome/free-solid-svg-icons'
 
 export default function Hero() {
   const { account } = useWeb3();
@@ -14,7 +19,6 @@ export default function Hero() {
       as="section"
       my={8}
       position="relative"
-      minHeight="400px"
       align="center"
     >
       <Box
@@ -61,7 +65,7 @@ export default function Hero() {
 
         {
           token ?
-            <Link passHref href={`/gallery}`}>
+            <Link passHref href={`/gallery`}>
               <ActionButton
                 as="a"
                 w="12rem"
@@ -91,6 +95,57 @@ export default function Hero() {
         </Link>
 
       </HStack>
+
+      <Box pt={8}>
+        <Links/>
+      </Box>
     </VStack>
+  )
+}
+
+
+function LinkItem({ href, icon, label }) {
+  return (
+    <WrapItem>
+      <CLink
+        href={href}
+        isExternal
+      >
+        <IconButton
+          aria-label={label}
+          icon={icon}
+          variant="link"
+          size="sm"
+        />
+      </CLink>
+    </WrapItem>
+  )
+}
+function Links() {
+  const { etherscanURL: contractEtherscanURL } = useContract();
+
+  return (
+    <Wrap justify="center">
+      <LinkItem
+        href={URLs.github}
+        label="Github"
+        icon={<FontAwesomeIcon icon={faGithub} size="1x" />}
+      />
+      <LinkItem
+        href={URLs.discord}
+        label="discord"
+        icon={<FontAwesomeIcon icon={faDiscord} size="1x" />}
+      />
+      <LinkItem
+        href={URLs.twitter}
+        label="Twitter"
+        icon={<FontAwesomeIcon icon={faTwitter} size="1x" />}
+      />
+      <LinkItem
+        href={contractEtherscanURL}
+        label="Contracts"
+        icon={<FontAwesomeIcon icon={faFileSignature} size="1x" />}
+      />
+    </Wrap>
   )
 }

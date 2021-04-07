@@ -1,14 +1,20 @@
-# Avant Garde
+# AvantGarde
 
-Abstract generative art with TensorFlow certified ownership on ethereum with nft.
-Using neuronal network architecture to output 3 values, defining RGB value for each pixel location.
-The Compositional pattern-producing network (CPPN) is composed of dense layers fully connected and activate by tangent hyperbolic.
-This network layer kernel bias are initialized with a determinist vector of initialisation derived from your ethereum address.
-Each pixel 2d coordinate vector get cross the network and output to rgb values.   
-The final image is stored forever on IPFS.
-Get a unique abstract nft for your address.
+> Mint unique AI-generated NFTs based on your ethereum address
 
-https://en.wikipedia.org/wiki/Compositional_pattern-producing_network
+## About 
+AvantGarde is a digital artwork platform where users can mint unique NFT images automatically generated on top of their public address by deep-learning algorithms. 
 
-https://blog.otoro.net/2016/03/25/generating-abstract-patterns-with-tensorflow/
+Mint and burn prices follow a bonding curve.
 
+https://beta.avant-garde.gallery
+https://twitter.com/avantgardenft
+https://twitter.com/abricotstudio
+
+## Details
+
+This project use a variety of technologies:
+
+- TensorFlow
+- Solidity
+- NextJS
