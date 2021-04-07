@@ -97,7 +97,6 @@ export default function Token({ id }) {
       </Heading>
 
       <TokenImage
-        size={350}
         avantGardeToken={token}
       />
 

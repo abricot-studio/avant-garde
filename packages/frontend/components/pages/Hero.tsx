@@ -1,6 +1,6 @@
 import React from 'react'
 import { ActionButton, Box, Button, Center, Link as CLink, Heading, IconButton, HStack, VStack, Wrap, WrapItem } from '../ui'
-import { TokenImage, ImageFrame } from '../ui/TokenImage'
+import { TokenImage, ImageFrame, defaultSize } from '../ui/TokenImage'
 import Link from 'next/link'
 import { useWeb3 } from '../../contexts/Web3Context'
 import { useToken } from '../../hooks/tokens'
@@ -21,22 +21,22 @@ export default function Hero() {
       position="relative"
     >
       <Center
-        h={350}
+        h={defaultSize}
         position="absolute"
         opacity="0.8"
         w="100%"
       >
         {token ?
           <Box opacity="0.5">
-            <TokenImage size={350} avantGardeToken={token} />
+            <TokenImage avantGardeToken={token} />
           </Box>
           :
-          <ImageFrame size={350} />
+          <ImageFrame />
         }
       </Center>
 
       <Center
-        h={350}
+        h={defaultSize}
         flexDirection="column"
         mx={8}
       >

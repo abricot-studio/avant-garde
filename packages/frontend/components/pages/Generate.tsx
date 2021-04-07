@@ -85,7 +85,6 @@ export default function Generate() {
       <ImageFrame
         src={imageSrc}
         isLoading={isGenerating}
-        size={350}
         isQuestion={!isGenerating && !generationResult}
       />
 

@@ -1,6 +1,6 @@
 import React, { useMemo, useEffect } from 'react'
 import { Flex, Address, Box, IconButton, ScaleFade, Center, ActionButton, Container } from '../ui'
-import { ImageFrame, TokenImage } from '../ui/TokenImage'
+import { ImageFrame, TokenImage, defaultSize, smallSize } from '../ui/TokenImage'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons'
@@ -93,9 +93,9 @@ export default function Tokens({ tokens, fetching, error, mine }: Props) {
           <ScaleFade in={isOpen}>
             {
               tokensDisplayed[0] ?
-                <TokenCard size={250} token={tokensDisplayed[0]} />
+                <TokenCard size={smallSize} token={tokensDisplayed[0]} />
                 :
-                <ImageFrame size={250} />
+                <ImageFrame size={smallSize} />
             }
           </ScaleFade>
         </Box>
@@ -113,7 +113,7 @@ export default function Tokens({ tokens, fetching, error, mine }: Props) {
         {
           tokensDisplayed[1] &&
           <ScaleFade in={isOpen} >
-            <TokenCard size={350} token={tokensDisplayed[1]}/>
+            <TokenCard size={defaultSize} token={tokensDisplayed[1]}/>
           </ScaleFade>
         }
         <IconButton
@@ -131,9 +131,9 @@ export default function Tokens({ tokens, fetching, error, mine }: Props) {
           <ScaleFade in={isOpen}>
             {
               tokensDisplayed[2] ?
-                <TokenCard size={250} token={tokensDisplayed[2]} />
+                <TokenCard size={smallSize} token={tokensDisplayed[2]} />
                 :
-                <ImageFrame size={250} />
+                <ImageFrame size={smallSize} />
             }
           </ScaleFade>
         </Box>

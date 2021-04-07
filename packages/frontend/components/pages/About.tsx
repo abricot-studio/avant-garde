@@ -438,7 +438,7 @@ export function About() {
       </Flex>
 
       <Container
-        w="80%"
+        w="90%"
         maxW="container.sm"
         position="relative"
       >

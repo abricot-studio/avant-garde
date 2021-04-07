@@ -3,7 +3,7 @@ import { Image, Box, Text, Center } from './index'
 import { getIpfsUrl } from '../../lib/ipfs'
 import { AvantGardeToken, useMetadata } from '../../hooks/tokens'
 
-export function TokenImage({ avantGardeToken, size }: { avantGardeToken: AvantGardeToken, size: number }) {
+export function TokenImage({ avantGardeToken, size }: { avantGardeToken: AvantGardeToken, size?: any }) {
   const metadata = useMetadata(avantGardeToken);
 
   return (<ImageFrame size={size} src={metadata && getIpfsUrl(metadata.image)} />)
@@ -21,7 +21,11 @@ const QuestionMark = () => (
     >?</Text>
   </Center>
 )
-export function ImageFrame({ src, size = 250, isLoading, isQuestion }: { src?: string, size?: number, isLoading?: boolean, isQuestion?: boolean }) {
+
+export const smallSize = { base: 200, sm: 250 };
+export const defaultSize = { base: 300, sm: 350 };
+
+export function ImageFrame({ src, size = defaultSize, isLoading, isQuestion }: { src?: string, size?: any, isLoading?: boolean, isQuestion?: boolean }) {
   return (
     <Box
       borderRadius="full"
