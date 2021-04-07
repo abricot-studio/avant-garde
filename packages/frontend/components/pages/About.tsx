@@ -90,7 +90,7 @@ function Description() {
 
       <SubTitle>Bonding curve</SubTitle>
       <Paragraph>
-        A bonding curve is a mathematical function defining a buy and sell price depending on the number of tokens existing at a given moment.
+        A bonding curve is a mathematical function defining a buy and sell price depending on the number of circulating tokens at a given moment.
         The more token are created, the higher get the price. When token are burned, the price goes down.
       </Paragraph>
       <SubTitle>Minting</SubTitle>
@@ -103,12 +103,15 @@ function Description() {
       <Paragraph>
         In addition to the secondary market, token holders can come anytime on this app and sell their token at the price defined by the bonding curve. Our Smart-Contracts acts as an Automated Market Maker, and always has enough funds to re-buy your art, which comes from mint fees.
       </Paragraph>
+      <Paragraph>
+        If the number of circulating tokens went up since you minted it, you'll make a profit by selling it.
+      </Paragraph>
 
       <SubTitle>Rationale</SubTitle>
       <Paragraph>
         Bonding curves are a novel and quite interesting economic mechanism. If you want to learn more about them, we suggest you to read more about them there.
         <br/>
-        Regarding platform fees, some may say they are usually paid at burning time. We decided to put them at minting because we don't want to incite people to burn their while still want to rewards the artists.
+        Regarding platform fees, some may say they are usually paid at burning time. We decided to put them at minting because we don't want to incite people to burn art, while we still want to rewards the artists.
       </Paragraph>
 
       <SubTitle>Chart</SubTitle>
@@ -127,6 +130,7 @@ function LinkItem({ href, icon, label}) {
         <Button
           leftIcon={icon}
           variant="outline"
+          colorScheme="white"
         >
           {label}
         </Button>
@@ -185,14 +189,14 @@ function Chart(){
     const dataPast = []
     const dataNext = []
 
-    for(let i = 0; i <= mintCounter; i++){
+    for(let i = Math.max(0, mintCounter - 8); i <= mintCounter; i++){
       dataPast.push({
         x: i,
         y: bondingCurveFn(i)
       })
     }
 
-    for(let i = mintCounter; i < mintCounter * 3; i++){
+    for(let i = mintCounter; i < mintCounter + 8; i++){
       dataNext.push({
         x: i,
         y: bondingCurveFn(i)
@@ -223,7 +227,7 @@ function Chart(){
 
               if (['linetPast', 'linetNext'].includes(datum.childName)) {
                 return `
-                    Minted: ${datum.x}
+                    # Circulating: ${datum.x}
                     Mint Price: Ξ ${bondingCurveFn(datum.x + 1)}
                     ${datum.x !== 0 ? `Burn Price: Ξ ${datum.y}` : ''}
                   `
@@ -321,13 +325,13 @@ function Chart(){
           }}
         />
         <VictoryLabel
-          x={280}
+          x={260}
           y={235}
           style={{
             fontFamily: "Roboto Mono",
             fontSize: 15,
           }}
-          text={"Tokens minted"}
+          text={"Circulating tokens"}
         />
 
         <VictoryLine
@@ -437,6 +441,7 @@ export function About() {
       </Flex>
 
       <Container
+        w="90%"
         maxW="container.sm"
         position="relative"
       >

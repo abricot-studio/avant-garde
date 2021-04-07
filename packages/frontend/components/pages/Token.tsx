@@ -1,13 +1,15 @@
 import React from 'react'
-import { Flex, Box, Heading, HStack, VStack, IconButton, ActionButton, Text, Icon, Card } from '../ui'
-import { useToken, useTokenPriceBurn } from '../../hooks/tokens'
-import { TokenImage } from '../ui/TokenImage'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { faRedditAlien } from '@fortawesome/free-brands-svg-icons'
 import { useRouter } from 'next/router'
 import { utils } from 'ethers'
+import { addressEqual } from '@usedapp/core'
+
+import { Flex, Box, Heading, HStack, VStack, IconButton, ActionButton, Text, Icon, Card } from '../ui'
 import { useWeb3 } from '../../contexts/Web3Context'
+import { useToken, useTokenPriceBurn } from '../../hooks/tokens'
+import { TokenImage } from '../ui/TokenImage'
 import { useBurn } from '../../hooks/burn'
 import moment from 'moment'
 
@@ -29,7 +31,7 @@ function BurnButton({ token }){
 
   const { burn, burned, isBurning } = useBurn()
 
-  if(!account || account.address.toLowerCase() !== token.owner.toLowerCase()){
+  if(!account || !addressEqual(account.address, token.owner)){
     return null
   }
 
@@ -95,7 +97,6 @@ export default function Token({ id }) {
       </Heading>
 
       <TokenImage
-        size={350}
         avantGardeToken={token}
       />
 
