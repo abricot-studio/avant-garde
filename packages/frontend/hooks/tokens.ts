@@ -280,11 +280,11 @@ export const useTokenPriceBurn = () => {
 export async function fetchTokenCountMint(provider?: Provider) {
   const contract = await getContract(provider);
   const tokenCountMint = await contract.countMint()
-  const arbArtTokenCountMint: AvantGardeTokenCountMint = {
+  const avantGardeTokenCountMint: AvantGardeTokenCountMint = {
     current: tokenCountMint.toString(),
   };
 
-  return arbArtTokenCountMint;
+  return avantGardeTokenCountMint;
 }
 
 export const useTokenCountMint = () => {
