@@ -9,8 +9,8 @@ export default {
     // 'https://cloudflare-ipfs.com/ipfs/',
   subgraphUrl:
     process.env.NEXT_PUBLIC_SUBGRAPH_URL ||
-    // 'https://api.thegraph.com/subgraphs/name/julesgoullee/avant-garde',
-    'http://127.0.0.1:8000/subgraphs/name/julesgoullee/avant-garde',
+    'https://api.thegraph.com/subgraphs/name/julesgoullee/avant-garde',
+    // 'http://127.0.0.1:8000/subgraphs/name/julesgoullee/avant-garde',
   generateUrl:
     process.env.NEXT_PUBLIC_GENERATE_URL ||
     'https://avantgardebeta.vercel.app/api/generate',
