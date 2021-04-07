@@ -1,6 +1,6 @@
 {
   "4": {
-    "address": "0xE8B7D2170e9Ee77641cEE39E3E9fdFb937Adcda1",
+    "address": "0xCAF6Cff4a7300F618eF3B9a2162b15C9Aef6c4eB",
     "abi": [
       {
         "inputs": [
@@ -851,6 +851,19 @@
           }
         ],
         "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "countMint",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "_value",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
         "type": "function"
       },
       {

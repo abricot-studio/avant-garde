@@ -3,7 +3,7 @@ import {HardhatRuntimeEnvironment} from 'hardhat/types';
 import {DeployFunction} from 'hardhat-deploy/types';
 
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
-  const contractName = 'ArbArt'
+  const contractName = 'AvantGarde'
   const {deployments, getNamedAccounts, getChainId} = hre;
   const {deploy} = deployments;
 
@@ -52,4 +52,4 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
 };
 export default func;
-func.tags = ['ArbArt'];
+func.tags = ['AvantGarde'];

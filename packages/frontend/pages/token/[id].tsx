@@ -35,9 +35,9 @@ export const getStaticPaths = async () => {
     },
   ).toPromise();
 
-  if(data?.arbArtTokens) {
+  if(data?.avantGardeTokens) {
     return {
-      paths: data.arbArtTokens.map(t => ({
+      paths: data.avantGardeTokens.map(t => ({
         params: { id: t.id },
       })),
       fallback: true,

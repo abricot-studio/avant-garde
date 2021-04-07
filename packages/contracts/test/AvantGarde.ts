@@ -1,16 +1,16 @@
 import { ethers } from 'hardhat'
 import { expect } from 'chai'
 
-import { signMintingRequest } from '../lib/ArbArt'
+import { signMintingRequest } from '../lib/AvantGarde'
 
 const memory: any = {}
 
 const tokenURI = (uri: string) => `ipfs://${uri}`
 
-describe('ArbArt', function () {
+describe('AvantGarde', function () {
   before(async () => {
     memory.signers = await ethers.getSigners()
-    memory.Contract = await ethers.getContractFactory('ArbArt')
+    memory.Contract = await ethers.getContractFactory('AvantGarde')
   })
 
   beforeEach(async () => {
@@ -25,8 +25,8 @@ describe('ArbArt', function () {
   })
 
   it('sets up the contract', async () => {
-    expect(await memory.contract.name()).to.eq('ArbArt')
-    expect(await memory.contract.symbol()).to.eq('ARBT')
+    expect(await memory.contract.name()).to.eq('AvantGarde')
+    expect(await memory.contract.symbol()).to.eq('AVG')
     expect(await memory.contract.feesReceiver())
       .to.be.eq(memory.feesReceiver.address)
     expect(await memory.contract.manager())

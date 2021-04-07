@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react'
 import { useWeb3 } from '../contexts/Web3Context'
 import { getContract } from '../lib/contracts'
-import { ArbArtTokenMintPrice, useToken, fetchTokenPriceMint } from './tokens'
+import { AvantGardeTokenMintPrice, useToken, fetchTokenPriceMint } from './tokens'
 import { useToast } from '../components/ui'
 
 export const useMint = () => {
@@ -20,12 +20,12 @@ export const useMint = () => {
     setIsMinting(true);
 
     fetchTokenPriceMint(account.provider)
-      .then( (arbArtTokenMintPrice: ArbArtTokenMintPrice) =>
+      .then( (avantGardeTokenMintPrice: AvantGardeTokenMintPrice) =>
         getContract(account.provider)
           .then(c => c.connect(account.provider.getSigner()))
           .then(contract =>
             contract.mint(generationResult.ipfsHashMetadata, generationResult.signature, {
-              value: arbArtTokenMintPrice.total
+              value: avantGardeTokenMintPrice.total
             })
           )
           .then(tx => {

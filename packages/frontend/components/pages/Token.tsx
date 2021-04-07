@@ -96,7 +96,7 @@ export default function Token({ id }) {
 
       <TokenImage
         size={350}
-        arbArtToken={token}
+        avantGardeToken={token}
       />
 
       <Card

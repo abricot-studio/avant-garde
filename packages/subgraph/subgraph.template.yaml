@@ -1,14 +1,14 @@
 specVersion: 0.0.2
-description: Abstractive Art
-repository: https://github.com/julesgoullee/nftart
+description: Avant Garde
+repository: https://github.com/julesgoullee/avant-garde
 schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: ArbArt
+    name: AvantGarde
     network: {{ network }}
     source:
-      abi: ArbArt
+      abi: AvantGarde
       address: '{{ address }}'
       startBlock: {{ startBlock }}
     mapping:
@@ -16,10 +16,10 @@ dataSources:
       apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
-        - ArbArt
+        - AvantGarde
       abis:
-        - name: ArbArt
-          file: ../contracts/deployments/{{ abiNetwork }}/ArbArt.abi.json
+        - name: AvantGarde
+          file: ../contracts/deployments/{{ abiNetwork }}/AvantGarde.abi.json
       eventHandlers:
         - event: Minted(indexed uint256,indexed uint256)
           handler: handleMinted

@@ -23,7 +23,7 @@ export default function Hero() {
       >
         {token ?
           <Box opacity="0.5">
-            <TokenImage size={350} arbArtToken={token} />
+            <TokenImage size={350} avantGardeToken={token} />
           </Box>
           :
           <ImageFrame size={350} />
