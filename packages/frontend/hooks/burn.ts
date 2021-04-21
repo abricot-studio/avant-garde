@@ -1,7 +1,38 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useWeb3 } from '../contexts/Web3Context'
 import { getContractFromProvider } from '../lib/contracts'
 import { useToast } from '../components/ui'
+import { useContract } from './contracts'
+import { useContractCall } from '@usedapp/core'
+
+export interface AvantGardeTokenBurnPrice {
+  currentPrice: string;
+}
+
+export const useBurnPrice = (): AvantGardeTokenBurnPrice | false => {
+
+  const { address, abiInterface } = useContract();
+
+  const callRes =
+    useContractCall(
+      address && abiInterface &&
+      {
+        abi: abiInterface,
+        address,
+        method: 'currentBurnPrice',
+        args: [],
+      }
+    ) ?? []
+
+  return useMemo<AvantGardeTokenBurnPrice | false>(() =>
+    callRes &&
+    {
+      currentPrice: callRes.toString(),
+    },
+    [callRes]
+  )
+
+}
 
 export const useBurn = () => {
   const { account } = useWeb3();

@@ -8,9 +8,9 @@ import { addressEqual } from '@usedapp/core'
 
 import { Flex, Box, Heading, HStack, VStack, IconButton, ActionButton, Text, Icon, Card } from '../ui'
 import { useWeb3 } from '../../contexts/Web3Context'
-import { useToken, useTokenPriceBurn } from '../../hooks/tokens'
+import { useToken } from '../../hooks/tokens'
 import { TokenImage } from '../ui/TokenImage'
-import { useBurn } from '../../hooks/burn'
+import { useBurn, useBurnPrice } from '../../hooks/burn'
 import moment from 'moment'
 
 export const InstagramIcon = (props) => (
@@ -27,7 +27,7 @@ export const TwitterIcon = (props) => (
 
 function BurnButton({ token }){
   const { account } = useWeb3()
-  const { tokenBurnPrice, fetching } = useTokenPriceBurn()
+  const tokenBurnPrice = useBurnPrice()
 
   const { burn, burned, isBurning } = useBurn()
 
@@ -35,7 +35,7 @@ function BurnButton({ token }){
     return null
   }
 
-  if(fetching || !tokenBurnPrice){
+  if(!tokenBurnPrice){
     return (
       <ActionButton
         isLoading

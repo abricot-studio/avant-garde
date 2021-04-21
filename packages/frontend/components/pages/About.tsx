@@ -11,7 +11,8 @@ import {
   VictoryTooltip,
   VictoryVoronoiContainer,
 } from 'victory'
-import { useCanMint, useTokenCountMint } from '../../hooks/tokens'
+import { useCanMint } from '../../hooks/mint'
+import { useTokenCountMint } from '../../hooks/mint'
 import { ImageFrame } from '../ui/TokenImage'
 import { bondingCurveFn, contractConstants, URLs } from '../../lib/constants'
 import { faFileSignature } from '@fortawesome/free-solid-svg-icons'
@@ -172,10 +173,10 @@ function Links() {
 }
 
 function Chart(){
-  const { tokenCountMint, fetching } = useTokenCountMint()
+  const tokenCountMint = useTokenCountMint()
 
   const { dataPast, dataNext, mintCounter, currentPrice, isLoading } = useMemo( () => {
-    if(fetching || !tokenCountMint){
+    if(!tokenCountMint){
       return {
         dataPast: [],
         dataNext: [],
@@ -204,7 +205,7 @@ function Chart(){
     }
 
     return { dataPast, dataNext, mintCounter, currentPrice, isLoading: false }
-  }, [fetching, tokenCountMint])
+  }, [tokenCountMint])
 
   return (
     isLoading ?

@@ -5,15 +5,15 @@ import { ActionButton, Box, Card, Flex, HStack, Text, VStack } from '../ui'
 import { useImageGeneration, ImageGenerationStatus } from '../../hooks/generation'
 import { getIpfsUrl } from '../../lib/ipfs'
 import { useWeb3 } from '../../contexts/Web3Context'
-import { useMint } from '../../hooks/mint'
-import { useToken, useTokenPriceMint } from '../../hooks/tokens'
+import { useMint, useMintPrice } from '../../hooks/mint'
+import { useToken } from '../../hooks/tokens'
 import { useRouter } from 'next/router'
 import { ImageFrame } from '../ui/TokenImage'
 
 export default function Generate() {
   const { account, connect, isConnecting } = useWeb3();
   const { token, fetching: fetchingToken } = useToken(account?.address)
-  const { tokenMintPrice, fetching: fetchingMint } = useTokenPriceMint()
+  const tokenMintPrice = useMintPrice()
   const { generateImage, isGenerating, generationResult } = useImageGeneration();
   const { mint, minted, isMinting } = useMint();
   const router = useRouter()
@@ -49,7 +49,7 @@ export default function Generate() {
       >Connect wallet</ActionButton>
     );
   } else if(generationResult) {
-    if(!tokenMintPrice || fetchingMint) {
+    if(!tokenMintPrice) {
       cta = (
         <ActionButton
           isLoading

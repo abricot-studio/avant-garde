@@ -12,8 +12,8 @@ export const useContract = () => {
     [account]
   )
 
-  const { address, abi } = useMemo(() =>
-      getContractInfoFromNetwork(chainId),
+  const { address, abi, abiInterface } = useMemo(() =>
+      getContractInfoFromNetwork(chainId) || {},
     [chainId]
   )
 
@@ -22,5 +22,5 @@ export const useContract = () => {
     [address, chainId]
   )
 
-  return { address, abi, chainId, etherscanURL };
+  return { address, abi, abiInterface, chainId, etherscanURL };
 }

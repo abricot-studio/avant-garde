@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 import { Provider } from "@ethersproject/abstract-provider";
-import { useEffect, useCallback, useState, useMemo } from 'react'
+import { useEffect, useState } from 'react'
 import { useQuery } from 'urql'
 import { getIpfsData } from '../lib/ipfs'
 import { getContractFromProvider } from '../lib/contracts'
@@ -15,20 +15,6 @@ export interface AvantGardeToken {
   mintPrice?: string;
   burnTimestamp?: string;
   burnPrice?: string;
-}
-
-export interface AvantGardeTokenMintPrice {
-  currentPrice: string;
-  fees: string;
-  total: string;
-}
-
-export interface AvantGardeTokenBurnPrice {
-  currentPrice: string;
-}
-
-export interface AvantGardeTokenCountMint {
-  current: string;
 }
 
 export interface AvantGardeTokenMetadata {
@@ -165,160 +151,6 @@ export const useMyTokenOnChain = () => {
   };
 }
 
-export async function fetchTokenPriceMint(provider: Provider) {
-  const contract = await getContractFromProvider(provider);
-  const tokenMintPrice = await contract.currentMintPrice()
-  const avantGardeTokenMintPrice: AvantGardeTokenMintPrice = {
-    currentPrice: tokenMintPrice[0].toString(),
-    fees: tokenMintPrice[1].toString(),
-    total: tokenMintPrice[0].add(tokenMintPrice[1]).toString()
-  };
-  return avantGardeTokenMintPrice;
-}
-
-export const useTokenPriceMint = () => {
-  const { account } = useWeb3();
-  const [fetching, setFetching] = useState<boolean>(true);
-  const [tokenMintPrice, setTokenMintPrice] = useState<AvantGardeTokenMintPrice | null>(null);
-
-  useEffect(() => {
-    if(!account) {
-      setTokenMintPrice(null)
-      setFetching(false)
-      return;
-    }
-
-    const { provider } = account;
-
-    setFetching(true)
-    const poll = () => {
-      fetchTokenPriceMint(account.provider)
-        .then((avantGardeTokenMintPrice: AvantGardeTokenMintPrice | null) => {
-          if(!avantGardeTokenMintPrice) {
-            setTokenMintPrice(null)
-            setFetching(false)
-            return;
-          }
-          provider.removeListener('block', poll);
-          setTokenMintPrice(avantGardeTokenMintPrice);
-          setFetching(false)
-        })
-        .catch(error => {
-          setTokenMintPrice(null)
-          setFetching(false)
-          console.error(error);
-        });
-    }
-
-    provider.on('block', poll);
-    return () => {
-      provider.removeListener('block', poll);
-    }
-  }, [account]);
-
-  return {
-    tokenMintPrice,
-    fetching,
-  };
-}
-
-export async function fetchTokenPriceBurn(provider: Provider) {
-  const contract = await getContractFromProvider(provider);
-  const tokenBurnPrice = await contract.currentBurnPrice()
-  const avantGardeTokenBurnPrice: AvantGardeTokenBurnPrice = {
-    currentPrice: tokenBurnPrice.toString(),
-  };
-  return avantGardeTokenBurnPrice;
-}
-
-export const useTokenPriceBurn = () => {
-  const { account } = useWeb3();
-  const [fetching, setFetching] = useState<boolean>(true);
-  const [tokenBurnPrice, setTokenBurnPrice] = useState<AvantGardeTokenBurnPrice | null>(null);
-
-  useEffect(() => {
-    if(!account) {
-      setTokenBurnPrice(null)
-      setFetching(false)
-      return;
-    }
-
-    const { provider } = account;
-
-    setFetching(true)
-    const poll = () => {
-      fetchTokenPriceBurn(account.provider)
-        .then((avantGardeTokenBurnPrice: AvantGardeTokenBurnPrice | null) => {
-          if(!avantGardeTokenBurnPrice) {
-            setTokenBurnPrice(null)
-            setFetching(false)
-            return;
-          }
-          provider.removeListener('block', poll);
-          setTokenBurnPrice(avantGardeTokenBurnPrice);
-          setFetching(false)
-        })
-        .catch(error => {
-          setTokenBurnPrice(null)
-          setFetching(false)
-          console.error(error);
-        });
-    }
-
-    provider.on('block', poll);
-    return () => {
-      provider.removeListener('block', poll);
-    }
-  }, [account]);
-
-  return {
-    tokenBurnPrice,
-    fetching,
-  }
-}
-
-export async function fetchTokenCountMint(provider?: Provider) {
-  const contract = await getContractFromProvider(provider);
-  const tokenCountMint = await contract.countMint()
-  const avantGardeTokenCountMint: AvantGardeTokenCountMint = {
-    current: tokenCountMint.toString(),
-  };
-
-  return avantGardeTokenCountMint;
-}
-
-export const useTokenCountMint = () => {
-  const { account } = useWeb3();
-  const [fetching, setFetching] = useState<boolean>(true);
-  const [tokenCountMint, setTokenCountMint] = useState<AvantGardeTokenCountMint | null>(null);
-
-  useEffect(() => {
-
-    setFetching(true)
-    fetchTokenCountMint(account?.provider)
-      .then((tokenCountMint: AvantGardeTokenCountMint | null) => {
-        if(!tokenCountMint) {
-          setTokenCountMint(null)
-          setFetching(false)
-          return;
-        }
-        setTokenCountMint(tokenCountMint);
-        setFetching(false)
-      })
-      .catch(error => {
-        setTokenCountMint(null)
-        setFetching(false)
-        console.error(error);
-      });
-
-  }, [account]);
-
-  return {
-    tokenCountMint,
-    fetching,
-  }
-}
-
 export interface TokensProps {
   first?: number,
   skip?: number,
@@ -341,20 +173,10 @@ export const useTokens = (tokensProps: TokensProps = defaultTokensQueryVariables
 
   const tokens: AvantGardeToken[] | null = data?.avantGardeTokens || null;
 
-  const refresh = useCallback(() => {
-    reexecuteQuery({ requestPolicy: 'network-only' });
-  }, [reexecuteQuery]);
-
-  // useEffect(() => {
-  //   const timer = setInterval(() => refresh(), 5000);
-  //   return () => clearInterval(timer);
-  // }, [refresh]);
-
   return {
     tokens,
     fetching,
     error,
-    refresh,
   }
 }
 
@@ -384,15 +206,10 @@ export const useMyTokens = (tokensProps: MyTokensProps = defaultMyTokensQueryVar
 
   const tokens: AvantGardeToken[] | null = tokensProps.address && data?.avantGardeTokens || [];
 
-  const refresh = useCallback(() => {
-    reexecuteQuery({ requestPolicy: 'network-only' });
-  }, [reexecuteQuery]);
-
   return {
     tokens,
     fetching,
     error,
-    refresh,
   }
 }
 
@@ -409,7 +226,7 @@ export const useToken = (address?: string) => {
 
   const token: AvantGardeToken | null = address && data?.avantGardeToken || null;
 
-  const { refresh, startPolling, stopPolling } = usePolling(reexecuteQuery)
+  const { startPolling, stopPolling } = usePolling(reexecuteQuery)
 
   useEffect(() => {
     if(token) {
@@ -421,7 +238,6 @@ export const useToken = (address?: string) => {
     token,
     fetching,
     error,
-    refresh,
     startPolling,
   }
 }
@@ -447,14 +263,4 @@ export const useMetadata = (avantGardeToken: AvantGardeToken): AvantGardeTokenMe
   }, [avantGardeToken]);
 
   return metadata;
-}
-
-export const useCanMint = () => {
-  const { account } = useWeb3();
-  const { token, fetching } = useToken(account?.address)
-
-  return useMemo<boolean>(() =>
-    !account || !fetching && !token,
-    [account, token, fetching]
-  );
 }

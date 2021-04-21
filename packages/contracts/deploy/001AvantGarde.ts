@@ -41,6 +41,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   }
 
   networksABI[Number(chainId)] = {
+    contractName,
     address: deployment.address,
     abi: deployment.abi,
   }

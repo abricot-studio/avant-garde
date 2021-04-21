@@ -14,7 +14,7 @@ import {
 } from '../ui'
 import { useWeb3 } from '../../contexts/Web3Context'
 import { WalletIcon } from './Icons'
-import { shortenAddress } from '@usedapp/core'
+import { shortenAddress, useEthers } from '@usedapp/core'
 
 export const MenuItem = forwardRef<MenuItemProps, "a">( ({ children, color, ...props }, ref) => {
   return (
@@ -84,6 +84,7 @@ function MainButton({ account }) {
 export function LoginButton() {
   const mobile = useBreakpointValue({ base: true, lg: false })
   const { connect, disconnect, isConnecting, account } = useWeb3()
+  const a = useEthers();
 
   if (account) {
     return (
@@ -128,7 +129,7 @@ export function LoginButton() {
       variant="outline"
       border="1px"
       borderColor="black"
-      onClick={connect}
+      onClick={a.activateBrowserWallet}
       leftIcon={<WalletIcon w={6} h={6} />}
       isLoading={isConnecting}
       backgroundColor="white"
