@@ -2,7 +2,6 @@ import Layout from '../components/Layout'
 import SEO from '../components/utils/SEO'
 import { Button, Heading, Box, ActionButton, Center } from '../components/ui'
 import React, { useEffect } from 'react'
-import { useWeb3 } from '../contexts/Web3Context'
 import { wrapUrqlClient } from '../lib/graphql'
 import { useRouter } from 'next/router'
 import { defaultMyTokensQueryVariables, useMyTokens } from '../hooks/tokens'
@@ -10,6 +9,7 @@ import { useCanMint } from '../hooks/mint'
 import Tokens from '../components/pages/Tokens'
 import Link from 'next/link'
 import { useEthers } from '@usedapp/core'
+import { useWalletSelector } from '../lib/WalletSelector/context'
 
 const seoData = {
   title: 'My tokens',
@@ -17,7 +17,7 @@ const seoData = {
 
 const MyTokensPage: React.FC = () => {
 
-  const { isConnecting } = useWeb3()
+  const { isConnecting } = useWalletSelector()
   const { account } = useEthers()
   const router = useRouter()
   const { tokens, fetching, error } = useMyTokens({

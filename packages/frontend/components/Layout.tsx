@@ -1,6 +1,7 @@
 import { Box } from './ui'
 import { Header } from './Header'
 import { NetworkChecker } from './utils/NetworkChecker'
+import { WalletSelectorModal } from '../lib/WalletSelector/modal'
 
 export default function Layout({ children }) {
   return (
@@ -20,6 +21,7 @@ export default function Layout({ children }) {
           </NetworkChecker>
         </Box>
       </main>
+      <WalletSelectorModal />
     </Box>
   )
 }

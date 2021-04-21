@@ -1,7 +1,7 @@
+import React from 'react'
 import Layout from '../components/Layout'
 import SEO from '../components/utils/SEO'
 import Hero from '../components/pages/Hero'
-import React from 'react'
 import { wrapUrqlClient } from '../lib/graphql'
 import { Heading } from '../components/ui'
 

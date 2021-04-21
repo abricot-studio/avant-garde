@@ -12,9 +12,9 @@ import {
   MenuItemProps,
   useBreakpointValue,
 } from '../ui'
-import { useWeb3 } from '../../contexts/Web3Context'
 import { WalletIcon } from './Icons'
 import { shortenAddress, useEthers } from '@usedapp/core'
+import { useWalletSelector } from '../../lib/WalletSelector/context'
 
 export const MenuItem = forwardRef<MenuItemProps, "a">( ({ children, color, ...props }, ref) => {
   return (
@@ -82,8 +82,7 @@ function MainButton({ account }) {
 }
 
 function ConnectButton() {
-  const { isConnecting } = useWeb3()
-  const { activateBrowserWallet } = useEthers();
+  const { isConnecting, open } = useWalletSelector()
 
   const mobile = useBreakpointValue({ base: true, md: false })
 
@@ -94,7 +93,7 @@ function ConnectButton() {
         variant="outline"
         border="1px"
         borderColor="black"
-        onClick={activateBrowserWallet}
+        onClick={open}
         icon={<WalletIcon w={6} h={6} />}
         isLoading={isConnecting}
         backgroundColor="white"
@@ -110,7 +109,7 @@ function ConnectButton() {
       variant="outline"
       border="1px"
       borderColor="black"
-      onClick={activateBrowserWallet}
+      onClick={open}
       leftIcon={<WalletIcon w={6} h={6} />}
       isLoading={isConnecting}
       backgroundColor="white"
@@ -129,7 +128,8 @@ function ConnectButton() {
 
 export function LoginButton() {
   const mobile = useBreakpointValue({ base: true, lg: false })
-  const { deactivate, account } = useEthers()
+  const { disconnect } = useWalletSelector();
+  const { account } = useEthers()
 
   if (account) {
     return (
@@ -159,7 +159,7 @@ export function LoginButton() {
           <MenuItem
             pr={6}
             justifyContent="flex-end"
-            onClick={deactivate}
+            onClick={disconnect}
           >
             Disconnect
           </MenuItem>

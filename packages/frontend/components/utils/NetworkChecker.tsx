@@ -2,12 +2,13 @@ import { getChainName, useEthers } from '@usedapp/core'
 import { Modal, ModalOverlay, ModalHeader, ModalBody, ModalContent, Text, Button } from '../ui'
 import config from '../../config'
 import { useContract } from '../../hooks/contracts'
+import { useWalletSelector } from '../../lib/WalletSelector/context'
 
 export function NetworkChecker({ children }) {
-  const contractInfo = useContract();
-  const { deactivate } = useEthers();
+  const { address } = useContract();
+  const { disconnect } = useWalletSelector();
 
-  if(!contractInfo) {
+  if(!address) {
     return (
       <Modal isOpen isCentered onClose={() => 0}>
         <ModalOverlay />
@@ -21,7 +22,7 @@ export function NetworkChecker({ children }) {
               {getChainName(config.defaultChainId) || config.defaultChainId}
             </Text>
             <Button
-              onClick={deactivate}
+              onClick={disconnect}
               variant="outline"
               colorScheme="red"
               mt={4}
