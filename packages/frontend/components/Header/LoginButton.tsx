@@ -12,9 +12,12 @@ import {
   MenuItemProps,
   useBreakpointValue,
 } from '../ui'
+import { faStreetView } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { WalletIcon } from './Icons'
 import { shortenAddress, useEthers } from '@usedapp/core'
 import { useWalletSelector } from '../../lib/WalletSelector/context'
+import { useBoxProfile } from '../../hooks/profile'
 
 export const MenuItem = forwardRef<MenuItemProps, "a">( ({ children, color, ...props }, ref) => {
   return (
@@ -38,7 +41,10 @@ export const MenuItem = forwardRef<MenuItemProps, "a">( ({ children, color, ...p
   )
 })
 
+const defaultAvatar = <FontAwesomeIcon icon={faStreetView} size="2x" />
+
 function MainButton({ account }) {
+  const boxProfile = useBoxProfile()
   const mobile = useBreakpointValue({ base: true, md: false })
 
   if(mobile) {
@@ -50,11 +56,9 @@ function MainButton({ account }) {
         backgroundColor="white"
         textTransform="none"
         _hover={{}}
-        icon={<Avatar size="sm" />}
+        icon={<Avatar size="sm" src={boxProfile?.imageUrl} icon={defaultAvatar} bg="white" />}
         zIndex={2}
-      >
-        { shortenAddress(account) }
-      </MenuButton>
+      />
     )
   }
 
@@ -73,10 +77,10 @@ function MainButton({ account }) {
       fontSize={{ base: '1rem', sm: '1rem', md: '1rem' }}
       _hover={{}}
       _active={{}}
-      rightIcon={<Avatar size="xs" />}
+      rightIcon={<Avatar size="xs" src={boxProfile?.imageUrl} icon={defaultAvatar} bg="white" />}
       zIndex={2}
     >
-      { shortenAddress(account) }
+      { boxProfile?.name || shortenAddress(account) }
     </MenuButton>
   )
 }
