@@ -1,17 +1,18 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { faRedditAlien } from '@fortawesome/free-brands-svg-icons'
 import { useRouter } from 'next/router'
 import { utils } from 'ethers'
 import { addressEqual } from '@usedapp/core'
+import moment from 'moment'
+import { useMountedState } from 'react-use'
 
-import { Flex, Box, Heading, HStack, VStack, IconButton, ActionButton, Text, Icon, Card } from '../ui'
+import { Flex, Box, Heading, HStack, VStack, IconButton, ActionButton, Text, Icon, Card, Link as CLink } from '../ui'
 import { useWeb3 } from '../../contexts/Web3Context'
 import { useToken, useTokenPriceBurn } from '../../hooks/tokens'
 import { TokenImage } from './TokenImage'
 import { useBurn } from '../../hooks/burn'
-import moment from 'moment'
 
 export const InstagramIcon = (props) => (
   <Icon viewBox="0 0 41 40" {...props}>
@@ -60,9 +61,49 @@ function BurnButton({ token }){
   )
 }
 
+function SocialLink({ href, icon, label}) {
+  return (
+    <CLink
+      href={href}
+      isExternal
+    >
+      <IconButton
+        icon={icon}
+        aria-label={label}
+        colorScheme="transparent"
+        color="black"
+        _hover={{}}
+        _focus={{
+          outline: "none"
+        }}
+        _active={{
+          outline: "none"
+        }}
+      />
+    </CLink>
+  )
+}
+
 export default function Token({ id }) {
   const { token, fetching } = useToken(id)
   const router = useRouter()
+
+  const isMounted = useMountedState();
+
+  const socialPostUrls = useMemo(() => {
+    if(!isMounted() || !token) return {};
+
+    const message = encodeURI('Look at this unique AI-generated piece of art !')
+    const origin = typeof window !== 'undefined' ? window.location.origin : ''
+    const permalink = `${origin}/token/${id}`
+
+    const reddit = `http://www.reddit.com/submit?url=${permalink}&title=${message}`
+    const twitter = `https://twitter.com/intent/tweet?text=${message}&via=avantgardenft&url=${permalink}&hashtags=nft,art,deeplearning`
+    return {
+      reddit,
+      twitter,
+    }
+  }, [token])
 
   if (fetching) return <Box align="center" >Loading...</Box>
   if (!token) return <Box align="center" >not existings</Box>
@@ -153,44 +194,15 @@ export default function Token({ id }) {
         mt={8}
         justifyContent="center"
       >
-        <IconButton
+        <SocialLink
           icon={<FontAwesomeIcon icon={faRedditAlien} size="2x" />}
-          aria-label="Back"
-          colorScheme="transparent"
-          color="black"
-          _hover={{}}
-          _focus={{
-            outline: "none"
-          }}
-          _active={{
-            outline: "none"
-          }}
+          href={socialPostUrls.reddit}
+          label="reddit"
         />
-        <IconButton
+        <SocialLink
           icon={<TwitterIcon w={8} h={8} />}
-          aria-label="Back"
-          colorScheme="transparent"
-          color="black"
-          _hover={{}}
-          _focus={{
-            outline: "none"
-          }}
-          _active={{
-            outline: "none"
-          }}
-        />
-        <IconButton
-          icon={<InstagramIcon w={8} h={8} />}
-          aria-label="Back"
-          colorScheme="transparent"
-          color="black"
-          _hover={{}}
-          _focus={{
-            outline: "none"
-          }}
-          _active={{
-            outline: "none"
-          }}
+          href={socialPostUrls.twitter}
+          label="twitter"
         />
       </HStack>
     </Flex>
