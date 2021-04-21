@@ -9,7 +9,7 @@ import { addressEqual } from '@usedapp/core'
 import { Flex, Box, Heading, HStack, VStack, IconButton, ActionButton, Text, Icon, Card } from '../ui'
 import { useWeb3 } from '../../contexts/Web3Context'
 import { useToken, useTokenPriceBurn } from '../../hooks/tokens'
-import { TokenImage } from '../ui/TokenImage'
+import { TokenImage } from './TokenImage'
 import { useBurn } from '../../hooks/burn'
 import moment from 'moment'
 

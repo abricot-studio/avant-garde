@@ -12,7 +12,7 @@ import {
   VictoryVoronoiContainer,
 } from 'victory'
 import { useCanMint, useTokenCountMint } from '../../hooks/tokens'
-import { ImageFrame } from '../ui/TokenImage'
+import { ImageFrame } from '../tokens/TokenImage'
 import { bondingCurveFn, contractConstants, URLs } from '../../lib/constants'
 import { faFileSignature } from '@fortawesome/free-solid-svg-icons'
 import { faGithub, faTwitter, faDiscord } from '@fortawesome/free-brands-svg-icons'

@@ -1,5 +1,5 @@
 import { Box } from './ui'
-import { Header } from './Header'
+import { Header } from './header'
 import { NetworkChecker } from './utils/NetworkChecker'
 
 export default function Layout({ children }) {

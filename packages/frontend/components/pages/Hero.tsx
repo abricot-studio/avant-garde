@@ -1,6 +1,6 @@
 import React from 'react'
 import { ActionButton, Box, Button, Center, Link as CLink, Heading, IconButton, HStack, VStack, Wrap, WrapItem } from '../ui'
-import { TokenImage, ImageFrame, defaultSize } from '../ui/TokenImage'
+import { TokenImage, ImageFrame, defaultSize } from '../tokens/TokenImage'
 import Link from 'next/link'
 import { useWeb3 } from '../../contexts/Web3Context'
 import { useToken } from '../../hooks/tokens'

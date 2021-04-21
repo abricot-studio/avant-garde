@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, Box, Text, Center } from './index'
+import { Image, Box, Text, Center } from '../ui'
 import { getIpfsUrl } from '../../lib/ipfs'
 import { AvantGardeToken, useMetadata } from '../../hooks/tokens'
 
