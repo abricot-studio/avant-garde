@@ -6,6 +6,7 @@ import { getIpfsData } from '../lib/ipfs'
 import { getContractFromProvider } from '../lib/contracts'
 import { useWeb3 } from '../contexts/Web3Context'
 import { usePolling } from './graphql'
+import useSWR from 'swr'
 
 export interface AvantGardeToken {
   id: string;
@@ -426,27 +427,18 @@ export const useToken = (address?: string) => {
   }
 }
 
-const metadataCache = {};
-
-export const useMetadata = (avantGardeToken: AvantGardeToken): AvantGardeTokenMetadata | null => {
-  const [metadata, setMetadata] = useState<AvantGardeTokenMetadata | null>(null);
-
-  useEffect(() => {
-    if(metadataCache[avantGardeToken.tokenURI]) {
-      setMetadata(metadataCache[avantGardeToken.tokenURI]);
-      return;
+export const useMetadata = (avantGardeToken: AvantGardeToken, initialMetadata?): AvantGardeTokenMetadata | null => {
+  const { data: metadata } = useSWR(
+    avantGardeToken?.tokenURI,
+    getIpfsData,
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+      initialData: initialMetadata,
     }
+  )
 
-    setMetadata(null);
-    getIpfsData(avantGardeToken.tokenURI)
-      .then(metadata => {
-        setMetadata(metadata);
-        metadataCache[avantGardeToken.tokenURI] = metadata;
-      })
-      .catch(console.error)
-  }, [avantGardeToken]);
-
-  return metadata;
+  return metadata
 }
 
 export const useCanMint = () => {

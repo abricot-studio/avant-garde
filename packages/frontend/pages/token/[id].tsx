@@ -5,19 +5,27 @@ import Layout from '../../components/Layout'
 import Token from '../../components/tokens/Token'
 import SEO from '../../components/utils/SEO'
 import { defaultClient, getSsrClient, wrapUrqlClient } from '../../lib/graphql'
-import { TokenQuery, TokensQuery } from '../../hooks/tokens'
-const seoData = {
-  title: 'Token',
-}
+import { TokenQuery, TokensQuery, useMetadata, useToken } from '../../hooks/tokens'
+import { getIpfsData, getIpfsUrl } from '../../lib/ipfs'
 
+type QueryParams = { id: string };
+type TokenPageProps = { initialMetadata: any }
 
-const TokenPage: React.FC = () => {
+const TokenPage: React.FC<TokenPageProps> = ({ initialMetadata }) => {
   const router = useRouter()
-  const { id } = router.query
+  const { id } = router.query as QueryParams
+  const { token } = useToken(id)
+  const metadata = useMetadata(token, initialMetadata);
 
-  if(!id || router.isFallback){
+  if(router.isFallback){
     return <p>Loading</p>
   }
+
+  const seoData = {
+    title: 'Token',
+    card: getIpfsUrl(metadata.image),
+  }
+
   return (
     <Layout>
       <SEO data={seoData} />
@@ -50,21 +58,23 @@ export const getStaticPaths = async () => {
   };
 };
 
-type QueryParams = { id: string };
 export const getStaticProps  = async (ctx: GetStaticPropsContext<QueryParams>) => {
   const [ssrClient, ssrCache] = getSsrClient();
   const id = ctx.params.id
 
-  await ssrClient.query(
+  const { data: { avantGardeToken } } = await ssrClient.query(
     TokenQuery,
     {
       address: id.toLowerCase(),
     },
   ).toPromise();
 
+  const initialMetadata = await getIpfsData(avantGardeToken.tokenURI)
+
   return {
     props: {
       urqlState: ssrCache.extractData(),
+      initialMetadata,
     },
     revalidate: 30,
   };

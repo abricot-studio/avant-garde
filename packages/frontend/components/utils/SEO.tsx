@@ -5,6 +5,7 @@ interface SEOData {
   title?: string;
   description?: string;
   keywords?: string;
+  card?: string;
 }
 
 const defaultSEOData = {
@@ -14,7 +15,7 @@ const defaultSEOData = {
 }
 
 export default function SEO({ data }: { data: SEOData }) {
-  const domain = process.env.APP_URL || 'http://localhost'
+  const domain = process.env.APP_URL || 'https://avant-garde.gallery'
 
   const title = useMemo(() => `${data.title && `${data.title} | ` || ''}${defaultSEOData.title}`, [data]);
 
@@ -29,13 +30,13 @@ export default function SEO({ data }: { data: SEOData }) {
 
       <meta itemProp="name" content={title} />
       <meta itemProp="description" content={data.description || defaultSEOData.description} />
-      <meta itemProp="image" content={`${domain}/images/meta_card.jpg`} />
+      <meta itemProp="image" content={data.card || `${domain}/images/meta_card.jpg`} />
 
       <meta property="og:type" content="website" />
       <meta property="og:url" content={domain} />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={data.description || defaultSEOData.description} />
-      <meta property="og:image" content={`${domain}/images/meta_card.jpg`} />
+      <meta property="og:image" content={data.card || `${domain}/images/meta_card.jpg`} />
       <meta property="og:image:alt" content={title} />
       <meta property="og:site_name" content={title} />
 
@@ -45,7 +46,7 @@ export default function SEO({ data }: { data: SEOData }) {
       <meta property="twitter:description" content={data.description || defaultSEOData.description} />
       <meta
         property="twitter:image"
-        content={`${domain}/images/meta_card.jpg`}
+        content={data.card || `${domain}/images/meta_card.jpg`}
       />
       <meta property="twitter:image:alt" content={data.title} />
 
