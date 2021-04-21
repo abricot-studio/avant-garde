@@ -10,7 +10,7 @@ import BigNumber from 'bignumber.js'
 import { useMountedState } from 'react-use'
 import { isTestChain } from '@usedapp/core'
 
-import { Button, Flex, Box, Heading, HStack, VStack, IconButton, ActionButton, Text, Icon, Card, Link as CLink } from '../ui'
+import { Button, Spinner, Flex, Box, Heading, HStack, VStack, IconButton, ActionButton, Text, Icon, Card, Link as CLink } from '../ui'
 import { useWeb3 } from '../../contexts/Web3Context'
 import { useToken, useTokenPriceBurn } from '../../hooks/tokens'
 import { TokenImage } from './TokenImage'
@@ -114,8 +114,8 @@ export default function Token({ id }) {
     }
   }, [token, contractAddress, chainId])
 
-  if (fetching) return <Box align="center" >Loading...</Box>
-  if (!token) return <Box align="center" >not existings</Box>
+  if (fetching) return <Box align="center" ><Spinner size="lg" /></Box>
+  if (!token) return <Box align="center" >Not found!</Box>
 
   return (
     <Flex
