@@ -1,18 +1,21 @@
 import React, { useMemo } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import { faArrowLeft, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
 import { faRedditAlien } from '@fortawesome/free-brands-svg-icons'
 import { useRouter } from 'next/router'
 import { utils } from 'ethers'
 import { addressEqual } from '@usedapp/core'
 import moment from 'moment'
+import BigNumber from 'bignumber.js'
 import { useMountedState } from 'react-use'
+import { isTestChain } from '@usedapp/core'
 
-import { Flex, Box, Heading, HStack, VStack, IconButton, ActionButton, Text, Icon, Card, Link as CLink } from '../ui'
+import { Button, Flex, Box, Heading, HStack, VStack, IconButton, ActionButton, Text, Icon, Card, Link as CLink } from '../ui'
 import { useWeb3 } from '../../contexts/Web3Context'
 import { useToken, useTokenPriceBurn } from '../../hooks/tokens'
 import { TokenImage } from './TokenImage'
 import { useBurn } from '../../hooks/burn'
+import { useContract } from '../../hooks/contracts'
 
 export const InstagramIcon = (props) => (
   <Icon viewBox="0 0 41 40" {...props}>
@@ -88,6 +91,7 @@ export default function Token({ id }) {
   const { token, fetching } = useToken(id)
   const router = useRouter()
 
+  const { address: contractAddress, chainId } = useContract()
   const isMounted = useMountedState();
 
   const socialPostUrls = useMemo(() => {
@@ -97,13 +101,18 @@ export default function Token({ id }) {
     const origin = typeof window !== 'undefined' ? window.location.origin : ''
     const permalink = `${origin}/token/${id}`
 
-    const reddit = `http://www.reddit.com/submit?url=${permalink}&title=${message}`
+    const reddit = `https://reddit.com/submit?url=${permalink}&title=${message}`
     const twitter = `https://twitter.com/intent/tweet?text=${message}&via=avantgardenft&url=${permalink}&hashtags=nft,art,deeplearning`
+    const openseaId = new BigNumber(id).toFixed()
+    const testnetPrefix = isTestChain(chainId) ? 'testnets.' : ''
+    const opensea = `https://${testnetPrefix}opensea.io/assets/${contractAddress}/${openseaId}`
+
     return {
       reddit,
       twitter,
+      opensea,
     }
-  }, [token])
+  }, [token, contractAddress, chainId])
 
   if (fetching) return <Box align="center" >Loading...</Box>
   if (!token) return <Box align="center" >not existings</Box>
@@ -185,13 +194,27 @@ export default function Token({ id }) {
 
       </Card>
 
-      <Box align="center" mt={8}>
+      <Box align="center" mt={4}>
         <BurnButton token={token} />
+      </Box>
+
+      <Box align="center" mt={4}>
+        <CLink
+          href={socialPostUrls.opensea}
+          isExternal
+        >
+          <Button
+            rightIcon={<FontAwesomeIcon icon={faExternalLinkAlt} size="1x" />}
+            variant="outline"
+          >
+            Trade on OpenSea
+          </Button>
+        </CLink>
       </Box>
 
       <HStack
         spacing={12}
-        mt={8}
+        mt={4}
         justifyContent="center"
       >
         <SocialLink
