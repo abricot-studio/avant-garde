@@ -21,7 +21,7 @@ export const useBurnPrice = (): AvantGardeTokenBurnPrice | false => {
         method: 'currentBurnPrice',
         args: [],
       }
-    ) ?? []
+    )
 
   return useMemo<AvantGardeTokenBurnPrice | false>(() =>
     callRes &&

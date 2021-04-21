@@ -11,8 +11,7 @@ import {
   VictoryTooltip,
   VictoryVoronoiContainer,
 } from 'victory'
-import { useCanMint } from '../../hooks/mint'
-import { useTokenCountMint } from '../../hooks/mint'
+import { useCanMint, useTokenCountMint } from '../../hooks/mint'
 import { ImageFrame } from '../ui/TokenImage'
 import { bondingCurveFn, contractConstants, URLs } from '../../lib/constants'
 import { faFileSignature } from '@fortawesome/free-solid-svg-icons'
