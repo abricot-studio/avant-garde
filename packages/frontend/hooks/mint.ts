@@ -1,8 +1,7 @@
 import { useMemo, useCallback, useState } from 'react'
-import { useContractCall } from '@usedapp/core'
+import { useContractCall, useEthers } from '@usedapp/core'
 
 import { useToast } from '../components/ui'
-import { useWeb3 } from '../contexts/Web3Context'
 import { getContractFromProvider } from '../lib/contracts'
 import { useContract } from './contracts'
 import { useToken } from './tokens'
@@ -69,12 +68,12 @@ export const useTokenCountMint = (): AvantGardeTokenCountMint | false => {
 }
 
 export const useMint = () => {
-  const { account } = useWeb3();
+  const { account, library } = useEthers();
   const [isMinting, setIsMinting] = useState<boolean>(false);
   const [mintTx, setMintTx] = useState<string | null>(null);
   const [minted, setMinted] = useState<boolean>(false);
   const tokenMintPrice = useMintPrice()
-  const { startPolling } = useToken(account?.address)
+  const { startPolling } = useToken(account)
   const toast = useToast()
 
   const mint = useCallback((generationResult) => {
@@ -84,8 +83,8 @@ export const useMint = () => {
 
     setIsMinting(true);
 
-    getContractFromProvider(account.provider)
-      .then(c => c.connect(account.provider.getSigner()))
+    getContractFromProvider(library)
+      .then(c => c.connect(library.getSigner()))
       .then(contract =>
         contract.mint(generationResult.ipfsHashMetadata, generationResult.signature, {
           value: tokenMintPrice.total
@@ -93,7 +92,7 @@ export const useMint = () => {
       )
       .then(tx => {
         setMintTx(tx.hash);
-        return account.provider.waitForTransaction(tx.hash)
+        return library.waitForTransaction(tx.hash)
       })
       .then(() => {
         setMinted(true);
@@ -125,8 +124,8 @@ export const useMint = () => {
 }
 
 export const useCanMint = () => {
-  const { account } = useWeb3();
-  const { token, fetching } = useToken(account?.address)
+  const { account } = useEthers();
+  const { token, fetching } = useToken(account)
 
   return useMemo<boolean>(() =>
     !account || !fetching && !token,

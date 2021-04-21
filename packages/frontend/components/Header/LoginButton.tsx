@@ -53,7 +53,7 @@ function MainButton({ account }) {
         icon={<Avatar size="sm" />}
         zIndex={2}
       >
-        { shortenAddress(account.address) }
+        { shortenAddress(account) }
       </MenuButton>
     )
   }
@@ -61,7 +61,7 @@ function MainButton({ account }) {
   return (
     <MenuButton
       as={Button}
-      width="200px"
+      width="170px"
       variant="outline"
       rounded="full"
       border="1px"
@@ -76,15 +76,60 @@ function MainButton({ account }) {
       rightIcon={<Avatar size="xs" />}
       zIndex={2}
     >
-      { shortenAddress(account.address) }
+      { shortenAddress(account) }
     </MenuButton>
+  )
+}
+
+function ConnectButton() {
+  const { isConnecting } = useWeb3()
+  const { activateBrowserWallet } = useEthers();
+
+  const mobile = useBreakpointValue({ base: true, md: false })
+
+  if(mobile) {
+    return (
+      <IconButton
+        aria-label="connect"
+        variant="outline"
+        border="1px"
+        borderColor="black"
+        onClick={activateBrowserWallet}
+        icon={<WalletIcon w={6} h={6} />}
+        isLoading={isConnecting}
+        backgroundColor="white"
+        rounded="full"
+        size="md"
+      />
+    )
+  }
+
+  return (
+    <Button
+      px={4}
+      variant="outline"
+      border="1px"
+      borderColor="black"
+      onClick={activateBrowserWallet}
+      leftIcon={<WalletIcon w={6} h={6} />}
+      isLoading={isConnecting}
+      backgroundColor="white"
+      textTransform="uppercase"
+      fontWeight={300}
+      fontFamily="'Roboto Mono', sans-serif"
+      fontSize={{ base: '1rem', sm: '1rem', md: '1rem' }}
+      _hover={{}}
+      rounded="full"
+      loadingText="Connecting..."
+    >
+      Connect
+    </Button>
   )
 }
 
 export function LoginButton() {
   const mobile = useBreakpointValue({ base: true, lg: false })
-  const { connect, disconnect, isConnecting, account } = useWeb3()
-  const a = useEthers();
+  const { deactivate, account } = useEthers()
 
   if (account) {
     return (
@@ -99,7 +144,7 @@ export function LoginButton() {
           color="white"
           borderRadius={mobile ? "1rem" : 0}
           borderBottomRadius="1rem"
-          minWidth="200px"
+          minWidth="170px"
           overflow="hidden"
         >
           <Link passHref href="/myItems">
@@ -114,7 +159,7 @@ export function LoginButton() {
           <MenuItem
             pr={6}
             justifyContent="flex-end"
-            onClick={disconnect}
+            onClick={deactivate}
           >
             Disconnect
           </MenuItem>
@@ -124,25 +169,7 @@ export function LoginButton() {
   }
 
   return (
-    <Button
-      width="200px"
-      variant="outline"
-      border="1px"
-      borderColor="black"
-      onClick={a.activateBrowserWallet}
-      leftIcon={<WalletIcon w={6} h={6} />}
-      isLoading={isConnecting}
-      backgroundColor="white"
-      textTransform="uppercase"
-      fontWeight={500}
-      fontFamily="'Roboto Mono', sans-serif"
-      fontSize={{ base: '1rem', sm: '1rem', md: '1rem' }}
-      _hover={{}}
-      rounded="full"
-      loadingText="Connecting..."
-    >
-      Connect
-    </Button>
+    <ConnectButton />
   )
 
 }

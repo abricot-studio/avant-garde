@@ -9,6 +9,7 @@ import { defaultMyTokensQueryVariables, useMyTokens } from '../hooks/tokens'
 import { useCanMint } from '../hooks/mint'
 import Tokens from '../components/pages/Tokens'
 import Link from 'next/link'
+import { useEthers } from '@usedapp/core'
 
 const seoData = {
   title: 'My tokens',
@@ -16,11 +17,12 @@ const seoData = {
 
 const MyTokensPage: React.FC = () => {
 
-  const { account, isConnecting } = useWeb3()
+  const { isConnecting } = useWeb3()
+  const { account } = useEthers()
   const router = useRouter()
   const { tokens, fetching, error } = useMyTokens({
     ...defaultMyTokensQueryVariables,
-    address: account?.address
+    address: account
   })
   const canMint = useCanMint();
 

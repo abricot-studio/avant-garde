@@ -4,10 +4,9 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { faRedditAlien } from '@fortawesome/free-brands-svg-icons'
 import { useRouter } from 'next/router'
 import { utils } from 'ethers'
-import { addressEqual } from '@usedapp/core'
+import { addressEqual, useEthers } from '@usedapp/core'
 
 import { Flex, Box, Heading, HStack, VStack, IconButton, ActionButton, Text, Icon, Card } from '../ui'
-import { useWeb3 } from '../../contexts/Web3Context'
 import { useToken } from '../../hooks/tokens'
 import { TokenImage } from '../ui/TokenImage'
 import { useBurn, useBurnPrice } from '../../hooks/burn'
@@ -26,12 +25,12 @@ export const TwitterIcon = (props) => (
 )
 
 function BurnButton({ token }){
-  const { account } = useWeb3()
+  const { account } = useEthers();
   const tokenBurnPrice = useBurnPrice()
 
   const { burn, burned, isBurning } = useBurn()
 
-  if(!account || !addressEqual(account.address, token.owner)){
+  if(!account || !addressEqual(account, token.owner)){
     return null
   }
 

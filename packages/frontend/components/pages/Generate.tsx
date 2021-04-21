@@ -9,10 +9,12 @@ import { useMint, useMintPrice } from '../../hooks/mint'
 import { useToken } from '../../hooks/tokens'
 import { useRouter } from 'next/router'
 import { ImageFrame } from '../ui/TokenImage'
+import { useEthers } from '@usedapp/core'
 
 export default function Generate() {
-  const { account, connect, isConnecting } = useWeb3();
-  const { token, fetching: fetchingToken } = useToken(account?.address)
+  const { isConnecting } = useWeb3();
+  const { account, activateBrowserWallet } = useEthers();
+  const { token, fetching: fetchingToken } = useToken(account)
   const tokenMintPrice = useMintPrice()
   const { generateImage, isGenerating, generationResult } = useImageGeneration();
   const { mint, minted, isMinting } = useMint();
@@ -43,7 +45,7 @@ export default function Generate() {
   } else if(!account) {
     cta = (
       <ActionButton
-        onClick={connect}
+        onClick={activateBrowserWallet}
         isLoading={isConnecting}
         loadingText="Connecting wallet..."
       >Connect wallet</ActionButton>

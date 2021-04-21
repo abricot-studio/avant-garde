@@ -2,17 +2,17 @@ import React from 'react'
 import { ActionButton, Box, Button, Center, Link as CLink, Heading, IconButton, HStack, VStack, Wrap, WrapItem } from '../ui'
 import { TokenImage, ImageFrame, defaultSize } from '../ui/TokenImage'
 import Link from 'next/link'
-import { useWeb3 } from '../../contexts/Web3Context'
 import { useToken } from '../../hooks/tokens'
 import { useContract } from '../../hooks/contracts'
 import { URLs } from '../../lib/constants'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDiscord, faGithub, faTwitter } from '@fortawesome/free-brands-svg-icons'
 import { faFileSignature } from '@fortawesome/free-solid-svg-icons'
+import { useEthers } from '@usedapp/core'
 
 export default function Hero() {
-  const { account } = useWeb3();
-  const { token } = useToken(account?.address)
+  const { account } = useEthers();
+  const { token } = useToken(account)
 
   return (
     <Box

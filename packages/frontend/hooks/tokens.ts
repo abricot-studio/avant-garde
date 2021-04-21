@@ -1,10 +1,7 @@
 import gql from 'graphql-tag'
-import { Provider } from "@ethersproject/abstract-provider";
 import { useEffect, useState } from 'react'
 import { useQuery } from 'urql'
 import { getIpfsData } from '../lib/ipfs'
-import { getContractFromProvider } from '../lib/contracts'
-import { useWeb3 } from '../contexts/Web3Context'
 import { usePolling } from './graphql'
 
 export interface AvantGardeToken {
@@ -82,75 +79,6 @@ export const MyTokensQuery = gql`
   }
 `
 
-async function fetchToken(provider: Provider, tokenId: string) {
-  const contract = await getContractFromProvider(provider);
-  const owner = await contract.ownerOf(tokenId)
-    .catch(error => {
-      if(error.message.includes('owner query for nonexistent token')) {
-        return null;
-      }
-      throw error;
-    });
-  if(!owner) {
-    return null;
-  }
-  const tokenUri = await contract.tokenURI(tokenId)
-
-  const avantGardeToken: AvantGardeToken = {
-    id: tokenId,
-    owner,
-    tokenURI: tokenUri,
-    mintTimestamp: '0'
-  };
-  return avantGardeToken;
-}
-
-export const useMyTokenOnChain = () => {
-  const { account } = useWeb3();
-  const [fetching, setFetching] = useState<boolean>(true);
-  const [myToken, setMyToken] = useState<AvantGardeToken | null>(null);
-
-  useEffect(() => {
-    if(!account) {
-      setMyToken(null)
-      setFetching(false)
-      return;
-    }
-
-    const { address, provider } = account;
-
-    setFetching(true)
-    const poll = () => {
-      fetchToken(account.provider, address)
-        .then((avantGardeToken: AvantGardeToken | null) => {
-          if(!avantGardeToken) {
-            setMyToken(null)
-            setFetching(false)
-            return;
-          }
-          provider.removeListener('block', poll);
-          setMyToken(avantGardeToken);
-          setFetching(false)
-        })
-        .catch(error => {
-          setMyToken(null)
-          setFetching(false)
-          console.error(error);
-        });
-    }
-
-    provider.on('block', poll);
-    return () => {
-      provider.removeListener('block', poll);
-    }
-  }, [account]);
-
-  return {
-    myToken,
-    fetching,
-  };
-}
-
 export interface TokensProps {
   first?: number,
   skip?: number,
@@ -162,7 +90,7 @@ export const defaultTokensQueryVariables:TokensProps = {
 };
 
 export const useTokens = (tokensProps: TokensProps = defaultTokensQueryVariables) => {
-  const [result, reexecuteQuery] = useQuery({
+  const [result] = useQuery({
     query: TokensQuery,
     variables: {
       first: tokensProps.first,
@@ -193,7 +121,7 @@ export const defaultMyTokensQueryVariables:MyTokensProps = {
 };
 
 export const useMyTokens = (tokensProps: MyTokensProps = defaultMyTokensQueryVariables) => {
-  const [result, reexecuteQuery] = useQuery({
+  const [result] = useQuery({
     query: MyTokensQuery,
     variables: {
       first: tokensProps.first,
