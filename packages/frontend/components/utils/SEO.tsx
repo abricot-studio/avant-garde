@@ -30,13 +30,13 @@ export default function SEO({ data }: { data: SEOData }) {
 
       <meta itemProp="name" content={title} />
       <meta itemProp="description" content={data.description || defaultSEOData.description} />
-      <meta itemProp="image" content={data.card || `${domain}/images/meta_card.jpg`} />
+      <meta itemProp="image" content={data.card || `${domain}/card.jpg`} />
 
       <meta property="og:type" content="website" />
       <meta property="og:url" content={domain} />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={data.description || defaultSEOData.description} />
-      <meta property="og:image" content={data.card || `${domain}/images/meta_card.jpg`} />
+      <meta property="og:image" content={data.card || `${domain}/card.jpg`} />
       <meta property="og:image:alt" content={title} />
       <meta property="og:site_name" content={title} />
 
@@ -44,11 +44,8 @@ export default function SEO({ data }: { data: SEOData }) {
       <meta property="twitter:url" content={domain} />
       <meta property="twitter:title" content={title} />
       <meta property="twitter:description" content={data.description || defaultSEOData.description} />
-      <meta
-        property="twitter:image"
-        content={data.card || `${domain}/images/meta_card.jpg`}
-      />
-      <meta property="twitter:image:alt" content={data.title} />
+      <meta property="twitter:image" content={data.card || `${domain}/card.jpg`} />
+      <meta property="twitter:image:alt" content={title} />
 
       <meta name="robots" content="index,follow" />
     </Head>
