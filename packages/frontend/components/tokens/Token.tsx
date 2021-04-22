@@ -1,17 +1,21 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import { faArrowLeft, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
 import { faRedditAlien } from '@fortawesome/free-brands-svg-icons'
 import { useRouter } from 'next/router'
 import { utils } from 'ethers'
 import { addressEqual, useEthers } from '@usedapp/core'
 import moment from 'moment'
+import BigNumber from 'bignumber.js'
+import { useMountedState } from 'react-use'
+import { isTestChain } from '@usedapp/core'
 
-import { Flex, Box, Heading, HStack, VStack, IconButton, ActionButton, Text, Icon, Card } from '../ui'
+import { Button, Spinner, Flex, Box, Heading, HStack, VStack, IconButton, ActionButton, Text, Link as CLink, Card } from '../ui'
 import { useToken } from '../../hooks/tokens'
-import { TokenImage } from '../ui/TokenImage'
+import { TokenImage } from './TokenImage'
 import { useBurn, useBurnPrice } from '../../hooks/burn'
-import { InstagramIcon, TwitterIcon } from '../../assets/icons'
+import { TwitterIcon } from '../../assets/icons'
+import { useContract } from '../../hooks/contracts'
 
 function BurnButton({ token }){
   const { account } = useEthers();
@@ -48,12 +52,58 @@ function BurnButton({ token }){
   )
 }
 
+function SocialLink({ href, icon, label}) {
+  return (
+    <CLink
+      href={href}
+      isExternal
+    >
+      <IconButton
+        icon={icon}
+        aria-label={label}
+        colorScheme="transparent"
+        color="black"
+        _hover={{}}
+        _focus={{
+          outline: "none"
+        }}
+        _active={{
+          outline: "none"
+        }}
+      />
+    </CLink>
+  )
+}
+
 export default function Token({ id }) {
   const { token, fetching } = useToken(id)
   const router = useRouter()
 
-  if (fetching) return <Box align="center" >Loading...</Box>
-  if (!token) return <Box align="center" >not existings</Box>
+  const { address: contractAddress, chainId } = useContract()
+  const isMounted = useMountedState();
+
+  const socialPostUrls = useMemo(() => {
+    if(!isMounted() || !token) return {};
+
+    const message = encodeURI('Look at this unique AI-generated piece of art !')
+    const origin = typeof window !== 'undefined' ? window.location.origin : ''
+    const permalink = `${origin}/token/${id}`
+
+    const reddit = `https://reddit.com/submit?url=${permalink}&title=${message}`
+    const twitter = `https://twitter.com/intent/tweet?text=${message}&via=avantgardenft&url=${permalink}&hashtags=nft,art,deeplearning`
+    const openseaId = new BigNumber(id).toFixed()
+    const testnetPrefix = isTestChain(chainId) ? 'testnets.' : ''
+    const opensea = `https://${testnetPrefix}opensea.io/assets/${contractAddress}/${openseaId}`
+
+    return {
+      reddit,
+      twitter,
+      opensea,
+    }
+  }, [token, contractAddress, chainId])
+
+  if (fetching) return <Box align="center" ><Spinner size="lg" /></Box>
+  if (!token) return <Box align="center" >Not found!</Box>
 
   return (
     <Flex
@@ -132,53 +182,38 @@ export default function Token({ id }) {
 
       </Card>
 
-      <Box align="center" mt={8}>
+      <Box align="center" mt={4}>
         <BurnButton token={token} />
+      </Box>
+
+      <Box align="center" mt={4}>
+        <CLink
+          href={socialPostUrls.opensea}
+          isExternal
+        >
+          <Button
+            rightIcon={<FontAwesomeIcon icon={faExternalLinkAlt} size="1x" />}
+            variant="outline"
+          >
+            Trade on OpenSea
+          </Button>
+        </CLink>
       </Box>
 
       <HStack
         spacing={12}
-        mt={8}
+        mt={4}
         justifyContent="center"
       >
-        <IconButton
+        <SocialLink
           icon={<FontAwesomeIcon icon={faRedditAlien} size="2x" />}
-          aria-label="Back"
-          colorScheme="transparent"
-          color="black"
-          _hover={{}}
-          _focus={{
-            outline: "none"
-          }}
-          _active={{
-            outline: "none"
-          }}
+          href={socialPostUrls.reddit}
+          label="reddit"
         />
-        <IconButton
+        <SocialLink
           icon={<TwitterIcon w={8} h={8} />}
-          aria-label="Back"
-          colorScheme="transparent"
-          color="black"
-          _hover={{}}
-          _focus={{
-            outline: "none"
-          }}
-          _active={{
-            outline: "none"
-          }}
-        />
-        <IconButton
-          icon={<InstagramIcon w={8} h={8} />}
-          aria-label="Back"
-          colorScheme="transparent"
-          color="black"
-          _hover={{}}
-          _focus={{
-            outline: "none"
-          }}
-          _active={{
-            outline: "none"
-          }}
+          href={socialPostUrls.twitter}
+          label="twitter"
         />
       </HStack>
     </Flex>
