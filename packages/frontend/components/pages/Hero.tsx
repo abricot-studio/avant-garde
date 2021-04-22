@@ -91,57 +91,6 @@ export default function Hero() {
           </Link>
         </WrapItem>
       </Wrap>
-
-      <Box mt={8}>
-        <Links/>
-      </Box>
     </Box>
-  )
-}
-
-
-function LinkItem({ href, icon, label }) {
-  return (
-    <WrapItem>
-      <CLink
-        href={href}
-        isExternal
-      >
-        <IconButton
-          aria-label={label}
-          icon={icon}
-          variant="link"
-          size="md"
-        />
-      </CLink>
-    </WrapItem>
-  )
-}
-function Links() {
-  const { etherscanURL: contractEtherscanURL } = useContract();
-
-  return (
-    <Wrap justify="center">
-      <LinkItem
-        href={URLs.github}
-        label="Github"
-        icon={<FontAwesomeIcon icon={faGithub} size="1x" />}
-      />
-      <LinkItem
-        href={URLs.discord}
-        label="discord"
-        icon={<FontAwesomeIcon icon={faDiscord} size="1x" />}
-      />
-      <LinkItem
-        href={URLs.twitter}
-        label="Twitter"
-        icon={<FontAwesomeIcon icon={faTwitter} size="1x" />}
-      />
-      <LinkItem
-        href={contractEtherscanURL}
-        label="Contracts"
-        icon={<FontAwesomeIcon icon={faFileSignature} size="1x" />}
-      />
-    </Wrap>
   )
 }
