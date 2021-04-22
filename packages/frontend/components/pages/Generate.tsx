@@ -8,7 +8,7 @@ import { useWeb3 } from '../../contexts/Web3Context'
 import { useMint } from '../../hooks/mint'
 import { useToken, useTokenPriceMint } from '../../hooks/tokens'
 import { useRouter } from 'next/router'
-import { ImageFrame } from '../ui/TokenImage'
+import { ImageFrame } from '../tokens/TokenImage'
 
 export default function Generate() {
   const { account, connect, isConnecting } = useWeb3();

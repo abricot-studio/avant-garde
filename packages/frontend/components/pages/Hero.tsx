@@ -1,6 +1,6 @@
 import React from 'react'
 import { ActionButton, Box, Button, Center, Link as CLink, Heading, IconButton, HStack, VStack, Wrap, WrapItem } from '../ui'
-import { TokenImage, ImageFrame, defaultSize } from '../ui/TokenImage'
+import { TokenImage, ImageFrame, defaultSize } from '../tokens/TokenImage'
 import Link from 'next/link'
 import { useWeb3 } from '../../contexts/Web3Context'
 import { useToken } from '../../hooks/tokens'
@@ -91,57 +91,6 @@ export default function Hero() {
           </Link>
         </WrapItem>
       </Wrap>
-
-      <Box mt={8}>
-        <Links/>
-      </Box>
     </Box>
-  )
-}
-
-
-function LinkItem({ href, icon, label }) {
-  return (
-    <WrapItem>
-      <CLink
-        href={href}
-        isExternal
-      >
-        <IconButton
-          aria-label={label}
-          icon={icon}
-          variant="link"
-          size="md"
-        />
-      </CLink>
-    </WrapItem>
-  )
-}
-function Links() {
-  const { etherscanURL: contractEtherscanURL } = useContract();
-
-  return (
-    <Wrap justify="center">
-      <LinkItem
-        href={URLs.github}
-        label="Github"
-        icon={<FontAwesomeIcon icon={faGithub} size="1x" />}
-      />
-      <LinkItem
-        href={URLs.discord}
-        label="discord"
-        icon={<FontAwesomeIcon icon={faDiscord} size="1x" />}
-      />
-      <LinkItem
-        href={URLs.twitter}
-        label="Twitter"
-        icon={<FontAwesomeIcon icon={faTwitter} size="1x" />}
-      />
-      <LinkItem
-        href={contractEtherscanURL}
-        label="Contracts"
-        icon={<FontAwesomeIcon icon={faFileSignature} size="1x" />}
-      />
-    </Wrap>
   )
 }

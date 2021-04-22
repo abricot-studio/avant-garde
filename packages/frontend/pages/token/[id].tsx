@@ -2,7 +2,7 @@ import { GetStaticPropsContext } from 'next'
 
 import { useRouter } from 'next/router'
 import Layout from '../../components/Layout'
-import Token from '../../components/pages/Token'
+import Token from '../../components/tokens/Token'
 import SEO from '../../components/utils/SEO'
 import { defaultClient, getSsrClient, wrapUrqlClient } from '../../lib/graphql'
 import { TokenQuery, TokensQuery } from '../../hooks/tokens'
