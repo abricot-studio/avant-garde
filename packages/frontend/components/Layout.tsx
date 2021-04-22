@@ -1,6 +1,8 @@
 import { Box } from './ui'
 import { Header } from './header'
+import { Footer } from './Footer'
 import { NetworkChecker } from './utils/NetworkChecker'
+import { WalletSelectorModal } from '../lib/WalletSelector/modal'
 
 export default function Layout({ children }) {
   return (
@@ -11,15 +13,28 @@ export default function Layout({ children }) {
       backgroundPosition="center"
       backgroundRepeat="no-repeat"
       backgroundAttachment="fixed"
+      position="relative"
     >
       <Header />
-      <main>
-        <Box py={8}>
-          <NetworkChecker>
-            {children}
-          </NetworkChecker>
-        </Box>
-      </main>
+
+      <Box
+        as="main"
+        py={8}
+      >
+        <NetworkChecker>
+          {children}
+        </NetworkChecker>
+      </Box>
+
+      <Box
+        position="absolute"
+        bottom={0}
+        left={0}
+        right={0}
+      >
+        <Footer />
+      </Box>
+      <WalletSelectorModal />
     </Box>
   )
 }

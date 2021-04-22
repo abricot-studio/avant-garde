@@ -1,10 +1,40 @@
-import { useCallback, useState } from 'react'
-import { useWeb3 } from '../contexts/Web3Context'
+import { useCallback, useMemo, useState } from 'react'
 import { getContractFromProvider } from '../lib/contracts'
 import { useToast } from '../components/ui'
+import { useContract } from './contracts'
+import { useContractCall, useEthers } from '@usedapp/core'
+
+export interface AvantGardeTokenBurnPrice {
+  currentPrice: string;
+}
+
+export const useBurnPrice = (): AvantGardeTokenBurnPrice | false => {
+
+  const { address, abiInterface } = useContract();
+
+  const callRes =
+    useContractCall(
+      address && abiInterface &&
+      {
+        abi: abiInterface,
+        address,
+        method: 'currentBurnPrice',
+        args: [],
+      }
+    )
+
+  return useMemo<AvantGardeTokenBurnPrice | false>(() =>
+    callRes &&
+    {
+      currentPrice: callRes.toString(),
+    },
+    [callRes]
+  )
+
+}
 
 export const useBurn = () => {
-  const { account } = useWeb3();
+  const { library } = useEthers();
   const [isBurning, setIsBurning] = useState<boolean>(false);
   const [burnTx, setBurnTx] = useState<string | null>(null);
   const [burned, setBurned] = useState<boolean>(false);
@@ -12,21 +42,21 @@ export const useBurn = () => {
   const toast = useToast()
 
   const burn = useCallback((tokenId) => {
-    if(!account) {
+    if(!library) {
       throw new Error('cannot call burn if not connected 👎')
     }
 
     setIsBurning(true);
     setError(null);
 
-    getContractFromProvider(account.provider)
-      .then(c => c.connect(account.provider.getSigner()))
+    getContractFromProvider(library)
+      .then(c => c.connect(library.getSigner()))
       .then(contract =>
         contract.burn(tokenId)
       )
       .then(tx => {
         setBurnTx(tx.hash);
-        return account.provider.waitForTransaction(tx.hash)
+        return library.waitForTransaction(tx.hash)
       })
       .then(() => {
         setBurned(true);
@@ -55,7 +85,7 @@ export const useBurn = () => {
         setError(error);
         setIsBurning(false);
       });
-  }, [account]);
+  }, [library]);
 
   return { burn, burned, burnTx, isBurning, error };
 }

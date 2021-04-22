@@ -11,7 +11,7 @@ import {
   VictoryTooltip,
   VictoryVoronoiContainer,
 } from 'victory'
-import { useCanMint, useTokenCountMint } from '../../hooks/tokens'
+import { useCanMint, useTokenCountMint } from '../../hooks/mint'
 import { ImageFrame } from '../tokens/TokenImage'
 import { bondingCurveFn, contractConstants, URLs } from '../../lib/constants'
 import { faFileSignature } from '@fortawesome/free-solid-svg-icons'
@@ -120,62 +120,11 @@ function Description() {
   )
 }
 
-function LinkItem({ href, icon, label}) {
-  return (
-    <WrapItem>
-      <CLink
-        href={href}
-        isExternal
-      >
-        <Button
-          leftIcon={icon}
-          variant="outline"
-          colorScheme="white"
-        >
-          {label}
-        </Button>
-      </CLink>
-    </WrapItem>
-  )
-}
-
-function Links() {
-  const { etherscanURL: contractEtherscanURL } = useContract();
-
-  return (
-    <>
-      <Title>Links</Title>
-      <Wrap justify="center">
-        <LinkItem
-          href={URLs.github}
-          icon={<FontAwesomeIcon icon={faGithub} size="1x" />}
-          label="Github"
-        />
-        <LinkItem
-          href={URLs.discord}
-          icon={<FontAwesomeIcon icon={faDiscord} size="1x" />}
-          label="discord"
-        />
-        <LinkItem
-          href={URLs.twitter}
-          icon={<FontAwesomeIcon icon={faTwitter} size="1x" />}
-          label="Twitter"
-        />
-        <LinkItem
-          href={contractEtherscanURL}
-          icon={<FontAwesomeIcon icon={faFileSignature} size="1x" />}
-          label="Contracts"
-        />
-      </Wrap>
-    </>
-  )
-}
-
 function Chart(){
-  const { tokenCountMint, fetching } = useTokenCountMint()
+  const tokenCountMint = useTokenCountMint()
 
   const { dataPast, dataNext, mintCounter, currentPrice, isLoading } = useMemo( () => {
-    if(fetching || !tokenCountMint){
+    if(!tokenCountMint){
       return {
         dataPast: [],
         dataNext: [],
@@ -204,7 +153,7 @@ function Chart(){
     }
 
     return { dataPast, dataNext, mintCounter, currentPrice, isLoading: false }
-  }, [fetching, tokenCountMint])
+  }, [tokenCountMint])
 
   return (
     isLoading ?
@@ -463,9 +412,6 @@ export function About() {
           </Center>
         }
 
-        <Links />
-
-        <Box mt={8}/>
       </Container>
     </Box>
   )
