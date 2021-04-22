@@ -14,8 +14,6 @@ type TokenPageProps = { initialMetadata: any }
 const TokenPage: React.FC<TokenPageProps> = ({ initialMetadata }) => {
   const router = useRouter()
   const { id } = router.query as QueryParams
-  const { token } = useToken(id)
-  const metadata = useMetadata(token, initialMetadata);
 
   if(router.isFallback){
     return <p>Loading</p>
@@ -23,7 +21,7 @@ const TokenPage: React.FC<TokenPageProps> = ({ initialMetadata }) => {
 
   const seoData = {
     title: 'Token',
-    card: getIpfsUrl(metadata.image),
+    card: getIpfsUrl(initialMetadata.image),
   }
 
   return (
