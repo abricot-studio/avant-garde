@@ -3,10 +3,12 @@ import { AppProps } from 'next/app'
 import { ChakraProvider } from '@chakra-ui/react'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { config as faConfig } from '@fortawesome/fontawesome-svg-core'
+import { DAppProvider } from '@usedapp/core';
 
 import chakraTheme from '../theme'
 import GoogleFonts from '../components/utils/Fonts'
-import { Web3ContextProvider } from '../contexts/Web3Context'
+import { WalletSelectorContextProvider } from '../lib/WalletSelector/context'
+import { DAppConfig } from '../lib/web3';
 import config from '../config'
 
 faConfig.autoAddCss = false
@@ -61,9 +63,11 @@ function App({ Component, pageProps }: AppProps) {
 
       <GoogleFonts href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;600;700;800;900&family=Roboto+Mono:wght@100;200;300;400;500;600;700;800;900&display=swap" />
       <ChakraProvider theme={chakraTheme}>
-        <Web3ContextProvider>
-          <Component {...pageProps} />
-        </Web3ContextProvider>
+        <DAppProvider config={DAppConfig}>
+          <WalletSelectorContextProvider>
+            <Component {...pageProps} />
+          </WalletSelectorContextProvider>
+        </DAppProvider>
       </ChakraProvider>
     </>
   )

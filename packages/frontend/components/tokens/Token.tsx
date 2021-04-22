@@ -4,27 +4,26 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { faRedditAlien } from '@fortawesome/free-brands-svg-icons'
 import { useRouter } from 'next/router'
 import { utils } from 'ethers'
+import { addressEqual, useEthers } from '@usedapp/core'
 import moment from 'moment'
-import { addressEqual } from '@usedapp/core'
 
 import { Flex, Box, Heading, HStack, VStack, IconButton, ActionButton, Text, Icon, Card } from '../ui'
-import { useWeb3 } from '../../contexts/Web3Context'
-import { useToken, useTokenPriceBurn } from '../../hooks/tokens'
-import { TokenImage } from './TokenImage'
-import { useBurn } from '../../hooks/burn'
+import { useToken } from '../../hooks/tokens'
+import { TokenImage } from '../ui/TokenImage'
+import { useBurn, useBurnPrice } from '../../hooks/burn'
 import { InstagramIcon, TwitterIcon } from '../../assets/icons'
 
 function BurnButton({ token }){
-  const { account } = useWeb3()
-  const { tokenBurnPrice, fetching } = useTokenPriceBurn()
+  const { account } = useEthers();
+  const tokenBurnPrice = useBurnPrice()
 
   const { burn, burned, isBurning } = useBurn()
 
-  if(!account || !addressEqual(account.address, token.owner)){
+  if(!account || !addressEqual(account, token.owner)){
     return null
   }
 
-  if(fetching || !tokenBurnPrice){
+  if(!tokenBurnPrice){
     return (
       <ActionButton
         isLoading

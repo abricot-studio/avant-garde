@@ -12,9 +12,12 @@ import {
   MenuItemProps,
   useBreakpointValue,
 } from '../ui'
-import { useWeb3 } from '../../contexts/Web3Context'
+import { faStreetView } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { WalletIcon } from './Icons'
-import { shortenAddress } from '@usedapp/core'
+import { shortenAddress, useEthers } from '@usedapp/core'
+import { useWalletSelector } from '../../lib/WalletSelector/context'
+import { useBoxProfile } from '../../hooks/profile'
 
 export const MenuItem = forwardRef<MenuItemProps, "a">( ({ children, color, ...props }, ref) => {
   return (
@@ -38,7 +41,10 @@ export const MenuItem = forwardRef<MenuItemProps, "a">( ({ children, color, ...p
   )
 })
 
+const defaultAvatar = <FontAwesomeIcon icon={faStreetView} size="2x" />
+
 function MainButton({ account }) {
+  const boxProfile = useBoxProfile()
   const mobile = useBreakpointValue({ base: true, md: false })
 
   if(mobile) {
@@ -50,18 +56,16 @@ function MainButton({ account }) {
         backgroundColor="white"
         textTransform="none"
         _hover={{}}
-        icon={<Avatar size="sm" />}
+        icon={<Avatar size="sm" src={boxProfile?.imageUrl} icon={defaultAvatar} bg="white" />}
         zIndex={2}
-      >
-        { shortenAddress(account.address) }
-      </MenuButton>
+      />
     )
   }
 
   return (
     <MenuButton
       as={Button}
-      width="200px"
+      width="170px"
       variant="outline"
       rounded="full"
       border="1px"
@@ -73,17 +77,63 @@ function MainButton({ account }) {
       fontSize={{ base: '1rem', sm: '1rem', md: '1rem' }}
       _hover={{}}
       _active={{}}
-      rightIcon={<Avatar size="xs" />}
+      rightIcon={<Avatar size="xs" src={boxProfile?.imageUrl} icon={defaultAvatar} bg="white" />}
       zIndex={2}
     >
-      { shortenAddress(account.address) }
+      { boxProfile?.name || shortenAddress(account) }
     </MenuButton>
+  )
+}
+
+function ConnectButton() {
+  const { isConnecting, open } = useWalletSelector()
+
+  const mobile = useBreakpointValue({ base: true, md: false })
+
+  if(mobile) {
+    return (
+      <IconButton
+        aria-label="connect"
+        variant="outline"
+        border="1px"
+        borderColor="black"
+        onClick={open}
+        icon={<WalletIcon w={6} h={6} />}
+        isLoading={isConnecting}
+        backgroundColor="white"
+        rounded="full"
+        size="md"
+      />
+    )
+  }
+
+  return (
+    <Button
+      px={4}
+      variant="outline"
+      border="1px"
+      borderColor="black"
+      onClick={open}
+      leftIcon={<WalletIcon w={6} h={6} />}
+      isLoading={isConnecting}
+      backgroundColor="white"
+      textTransform="uppercase"
+      fontWeight={300}
+      fontFamily="'Roboto Mono', sans-serif"
+      fontSize={{ base: '1rem', sm: '1rem', md: '1rem' }}
+      _hover={{}}
+      rounded="full"
+      loadingText="Connecting..."
+    >
+      Connect
+    </Button>
   )
 }
 
 export function LoginButton() {
   const mobile = useBreakpointValue({ base: true, lg: false })
-  const { connect, disconnect, isConnecting, account } = useWeb3()
+  const { disconnect } = useWalletSelector();
+  const { account } = useEthers()
 
   if (account) {
     return (
@@ -98,7 +148,7 @@ export function LoginButton() {
           color="white"
           borderRadius={mobile ? "1rem" : 0}
           borderBottomRadius="1rem"
-          minWidth="200px"
+          minWidth="170px"
           overflow="hidden"
         >
           <Link passHref href="/myItems">
@@ -123,25 +173,7 @@ export function LoginButton() {
   }
 
   return (
-    <Button
-      width="200px"
-      variant="outline"
-      border="1px"
-      borderColor="black"
-      onClick={connect}
-      leftIcon={<WalletIcon w={6} h={6} />}
-      isLoading={isConnecting}
-      backgroundColor="white"
-      textTransform="uppercase"
-      fontWeight={500}
-      fontFamily="'Roboto Mono', sans-serif"
-      fontSize={{ base: '1rem', sm: '1rem', md: '1rem' }}
-      _hover={{}}
-      rounded="full"
-      loadingText="Connecting..."
-    >
-      Connect
-    </Button>
+    <ConnectButton />
   )
 
 }

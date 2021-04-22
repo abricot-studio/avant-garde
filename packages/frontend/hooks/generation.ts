@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import config from '../config'
 import { useToast } from '../components/ui'
-import { useWeb3 } from '../contexts/Web3Context'
+import { useEthers } from '@usedapp/core'
 
 const generateApi = axios.create({
   baseURL: config.generateUrl
@@ -24,17 +24,17 @@ export interface ImageGeneration {
 const generationCache = {};
 
 export const useImageGeneration = () => {
-  const { account } = useWeb3();
+  const { account } = useEthers();
 
   const [generationResult, setGenerationResult] = useState<ImageGeneration | null>(null);
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
   const toast = useToast()
 
   useEffect(() => {
-    if(!account || !generationCache[account.address]) {
+    if(!account || !generationCache[account]) {
       setGenerationResult(null);
     } else {
-      setGenerationResult(generationCache[account.address]);
+      setGenerationResult(generationCache[account]);
     }
     setIsGenerating(false);
   }, [account])
@@ -48,12 +48,12 @@ export const useImageGeneration = () => {
 
     generateApi({
       method: 'POST',
-      data: { address: account.address },
+      data: { address: account },
     })
       .then(result => {
         setGenerationResult(result.data);
         setIsGenerating(false);
-        generationCache[account.address] = result.data;
+        generationCache[account] = result.data;
 
         toast({
           title: "🎉 Image generated",
