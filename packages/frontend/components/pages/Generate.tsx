@@ -7,7 +7,7 @@ import { getIpfsUrl } from '../../lib/ipfs'
 import { useMint, useMintPrice } from '../../hooks/mint'
 import { useToken } from '../../hooks/tokens'
 import { useRouter } from 'next/router'
-import { ImageFrame } from '../ui/TokenImage'
+import { ImageFrame } from '../tokens/TokenImage'
 import { useEthers } from '@usedapp/core'
 import { useWalletSelector } from '../../lib/WalletSelector/context'
 

@@ -1,6 +1,6 @@
 import React, { useMemo, useEffect } from 'react'
 import { Flex, Address, Box, IconButton, ScaleFade, Center, ActionButton, Container } from '../ui'
-import { ImageFrame, TokenImage, defaultSize, smallSize } from '../ui/TokenImage'
+import { ImageFrame, TokenImage, defaultSize, smallSize } from './TokenImage'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons'

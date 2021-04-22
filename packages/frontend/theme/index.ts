@@ -72,6 +72,11 @@ const textStyles = {
     fontWeight: 300,
     fontSize: ['1rem', '1rem', '1.5rem'],
   },
+  h5: {
+    fontFamily: "'Roboto Mono', sans-serif",
+    fontWeight: 300,
+    fontSize: ['0.8rem', '0.8rem', '0.9rem'],
+  },
   semibold: {
     fontFamily: '"Roboto", sans-serif',
     fontWeight: 400,
