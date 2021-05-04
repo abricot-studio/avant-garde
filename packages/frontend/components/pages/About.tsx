@@ -188,7 +188,6 @@ function Chart(){
                 cornerRadius={0}
                 style={{
                   fontFamily: "Roboto Mono",
-                  letterSpacing: "-3%",
                   fontSize: 7,
                   fontWeight: 500,
                 }}
