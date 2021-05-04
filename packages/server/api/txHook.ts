@@ -73,7 +73,7 @@ async function onBurn(owner, burnPrice, tokenId){
 
 export default async (request: VercelRequest, response: VercelResponse) => {
 
-  logger.info('new request body', {body: request.body })
+  // logger.info('new request body', {body: request.body })
   if(request.method === 'OPTIONS'){
 
     return response.status(200).end()
