@@ -96,7 +96,7 @@ export default async (request: VercelRequest, response: VercelResponse) => {
   if(!tx){
 
     logger.error('Tx not found', { txHash })
-    return response.status(400).end()
+    return response.status(200).end()
 
   }
 
