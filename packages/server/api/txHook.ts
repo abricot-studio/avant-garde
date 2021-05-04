@@ -82,7 +82,7 @@ export default async (request: VercelRequest, response: VercelResponse) => {
 
   if(request.headers['hook-secret'] !== config.hook.secret){
 
-    response.status(400).end()
+    return response.status(400).end()
 
   }
 
@@ -96,7 +96,7 @@ export default async (request: VercelRequest, response: VercelResponse) => {
   if(!tx){
 
     logger.error('Tx not found', { txHash })
-    response.status(400).end()
+    return response.status(400).end()
 
   }
 
@@ -144,6 +144,6 @@ export default async (request: VercelRequest, response: VercelResponse) => {
 
   }
 
-  response.status(200).end()
+  return response.status(200).end()
 
 }
