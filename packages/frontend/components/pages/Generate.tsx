@@ -4,16 +4,18 @@ import { utils } from 'ethers'
 import { ActionButton, Box, Card, Flex, HStack, Text, VStack } from '../ui'
 import { useImageGeneration, ImageGenerationStatus } from '../../hooks/generation'
 import { getIpfsUrl } from '../../lib/ipfs'
-import { useWeb3 } from '../../contexts/Web3Context'
-import { useMint } from '../../hooks/mint'
-import { useToken, useTokenPriceMint } from '../../hooks/tokens'
+import { useMint, useMintPrice } from '../../hooks/mint'
+import { useToken } from '../../hooks/tokens'
 import { useRouter } from 'next/router'
 import { ImageFrame } from '../tokens/TokenImage'
+import { useEthers } from '@usedapp/core'
+import { useWalletSelector } from '../../lib/WalletSelector/context'
 
 export default function Generate() {
-  const { account, connect, isConnecting } = useWeb3();
-  const { token, fetching: fetchingToken } = useToken(account?.address)
-  const { tokenMintPrice, fetching: fetchingMint } = useTokenPriceMint()
+  const { isConnecting, open } = useWalletSelector();
+  const { account } = useEthers();
+  const { token, fetching: fetchingToken } = useToken(account)
+  const tokenMintPrice = useMintPrice()
   const { generateImage, isGenerating, generationResult } = useImageGeneration();
   const { mint, minted, isMinting } = useMint();
   const router = useRouter()
@@ -43,13 +45,13 @@ export default function Generate() {
   } else if(!account) {
     cta = (
       <ActionButton
-        onClick={connect}
+        onClick={open}
         isLoading={isConnecting}
         loadingText="Connecting wallet..."
       >Connect wallet</ActionButton>
     );
   } else if(generationResult) {
-    if(!tokenMintPrice || fetchingMint) {
+    if(!tokenMintPrice) {
       cta = (
         <ActionButton
           isLoading

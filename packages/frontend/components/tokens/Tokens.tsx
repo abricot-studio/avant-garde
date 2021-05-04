@@ -1,11 +1,11 @@
 import React, { useMemo, useEffect } from 'react'
-import { Flex, Address, Box, IconButton, ScaleFade, Center, ActionButton, Container } from '../ui'
+import { Flex, Address, Box, IconButton, ScaleFade, Center, ActionButton, Spinner } from '../ui'
 import { ImageFrame, TokenImage, defaultSize, smallSize } from './TokenImage'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { useDisclosure } from '@chakra-ui/hooks'
-import { useCanMint } from '../../hooks/tokens'
+import { useCanMint } from '../../hooks/mint'
 
 function TokenCard({ token, size }) {
   return (
@@ -59,7 +59,7 @@ export default function Tokens({ tokens, fetching, error, mine }: Props) {
     }
   }, [tokens, index])
 
-  if (fetching) return <Box align="center" >Loading...</Box>
+  if (fetching) return <Box align="center" ><Spinner size="lg" /></Box>
   if (error) return <Box align="center" >Oh no... {error.message}</Box>
 
   if(tokensDisplayed.length === 0){
