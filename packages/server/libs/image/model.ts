@@ -124,6 +124,9 @@ export class Model {
   }
 
   generate() {
+
+    this.tf.engine().startScope()
+
     const features = []
 
     for (let i = 0; i < this.inputShape[1]; i++) {
@@ -162,6 +165,8 @@ export class Model {
 
     const regularize: any = Model.regularizeTensor(output)
     this.tf.dispose([input, regularize])
+    this.tf.dispose(this.model)
+    this.tf.engine().endScope()
 
     return regularize
   }
