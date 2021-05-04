@@ -114,4 +114,8 @@ contract AvantGarde is ERC721URIStorage {
     return _current ** 2 * (10 ** 18) / 10000; // x^2 / 10000
   }
 
+  function totalSupply() public view returns(uint256){
+    return countMint.current();
+  }
+
 }
