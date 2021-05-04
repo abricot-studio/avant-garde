@@ -19,16 +19,52 @@ export interface ConfigImage {
   outputsDir: string
 }
 
+export interface ConfigTwitter {
+  enable: boolean
+  consumerKey: string
+  consumerSecret: string
+  accessTokenKey: string
+  accessTokenSecret: string
+}
+
+export interface ConfigDiscord {
+  enable: boolean
+  webHook: string
+}
+
+export interface ConfigHook {
+  secret: string,
+  discord: ConfigDiscord
+  twitter: ConfigTwitter
+}
+
 export interface Config {
   env: string
   image: ConfigImage
   pinata: ConfigPinata
   redis: ConfigRedis
   privateKey: string
+  alchemyApiKey: string
+  hook: ConfigHook
 }
 
 const config: Config = {
   env: process.env.NODE_ENV || 'development',
+  hook: {
+    secret: process.env.HOOK_SECRET || '1d8c3623fb5ae3e6da37edfaad82794be462',
+    discord: {
+      enable: process.env.HOOK_DISCORD_ENABLE === 'true',
+      webHook: process.env.HOOK_DISCORD_WEB_HOOK,
+    },
+    twitter: {
+      enable: process.env.HOOK_TWITTER_ENABLE === 'true',
+      consumerKey: process.env.HOOK_TWITTER_CONSUMER_KEY,
+      consumerSecret: process.env.HOOK_TWITTER_CONSUMER_SECRET,
+      accessTokenKey: process.env.HOOK_TWITTER_ACCESS_TOKEN_KEY,
+      accessTokenSecret: process.env.HOOK_TWITTER_ACCESS_TOKEN_SECRET,
+    }
+  },
+  alchemyApiKey: process.env.ALCHEMY_API_KEY,
   image: {
     width: parseInt(process.env.IMAGE_WIDTH || '350', 10),
     height: parseInt(process.env.IMAGE_HEIGHT || '350', 10),

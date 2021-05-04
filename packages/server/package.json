@@ -12,10 +12,12 @@
     "@vercel/node": "^1.9.1",
     "assert": "^2.0.0",
     "axios": "^0.21.1",
+    "bluebird": "^3.7.2",
     "ethers": "^5.0.32",
     "ioredis": "^4.24.2",
     "jpeg-js": "^0.4.3",
     "tfjs-node-lambda": "^2.0.4",
+    "twitter": "^1.7.1",
     "winston": "^3.3.3"
   },
   "devDependencies": {
