@@ -92,6 +92,14 @@ export default async (request: VercelRequest, response: VercelResponse) => {
   const provider = new providers.AlchemyProvider(network, config.alchemyApiKey)
 
   const tx = await provider.getTransactionReceipt(txHash)
+
+  if(!tx){
+
+    logger.error('Tx not found', { txHash })
+    response.status(400).end()
+
+  }
+
   const logsParsed = tx.logs
     .filter(log => log.address === contractAddress)
     .reduce( (acc, log) => {
