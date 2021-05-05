@@ -11,7 +11,7 @@ export interface AvantGardeTokenMintPrice {
   fees: string;
   total: string;
 }
-export interface AvantGardeTokenCountMint {
+export interface AvantGardeTokenTotalSupply {
   current: string;
 }
 
@@ -42,7 +42,7 @@ export const useMintPrice = (): AvantGardeTokenMintPrice | false => {
 
 }
 
-export const useTokenCountMint = (): AvantGardeTokenCountMint | false => {
+export const useTokenTotalSupply = (): AvantGardeTokenTotalSupply | false => {
 
   const { address, abiInterface } = useContract();
 
@@ -52,12 +52,12 @@ export const useTokenCountMint = (): AvantGardeTokenCountMint | false => {
       {
         abi: abiInterface,
         address,
-        method: 'countMint',
+        method: 'totalSupply',
         args: [],
       }
     )
 
-  return useMemo<AvantGardeTokenCountMint | false>(() =>
+  return useMemo<AvantGardeTokenTotalSupply | false>(() =>
     callRes &&
     {
       current: callRes.toString(),
