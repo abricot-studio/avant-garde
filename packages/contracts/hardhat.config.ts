@@ -31,7 +31,7 @@ const config: HardhatUserConfig = {
   solidity: {
     compilers: [
       {
-        version: '0.8.3',
+        version: '0.8.4',
         settings: {
           optimizer: {
             enabled: true,
@@ -58,6 +58,13 @@ const config: HardhatUserConfig = {
       gasPrice: parseUnits('5', 'gwei').toNumber(),
       accounts: [
         process.env.RINKEBY_PRIVATE_KEY || defaultPrivateKey,
+      ]
+    },
+    kovan: {
+      url: `https://eth-kovan.alchemyapi.io/v2/${process.env.ALCHEMY_API_KEY}`,
+      gasPrice: parseUnits('5', 'gwei').toNumber(),
+      accounts: [
+        process.env.KOVAN_PRIVATE_KEY || defaultPrivateKey,
       ]
     }
   },
