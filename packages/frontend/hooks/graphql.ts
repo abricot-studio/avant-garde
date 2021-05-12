@@ -8,9 +8,9 @@ export const usePolling = (
 ) => {
   const poll = useRef<Timeout | null>(null)
 
-  const refresh = useCallback(() => {
+  const refresh = () => {
     reexecuteQuery({ requestPolicy: 'network-only' })
-  }, [reexecuteQuery])
+  }
 
   const startPolling = useCallback(() => {
     refresh()
