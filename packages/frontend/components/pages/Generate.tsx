@@ -25,7 +25,7 @@ export default function Generate() {
 
   console.log('Generate', token)
   useEffect(() => {
-    if (token) {
+    if (token && !fetchingToken) {
       router.push(`/token/${token.id}`)
     }
   }, [token])
