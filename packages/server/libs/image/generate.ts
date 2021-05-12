@@ -6,7 +6,7 @@ export default async function generate(
   address: string,
   render: Render,
   tf: typeof import('@tensorflow/tfjs')
-): Promise<any> {
+): Promise<string> {
   const seed = parseInt(address, 16) / 1000000000000000000000
   const inputShape = [config.image.width, config.image.height]
 

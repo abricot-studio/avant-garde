@@ -1,13 +1,12 @@
+import { useEthers } from '@usedapp/core'
 import React, {
   createContext,
-  useContext,
   useCallback,
+  useContext,
   useEffect,
   useRef,
   useState,
 } from 'react'
-import { useEthers } from '@usedapp/core'
-
 import { remove } from '../store'
 import { connectors } from './connectors'
 
@@ -39,7 +38,9 @@ interface Web3ContextProviderOptions {
   children: React.ReactElement
 }
 
-export const WalletSelectorContextProvider: React.FC<Web3ContextProviderOptions> = ({ children}) => {
+export const WalletSelectorContextProvider: React.FC<Web3ContextProviderOptions> = ({
+  children,
+}) => {
   const [isConnecting, setIsConnecting] = useState<boolean>(true)
   const [modalOpen, setModalOpen] = useState<boolean>(false)
   const calledOnce = useRef<boolean>(false)
@@ -50,7 +51,7 @@ export const WalletSelectorContextProvider: React.FC<Web3ContextProviderOptions>
   }, [])
 
   const close = useCallback(() => {
-    if(!isConnecting) {
+    if (!isConnecting) {
       setModalOpen(false)
     }
   }, [isConnecting])
@@ -62,26 +63,28 @@ export const WalletSelectorContextProvider: React.FC<Web3ContextProviderOptions>
     setModalOpen(false)
   }, [deactivate])
 
-  const connect = useCallback((connector) => {
-    setIsConnecting(true)
-    activate(connector, undefined, true)
-      .then(() => {
-        setModalOpen(false)
-        setIsConnecting(false)
-      })
-      .catch(error => {
-        console.error(error)
-        setIsConnecting(false)
-        disconnect()
-      })
-  }, [activate, disconnect])
-
+  const connect = useCallback(
+    (connector) => {
+      setIsConnecting(true)
+      activate(connector, undefined, true)
+        .then(() => {
+          setModalOpen(false)
+          setIsConnecting(false)
+        })
+        .catch((error) => {
+          console.error(error)
+          setIsConnecting(false)
+          disconnect()
+        })
+    },
+    [activate, disconnect]
+  )
 
   useEffect(() => {
     if (calledOnce.current) return
     calledOnce.current = true
 
-    connectors.injected.isAuthorized().then(isAuthorized => {
+    connectors.injected.isAuthorized().then((isAuthorized) => {
       if (isAuthorized) {
         activate(connectors.injected)
           .catch(console.error)
@@ -110,4 +113,5 @@ export const WalletSelectorContextProvider: React.FC<Web3ContextProviderOptions>
   )
 }
 
-export const useWalletSelector = (): IWalletSelectorContext => useContext(WalletSelectorContext)
+export const useWalletSelector = (): IWalletSelectorContext =>
+  useContext(WalletSelectorContext)

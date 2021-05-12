@@ -5,12 +5,14 @@
     "install": "lerna bootstrap",
     "build": "lerna run build",
     "test": "lerna run test",
+    "lint": "lerna run lint",
     "prettier": "prettier --check .",
     "prettier:write": "prettier --write ."
   },
   "devDependencies": {
+    "lerna": "^4.0.0",
     "prettier": "^2.2.1",
-    "lerna": "^4.0.0"
+    "prettier-plugin-organize-imports": "^2.0.0"
   },
   "dependencies": {
     "vercel": "^22.0.1"

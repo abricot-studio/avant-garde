@@ -1,4 +1,4 @@
-import { transports, format, createLogger, Logger } from 'winston'
+import { createLogger, format, Logger, transports } from 'winston'
 
 const Log = (defaultMeta = {}): Logger =>
   createLogger({

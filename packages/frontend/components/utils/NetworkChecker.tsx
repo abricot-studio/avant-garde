@@ -1,23 +1,29 @@
-import { getChainName, useEthers } from '@usedapp/core'
-import { Modal, ModalOverlay, ModalHeader, ModalBody, ModalContent, Text, Button } from '../ui'
+import { getChainName } from '@usedapp/core'
 import config from '../../config'
 import { useContract } from '../../hooks/contracts'
 import { useWalletSelector } from '../../lib/WalletSelector/context'
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  Text,
+} from '../ui'
 
 export function NetworkChecker({ children }) {
-  const { address } = useContract();
-  const { disconnect } = useWalletSelector();
+  const { address } = useContract()
+  const { disconnect } = useWalletSelector()
 
-  if(!address) {
+  if (!address) {
     return (
       <Modal isOpen isCentered onClose={() => 0}>
         <ModalOverlay />
         <ModalContent pt={2} pb={4}>
           <ModalHeader textAlign="center">Unsupported network</ModalHeader>
           <ModalBody textAlign="center">
-            <Text>
-              Please switch your wallet to a supported network:
-            </Text>
+            <Text>Please switch your wallet to a supported network:</Text>
             <Text textStyle="caption" colorScheme="red">
               {getChainName(config.defaultChainId) || config.defaultChainId}
             </Text>
@@ -29,12 +35,11 @@ export function NetworkChecker({ children }) {
             >
               Disconnect
             </Button>
-
           </ModalBody>
         </ModalContent>
       </Modal>
     )
   }
 
-  return children;
+  return children
 }

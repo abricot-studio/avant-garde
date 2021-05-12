@@ -1,45 +1,47 @@
-import React from 'react'
+import { faStreetView } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { shortenAddress, useEthers } from '@usedapp/core'
 import Link from 'next/link'
+import React from 'react'
+import { useBoxProfile } from '../../hooks/profile'
+import { useWalletSelector } from '../../lib/WalletSelector/context'
 import {
   Avatar,
   Button,
-  IconButton,
   forwardRef,
+  IconButton,
   Menu,
   MenuButton,
-  MenuList,
   MenuItem as ChakraMenuItem,
   MenuItemProps,
+  MenuList,
   useBreakpointValue,
 } from '../ui'
-import { faStreetView } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { WalletIcon } from './Icons'
-import { shortenAddress, useEthers } from '@usedapp/core'
-import { useWalletSelector } from '../../lib/WalletSelector/context'
-import { useBoxProfile } from '../../hooks/profile'
 
-export const MenuItem = forwardRef<MenuItemProps, "a">( ({ children, color, ...props }, ref) => {
-  return (
-    <ChakraMenuItem
-      as="a"
-      textStyle="caption"
-      cursor="pointer"
-      _hover={{
-        backgroundColor: "gray.700"
-      }}
-      _active={{
-        backgroundColor: "black"
-      }}
-      _focus={{
-        backgroundColor: "black"
-      }}
-      {...props}
-    >
-      {children}
-    </ChakraMenuItem>
-  )
-})
+export const MenuItem = forwardRef<MenuItemProps, 'a'>(
+  ({ children, color, ...props }, ref) => {
+    return (
+      <ChakraMenuItem
+        as="a"
+        textStyle="caption"
+        cursor="pointer"
+        _hover={{
+          backgroundColor: 'gray.700',
+        }}
+        _active={{
+          backgroundColor: 'black',
+        }}
+        _focus={{
+          backgroundColor: 'black',
+        }}
+        {...props}
+      >
+        {children}
+      </ChakraMenuItem>
+    )
+  }
+)
 
 const defaultAvatar = <FontAwesomeIcon icon={faStreetView} size="2x" />
 
@@ -47,7 +49,7 @@ function MainButton({ account }) {
   const boxProfile = useBoxProfile()
   const mobile = useBreakpointValue({ base: true, md: false })
 
-  if(mobile) {
+  if (mobile) {
     return (
       <MenuButton
         as={IconButton}
@@ -56,7 +58,14 @@ function MainButton({ account }) {
         backgroundColor="white"
         textTransform="none"
         _hover={{}}
-        icon={<Avatar size="sm" src={boxProfile?.imageUrl} icon={defaultAvatar} bg="white" />}
+        icon={
+          <Avatar
+            size="sm"
+            src={boxProfile?.imageUrl}
+            icon={defaultAvatar}
+            bg="white"
+          />
+        }
         zIndex={2}
       />
     )
@@ -77,10 +86,17 @@ function MainButton({ account }) {
       fontSize={{ base: '1rem', sm: '1rem', md: '1rem' }}
       _hover={{}}
       _active={{}}
-      rightIcon={<Avatar size="xs" src={boxProfile?.imageUrl} icon={defaultAvatar} bg="white" />}
+      rightIcon={
+        <Avatar
+          size="xs"
+          src={boxProfile?.imageUrl}
+          icon={defaultAvatar}
+          bg="white"
+        />
+      }
       zIndex={2}
     >
-      { boxProfile?.name || shortenAddress(account) }
+      {boxProfile?.name || shortenAddress(account)}
     </MenuButton>
   )
 }
@@ -90,7 +106,7 @@ function ConnectButton() {
 
   const mobile = useBreakpointValue({ base: true, md: false })
 
-  if(mobile) {
+  if (mobile) {
     return (
       <IconButton
         aria-label="connect"
@@ -132,39 +148,28 @@ function ConnectButton() {
 
 export function LoginButton() {
   const mobile = useBreakpointValue({ base: true, lg: false })
-  const { disconnect } = useWalletSelector();
+  const { disconnect } = useWalletSelector()
   const { account } = useEthers()
 
   if (account) {
     return (
-      <Menu
-        offset={mobile ? undefined : [0, -25]}
-        placement="bottom"
-      >
+      <Menu offset={mobile ? undefined : [0, -25]} placement="bottom">
         <MainButton account={account} />
         <MenuList
           zIndex={1}
           bg="black"
           color="white"
-          borderRadius={mobile ? "1rem" : 0}
+          borderRadius={mobile ? '1rem' : 0}
           borderBottomRadius="1rem"
           minWidth="170px"
           overflow="hidden"
         >
           <Link passHref href="/myItems">
-            <MenuItem
-              mt={mobile ? 0 : 4}
-              pr={6}
-              justifyContent="flex-end"
-            >
+            <MenuItem mt={mobile ? 0 : 4} pr={6} justifyContent="flex-end">
               My items
             </MenuItem>
           </Link>
-          <MenuItem
-            pr={6}
-            justifyContent="flex-end"
-            onClick={disconnect}
-          >
+          <MenuItem pr={6} justifyContent="flex-end" onClick={disconnect}>
             Disconnect
           </MenuItem>
         </MenuList>
@@ -172,9 +177,5 @@ export function LoginButton() {
     )
   }
 
-  return (
-    <ConnectButton />
-  )
-
+  return <ConnectButton />
 }
-

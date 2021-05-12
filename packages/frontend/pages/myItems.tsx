@@ -1,13 +1,13 @@
-import Layout from '../components/Layout'
-import SEO from '../components/utils/SEO'
-import { Button, Heading, Box } from '../components/ui'
-import React, { useEffect } from 'react'
-import { wrapUrqlClient } from '../lib/graphql'
-import { useRouter } from 'next/router'
-import { defaultMyTokensQueryVariables, useMyTokens } from '../hooks/tokens'
-import Tokens from '../components/tokens/Tokens'
-import Link from 'next/link'
 import { useEthers } from '@usedapp/core'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import React, { useEffect } from 'react'
+import Layout from '../components/Layout'
+import Tokens from '../components/tokens/Tokens'
+import { Box, Button, Heading } from '../components/ui'
+import SEO from '../components/utils/SEO'
+import { defaultMyTokensQueryVariables, useMyTokens } from '../hooks/tokens'
+import { wrapUrqlClient } from '../lib/graphql'
 import { useWalletSelector } from '../lib/WalletSelector/context'
 
 const seoData = {
@@ -15,50 +15,34 @@ const seoData = {
 }
 
 const MyTokensPage: React.FC = () => {
-
   const { isConnecting } = useWalletSelector()
   const { account } = useEthers()
   const router = useRouter()
   const { tokens, fetching, error } = useMyTokens({
     ...defaultMyTokensQueryVariables,
-    address: account
+    address: account,
   })
 
   useEffect(() => {
-
-    if(!isConnecting && !account){
-
+    if (!isConnecting && !account) {
       router.push(`/`)
-
     }
-
   }, [isConnecting, account])
 
-  if(!account) {
-
-    return (<div></div>)
-
+  if (!account) {
+    return <div></div>
   }
 
   return (
     <Layout>
       <SEO data={seoData} />
-      <Heading
-        textAlign="center"
-        mb={8}
-      >My items</Heading>
-      <Tokens
-        tokens={tokens}
-        fetching={fetching}
-        error={error}
-        mine
-      />
+      <Heading textAlign="center" mb={8}>
+        My items
+      </Heading>
+      <Tokens tokens={tokens} fetching={fetching} error={error} mine />
 
       {
-        <Box
-          align="center"
-          mt={12}
-        >
+        <Box align="center" mt={12}>
           <Link passHref href="/gallery">
             <Button
               as="a"
@@ -72,13 +56,14 @@ const MyTokensPage: React.FC = () => {
               rounded="full"
               _hover={{}}
               _active={{}}
-            >Discover the gallery</Button>
+            >
+              Discover the gallery
+            </Button>
           </Link>
         </Box>
       }
-
     </Layout>
   )
 }
 
-export default wrapUrqlClient(MyTokensPage);
+export default wrapUrqlClient(MyTokensPage)

@@ -33,7 +33,7 @@ export interface ConfigDiscord {
 }
 
 export interface ConfigHook {
-  secret: string,
+  secret: string
   discord: ConfigDiscord
   twitter: ConfigTwitter
 }
@@ -62,7 +62,7 @@ const config: Config = {
       consumerSecret: process.env.HOOK_TWITTER_CONSUMER_SECRET,
       accessTokenKey: process.env.HOOK_TWITTER_ACCESS_TOKEN_KEY,
       accessTokenSecret: process.env.HOOK_TWITTER_ACCESS_TOKEN_SECRET,
-    }
+    },
   },
   alchemyApiKey: process.env.ALCHEMY_API_KEY,
   image: {
@@ -76,12 +76,19 @@ const config: Config = {
   pinata: {
     apiKey: process.env.PINATA_API_KEY,
     apiSecret: process.env.PINATA_API_SECRET,
-    externalUrlBase: process.env.PINATA_EXTERNAL_URL_BASE || 'https://beta.avant-garde.gallery/token/'
+    externalUrlBase:
+      process.env.PINATA_EXTERNAL_URL_BASE ||
+      'https://beta.avant-garde.gallery/token/',
   },
-  privateKey: process.env.PRIVATE_KEY || '0x630af0fbddb248b53f97ecf899ce11878d9dcd7e718574c92607153027632135', //0xE4D29ec42F4057EfF92c9124c82844b2689f9C6d
+  privateKey:
+    process.env.PRIVATE_KEY ||
+    '0x630af0fbddb248b53f97ecf899ce11878d9dcd7e718574c92607153027632135', //0xE4D29ec42F4057EfF92c9124c82844b2689f9C6d
   redis: {
     url: process.env.REDIS_URL,
-    expirationProcessing: parseInt(process.env.REDIS_EXPIRATION_PROCESSING || '120', 10), // 2 min
+    expirationProcessing: parseInt(
+      process.env.REDIS_EXPIRATION_PROCESSING || '120',
+      10
+    ), // 2 min
     expirationData: parseInt(process.env.REDIS_EXPIRATION_DATA || '604800', 10), // 1 week
   },
 }

@@ -1,14 +1,15 @@
-import { Config, ChainId } from '@usedapp/core';
-
+import { ChainId, Config } from '@usedapp/core'
 import config from '../config'
 
 export const DAppConfig: Config = {
-  supportedChains: Object.keys(ChainId).map(k => ChainId[k]).concat([
-    56, // bsc
-    97, // bsc testnet
-    137, // polygon
-    80001, // polygon testnet
-  ]),
+  supportedChains: Object.keys(ChainId)
+    .map((k) => ChainId[k])
+    .concat([
+      56, // bsc
+      97, // bsc testnet
+      137, // polygon
+      80001, // polygon testnet
+    ]),
   readOnlyChainId: config.defaultChainId,
   readOnlyUrls: {
     // [ChainId.Mainnet]: `https://mainnet.infura.io/v3/${config.infuraId}`,

@@ -9,7 +9,7 @@ export function getIpfsUrl(uri) {
 }
 
 export async function getIpfsData(uri) {
-  const url = getIpfsUrl(uri);
-  const res = await axios.get(url);
-  return res.data;
+  const url = getIpfsUrl(uri)
+  const res = await axios.get(url)
+  return res.data
 }

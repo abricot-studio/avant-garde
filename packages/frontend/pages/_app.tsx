@@ -1,15 +1,14 @@
-import Head from 'next/head'
-import { AppProps } from 'next/app'
 import { ChakraProvider } from '@chakra-ui/react'
-import '@fortawesome/fontawesome-svg-core/styles.css'
 import { config as faConfig } from '@fortawesome/fontawesome-svg-core'
-import { DAppProvider } from '@usedapp/core';
-
-import chakraTheme from '../theme'
+import '@fortawesome/fontawesome-svg-core/styles.css'
+import { DAppProvider } from '@usedapp/core'
+import { AppProps } from 'next/app'
+import Head from 'next/head'
 import GoogleFonts from '../components/utils/Fonts'
-import { WalletSelectorContextProvider } from '../lib/WalletSelector/context'
-import { DAppConfig } from '../lib/web3';
 import config from '../config'
+import { WalletSelectorContextProvider } from '../lib/WalletSelector/context'
+import { DAppConfig } from '../lib/web3'
+import chakraTheme from '../theme'
 
 faConfig.autoAddCss = false
 
