@@ -117,7 +117,7 @@ export default function Token({ id }) {
         as="h3"
         textStyle="h3"
         textAlign="center"
-        fontSize={{ base: '2rem', sm: '3rem', md: '4rem' }}
+        fontSize="1rem"
         maxWidth="50rem"
       >
         <IconButton
