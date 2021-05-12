@@ -28,7 +28,7 @@ export default function Generate() {
     if (token && !fetchingToken && !stale) {
       router.push(`/token/${token.id}`)
     }
-  }, [token])
+  }, [token, fetchingToken, stale])
 
   let cta
   if (token || fetchingToken) {
