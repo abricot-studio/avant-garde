@@ -27,7 +27,6 @@ interface AvantGardeInterface extends ethers.utils.Interface {
     "burn(uint256)": FunctionFragment;
     "changeFeesReceiver(address)": FunctionFragment;
     "changeManager(address)": FunctionFragment;
-    "countMint()": FunctionFragment;
     "currentBurnPrice()": FunctionFragment;
     "currentMintPrice()": FunctionFragment;
     "currentMintWithFeesPrice()": FunctionFragment;
@@ -47,6 +46,7 @@ interface AvantGardeInterface extends ethers.utils.Interface {
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
     "tokenURI(uint256)": FunctionFragment;
+    "totalSupply()": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
   };
 
@@ -64,7 +64,6 @@ interface AvantGardeInterface extends ethers.utils.Interface {
     functionFragment: "changeManager",
     values: [string]
   ): string;
-  encodeFunctionData(functionFragment: "countMint", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "currentBurnPrice",
     values?: undefined
@@ -133,6 +132,10 @@ interface AvantGardeInterface extends ethers.utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
+    functionFragment: "totalSupply",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "transferFrom",
     values: [string, string, BigNumberish]
   ): string;
@@ -148,7 +151,6 @@ interface AvantGardeInterface extends ethers.utils.Interface {
     functionFragment: "changeManager",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "countMint", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "currentBurnPrice",
     data: BytesLike
@@ -204,6 +206,10 @@ interface AvantGardeInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "tokenURI", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "totalSupply",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "transferFrom",
     data: BytesLike
@@ -316,14 +322,6 @@ export class AvantGarde extends Contract {
       _newManager: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
-
-    countMint(
-      overrides?: CallOverrides
-    ): Promise<[BigNumber] & { _value: BigNumber }>;
-
-    "countMint()"(
-      overrides?: CallOverrides
-    ): Promise<[BigNumber] & { _value: BigNumber }>;
 
     currentBurnPrice(overrides?: CallOverrides): Promise<[BigNumber]>;
 
@@ -488,6 +486,14 @@ export class AvantGarde extends Contract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
+    totalSupply(
+      overrides?: CallOverrides
+    ): Promise<[BigNumber] & { _value: BigNumber }>;
+
+    "totalSupply()"(
+      overrides?: CallOverrides
+    ): Promise<[BigNumber] & { _value: BigNumber }>;
+
     transferFrom(
       from: string,
       to: string,
@@ -551,10 +557,6 @@ export class AvantGarde extends Contract {
     _newManager: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
-
-  countMint(overrides?: CallOverrides): Promise<BigNumber>;
-
-  "countMint()"(overrides?: CallOverrides): Promise<BigNumber>;
 
   currentBurnPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -709,6 +711,10 @@ export class AvantGarde extends Contract {
     overrides?: CallOverrides
   ): Promise<string>;
 
+  totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
+
+  "totalSupply()"(overrides?: CallOverrides): Promise<BigNumber>;
+
   transferFrom(
     from: string,
     to: string,
@@ -769,10 +775,6 @@ export class AvantGarde extends Contract {
       _newManager: string,
       overrides?: CallOverrides
     ): Promise<boolean>;
-
-    countMint(overrides?: CallOverrides): Promise<BigNumber>;
-
-    "countMint()"(overrides?: CallOverrides): Promise<BigNumber>;
 
     currentBurnPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -929,6 +931,10 @@ export class AvantGarde extends Contract {
       overrides?: CallOverrides
     ): Promise<string>;
 
+    totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "totalSupply()"(overrides?: CallOverrides): Promise<BigNumber>;
+
     transferFrom(
       from: string,
       to: string,
@@ -1038,10 +1044,6 @@ export class AvantGarde extends Contract {
       _newManager: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
-
-    countMint(overrides?: CallOverrides): Promise<BigNumber>;
-
-    "countMint()"(overrides?: CallOverrides): Promise<BigNumber>;
 
     currentBurnPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1196,6 +1198,10 @@ export class AvantGarde extends Contract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "totalSupply()"(overrides?: CallOverrides): Promise<BigNumber>;
+
     transferFrom(
       from: string,
       to: string,
@@ -1263,10 +1269,6 @@ export class AvantGarde extends Contract {
       _newManager: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
-
-    countMint(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    "countMint()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     currentBurnPrice(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -1428,6 +1430,10 @@ export class AvantGarde extends Contract {
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    totalSupply(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    "totalSupply()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     transferFrom(
       from: string,

@@ -11,7 +11,7 @@ import {
   VictoryTooltip,
   VictoryVoronoiContainer,
 } from 'victory'
-import { useCanMint, useTokenCountMint } from '../../hooks/mint'
+import { useCanMint, useTokenTotalSupply } from '../../hooks/mint'
 import { ImageFrame } from '../tokens/TokenImage'
 import { bondingCurveFn, contractConstants, URLs } from '../../lib/constants'
 import { faFileSignature } from '@fortawesome/free-solid-svg-icons'
@@ -121,10 +121,10 @@ function Description() {
 }
 
 function Chart(){
-  const tokenCountMint = useTokenCountMint()
+  const tokenTotalSupply = useTokenTotalSupply()
 
   const { dataPast, dataNext, mintCounter, currentPrice, isLoading } = useMemo( () => {
-    if(!tokenCountMint){
+    if(!tokenTotalSupply){
       return {
         dataPast: [],
         dataNext: [],
@@ -133,7 +133,7 @@ function Chart(){
         isLoading: true
       }
     }
-    const mintCounter = Number(tokenCountMint.current)
+    const mintCounter = Number(tokenTotalSupply.current)
     const currentPrice = bondingCurveFn(mintCounter)
     const dataPast = []
     const dataNext = []
@@ -153,7 +153,7 @@ function Chart(){
     }
 
     return { dataPast, dataNext, mintCounter, currentPrice, isLoading: false }
-  }, [tokenCountMint])
+  }, [tokenTotalSupply])
 
   return (
     isLoading ?
@@ -188,7 +188,6 @@ function Chart(){
                 cornerRadius={0}
                 style={{
                   fontFamily: "Roboto Mono",
-                  letterSpacing: "-3%",
                   fontSize: 7,
                   fontWeight: 500,
                 }}
