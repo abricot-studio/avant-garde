@@ -41,6 +41,7 @@ function BurnButton({ token }) {
     return null
   }
 
+  console.log('BurnButton', token)
   if (!tokenBurnPrice) {
     return <ActionButton isLoading loadingText="Loading burn price..." />
   } else if (burned) {
