@@ -12,17 +12,17 @@ export const usePolling = (
     reexecuteQuery({ requestPolicy: 'network-only' })
   }
 
-  const startPolling = useCallback(() => {
+  const startPolling = () => {
     refresh()
     poll.current = setInterval(refresh, 3000)
-  }, [refresh])
+  }
 
-  const stopPolling = useCallback(() => {
+  const stopPolling = () => {
     if (poll.current) {
       clearInterval(poll.current)
       poll.current = null
     }
-  }, [])
+  }
 
   useEffect(() => {
     return () => stopPolling()
