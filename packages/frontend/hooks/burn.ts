@@ -3,6 +3,7 @@ import { useCallback, useMemo, useState } from 'react'
 import { useToast } from '../components/ui'
 import { getContractFromProvider } from '../lib/contracts'
 import { useContract } from './contracts'
+import { useToken } from './tokens'
 
 export interface AvantGardeTokenBurnPrice {
   currentPrice: string
@@ -31,7 +32,8 @@ export const useBurnPrice = (): AvantGardeTokenBurnPrice | false => {
 }
 
 export const useBurn = () => {
-  const { library } = useEthers()
+  const { account, library } = useEthers()
+  const { startPollingBurn } = useToken(account)
   const [isBurning, setIsBurning] = useState<boolean>(false)
   const [burnTx, setBurnTx] = useState<string | null>(null)
   const [burned, setBurned] = useState<boolean>(false)
@@ -57,6 +59,7 @@ export const useBurn = () => {
         .then(() => {
           setBurned(true)
           setIsBurning(false)
+          startPollingBurn()
 
           toast({
             title: '🔥 Token burnt',

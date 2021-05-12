@@ -66,7 +66,7 @@ export const useMint = () => {
   const [mintTx, setMintTx] = useState<string | null>(null)
   const [minted, setMinted] = useState<boolean>(false)
   const tokenMintPrice = useMintPrice()
-  const { startPolling } = useToken(account)
+  const { startPollingMint } = useToken(account)
   const toast = useToast()
 
   const mint = useCallback(
@@ -95,7 +95,7 @@ export const useMint = () => {
         .then(() => {
           setMinted(true)
           setIsMinting(false)
-          startPolling()
+          startPollingMint()
 
           toast({
             title: '🎉 Token minted',
@@ -117,7 +117,7 @@ export const useMint = () => {
           setIsMinting(false)
         })
     },
-    [account, startPolling, tokenMintPrice]
+    [account, startPollingMint, tokenMintPrice]
   )
 
   return { mint, minted, mintTx, isMinting }
