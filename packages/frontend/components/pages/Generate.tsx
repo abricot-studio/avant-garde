@@ -23,7 +23,7 @@ export default function Generate() {
   const { mint, minted, isMinting } = useMint()
   const router = useRouter()
 
-  console.log('token', token)
+  console.log('Generate', token)
   useEffect(() => {
     if (token) {
       router.push(`/token/${token.id}`)

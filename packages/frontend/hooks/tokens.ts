@@ -177,7 +177,9 @@ export const useToken = (address?: string) => {
   useEffect(() => {
     if (token) {
       pollingMint.stopPolling()
+      console.log('pollingMint', token)
       if (Boolean(token.burnPrice)) {
+        console.log('pollingBurn', token)
         pollingBurn.stopPolling()
       }
     }

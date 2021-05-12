@@ -88,6 +88,7 @@ function SocialLink({ href, icon, label }) {
 export default function Token({ id }) {
   const { token, fetching } = useToken(id)
   const router = useRouter()
+  console.log('Token', token)
 
   const { address: contractAddress, chainId } = useContract()
   const isMounted = useMountedState()
