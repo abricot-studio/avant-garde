@@ -76,7 +76,7 @@ export const useBurn = () => {
 
         toast({
           title: "⚠️ Transaction error",
-          description: error.meesage,
+          description: error.message,
           status: "error",
           duration: 20000,
           isClosable: true,

@@ -1,6 +1,7 @@
 {
   "4": {
-    "address": "0xa2b726f5ecf900384767CEeb1F97ACe3B329Afac",
+    "contractName": "AvantGarde",
+    "address": "0xADF506189b0aC008fBc58041512D1BC3F6652d41",
     "abi": [
       {
         "inputs": [
@@ -223,19 +224,6 @@
           }
         ],
         "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "countMint",
-        "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "_value",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "view",
         "type": "function"
       },
       {
@@ -597,6 +585,19 @@
             "internalType": "string",
             "name": "",
             "type": "string"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "totalSupply",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "_value",
+            "type": "uint256"
           }
         ],
         "stateMutability": "view",
@@ -1255,7 +1256,8 @@
       }
     ]
   },
-  "31337": {
+  "1337": {
+    "contractName": "AvantGarde",
     "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
     "abi": [
       {
@@ -1479,19 +1481,6 @@
           }
         ],
         "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "countMint",
-        "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "_value",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "view",
         "type": "function"
       },
       {
@@ -1853,6 +1842,19 @@
             "internalType": "string",
             "name": "",
             "type": "string"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "totalSupply",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "_value",
+            "type": "uint256"
           }
         ],
         "stateMutability": "view",

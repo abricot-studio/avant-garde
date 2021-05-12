@@ -47,6 +47,9 @@ const config: HardhatUserConfig = {
     feesReceiver: process.env.FESS_RECEIVER_ADDRESS || defaultFeesReceiverAddress,
   },
   networks: {
+    hardhat: {
+      chainId: 1337
+    },
     localhost: {
       url: `http://localhost:8545`,
       accounts: [

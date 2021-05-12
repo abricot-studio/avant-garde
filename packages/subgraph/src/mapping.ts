@@ -1,6 +1,12 @@
-import { log, ipfs, JSONValue, Value } from '@graphprotocol/graph-ts'
+import { log, ipfs, JSONValue, Value, BigInt } from '@graphprotocol/graph-ts'
 import { AvantGarde, Minted, Transfer, Burned } from '../generated/AvantGarde/AvantGarde'
 import { AvantGardeToken, AvantGardeTokenMetadata } from '../generated/schema'
+
+function hexZeroPad(value: BigInt, length: i32 = 20): string {
+  let hexString = value.toHexString()
+  return hexString.substr(0, 2) + hexString.substr(2).padStart(length * 2, '0')
+
+}
 
 export function processItem(value: JSONValue, avantGardeTokenId: Value): void {
   let metadata = value.toObject()
@@ -16,7 +22,7 @@ export function processItem(value: JSONValue, avantGardeTokenId: Value): void {
 
 export function handleMinted(event: Minted): void {
 
-  let tokenId = event.params.tokenId.toHexString()
+  let tokenId = hexZeroPad(event.params.tokenId)
   let avantGarde = AvantGardeToken.load(tokenId)
   let contract = AvantGarde.bind(event.address)
 
@@ -46,7 +52,7 @@ export function handleMinted(event: Minted): void {
 
 export function handleBurned(event: Burned): void {
 
-  let tokenId = event.params.tokenId.toHexString()
+  let tokenId = hexZeroPad(event.params.tokenId)
 
   let avantGarde = AvantGardeToken.load(tokenId)
   avantGarde.burnTimestamp = event.block.timestamp
@@ -58,7 +64,7 @@ export function handleBurned(event: Burned): void {
 
 export function handleTransfer(event: Transfer): void {
 
-  let tokenId = event.params.tokenId.toHexString()
+  let tokenId = hexZeroPad(event.params.tokenId)
   let to = event.params.to
 
   let avantGarde = AvantGardeToken.load(tokenId)
