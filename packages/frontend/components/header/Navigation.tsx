@@ -75,9 +75,10 @@ export function Navigation() {
   const mobile = useBreakpointValue({ base: true, lg: false })
   const router = useRouter()
 
-  const [pageName, pageColor] = useMemo(() => getPageStuff(router.pathname), [
-    router.pathname,
-  ])
+  const [pageName, pageColor] = useMemo(
+    () => getPageStuff(router.pathname),
+    [router.pathname]
+  )
 
   if (mobile) {
     return (

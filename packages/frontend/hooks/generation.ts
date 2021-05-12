@@ -26,10 +26,8 @@ const generationCache = {}
 export const useImageGeneration = () => {
   const { account } = useEthers()
 
-  const [
-    generationResult,
-    setGenerationResult,
-  ] = useState<ImageGeneration | null>(null)
+  const [generationResult, setGenerationResult] =
+    useState<ImageGeneration | null>(null)
   const [isGenerating, setIsGenerating] = useState<boolean>(false)
   const toast = useToast()
 

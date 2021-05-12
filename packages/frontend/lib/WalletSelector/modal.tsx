@@ -17,13 +17,8 @@ import { useWalletSelector } from './context'
 import { options } from './options'
 
 export function WalletSelectorModal() {
-  const {
-    isConnecting,
-    modalOpen,
-    close,
-    connect,
-    disconnect,
-  } = useWalletSelector()
+  const { isConnecting, modalOpen, close, connect, disconnect } =
+    useWalletSelector()
 
   return (
     <Modal isOpen={modalOpen} isCentered onClose={close}>

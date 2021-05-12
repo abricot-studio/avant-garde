@@ -127,9 +127,8 @@ export const useCanMint = () => {
   const { account } = useEthers()
   const { token, fetching } = useToken(account)
 
-  return useMemo<boolean>(() => !account || (!fetching && !token), [
-    account,
-    token,
-    fetching,
-  ])
+  return useMemo<boolean>(
+    () => !account || (!fetching && !token),
+    [account, token, fetching]
+  )
 }

@@ -148,43 +148,38 @@ function Description() {
 function Chart() {
   const tokenTotalSupply = useTokenTotalSupply()
 
-  const {
-    dataPast,
-    dataNext,
-    mintCounter,
-    currentPrice,
-    isLoading,
-  } = useMemo(() => {
-    if (!tokenTotalSupply) {
-      return {
-        dataPast: [],
-        dataNext: [],
-        mintCounter: 0,
-        currentPrice: 0,
-        isLoading: true,
+  const { dataPast, dataNext, mintCounter, currentPrice, isLoading } =
+    useMemo(() => {
+      if (!tokenTotalSupply) {
+        return {
+          dataPast: [],
+          dataNext: [],
+          mintCounter: 0,
+          currentPrice: 0,
+          isLoading: true,
+        }
       }
-    }
-    const mintCounter = Number(tokenTotalSupply.current)
-    const currentPrice = bondingCurveFn(mintCounter)
-    const dataPast = []
-    const dataNext = []
+      const mintCounter = Number(tokenTotalSupply.current)
+      const currentPrice = bondingCurveFn(mintCounter)
+      const dataPast = []
+      const dataNext = []
 
-    for (let i = Math.max(0, mintCounter - 8); i <= mintCounter; i++) {
-      dataPast.push({
-        x: i,
-        y: bondingCurveFn(i),
-      })
-    }
+      for (let i = Math.max(0, mintCounter - 8); i <= mintCounter; i++) {
+        dataPast.push({
+          x: i,
+          y: bondingCurveFn(i),
+        })
+      }
 
-    for (let i = mintCounter; i < mintCounter + 8; i++) {
-      dataNext.push({
-        x: i,
-        y: bondingCurveFn(i),
-      })
-    }
+      for (let i = mintCounter; i < mintCounter + 8; i++) {
+        dataNext.push({
+          x: i,
+          y: bondingCurveFn(i),
+        })
+      }
 
-    return { dataPast, dataNext, mintCounter, currentPrice, isLoading: false }
-  }, [tokenTotalSupply])
+      return { dataPast, dataNext, mintCounter, currentPrice, isLoading: false }
+    }, [tokenTotalSupply])
 
   return isLoading ? (
     <VStack align="center">

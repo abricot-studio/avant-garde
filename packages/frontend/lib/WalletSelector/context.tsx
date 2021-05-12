@@ -38,80 +38,79 @@ interface Web3ContextProviderOptions {
   children: React.ReactElement
 }
 
-export const WalletSelectorContextProvider: React.FC<Web3ContextProviderOptions> = ({
-  children,
-}) => {
-  const [isConnecting, setIsConnecting] = useState<boolean>(true)
-  const [modalOpen, setModalOpen] = useState<boolean>(false)
-  const calledOnce = useRef<boolean>(false)
-  const { activate, deactivate } = useEthers()
+export const WalletSelectorContextProvider: React.FC<Web3ContextProviderOptions> =
+  ({ children }) => {
+    const [isConnecting, setIsConnecting] = useState<boolean>(true)
+    const [modalOpen, setModalOpen] = useState<boolean>(false)
+    const calledOnce = useRef<boolean>(false)
+    const { activate, deactivate } = useEthers()
 
-  const open = useCallback(() => {
-    setModalOpen(true)
-  }, [])
+    const open = useCallback(() => {
+      setModalOpen(true)
+    }, [])
 
-  const close = useCallback(() => {
-    if (!isConnecting) {
+    const close = useCallback(() => {
+      if (!isConnecting) {
+        setModalOpen(false)
+      }
+    }, [isConnecting])
+
+    const disconnect = useCallback(() => {
+      clearWalletConnect()
+      deactivate()
+      setIsConnecting(false)
       setModalOpen(false)
-    }
-  }, [isConnecting])
+    }, [deactivate])
 
-  const disconnect = useCallback(() => {
-    clearWalletConnect()
-    deactivate()
-    setIsConnecting(false)
-    setModalOpen(false)
-  }, [deactivate])
-
-  const connect = useCallback(
-    (connector) => {
-      setIsConnecting(true)
-      activate(connector, undefined, true)
-        .then(() => {
-          setModalOpen(false)
-          setIsConnecting(false)
-        })
-        .catch((error) => {
-          console.error(error)
-          setIsConnecting(false)
-          disconnect()
-        })
-    },
-    [activate, disconnect]
-  )
-
-  useEffect(() => {
-    if (calledOnce.current) return
-    calledOnce.current = true
-
-    connectors.injected.isAuthorized().then((isAuthorized) => {
-      if (isAuthorized) {
-        activate(connectors.injected)
-          .catch(console.error)
-          .finally(() => {
+    const connect = useCallback(
+      (connector) => {
+        setIsConnecting(true)
+        activate(connector, undefined, true)
+          .then(() => {
+            setModalOpen(false)
             setIsConnecting(false)
           })
-      } else {
-        setIsConnecting(false)
-      }
-    })
-  }, [])
+          .catch((error) => {
+            console.error(error)
+            setIsConnecting(false)
+            disconnect()
+          })
+      },
+      [activate, disconnect]
+    )
 
-  return (
-    <WalletSelectorContext.Provider
-      value={{
-        open,
-        close,
-        connect,
-        disconnect,
-        isConnecting,
-        modalOpen,
-      }}
-    >
-      {children}
-    </WalletSelectorContext.Provider>
-  )
-}
+    useEffect(() => {
+      if (calledOnce.current) return
+      calledOnce.current = true
+
+      connectors.injected.isAuthorized().then((isAuthorized) => {
+        if (isAuthorized) {
+          activate(connectors.injected)
+            .catch(console.error)
+            .finally(() => {
+              setIsConnecting(false)
+            })
+        } else {
+          setIsConnecting(false)
+        }
+      })
+    }, [])
+
+    return (
+      <WalletSelectorContext.Provider
+        value={{
+          open,
+          close,
+          connect,
+          disconnect,
+          isConnecting,
+          modalOpen,
+        }}
+      >
+        {children}
+      </WalletSelectorContext.Provider>
+    )
+  }
 
 export const useWalletSelector = (): IWalletSelectorContext =>
   useContext(WalletSelectorContext)

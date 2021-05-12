@@ -66,9 +66,8 @@ export default async (
         signerAddress: signer.address,
       })
     } else if (redisExisting.split(':').length === 3) {
-      const [ipfsHashMetadata, ipfsHashImage, signature] = redisExisting.split(
-        ':'
-      )
+      const [ipfsHashMetadata, ipfsHashImage, signature] =
+        redisExisting.split(':')
       logger.info('existIpfsHash in redis', {
         address,
         ipfsHashMetadata,
