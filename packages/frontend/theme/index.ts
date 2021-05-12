@@ -1,4 +1,4 @@
-import { extendTheme, ColorMode } from '@chakra-ui/react'
+import { ColorMode, extendTheme } from '@chakra-ui/react'
 
 const config = {
   initialColorMode: 'light' as ColorMode,
@@ -18,8 +18,8 @@ const styles = {
       color: '#000000',
       fontWeight: 300,
       _focus: {
-        outline: 'none'
-      }
+        outline: 'none',
+      },
     },
     b: {
       fontWeight: 400,
@@ -40,8 +40,7 @@ const components = {
 
 const layerStyles = {
   skyGradient: {
-    bg:
-      'radial-gradient(82.17% 210.37% at 0.59% 2.48%, #0F214D 0%, #11224D 97.19%)',
+    bg: 'radial-gradient(82.17% 210.37% at 0.59% 2.48%, #0F214D 0%, #11224D 97.19%)',
   },
   textGradient: {
     bgGradient:
@@ -130,7 +129,7 @@ const colors = {
     700: '#F31616',
     800: '#D50B0B',
     900: '#4E0404',
-  }
+  },
 }
 
 export default extendTheme({

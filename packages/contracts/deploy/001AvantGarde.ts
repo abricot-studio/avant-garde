@@ -1,26 +1,26 @@
-import * as fs from 'fs';
-import {HardhatRuntimeEnvironment} from 'hardhat/types';
-import {DeployFunction} from 'hardhat-deploy/types';
+import * as fs from 'fs'
+import { DeployFunction } from 'hardhat-deploy/types'
+import { HardhatRuntimeEnvironment } from 'hardhat/types'
 
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const contractName = 'AvantGarde'
-  const {deployments, getNamedAccounts, getChainId} = hre;
-  const {deploy} = deployments;
+  const { deployments, getNamedAccounts, getChainId } = hre
+  const { deploy } = deployments
 
-  const namedAccounts = await getNamedAccounts();
+  const namedAccounts = await getNamedAccounts()
 
   const deployment = await deploy(contractName, {
     from: namedAccounts.deployer,
     args: [namedAccounts.manager, namedAccounts.feesReceiver],
-    log: true
-  });
+    log: true,
+  })
 
   const networkData = {
     abiNetwork: hre.network.name,
-    network: hre.network.name === 'localhost' ?  'mainnet' : hre.network.name,
+    network: hre.network.name === 'localhost' ? 'mainnet' : hre.network.name,
     address: deployment.address,
     startBlock: deployment.receipt?.blockNumber,
-  };
+  }
 
   fs.writeFileSync(
     `./deployments/${hre.network.name}/config.json`,
@@ -31,12 +31,14 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     JSON.stringify(deployment.abi, null, 2)
   )
 
-  const chainId = await getChainId();
+  const chainId = await getChainId()
 
   let networksABI: Record<number, any>
   try {
-    networksABI = JSON.parse(fs.readFileSync('./deployments/networks.json').toString())
-  } catch(_) {
+    networksABI = JSON.parse(
+      fs.readFileSync('./deployments/networks.json').toString()
+    )
+  } catch (_) {
     networksABI = {}
   }
 
@@ -50,7 +52,6 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     './deployments/networks.json',
     JSON.stringify(networksABI, null, 2)
   )
-
-};
-export default func;
-func.tags = ['AvantGarde'];
+}
+export default func
+func.tags = ['AvantGarde']

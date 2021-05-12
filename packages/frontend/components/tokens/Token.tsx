@@ -1,45 +1,50 @@
-import React, { useMemo } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowLeft, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
 import { faRedditAlien } from '@fortawesome/free-brands-svg-icons'
-import { useRouter } from 'next/router'
-import { utils } from 'ethers'
-import { addressEqual, useEthers } from '@usedapp/core'
-import moment from 'moment'
+import {
+  faArrowLeft,
+  faExternalLinkAlt,
+} from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { addressEqual, isTestChain, useEthers } from '@usedapp/core'
 import BigNumber from 'bignumber.js'
+import { utils } from 'ethers'
+import moment from 'moment'
+import { useRouter } from 'next/router'
+import React, { useMemo } from 'react'
 import { useMountedState } from 'react-use'
-import { isTestChain } from '@usedapp/core'
-
-import { Button, Spinner, Flex, Box, Heading, HStack, VStack, IconButton, ActionButton, Text, Link as CLink, Card } from '../ui'
-import { useToken } from '../../hooks/tokens'
-import { TokenImage } from './TokenImage'
-import { useBurn, useBurnPrice } from '../../hooks/burn'
 import { TwitterIcon } from '../../assets/icons'
+import { useBurn, useBurnPrice } from '../../hooks/burn'
 import { useContract } from '../../hooks/contracts'
+import { useToken } from '../../hooks/tokens'
+import {
+  ActionButton,
+  Box,
+  Button,
+  Card,
+  Flex,
+  Heading,
+  HStack,
+  IconButton,
+  Link as CLink,
+  Spinner,
+  Text,
+  VStack,
+} from '../ui'
+import { TokenImage } from './TokenImage'
 
-function BurnButton({ token }){
-  const { account } = useEthers();
+function BurnButton({ token }) {
+  const { account } = useEthers()
   const tokenBurnPrice = useBurnPrice()
 
   const { burn, burned, isBurning } = useBurn()
 
-  if(!account || !addressEqual(account, token.owner)){
+  if (!account || !addressEqual(account, token.owner)) {
     return null
   }
 
-  if(!tokenBurnPrice){
-    return (
-      <ActionButton
-        isLoading
-        loadingText="Loading burn price..."
-      />
-    )
-  } else if(burned){
-    return (
-      <ActionButton
-        isDisabled
-      >Burned</ActionButton>
-    )
+  if (!tokenBurnPrice) {
+    return <ActionButton isLoading loadingText="Loading burn price..." />
+  } else if (burned) {
+    return <ActionButton isDisabled>Burned</ActionButton>
   }
 
   return (
@@ -47,17 +52,21 @@ function BurnButton({ token }){
       onClick={() => burn(token.id)}
       isLoading={isBurning}
       loadingText="Burning token..."
-    >Burn for <Text ml={4}>Ξ {utils.formatEther(utils.parseUnits(tokenBurnPrice.currentPrice, 'wei') )}</Text>
+    >
+      Burn for{' '}
+      <Text ml={4}>
+        Ξ{' '}
+        {utils.formatEther(
+          utils.parseUnits(tokenBurnPrice.currentPrice, 'wei')
+        )}
+      </Text>
     </ActionButton>
   )
 }
 
-function SocialLink({ href, icon, label}) {
+function SocialLink({ href, icon, label }) {
   return (
-    <CLink
-      href={href}
-      isExternal
-    >
+    <CLink href={href} isExternal>
       <IconButton
         icon={icon}
         aria-label={label}
@@ -65,10 +74,10 @@ function SocialLink({ href, icon, label}) {
         color="black"
         _hover={{}}
         _focus={{
-          outline: "none"
+          outline: 'none',
         }}
         _active={{
-          outline: "none"
+          outline: 'none',
         }}
       />
     </CLink>
@@ -80,10 +89,10 @@ export default function Token({ id }) {
   const router = useRouter()
 
   const { address: contractAddress, chainId } = useContract()
-  const isMounted = useMountedState();
+  const isMounted = useMountedState()
 
   const socialPostUrls = useMemo(() => {
-    if(!isMounted() || !token) return {};
+    if (!isMounted() || !token) return {}
 
     const message = encodeURI('Look at this unique AI-generated piece of art !')
     const origin = typeof window !== 'undefined' ? window.location.origin : ''
@@ -102,16 +111,16 @@ export default function Token({ id }) {
     }
   }, [token, contractAddress, chainId])
 
-  if (fetching) return <Box align="center" ><Spinner size="lg" /></Box>
-  if (!token) return <Box align="center" >Not found!</Box>
+  if (fetching)
+    return (
+      <Box align="center">
+        <Spinner size="lg" />
+      </Box>
+    )
+  if (!token) return <Box align="center">Not found!</Box>
 
   return (
-    <Flex
-      as="section"
-      mt={4}
-      direction="column"
-      align="center"
-    >
+    <Flex as="section" mt={4} direction="column" align="center">
       <Heading
         mb={4}
         as="h3"
@@ -127,59 +136,43 @@ export default function Token({ id }) {
           color="grey"
           _hover={{}}
           _focus={{
-            outline: "none"
+            outline: 'none',
           }}
-          onClick={() => router.push('/gallery') }
+          onClick={() => router.push('/gallery')}
         />
         {id}
       </Heading>
 
-      <TokenImage
-        avantGardeToken={token}
-      />
+      <TokenImage avantGardeToken={token} />
 
-      <Card
-        mt={8}
-      >
-        <HStack
-          justifyContent="center"
-        >
-          <VStack
-            justify="space-between"
-            alignItems="start"
-          >
-            <Box
-              fontWeight={500}
-            >Mint Date</Box>
-            <Box
-              fontWeight={500}
-            >Mint Price</Box>
-            {
-              token.burnTimestamp &&
-              <Box>Burn Date</Box>
-            }
+      <Card mt={8}>
+        <HStack justifyContent="center">
+          <VStack justify="space-between" alignItems="start">
+            <Box fontWeight={500}>Mint Date</Box>
+            <Box fontWeight={500}>Mint Price</Box>
+            {token.burnTimestamp && <Box>Burn Date</Box>}
           </VStack>
-          <VStack
-            justify="space-between"
-            alignItems="start"
-          >
-            <Box>{moment(Number(token.mintTimestamp) * 1000).format('YYYY-MM-DD')}</Box>
-            <Box>Ξ {utils.formatEther(utils.parseUnits(token.mintPrice, 'wei') )}</Box>
-            {
-              token.burnTimestamp &&
+          <VStack justify="space-between" alignItems="start">
+            <Box>
+              {moment(Number(token.mintTimestamp) * 1000).format('YYYY-MM-DD')}
+            </Box>
+            <Box>
+              Ξ {utils.formatEther(utils.parseUnits(token.mintPrice, 'wei'))}
+            </Box>
+            {token.burnTimestamp && (
               <Box>{moment(Number(token.burnTimestamp) * 1000).format()}</Box>
-            }
+            )}
           </VStack>
-          {
-            token.burnPrice &&
+          {token.burnPrice && (
             <HStack justify="space-between">
               <Box>Burn Price</Box>
-              <Box>Ξ {utils.formatEther(utils.parseUnits(token.burnPrice, 'wei') )}</Box>
+              <Box>
+                Ξ {utils.formatEther(utils.parseUnits(token.burnPrice, 'wei'))}
+              </Box>
               <Box>Burn Price</Box>
             </HStack>
-          }
+          )}
         </HStack>
-
       </Card>
 
       <Box align="center" mt={4}>
@@ -187,10 +180,7 @@ export default function Token({ id }) {
       </Box>
 
       <Box align="center" mt={4}>
-        <CLink
-          href={socialPostUrls.opensea}
-          isExternal
-        >
+        <CLink href={socialPostUrls.opensea} isExternal>
           <Button
             rightIcon={<FontAwesomeIcon icon={faExternalLinkAlt} size="1x" />}
             variant="outline"
@@ -200,11 +190,7 @@ export default function Token({ id }) {
         </CLink>
       </Box>
 
-      <HStack
-        spacing={12}
-        mt={4}
-        justifyContent="center"
-      >
+      <HStack spacing={12} mt={4} justifyContent="center">
         <SocialLink
           icon={<FontAwesomeIcon icon={faRedditAlien} size="2x" />}
           href={socialPostUrls.reddit}

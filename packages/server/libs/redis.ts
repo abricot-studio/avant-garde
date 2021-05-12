@@ -7,7 +7,7 @@ const redis = new Redis(config.redis.url, {
   },
 })
 
-export async function getRedis() {
+export async function getRedis(): Promise<Redis> {
   return redis
 }
 

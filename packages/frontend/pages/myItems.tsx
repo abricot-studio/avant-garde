@@ -1,14 +1,13 @@
-import Layout from '../components/Layout'
-import SEO from '../components/utils/SEO'
-import { Button, Heading, Box, ActionButton, Center } from '../components/ui'
-import React, { useEffect } from 'react'
-import { wrapUrqlClient } from '../lib/graphql'
-import { useRouter } from 'next/router'
-import { defaultMyTokensQueryVariables, useMyTokens } from '../hooks/tokens'
-import { useCanMint } from '../hooks/mint'
-import Tokens from '../components/tokens/Tokens'
-import Link from 'next/link'
 import { useEthers } from '@usedapp/core'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import React, { useEffect } from 'react'
+import Layout from '../components/Layout'
+import Tokens from '../components/tokens/Tokens'
+import { Box, Button, Heading } from '../components/ui'
+import SEO from '../components/utils/SEO'
+import { defaultMyTokensQueryVariables, useMyTokens } from '../hooks/tokens'
+import { wrapUrqlClient } from '../lib/graphql'
 import { useWalletSelector } from '../lib/WalletSelector/context'
 
 const seoData = {
@@ -16,80 +15,55 @@ const seoData = {
 }
 
 const MyTokensPage: React.FC = () => {
-
   const { isConnecting } = useWalletSelector()
   const { account } = useEthers()
   const router = useRouter()
   const { tokens, fetching, error } = useMyTokens({
     ...defaultMyTokensQueryVariables,
-    address: account
+    address: account,
   })
-  const canMint = useCanMint();
 
   useEffect(() => {
-
-    if(!isConnecting && !account){
-
+    if (!isConnecting && !account) {
       router.push(`/`)
-
     }
-
   }, [isConnecting, account])
 
-  if(!account) {
-
-    return (<div></div>)
-
+  if (!account) {
+    return <div></div>
   }
 
   return (
     <Layout>
       <SEO data={seoData} />
-      <Heading
-        textAlign="center"
-        mb={8}
-      >My items</Heading>
-      <Tokens
-        tokens={tokens}
-        fetching={fetching}
-        error={error}
-        mine
-      />
+      <Heading textAlign="center" mb={8}>
+        My items
+      </Heading>
+      <Tokens tokens={tokens} fetching={fetching} error={error} mine />
 
       {
-        canMint ?
-        <Center mt={8}>
-          <Link passHref href="/generator">
-            <ActionButton
+        <Box align="center" mt={12}>
+          <Link passHref href="/gallery">
+            <Button
               as="a"
-            >Generate yours</ActionButton>
+              variant="outline"
+              borderRadius="1rem"
+              border="2px"
+              borderColor="#3DDCC9"
+              color="#3DDCC9"
+              bgColor="white"
+              px={24}
+              rounded="full"
+              _hover={{}}
+              _active={{}}
+            >
+              Discover the gallery
+            </Button>
           </Link>
-        </Center>
-          :
-          <Box
-            align="center"
-            mt={12}
-          >
-            <Link passHref href="/gallery">
-              <Button
-                as="a"
-                variant="outline"
-                borderRadius="1rem"
-                border="2px"
-                borderColor="#3DDCC9"
-                color="#3DDCC9"
-                bgColor="white"
-                px={24}
-                rounded="full"
-                _hover={{}}
-                _active={{}}
-              >Discover the gallery</Button>
-            </Link>
-          </Box>
+        </Box>
       }
-
     </Layout>
   )
 }
 
-export default wrapUrqlClient(MyTokensPage);
+export default wrapUrqlClient(MyTokensPage)

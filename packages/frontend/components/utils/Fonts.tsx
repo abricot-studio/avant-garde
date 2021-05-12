@@ -1,5 +1,5 @@
-import * as React from 'react'
 import Head from 'next/head'
+import * as React from 'react'
 
 // https://github.com/joe-bell/next-google-fonts/blob/main/src/index.tsx
 

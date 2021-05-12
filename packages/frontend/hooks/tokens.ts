@@ -1,30 +1,30 @@
 import gql from 'graphql-tag'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import useSWR from 'swr'
 import { useQuery } from 'urql'
 import { getIpfsData } from '../lib/ipfs'
 import { usePolling } from './graphql'
-import useSWR from 'swr'
 
 export interface AvantGardeToken {
-  id: string;
-  owner: string;
-  tokenURI: string;
-  mintTimestamp: string;
-  mintPrice?: string;
-  burnTimestamp?: string;
-  burnPrice?: string;
+  id: string
+  owner: string
+  tokenURI: string
+  mintTimestamp: string
+  mintPrice?: string
+  burnTimestamp?: string
+  burnPrice?: string
 }
 
 export interface AvantGardeTokenMetadata {
-  name: string;
-  image: string;
-  description: string;
-  external_url: string;
+  name: string
+  image: string
+  description: string
+  external_url: string
 }
 
 export const TokenQuery = gql`
   query TokenQuery($address: ID!) {
-    avantGardeToken(id: $address)  {
+    avantGardeToken(id: $address) {
       id
       owner
       tokenURI
@@ -43,7 +43,12 @@ export const TokenQuery = gql`
 `
 export const TokensQuery = gql`
   query TokensQuery($first: Int, $skip: Int) {
-    avantGardeTokens(first: $first, orderBy: mintTimestamp, orderDirection: desc, skip: $skip)  {
+    avantGardeTokens(
+      first: $first
+      orderBy: mintTimestamp
+      orderDirection: desc
+      skip: $skip
+    ) {
       id
       owner
       tokenURI
@@ -62,7 +67,13 @@ export const TokensQuery = gql`
 `
 export const MyTokensQuery = gql`
   query MyTokensQuery($address: String!, $first: Int, $skip: Int) {
-    avantGardeTokens(first: $first, skip: $skip, orderBy: mintTimestamp, orderDirection: desc, where: { owner: $address })  {
+    avantGardeTokens(
+      first: $first
+      skip: $skip
+      orderBy: mintTimestamp
+      orderDirection: desc
+      where: { owner: $address }
+    ) {
       id
       owner
       tokenURI
@@ -81,26 +92,28 @@ export const MyTokensQuery = gql`
 `
 
 export interface TokensProps {
-  first?: number,
-  skip?: number,
+  first?: number
+  skip?: number
 }
 
-export const defaultTokensQueryVariables:TokensProps = {
+export const defaultTokensQueryVariables: TokensProps = {
   first: 100,
   skip: 0,
-};
+}
 
-export const useTokens = (tokensProps: TokensProps = defaultTokensQueryVariables) => {
+export const useTokens = (
+  tokensProps: TokensProps = defaultTokensQueryVariables
+) => {
   const [result] = useQuery({
     query: TokensQuery,
     variables: {
       first: tokensProps.first,
-      skip: tokensProps.skip
-    }
+      skip: tokensProps.skip,
+    },
   })
   const { data, fetching, error } = result
 
-  const tokens: AvantGardeToken[] | null = data?.avantGardeTokens || null;
+  const tokens: AvantGardeToken[] | null = data?.avantGardeTokens || null
 
   return {
     tokens,
@@ -111,29 +124,32 @@ export const useTokens = (tokensProps: TokensProps = defaultTokensQueryVariables
 
 export interface MyTokensProps {
   address: string
-  first?: number,
-  skip?: number,
+  first?: number
+  skip?: number
 }
 
-export const defaultMyTokensQueryVariables:MyTokensProps = {
+export const defaultMyTokensQueryVariables: MyTokensProps = {
   address: null,
   first: 100,
   skip: 0,
-};
+}
 
-export const useMyTokens = (tokensProps: MyTokensProps = defaultMyTokensQueryVariables) => {
+export const useMyTokens = (
+  tokensProps: MyTokensProps = defaultMyTokensQueryVariables
+) => {
   const [result] = useQuery({
     query: MyTokensQuery,
     variables: {
       first: tokensProps.first,
       skip: tokensProps.skip,
-      address: tokensProps.address
+      address: tokensProps.address,
     },
     pause: !tokensProps.address,
   })
   const { data, fetching, error } = result
 
-  const tokens: AvantGardeToken[] | null = tokensProps.address && data?.avantGardeTokens || [];
+  const tokens: AvantGardeToken[] | null =
+    (tokensProps.address && data?.avantGardeTokens) || []
 
   return {
     tokens,
@@ -142,26 +158,26 @@ export const useMyTokens = (tokensProps: MyTokensProps = defaultMyTokensQueryVar
   }
 }
 
-
 export const useToken = (address?: string) => {
   const [result, reexecuteQuery] = useQuery({
     query: TokenQuery,
     variables: {
-      address: address?.toLowerCase()
+      address: address?.toLowerCase(),
     },
     pause: !address,
   })
   const { data, fetching, error } = result
 
-  const token: AvantGardeToken | null = address && data?.avantGardeToken || null;
+  const token: AvantGardeToken | null =
+    (address && data?.avantGardeToken) || null
 
   const { startPolling, stopPolling } = usePolling(reexecuteQuery)
 
   useEffect(() => {
-    if(token) {
-      stopPolling();
+    if (token) {
+      stopPolling()
     }
-  }, [token]);
+  }, [token])
 
   return {
     token,
@@ -171,16 +187,15 @@ export const useToken = (address?: string) => {
   }
 }
 
-export const useMetadata = (avantGardeToken: AvantGardeToken, initialMetadata?): AvantGardeTokenMetadata | null => {
-  const { data: metadata } = useSWR(
-    avantGardeToken?.tokenURI,
-    getIpfsData,
-    {
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-      initialData: initialMetadata,
-    }
-  )
+export const useMetadata = (
+  avantGardeToken: AvantGardeToken,
+  initialMetadata?
+): AvantGardeTokenMetadata | null => {
+  const { data: metadata } = useSWR(avantGardeToken?.tokenURI, getIpfsData, {
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+    initialData: initialMetadata,
+  })
 
   return metadata
 }

@@ -1,21 +1,20 @@
 import { GetStaticPropsContext } from 'next'
-
 import { useRouter } from 'next/router'
 import Layout from '../../components/Layout'
 import Token from '../../components/tokens/Token'
 import SEO from '../../components/utils/SEO'
+import { TokenQuery, TokensQuery } from '../../hooks/tokens'
 import { defaultClient, getSsrClient, wrapUrqlClient } from '../../lib/graphql'
-import { TokenQuery, TokensQuery, useMetadata, useToken } from '../../hooks/tokens'
 import { getIpfsData, getIpfsUrl } from '../../lib/ipfs'
 
-type QueryParams = { id: string };
+type QueryParams = { id: string }
 type TokenPageProps = { initialMetadata: any }
 
 const TokenPage: React.FC<TokenPageProps> = ({ initialMetadata }) => {
   const router = useRouter()
   const { id } = router.query as QueryParams
 
-  if(router.isFallback){
+  if (router.isFallback) {
     return <p>Loading</p>
   }
 
@@ -32,40 +31,41 @@ const TokenPage: React.FC<TokenPageProps> = ({ initialMetadata }) => {
   )
 }
 
-
 export const getStaticPaths = async () => {
-  const { data } = await defaultClient.query(
-    TokensQuery,
-    {
+  const { data } = await defaultClient
+    .query(TokensQuery, {
       first: 50,
-    },
-  ).toPromise();
+    })
+    .toPromise()
 
-  if(data?.avantGardeTokens) {
+  if (data?.avantGardeTokens) {
     return {
-      paths: data.avantGardeTokens.map(t => ({
+      paths: data.avantGardeTokens.map((t) => ({
         params: { id: t.id },
       })),
       fallback: true,
-    };
+    }
   }
 
   return {
     paths: [],
     fallback: true,
-  };
-};
+  }
+}
 
-export const getStaticProps  = async (ctx: GetStaticPropsContext<QueryParams>) => {
-  const [ssrClient, ssrCache] = getSsrClient();
+export const getStaticProps = async (
+  ctx: GetStaticPropsContext<QueryParams>
+) => {
+  const [ssrClient, ssrCache] = getSsrClient()
   const id = ctx.params.id
 
-  const { data: { avantGardeToken } } = await ssrClient.query(
-    TokenQuery,
-    {
+  const {
+    data: { avantGardeToken },
+  } = await ssrClient
+    .query(TokenQuery, {
       address: id.toLowerCase(),
-    },
-  ).toPromise();
+    })
+    .toPromise()
 
   const initialMetadata = await getIpfsData(avantGardeToken.tokenURI)
 
@@ -75,8 +75,7 @@ export const getStaticProps  = async (ctx: GetStaticPropsContext<QueryParams>) =
       initialMetadata,
     },
     revalidate: 30,
-  };
-};
+  }
+}
 
-export default wrapUrqlClient(TokenPage);
-
+export default wrapUrqlClient(TokenPage)

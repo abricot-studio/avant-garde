@@ -1,14 +1,10 @@
+import Link from 'next/link'
 import React, { useMemo } from 'react'
 import { useWindowScroll } from 'react-use'
-import Link from 'next/link'
-import {
-  Button,
-  Flex,
-  Box,
-} from '../ui'
+import { Box, Button, Flex } from '../ui'
 import { LogoIcon } from './Icons'
-import { Navigation } from './Navigation'
 import { LoginButton } from './LoginButton'
+import { Navigation } from './Navigation'
 
 export function Header() {
   const { y } = useWindowScroll()
@@ -43,7 +39,8 @@ export function Header() {
               _hover={{}}
               _active={{}}
               _focus={{}}
-            >AvantGarde
+            >
+              AvantGarde
             </Button>
           </Link>
         </Box>

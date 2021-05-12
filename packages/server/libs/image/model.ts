@@ -124,7 +124,6 @@ export class Model {
   }
 
   generate() {
-
     this.tf.engine().startScope()
 
     const features = []
@@ -174,7 +173,7 @@ export class Model {
   miniBatch(features: any) {
     let arePending = true
     let i = 0
-    let outputs: any[] = []
+    const outputs: any[] = []
 
     const totalBach = Math.round(features.shape[0] / this.batchSize)
     logger.verbose(`Total batch: ${totalBach}`)

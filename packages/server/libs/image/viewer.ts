@@ -1,5 +1,5 @@
-import fs from 'fs'
 import assert from 'assert'
+import fs from 'fs'
 import Jpeg from 'jpeg-js'
 import { Log } from '../logger'
 

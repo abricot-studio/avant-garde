@@ -1,10 +1,8 @@
 import * as tf from '@tensorflow/tfjs-node'
-
 import { config } from '../config'
+import { Log } from '../logger'
 import { Model } from './model'
 import { Render } from './render'
-
-import { Log } from '../logger'
 
 const logger = Log({ service: 'Image main' })
 
@@ -23,7 +21,7 @@ async function Generate() {
     // '0x4Cb9b406D430eE2065556C0f73668bc435116822'
   ]
 
-  for (let address of addresses) {
+  for (const address of addresses) {
     const seed = parseInt(address, 16) / 1000000000000000000000
     const inputShape = [config.image.width, config.image.height]
 

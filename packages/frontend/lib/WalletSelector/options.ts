@@ -24,5 +24,5 @@ export const options: WalletOptions[] = [
     icon: require('./icons/walletConnectIcon.svg').default,
     description: 'Connect to Trust Wallet, Rainbow Wallet and more...',
     color: '#4196FC',
-  }
+  },
 ]

@@ -1,29 +1,31 @@
 import { useCallback, useEffect, useRef } from 'react'
 import { OperationContext } from 'urql'
 
-type Timeout = ReturnType<typeof setInterval>;
+type Timeout = ReturnType<typeof setInterval>
 
-export const usePolling = (reexecuteQuery: (opts?: Partial<OperationContext>) => void) => {
-  const poll = useRef<Timeout | null>(null);
+export const usePolling = (
+  reexecuteQuery: (opts?: Partial<OperationContext>) => void
+) => {
+  const poll = useRef<Timeout | null>(null)
 
   const refresh = useCallback(() => {
-    reexecuteQuery({ requestPolicy: 'network-only' });
-  }, [reexecuteQuery]);
+    reexecuteQuery({ requestPolicy: 'network-only' })
+  }, [reexecuteQuery])
 
   const startPolling = useCallback(() => {
-    refresh();
-    poll.current = setInterval(refresh, 3000);
-  }, [refresh]);
+    refresh()
+    poll.current = setInterval(refresh, 3000)
+  }, [refresh])
 
   const stopPolling = useCallback(() => {
-    if(poll.current) {
-      clearInterval(poll.current);
-      poll.current = null;
+    if (poll.current) {
+      clearInterval(poll.current)
+      poll.current = null
     }
-  }, []);
+  }, [])
 
   useEffect(() => {
-    return () => stopPolling();
+    return () => stopPolling()
   }, [])
 
   return {

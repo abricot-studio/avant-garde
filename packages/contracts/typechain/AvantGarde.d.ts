@@ -9,7 +9,7 @@ import {
   BigNumber,
   BigNumberish,
   PopulatedTransaction,
-  Contract,
+  BaseContract,
   ContractTransaction,
   Overrides,
   PayableOverrides,
@@ -230,7 +230,7 @@ interface AvantGardeInterface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
 
-export class AvantGarde extends Contract {
+export class AvantGarde extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -280,25 +280,9 @@ export class AvantGarde extends Contract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    "approve(address,uint256)"(
-      to: string,
-      tokenId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     balanceOf(owner: string, overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    "balanceOf(address)"(
-      owner: string,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
     burn(
-      _tokenId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    "burn(uint256)"(
       _tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -308,53 +292,24 @@ export class AvantGarde extends Contract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    "changeFeesReceiver(address)"(
-      _newFeesReceiver: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     changeManager(
-      _newManager: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    "changeManager(address)"(
       _newManager: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     currentBurnPrice(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    "currentBurnPrice()"(overrides?: CallOverrides): Promise<[BigNumber]>;
-
     currentMintPrice(
-      overrides?: CallOverrides
-    ): Promise<[BigNumber, BigNumber]>;
-
-    "currentMintPrice()"(
       overrides?: CallOverrides
     ): Promise<[BigNumber, BigNumber]>;
 
     currentMintWithFeesPrice(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    "currentMintWithFeesPrice()"(
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
     currentPrice(overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    "currentPrice()"(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     feesReceiver(overrides?: CallOverrides): Promise<[string]>;
 
-    "feesReceiver()"(overrides?: CallOverrides): Promise<[string]>;
-
     getApproved(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
-    "getApproved(uint256)"(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[string]>;
@@ -365,23 +320,9 @@ export class AvantGarde extends Contract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
-    "isApprovedForAll(address,address)"(
-      owner: string,
-      operator: string,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
-
     manager(overrides?: CallOverrides): Promise<[string]>;
 
-    "manager()"(overrides?: CallOverrides): Promise<[string]>;
-
     mint(
-      _uri: string,
-      _signature: BytesLike,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    "mint(string,bytes)"(
       _uri: string,
       _signature: BytesLike,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
@@ -394,43 +335,19 @@ export class AvantGarde extends Contract {
       [BigNumber, BigNumber] & { _currentPrice: BigNumber; _fees: BigNumber }
     >;
 
-    "mintPriceFor(uint256)"(
-      _current: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber] & { _currentPrice: BigNumber; _fees: BigNumber }
-    >;
-
     mintWithFeesPriceFor(
-      _current: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
-    "mintWithFeesPriceFor(uint256)"(
       _current: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
     name(overrides?: CallOverrides): Promise<[string]>;
 
-    "name()"(overrides?: CallOverrides): Promise<[string]>;
-
     ownerOf(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[string]>;
 
-    "ownerOf(uint256)"(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
     priceFor(
-      _current: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
-    "priceFor(uint256)"(
       _current: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
@@ -456,32 +373,14 @@ export class AvantGarde extends Contract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    "setApprovalForAll(address,bool)"(
-      operator: string,
-      approved: boolean,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     supportsInterface(
-      interfaceId: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
-
-    "supportsInterface(bytes4)"(
       interfaceId: BytesLike,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
     symbol(overrides?: CallOverrides): Promise<[string]>;
 
-    "symbol()"(overrides?: CallOverrides): Promise<[string]>;
-
     tokenURI(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
-    "tokenURI(uint256)"(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[string]>;
@@ -490,18 +389,7 @@ export class AvantGarde extends Contract {
       overrides?: CallOverrides
     ): Promise<[BigNumber] & { _value: BigNumber }>;
 
-    "totalSupply()"(
-      overrides?: CallOverrides
-    ): Promise<[BigNumber] & { _value: BigNumber }>;
-
     transferFrom(
-      from: string,
-      to: string,
-      tokenId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    "transferFrom(address,address,uint256)"(
       from: string,
       to: string,
       tokenId: BigNumberish,
@@ -515,25 +403,9 @@ export class AvantGarde extends Contract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  "approve(address,uint256)"(
-    to: string,
-    tokenId: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-  "balanceOf(address)"(
-    owner: string,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
   burn(
-    _tokenId: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  "burn(uint256)"(
     _tokenId: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -543,49 +415,22 @@ export class AvantGarde extends Contract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  "changeFeesReceiver(address)"(
-    _newFeesReceiver: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   changeManager(
-    _newManager: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  "changeManager(address)"(
     _newManager: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   currentBurnPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
-  "currentBurnPrice()"(overrides?: CallOverrides): Promise<BigNumber>;
-
   currentMintPrice(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
-
-  "currentMintPrice()"(
-    overrides?: CallOverrides
-  ): Promise<[BigNumber, BigNumber]>;
 
   currentMintWithFeesPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
-  "currentMintWithFeesPrice()"(overrides?: CallOverrides): Promise<BigNumber>;
-
   currentPrice(overrides?: CallOverrides): Promise<BigNumber>;
-
-  "currentPrice()"(overrides?: CallOverrides): Promise<BigNumber>;
 
   feesReceiver(overrides?: CallOverrides): Promise<string>;
 
-  "feesReceiver()"(overrides?: CallOverrides): Promise<string>;
-
   getApproved(
-    tokenId: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
-  "getApproved(uint256)"(
     tokenId: BigNumberish,
     overrides?: CallOverrides
   ): Promise<string>;
@@ -596,23 +441,9 @@ export class AvantGarde extends Contract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
-  "isApprovedForAll(address,address)"(
-    owner: string,
-    operator: string,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
-
   manager(overrides?: CallOverrides): Promise<string>;
 
-  "manager()"(overrides?: CallOverrides): Promise<string>;
-
   mint(
-    _uri: string,
-    _signature: BytesLike,
-    overrides?: PayableOverrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  "mint(string,bytes)"(
     _uri: string,
     _signature: BytesLike,
     overrides?: PayableOverrides & { from?: string | Promise<string> }
@@ -625,40 +456,16 @@ export class AvantGarde extends Contract {
     [BigNumber, BigNumber] & { _currentPrice: BigNumber; _fees: BigNumber }
   >;
 
-  "mintPriceFor(uint256)"(
-    _current: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<
-    [BigNumber, BigNumber] & { _currentPrice: BigNumber; _fees: BigNumber }
-  >;
-
   mintWithFeesPriceFor(
-    _current: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
-  "mintWithFeesPriceFor(uint256)"(
     _current: BigNumberish,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
   name(overrides?: CallOverrides): Promise<string>;
 
-  "name()"(overrides?: CallOverrides): Promise<string>;
-
   ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
-  "ownerOf(uint256)"(
-    tokenId: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
   priceFor(
-    _current: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
-  "priceFor(uint256)"(
     _current: BigNumberish,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
@@ -684,45 +491,18 @@ export class AvantGarde extends Contract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  "setApprovalForAll(address,bool)"(
-    operator: string,
-    approved: boolean,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   supportsInterface(
-    interfaceId: BytesLike,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
-
-  "supportsInterface(bytes4)"(
     interfaceId: BytesLike,
     overrides?: CallOverrides
   ): Promise<boolean>;
 
   symbol(overrides?: CallOverrides): Promise<string>;
 
-  "symbol()"(overrides?: CallOverrides): Promise<string>;
-
   tokenURI(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
-  "tokenURI(uint256)"(
-    tokenId: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<string>;
 
   totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
-  "totalSupply()"(overrides?: CallOverrides): Promise<BigNumber>;
-
   transferFrom(
-    from: string,
-    to: string,
-    tokenId: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  "transferFrom(address,address,uint256)"(
     from: string,
     to: string,
     tokenId: BigNumberish,
@@ -736,32 +516,11 @@ export class AvantGarde extends Contract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    "approve(address,uint256)"(
-      to: string,
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-    "balanceOf(address)"(
-      owner: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
 
     burn(_tokenId: BigNumberish, overrides?: CallOverrides): Promise<boolean>;
 
-    "burn(uint256)"(
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
     changeFeesReceiver(
-      _newFeesReceiver: string,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
-    "changeFeesReceiver(address)"(
       _newFeesReceiver: string,
       overrides?: CallOverrides
     ): Promise<boolean>;
@@ -771,41 +530,19 @@ export class AvantGarde extends Contract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    "changeManager(address)"(
-      _newManager: string,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
     currentBurnPrice(overrides?: CallOverrides): Promise<BigNumber>;
-
-    "currentBurnPrice()"(overrides?: CallOverrides): Promise<BigNumber>;
 
     currentMintPrice(
       overrides?: CallOverrides
     ): Promise<[BigNumber, BigNumber]>;
 
-    "currentMintPrice()"(
-      overrides?: CallOverrides
-    ): Promise<[BigNumber, BigNumber]>;
-
     currentMintWithFeesPrice(overrides?: CallOverrides): Promise<BigNumber>;
-
-    "currentMintWithFeesPrice()"(overrides?: CallOverrides): Promise<BigNumber>;
 
     currentPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
-    "currentPrice()"(overrides?: CallOverrides): Promise<BigNumber>;
-
     feesReceiver(overrides?: CallOverrides): Promise<string>;
 
-    "feesReceiver()"(overrides?: CallOverrides): Promise<string>;
-
     getApproved(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
-    "getApproved(uint256)"(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<string>;
@@ -816,23 +553,9 @@ export class AvantGarde extends Contract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    "isApprovedForAll(address,address)"(
-      owner: string,
-      operator: string,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
     manager(overrides?: CallOverrides): Promise<string>;
 
-    "manager()"(overrides?: CallOverrides): Promise<string>;
-
     mint(
-      _uri: string,
-      _signature: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "mint(string,bytes)"(
       _uri: string,
       _signature: BytesLike,
       overrides?: CallOverrides
@@ -845,40 +568,16 @@ export class AvantGarde extends Contract {
       [BigNumber, BigNumber] & { _currentPrice: BigNumber; _fees: BigNumber }
     >;
 
-    "mintPriceFor(uint256)"(
-      _current: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber] & { _currentPrice: BigNumber; _fees: BigNumber }
-    >;
-
     mintWithFeesPriceFor(
-      _current: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "mintWithFeesPriceFor(uint256)"(
       _current: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     name(overrides?: CallOverrides): Promise<string>;
 
-    "name()"(overrides?: CallOverrides): Promise<string>;
-
     ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
-    "ownerOf(uint256)"(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
     priceFor(
-      _current: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "priceFor(uint256)"(
       _current: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -904,45 +603,18 @@ export class AvantGarde extends Contract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    "setApprovalForAll(address,bool)"(
-      operator: string,
-      approved: boolean,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     supportsInterface(
-      interfaceId: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
-    "supportsInterface(bytes4)"(
       interfaceId: BytesLike,
       overrides?: CallOverrides
     ): Promise<boolean>;
 
     symbol(overrides?: CallOverrides): Promise<string>;
 
-    "symbol()"(overrides?: CallOverrides): Promise<string>;
-
     tokenURI(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
-    "tokenURI(uint256)"(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<string>;
 
     totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
-    "totalSupply()"(overrides?: CallOverrides): Promise<BigNumber>;
-
     transferFrom(
-      from: string,
-      to: string,
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    "transferFrom(address,address,uint256)"(
       from: string,
       to: string,
       tokenId: BigNumberish,
@@ -952,43 +624,43 @@ export class AvantGarde extends Contract {
 
   filters: {
     Approval(
-      owner: string | null,
-      approved: string | null,
-      tokenId: BigNumberish | null
+      owner?: string | null,
+      approved?: string | null,
+      tokenId?: BigNumberish | null
     ): TypedEventFilter<
       [string, string, BigNumber],
       { owner: string; approved: string; tokenId: BigNumber }
     >;
 
     ApprovalForAll(
-      owner: string | null,
-      operator: string | null,
-      approved: null
+      owner?: string | null,
+      operator?: string | null,
+      approved?: null
     ): TypedEventFilter<
       [string, string, boolean],
       { owner: string; operator: string; approved: boolean }
     >;
 
     Burned(
-      tokenId: BigNumberish | null,
-      burnPrice: BigNumberish | null
+      tokenId?: BigNumberish | null,
+      burnPrice?: BigNumberish | null
     ): TypedEventFilter<
       [BigNumber, BigNumber],
       { tokenId: BigNumber; burnPrice: BigNumber }
     >;
 
     Minted(
-      tokenId: BigNumberish | null,
-      mintPrice: BigNumberish | null
+      tokenId?: BigNumberish | null,
+      mintPrice?: BigNumberish | null
     ): TypedEventFilter<
       [BigNumber, BigNumber],
       { tokenId: BigNumber; mintPrice: BigNumber }
     >;
 
     Transfer(
-      from: string | null,
-      to: string | null,
-      tokenId: BigNumberish | null
+      from?: string | null,
+      to?: string | null,
+      tokenId?: BigNumberish | null
     ): TypedEventFilter<
       [string, string, BigNumber],
       { from: string; to: string; tokenId: BigNumber }
@@ -1002,25 +674,9 @@ export class AvantGarde extends Contract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    "approve(address,uint256)"(
-      to: string,
-      tokenId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-    "balanceOf(address)"(
-      owner: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     burn(
-      _tokenId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    "burn(uint256)"(
       _tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -1030,47 +686,22 @@ export class AvantGarde extends Contract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    "changeFeesReceiver(address)"(
-      _newFeesReceiver: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     changeManager(
-      _newManager: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    "changeManager(address)"(
       _newManager: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     currentBurnPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
-    "currentBurnPrice()"(overrides?: CallOverrides): Promise<BigNumber>;
-
     currentMintPrice(overrides?: CallOverrides): Promise<BigNumber>;
-
-    "currentMintPrice()"(overrides?: CallOverrides): Promise<BigNumber>;
 
     currentMintWithFeesPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
-    "currentMintWithFeesPrice()"(overrides?: CallOverrides): Promise<BigNumber>;
-
     currentPrice(overrides?: CallOverrides): Promise<BigNumber>;
-
-    "currentPrice()"(overrides?: CallOverrides): Promise<BigNumber>;
 
     feesReceiver(overrides?: CallOverrides): Promise<BigNumber>;
 
-    "feesReceiver()"(overrides?: CallOverrides): Promise<BigNumber>;
-
     getApproved(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "getApproved(uint256)"(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -1081,23 +712,9 @@ export class AvantGarde extends Contract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    "isApprovedForAll(address,address)"(
-      owner: string,
-      operator: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     manager(overrides?: CallOverrides): Promise<BigNumber>;
 
-    "manager()"(overrides?: CallOverrides): Promise<BigNumber>;
-
     mint(
-      _uri: string,
-      _signature: BytesLike,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    "mint(string,bytes)"(
       _uri: string,
       _signature: BytesLike,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
@@ -1108,41 +725,19 @@ export class AvantGarde extends Contract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    "mintPriceFor(uint256)"(
-      _current: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     mintWithFeesPriceFor(
-      _current: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "mintWithFeesPriceFor(uint256)"(
       _current: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     name(overrides?: CallOverrides): Promise<BigNumber>;
 
-    "name()"(overrides?: CallOverrides): Promise<BigNumber>;
-
     ownerOf(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    "ownerOf(uint256)"(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     priceFor(
-      _current: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "priceFor(uint256)"(
       _current: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -1168,48 +763,21 @@ export class AvantGarde extends Contract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    "setApprovalForAll(address,bool)"(
-      operator: string,
-      approved: boolean,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     supportsInterface(
-      interfaceId: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "supportsInterface(bytes4)"(
       interfaceId: BytesLike,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     symbol(overrides?: CallOverrides): Promise<BigNumber>;
 
-    "symbol()"(overrides?: CallOverrides): Promise<BigNumber>;
-
     tokenURI(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "tokenURI(uint256)"(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
-    "totalSupply()"(overrides?: CallOverrides): Promise<BigNumber>;
-
     transferFrom(
-      from: string,
-      to: string,
-      tokenId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    "transferFrom(address,address,uint256)"(
       from: string,
       to: string,
       tokenId: BigNumberish,
@@ -1224,18 +792,7 @@ export class AvantGarde extends Contract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    "approve(address,uint256)"(
-      to: string,
-      tokenId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     balanceOf(
-      owner: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "balanceOf(address)"(
       owner: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -1245,17 +802,7 @@ export class AvantGarde extends Contract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    "burn(uint256)"(
-      _tokenId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     changeFeesReceiver(
-      _newFeesReceiver: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "changeFeesReceiver(address)"(
       _newFeesReceiver: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
@@ -1265,45 +812,19 @@ export class AvantGarde extends Contract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    "changeManager(address)"(
-      _newManager: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     currentBurnPrice(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    "currentBurnPrice()"(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     currentMintPrice(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    "currentMintPrice()"(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
 
     currentMintWithFeesPrice(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    "currentMintWithFeesPrice()"(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     currentPrice(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    "currentPrice()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     feesReceiver(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    "feesReceiver()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     getApproved(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "getApproved(uint256)"(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -1314,23 +835,9 @@ export class AvantGarde extends Contract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    "isApprovedForAll(address,address)"(
-      owner: string,
-      operator: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     manager(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    "manager()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     mint(
-      _uri: string,
-      _signature: BytesLike,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "mint(string,bytes)"(
       _uri: string,
       _signature: BytesLike,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
@@ -1341,41 +848,19 @@ export class AvantGarde extends Contract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    "mintPriceFor(uint256)"(
-      _current: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     mintWithFeesPriceFor(
-      _current: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "mintWithFeesPriceFor(uint256)"(
       _current: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    "name()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     ownerOf(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    "ownerOf(uint256)"(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     priceFor(
-      _current: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "priceFor(uint256)"(
       _current: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -1401,48 +886,21 @@ export class AvantGarde extends Contract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    "setApprovalForAll(address,bool)"(
-      operator: string,
-      approved: boolean,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     supportsInterface(
-      interfaceId: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "supportsInterface(bytes4)"(
       interfaceId: BytesLike,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     symbol(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    "symbol()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     tokenURI(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "tokenURI(uint256)"(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     totalSupply(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    "totalSupply()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     transferFrom(
-      from: string,
-      to: string,
-      tokenId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "transferFrom(address,address,uint256)"(
       from: string,
       to: string,
       tokenId: BigNumberish,
