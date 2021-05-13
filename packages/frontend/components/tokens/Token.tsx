@@ -87,6 +87,7 @@ function SocialLink({ href, icon, label }) {
 export default function Token({ id }) {
   const { token, fetching } = useToken(id)
   const router = useRouter()
+  console.log('Token', token)
 
   const { address: contractAddress, chainId } = useContract()
   const isMounted = useMountedState()
@@ -163,14 +164,23 @@ export default function Token({ id }) {
               <Box>{moment(Number(token.burnTimestamp) * 1000).format()}</Box>
             )}
           </VStack>
+
+          { token.burnPrice && (
+            <VStack justify="space-between" alignItems="start">
+              <Box fontWeight={500}>Burn Date</Box>
+              <Box fontWeight={500}>Burn Price</Box>
+              {token.burnTimestamp && <Box>Burn Date</Box>}
+            </VStack>
+          )}
           {token.burnPrice && (
-            <HStack justify="space-between">
+            <VStack justify="space-between">
+              <Box>Burn Date</Box>
               <Box>Burn Price</Box>
               <Box>
                 Ξ {utils.formatEther(utils.parseUnits(token.burnPrice, 'wei'))}
               </Box>
               <Box>Burn Price</Box>
-            </HStack>
+            </VStack>
           )}
         </HStack>
       </Card>

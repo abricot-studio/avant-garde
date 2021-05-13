@@ -171,11 +171,15 @@ export const useToken = (address?: string) => {
   const token: AvantGardeToken | null =
     (address && data?.avantGardeToken) || null
 
-  const { startPolling, stopPolling } = usePolling(reexecuteQuery)
+  const pollingMint = usePolling(reexecuteQuery)
+  const pollingBurn = usePolling(reexecuteQuery)
 
   useEffect(() => {
     if (token) {
-      stopPolling()
+      pollingMint.stopPolling()
+      if (Boolean(token.burnPrice)) {
+        pollingBurn.stopPolling()
+      }
     }
   }, [token])
 
@@ -183,7 +187,8 @@ export const useToken = (address?: string) => {
     token,
     fetching,
     error,
-    startPolling,
+    startPollingMint: pollingMint.startPolling,
+    startPollingBurn: pollingBurn.startPolling,
   }
 }
 

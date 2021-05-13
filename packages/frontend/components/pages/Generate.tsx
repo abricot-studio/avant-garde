@@ -113,7 +113,7 @@ export default function Generate() {
                 <Text ml={4}>
                   Ξ{' '}
                   {utils.formatEther(
-                    utils.parseUnits(tokenMintPrice.fees, 'wei')
+                    utils.parseUnits(tokenMintPrice.currentPrice, 'wei')
                   )}
                 </Text>
               </Flex>
@@ -121,7 +121,7 @@ export default function Generate() {
                 <Text ml={4}>
                   Ξ{' '}
                   {utils.formatEther(
-                    utils.parseUnits(tokenMintPrice.currentPrice, 'wei')
+                    utils.parseUnits(tokenMintPrice.fees, 'wei')
                   )}
                 </Text>
               </Flex>
