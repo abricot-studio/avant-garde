@@ -17,7 +17,7 @@ import { ActionButton, Box, Card, Flex, HStack, Text, VStack } from '../ui'
 export default function Generate() {
   const { isConnecting, open } = useWalletSelector()
   const { account } = useEthers()
-  const { token, fetching: fetchingToken, stale } = useToken(account)
+  const { token, fetching: fetchingToken } = useToken(account)
   const tokenMintPrice = useMintPrice()
   const { generateImage, isGenerating, generationResult } = useImageGeneration()
   const { mint, minted, isMinting } = useMint()
@@ -25,10 +25,10 @@ export default function Generate() {
 
   console.log('Generate', token)
   useEffect(() => {
-    if (token && !fetchingToken && !stale) {
+    if (token) {
       router.push(`/token/${token.id}`)
     }
-  }, [token, fetchingToken, stale])
+  }, [token])
 
   let cta
   if (token || fetchingToken) {

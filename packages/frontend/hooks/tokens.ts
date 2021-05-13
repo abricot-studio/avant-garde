@@ -166,7 +166,7 @@ export const useToken = (address?: string) => {
     },
     pause: !address,
   })
-  const { data, fetching, stale, error } = result
+  const { data, fetching, error } = result
 
   const token: AvantGardeToken | null =
     (address && data?.avantGardeToken) || null
@@ -188,7 +188,6 @@ export const useToken = (address?: string) => {
   return {
     token,
     fetching,
-    stale,
     error,
     startPollingMint: pollingMint.startPolling,
     startPollingBurn: pollingBurn.startPolling,
