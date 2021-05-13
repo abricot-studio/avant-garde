@@ -8,21 +8,21 @@ export const usePolling = (
 ) => {
   const poll = useRef<Timeout | null>(null)
 
-  const refresh = () => {
+  const refresh = useCallback(() => {
     reexecuteQuery({ requestPolicy: 'network-only' })
-  }
+  }, [reexecuteQuery])
 
-  const startPolling = () => {
+  const startPolling = useCallback(() => {
     refresh()
     poll.current = setInterval(refresh, 3000)
-  }
+  }, [refresh])
 
-  const stopPolling = () => {
+  const stopPolling = useCallback(() => {
     if (poll.current) {
       clearInterval(poll.current)
       poll.current = null
     }
-  }
+  }, [])
 
   useEffect(() => {
     return () => stopPolling()

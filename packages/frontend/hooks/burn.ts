@@ -42,7 +42,7 @@ export const useBurn = () => {
 
   const burn = useCallback(
     (tokenId) => {
-      if (!library) {
+      if (!account) {
         throw new Error('cannot call burn if not connected 👎')
       }
 
@@ -84,7 +84,7 @@ export const useBurn = () => {
           setIsBurning(false)
         })
     },
-    [library]
+    [account, startPollingBurn]
   )
 
   return { burn, burned, burnTx, isBurning, error }
