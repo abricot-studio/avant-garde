@@ -102,7 +102,7 @@ const textStyles = {
     fontFamily: '"Roboto Mono", sans-serif',
     fontWeight: 800,
     lineHeight: 1,
-    fontSize: ['1.3rem', '1.5rem', '2rem', '2rem'],
+    fontSize: '2rem'
   },
 }
 

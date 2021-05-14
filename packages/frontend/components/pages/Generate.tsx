@@ -1,4 +1,4 @@
-import { useEthers } from '@usedapp/core'
+import { getExplorerTransactionLink, useEthers } from '@usedapp/core'
 import { utils } from 'ethers'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -12,15 +12,17 @@ import { useToken } from '../../hooks/tokens'
 import { getIpfsUrl } from '../../lib/ipfs'
 import { useWalletSelector } from '../../lib/WalletSelector/context'
 import { ImageFrame } from '../tokens/TokenImage'
-import { ActionButton, Box, Card, Flex, HStack, Text, VStack } from '../ui'
+import { ActionButton, Box, Button, Card, Flex, HStack, Text, VStack,  Link as CLink } from '../ui'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
 
 export default function Generate() {
   const { isConnecting, open } = useWalletSelector()
-  const { account } = useEthers()
+  const { account, chainId } = useEthers()
   const { token, fetching: fetchingToken } = useToken(account)
   const tokenMintPrice = useMintPrice()
   const { generateImage, isGenerating, generationResult } = useImageGeneration()
-  const { mint, minted, isMinting } = useMint()
+  const { mint, minted, isMinting, mintTx } = useMint()
   const router = useRouter()
 
   useEffect(() => {
@@ -49,16 +51,29 @@ export default function Generate() {
       cta = <ActionButton isLoading loadingText="Loading mint price..." />
     } else {
       cta = (
-        <ActionButton
-          onClick={() => mint(generationResult)}
-          isLoading={isMinting}
-          loadingText="Minting token..."
-        >
-          Mint for{' '}
-          <Text ml={2}>
-            Ξ {utils.formatEther(utils.parseUnits(tokenMintPrice.total, 'wei'))}
-          </Text>
-        </ActionButton>
+        <Box>
+          <ActionButton
+            onClick={() => mint(generationResult)}
+            isLoading={isMinting}
+            loadingText="Minting token..."
+          >
+            Mint for{' '}
+            <Text ml={2}>
+              Ξ {utils.formatEther(utils.parseUnits(tokenMintPrice.total, 'wei'))}
+            </Text>
+          </ActionButton>
+          {
+            mintTx &&
+            <CLink href={getExplorerTransactionLink(mintTx, chainId)} isExternal>
+              <Button
+                rightIcon={<FontAwesomeIcon icon={faExternalLinkAlt} size="1x" />}
+                variant="outline"
+              >
+                View in Etherscan
+              </Button>
+            </CLink>
+          }
+        </Box>
       )
     }
   } else {

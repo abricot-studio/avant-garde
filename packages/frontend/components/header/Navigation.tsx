@@ -68,6 +68,9 @@ const getPageStuff = (pathname) => {
   if (pathname === '/myItems') {
     return ['My Items', 'black']
   }
+  if (pathname.startsWith('/token/') ) {
+    return ['Details', 'black']
+  }
   return ['', '']
 }
 

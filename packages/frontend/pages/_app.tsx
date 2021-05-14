@@ -60,7 +60,7 @@ function App({ Component, pageProps }: AppProps) {
         )}
       </Head>
 
-      <GoogleFonts href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;600;700;800;900&family=Roboto+Mono:wght@100;200;300;400;500;600;700;800;900&display=swap" />
+      <GoogleFonts href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;600;700;800;900&family=Roboto+Mono:wght@100;200;300;400;500;600;700;800;900&display=swap&Poppins:wght@100;200;300;400;500;600;700;800;900" />
       <ChakraProvider theme={chakraTheme}>
         <DAppProvider config={DAppConfig}>
           <WalletSelectorContextProvider>
