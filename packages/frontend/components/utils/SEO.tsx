@@ -44,7 +44,7 @@ export default function SEO({ data }: { data: SEOData }) {
         itemProp="description"
         content={data.description || defaultSEOData.description}
       />
-      <meta itemProp="image" content={data.card || `${domain}/card.jpg`} />
+      <meta itemProp="image" content={data.card || `${domain}/card.png`} />
 
       <meta property="og:type" content="website" />
       <meta property="og:url" content={domain} />
@@ -53,7 +53,7 @@ export default function SEO({ data }: { data: SEOData }) {
         property="og:description"
         content={data.description || defaultSEOData.description}
       />
-      <meta property="og:image" content={data.card || `${domain}/card.jpg`} />
+      <meta property="og:image" content={data.card || `${domain}/card.png`} />
       <meta property="og:image:alt" content={title} />
       <meta property="og:site_name" content={title} />
 
@@ -66,7 +66,7 @@ export default function SEO({ data }: { data: SEOData }) {
       />
       <meta
         property="twitter:image"
-        content={data.card || `${domain}/card.jpg`}
+        content={data.card || `${domain}/card.png`}
       />
       <meta property="twitter:image:alt" content={title} />
 
