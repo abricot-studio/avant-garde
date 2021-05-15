@@ -102,7 +102,7 @@ export default function Generate() {
 
       <Box mt={8}>{cta}</Box>
 
-      {(isGenerating || true) && (
+      {isGenerating && (
         <Card mt={8} mb={8}>
           <Flex direction="column" align="center">
             <Text align="center">Your image is being generated.</Text>
