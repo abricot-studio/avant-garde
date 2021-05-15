@@ -17,7 +17,7 @@
     "deploy:localhost": "hardhat --network localhost deploy",
     "deploy:rinkeby": "hardhat --network rinkeby deploy",
     "deploy:kovan": "hardhat --network kovan deploy",
-    "verify:rinkeby": "hardhat verify --network rinkeby 0xADF506189b0aC008fBc58041512D1BC3F6652d41 '0xE4D29ec42F4057EfF92c9124c82844b2689f9C6d' '0x91a5D3bCe5317D5579E780d67021fEc692575d1d'",
+    "verify:rinkeby": "hardhat verify --network rinkeby 0xf48855FF1E2C1683bFfC321738a8c08c28DC1Ad1 '0xE4D29ec42F4057EfF92c9124c82844b2689f9C6d' '0x91a5D3bCe5317D5579E780d67021fEc692575d1d'",
     "verify:kovan": "hardhat verify --network kovan 0xD5bC431D0CEF8747E4898Aa76f8956646084302a '0xE4D29ec42F4057EfF92c9124c82844b2689f9C6d' '0x91a5D3bCe5317D5579E780d67021fEc692575d1d'",
     "scripts:seed": "npm run scripts ./scripts/seed.ts"
   },
