@@ -53,29 +53,29 @@ export const getStaticPaths = async () => {
   }
 }
 
-// export const getStaticProps = async (
-//   ctx: GetStaticPropsContext<QueryParams>
-// ) => {
-//   const [ssrClient, ssrCache] = getSsrClient()
-//   const id = ctx.params.id
-//
-//   const {
-//     data: { avantGardeToken },
-//   } = await ssrClient
-//     .query(TokenQuery, {
-//       address: id.toLowerCase(),
-//     })
-//     .toPromise()
-//
-//   const initialMetadata = await getIpfsData(avantGardeToken.tokenURI)
-//
-//   return {
-//     props: {
-//       urqlState: ssrCache.extractData(),
-//       initialMetadata,
-//     },
-//     revalidate: 30,
-//   }
-// }
+export const getStaticProps = async (
+  ctx: GetStaticPropsContext<QueryParams>
+) => {
+  const [ssrClient, ssrCache] = getSsrClient()
+  const id = ctx.params.id
+
+  const {
+    data: { avantGardeToken },
+  } = await ssrClient
+    .query(TokenQuery, {
+      address: id.toLowerCase(),
+    })
+    .toPromise()
+
+  const initialMetadata = await getIpfsData(avantGardeToken.tokenURI)
+
+  return {
+    props: {
+      urqlState: ssrCache.extractData(),
+      initialMetadata,
+    },
+    revalidate: 30,
+  }
+}
 
 export default wrapUrqlClient(TokenPage)

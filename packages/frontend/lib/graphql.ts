@@ -19,7 +19,7 @@ export const getSsrClient = (): [Client, ReturnType<typeof ssrExchange>] => {
   const ssrClient = initUrqlClient(
     {
       url: config.subgraphUrl,
-      exchanges: [dedupExchange, cacheExchange, ssrCache, fetchExchange],
+      // exchanges: [dedupExchange, cacheExchange, ssrCache, fetchExchange],
     },
     false
   )
@@ -37,6 +37,6 @@ export const wrapUrqlClient = (AppOrPage: React.FC<any>) =>
     }),
     {
       neverSuspend: true,
-      ssr: true,
+      ssr: false,
     }
   )(AppOrPage)
