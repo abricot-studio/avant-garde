@@ -1,25 +1,29 @@
-import { useMemo } from 'react'
 import { getChainName } from '@usedapp/core'
-import { Modal, ModalOverlay, ModalHeader, ModalBody, ModalContent, Text, Button } from '../ui'
-import { useWeb3 } from '../../contexts/Web3Context'
-import networks from '../../../contracts/deployments/networks.json'
 import config from '../../config'
+import { useContract } from '../../hooks/contracts'
+import { useWalletSelector } from '../../lib/WalletSelector/context'
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  Text,
+} from '../ui'
 
 export function NetworkChecker({ children }) {
-  const {account, disconnect} = useWeb3()
+  const { address } = useContract()
+  const { disconnect } = useWalletSelector()
 
-  const contractInfo = useMemo(() => account?.chainId && networks[account.chainId], [account]);
-
-  if(account && !contractInfo) {
+  if (!address) {
     return (
       <Modal isOpen isCentered onClose={() => 0}>
         <ModalOverlay />
         <ModalContent pt={2} pb={4}>
           <ModalHeader textAlign="center">Unsupported network</ModalHeader>
           <ModalBody textAlign="center">
-            <Text>
-              Please switch your wallet to a supported network:
-            </Text>
+            <Text>Please switch your wallet to a supported network:</Text>
             <Text textStyle="caption" colorScheme="red">
               {getChainName(config.defaultChainId) || config.defaultChainId}
             </Text>
@@ -31,12 +35,11 @@ export function NetworkChecker({ children }) {
             >
               Disconnect
             </Button>
-
           </ModalBody>
         </ModalContent>
       </Modal>
     )
   }
 
-  return children;
+  return children
 }

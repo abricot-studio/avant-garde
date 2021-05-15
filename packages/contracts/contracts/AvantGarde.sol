@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: MIT
-pragma solidity 0.8.3;
+pragma solidity 0.8.4;
 
-import "hardhat/console.sol";
+//import "hardhat/console.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
@@ -15,7 +15,7 @@ contract AvantGarde is ERC721URIStorage {
   event Minted(uint256 indexed tokenId, uint256 indexed mintPrice);
   event Burned(uint256 indexed tokenId, uint256 indexed burnPrice);
 
-  Counters.Counter public countMint;
+  Counters.Counter public totalSupply;
 
   uint8 constant fees = 10; // 10%
   address payable public feesReceiver;
@@ -55,7 +55,7 @@ contract AvantGarde is ERC721URIStorage {
     // Check price
     (uint256 price, uint256 mintFees) = currentMintPrice();
     require(msg.value == price + mintFees, "AI");
-    countMint.increment();
+    totalSupply.increment();
 
     // Mint token
     _tokenId = uint256(uint160(bytes20(msg.sender)));
@@ -72,7 +72,7 @@ contract AvantGarde is ERC721URIStorage {
 
     require(ownerOf(_tokenId) == msg.sender, "NO");
 
-    countMint.decrement();
+    totalSupply.decrement();
     _burn(_tokenId);
     uint256 burnPrice = currentPrice();
     payable(msg.sender).sendValue(burnPrice);
@@ -85,19 +85,19 @@ contract AvantGarde is ERC721URIStorage {
 
   // Price
   function currentPrice() public view returns (uint256){
-    return priceFor(countMint.current() + 1);
+    return priceFor(totalSupply.current() + 1);
   }
 
   function currentMintPrice() public view returns (uint256, uint256){
-    return mintPriceFor(countMint.current() + 1);
+    return mintPriceFor(totalSupply.current() + 1);
   }
 
   function currentBurnPrice() public view returns (uint256){
-    return priceFor(countMint.current());
+    return priceFor(totalSupply.current());
   }
 
   function currentMintWithFeesPrice() public view returns (uint256){
-    return mintWithFeesPriceFor(countMint.current() + 1);
+    return mintWithFeesPriceFor(totalSupply.current() + 1);
   }
 
   function mintWithFeesPriceFor(uint256 _current) public pure returns (uint256){

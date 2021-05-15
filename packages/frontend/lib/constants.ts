@@ -12,6 +12,8 @@ export const contractConstants = {
     b: 10000,
   },
   platformFees: 0.1,
-};
+}
 
-export const bondingCurveFn = memoize(i => Math.pow(i, contractConstants.bc.a) / contractConstants.bc.b)
+export const bondingCurveFn = memoize(
+  (i) => Math.pow(i, contractConstants.bc.a) / contractConstants.bc.b
+)

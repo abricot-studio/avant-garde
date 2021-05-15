@@ -1,72 +1,49 @@
-import Layout from '../components/Layout'
-import SEO from '../components/utils/SEO'
-import { Button, Heading, Box, ActionButton, Center } from '../components/ui'
-import React, { useEffect } from 'react'
-import { useWeb3 } from '../contexts/Web3Context'
-import { wrapUrqlClient } from '../lib/graphql'
-import { useRouter } from 'next/router'
-import { defaultMyTokensQueryVariables, useCanMint, useMyTokens } from '../hooks/tokens'
-import Tokens from '../components/pages/Tokens'
+import { useEthers } from '@usedapp/core'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
+import React, { useEffect } from 'react'
+import Layout from '../components/Layout'
+import Tokens from '../components/tokens/Tokens'
+import { Box, Button, Heading } from '../components/ui'
+import SEO from '../components/utils/SEO'
+import { defaultMyTokensQueryVariables, useMyTokens } from '../hooks/tokens'
+import { wrapUrqlClient } from '../lib/graphql'
+import { useWalletSelector } from '../lib/WalletSelector/context'
 
 const seoData = {
   title: 'My tokens',
 }
 
 const MyTokensPage: React.FC = () => {
-
-  const { account, isConnecting } = useWeb3()
+  const { isConnecting } = useWalletSelector()
+  const { account } = useEthers()
   const router = useRouter()
   const { tokens, fetching, error } = useMyTokens({
     ...defaultMyTokensQueryVariables,
-    address: account?.address
+    address: account,
   })
-  const canMint = useCanMint();
 
   useEffect(() => {
-
-    if(!isConnecting && !account){
-
+    if (!isConnecting && !account) {
       router.push(`/`)
-
     }
-
   }, [isConnecting, account])
 
-  if(!account) {
-
-    return (<div></div>)
-
+  if (!account) {
+    return <div></div>
   }
 
   return (
-    <Layout>
+    <>
       <SEO data={seoData} />
-      <Heading
-        textAlign="center"
-        mb={8}
-      >My items</Heading>
-      <Tokens
-        tokens={tokens}
-        fetching={fetching}
-        error={error}
-        mine
-      />
+      <Layout>
+        <Heading textAlign="center" mb={8}>
+          My items
+        </Heading>
+        <Tokens tokens={tokens} fetching={fetching} error={error} mine />
 
-      {
-        canMint ?
-        <Center mt={8}>
-          <Link passHref href="/generator">
-            <ActionButton
-              as="a"
-            >Generate yours</ActionButton>
-          </Link>
-        </Center>
-          :
-          <Box
-            align="center"
-            mt={12}
-          >
+        {
+          <Box align="center" mt={12}>
             <Link passHref href="/gallery">
               <Button
                 as="a"
@@ -80,13 +57,15 @@ const MyTokensPage: React.FC = () => {
                 rounded="full"
                 _hover={{}}
                 _active={{}}
-              >Discover the gallery</Button>
+              >
+                Discover the gallery
+              </Button>
             </Link>
           </Box>
-      }
-
-    </Layout>
+        }
+      </Layout>
+    </>
   )
 }
 
-export default wrapUrqlClient(MyTokensPage);
+export default wrapUrqlClient(MyTokensPage)

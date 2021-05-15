@@ -124,6 +124,8 @@ export class Model {
   }
 
   generate() {
+    this.tf.engine().startScope()
+
     const features = []
 
     for (let i = 0; i < this.inputShape[1]; i++) {
@@ -162,6 +164,8 @@ export class Model {
 
     const regularize: any = Model.regularizeTensor(output)
     this.tf.dispose([input, regularize])
+    this.tf.dispose(this.model)
+    this.tf.engine().endScope()
 
     return regularize
   }
@@ -169,7 +173,7 @@ export class Model {
   miniBatch(features: any) {
     let arePending = true
     let i = 0
-    let outputs: any[] = []
+    const outputs: any[] = []
 
     const totalBach = Math.round(features.shape[0] / this.batchSize)
     logger.verbose(`Total batch: ${totalBach}`)

@@ -1,27 +1,36 @@
 {
-  "name": "avantGarde-server",
+  "name": "@avant-garde/server",
   "private": true,
   "version": "1.0.0",
   "description": "",
-  "scripts": {},
+  "scripts": {
+    "lint": "eslint \"**/*.{js,ts}\"",
+    "lint:fix": "eslint --fix \"**/*.{js,ts}\""
+  },
   "engines": {
     "node": "12.x"
   },
   "dependencies": {
-    "@pinata/sdk": "^1.1.13",
-    "@vercel/node": "^1.9.1",
+    "@pinata/sdk": "^1.1.14",
+    "@vercel/node": "^1.10.0",
     "assert": "^2.0.0",
     "axios": "^0.21.1",
-    "ethers": "^5.0.32",
-    "ioredis": "^4.24.2",
+    "bluebird": "^3.7.2",
+    "ethers": "^5.1.4",
+    "ioredis": "^4.27.2",
     "jpeg-js": "^0.4.3",
-    "tfjs-node-lambda": "^2.0.4",
+    "tfjs-node-lambda": "^2.0.7",
+    "twitter": "^1.7.1",
     "winston": "^3.3.3"
   },
   "devDependencies": {
-    "@tensorflow/tfjs-node": "^3.3.0",
-    "@types/node": "^14.14.35",
-    "typescript": "^4.2.3"
+    "@tensorflow/tfjs-node": "^3.6.1",
+    "@typescript-eslint/eslint-plugin": "^4.23.0",
+    "@typescript-eslint/parser": "^4.23.0",
+    "@types/node": "^15.0.2",
+    "eslint": "^7.26.0",
+    "eslint-config-prettier": "^8.3.0",
+    "typescript": "^4.2.4"
   },
   "author": "",
   "license": "MIT"

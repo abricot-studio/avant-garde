@@ -1,23 +1,24 @@
-import Layout from '../components/Layout'
-import SEO from '../components/utils/SEO'
-import Hero from '../components/pages/Hero'
 import React from 'react'
-import { wrapUrqlClient } from '../lib/graphql'
+import Layout from '../components/Layout'
+import Hero from '../components/pages/Hero'
 import { Heading } from '../components/ui'
+import SEO from '../components/utils/SEO'
+import { wrapUrqlClient } from '../lib/graphql'
 
 const seoData = {}
 
 const Home: React.FC = () => {
   return (
-    <Layout>
+    <>
       <SEO data={seoData} />
-      <Heading
-        color="transparent"
-        mb={8}
-      >Home</Heading>
-      <Hero />
-    </Layout>
+      <Layout>
+        <Heading color="transparent" mb={8}>
+          Home
+        </Heading>
+        <Hero />
+      </Layout>
+    </>
   )
 }
 
-export default wrapUrqlClient(Home);
+export default wrapUrqlClient(Home)

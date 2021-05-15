@@ -1,9 +1,19 @@
-/node_modules
 .idea
+
 .vercel
-public
-prisma
+.next
+node_modules
+
+# Contracts
 artifacts
 cache
-.next
-out
+deployments
+typechain
+
+# Frontend
+public
+
+# Subgraph
+build
+generated
+subgraph.template.yaml

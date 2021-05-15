@@ -2,19 +2,12 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer } from "ethers";
+import { Contract, Signer, utils } from "ethers";
 import { Provider } from "@ethersproject/providers";
-
-import type { ERC721URIStorage } from "../ERC721URIStorage";
-
-export class ERC721URIStorage__factory {
-  static connect(
-    address: string,
-    signerOrProvider: Signer | Provider
-  ): ERC721URIStorage {
-    return new Contract(address, _abi, signerOrProvider) as ERC721URIStorage;
-  }
-}
+import type {
+  ERC721URIStorage,
+  ERC721URIStorageInterface,
+} from "../ERC721URIStorage";
 
 const _abi = [
   {
@@ -348,3 +341,16 @@ const _abi = [
     type: "function",
   },
 ];
+
+export class ERC721URIStorage__factory {
+  static readonly abi = _abi;
+  static createInterface(): ERC721URIStorageInterface {
+    return new utils.Interface(_abi) as ERC721URIStorageInterface;
+  }
+  static connect(
+    address: string,
+    signerOrProvider: Signer | Provider
+  ): ERC721URIStorage {
+    return new Contract(address, _abi, signerOrProvider) as ERC721URIStorage;
+  }
+}

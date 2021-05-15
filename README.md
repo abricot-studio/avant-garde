@@ -2,8 +2,9 @@
 
 > Mint unique AI-generated NFTs based on your ethereum address
 
-## About 
-AvantGarde is a digital artwork platform where users can mint unique NFT images automatically generated on top of their public address by deep-learning algorithms. 
+## About
+
+AvantGarde is a digital artwork platform where users can mint unique NFT images automatically generated on top of their public address by deep-learning algorithms.
 
 Mint and burn prices follow a bonding curve.
 
