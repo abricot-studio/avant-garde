@@ -1,12 +1,5 @@
 import { initUrqlClient, withUrqlClient } from 'next-urql'
-import {
-  cacheExchange,
-  Client,
-  createClient,
-  dedupExchange,
-  fetchExchange,
-  ssrExchange,
-} from 'urql'
+import { Client, createClient, ssrExchange } from 'urql'
 import config from '../config'
 
 export const defaultClient = createClient({

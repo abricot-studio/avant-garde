@@ -146,6 +146,7 @@ export default async (
     logger.info('loaded tf', { address })
   }
 
+  const startTime = Date.now()
   logger.info('start processing', { address })
 
   const render = new Render(
@@ -159,7 +160,12 @@ export default async (
   const ipfsHashMetadata = await Pinata.uploadMetadata(ipfsHashImage, address)
   await render.viewer.rm(address)
 
-  logger.info('end processing', { address, ipfsHashMetadata, ipfsHashImage })
+  logger.info('end processing', {
+    address,
+    ipfsHashMetadata,
+    ipfsHashImage,
+    time: Date.now() - startTime,
+  })
 
   const signature = await signURI(ipfsHashMetadata, address, signer)
   await redis.set(

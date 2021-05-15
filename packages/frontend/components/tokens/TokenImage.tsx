@@ -1,7 +1,7 @@
 import React from 'react'
 import { AvantGardeToken, useMetadata } from '../../hooks/tokens'
 import { getIpfsUrl } from '../../lib/ipfs'
-import { Box, Center, Image, Text, Flex } from '../ui'
+import { Box, Center, Flex, Image, Text } from '../ui'
 
 export function TokenImage({
   avantGardeToken,
@@ -12,8 +12,13 @@ export function TokenImage({
 }) {
   const metadata = useMetadata(avantGardeToken)
 
-  return <ImageFrame size={size} isBurned={Boolean(avantGardeToken.burnPrice)} src={metadata && getIpfsUrl(metadata.image)} />
-
+  return (
+    <ImageFrame
+      size={size}
+      isBurned={Boolean(avantGardeToken.burnPrice)}
+      src={metadata && getIpfsUrl(metadata.image)}
+    />
+  )
 }
 
 const QuestionMark = () => (
@@ -36,7 +41,7 @@ export function ImageFrame({
   size = defaultSize,
   isLoading,
   isQuestion,
-  isBurned
+  isBurned,
 }: {
   src?: string
   size?: any
@@ -60,7 +65,12 @@ export function ImageFrame({
           overflow="hidden"
         >
           {src && !isLoading && (
-            <Image src={src} boxSize="100%" fallback={<QuestionMark />} opacity={isBurned ? 0.3 : 1}/>
+            <Image
+              src={src}
+              boxSize="100%"
+              fallback={<QuestionMark />}
+              opacity={isBurned ? 0.3 : 1}
+            />
           )}
           {!src && isLoading && (
             <Box bgColor="white" opacity={0.5} style={{ filter: 'blur(20px)' }}>
@@ -77,8 +87,8 @@ export function ImageFrame({
           boxShadow="inset 0px 4px 20px rgba(129, 129, 129, 0.15)"
           position="absolute"
         />
-        {
-          isBurned && <Flex
+        {isBurned && (
+          <Flex
             boxSize="100%"
             borderRadius="full"
             position="absolute"
@@ -90,7 +100,7 @@ export function ImageFrame({
           >
             🔥
           </Flex>
-        }
+        )}
         {isQuestion && <QuestionMark />}
       </Box>
     </Box>
