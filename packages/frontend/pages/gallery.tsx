@@ -19,16 +19,18 @@ const Gallery: React.FC = () => {
     ...defaultTokensQueryVariables,
   })
   return (
-    <Layout>
+    <>
       <SEO data={seoData} />
-      <Heading
-        textAlign="center"
-        mb={8}
-      >
-        Newly Minted
-      </Heading>
-      <Tokens tokens={tokens} fetching={fetching} error={error} />
-    </Layout>
+      <Layout>
+        <Heading
+          textAlign="center"
+          mb={8}
+        >
+          Newly Minted
+        </Heading>
+        <Tokens tokens={tokens} fetching={fetching} error={error} />
+      </Layout>
+    </>
   )
 }
 

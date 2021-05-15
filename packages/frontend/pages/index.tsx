@@ -9,13 +9,15 @@ const seoData = {}
 
 const Home: React.FC = () => {
   return (
-    <Layout>
+    <>
       <SEO data={seoData} />
-      <Heading color="transparent" mb={8}>
-        Home
-      </Heading>
-      <Hero />
-    </Layout>
+      <Layout>
+        <Heading color="transparent" mb={8}>
+          Home
+        </Heading>
+        <Hero />
+      </Layout>
+    </>
   )
 }
 

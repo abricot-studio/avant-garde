@@ -24,10 +24,12 @@ const TokenPage: React.FC<TokenPageProps> = ({ initialMetadata }) => {
   }
 
   return (
-    <Layout>
+    <>
       <SEO data={seoData} />
-      <Token id={id} />
-    </Layout>
+      <Layout>
+          <Token id={id} />
+      </Layout>
+    </>
   )
 }
 

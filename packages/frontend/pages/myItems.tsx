@@ -34,35 +34,37 @@ const MyTokensPage: React.FC = () => {
   }
 
   return (
-    <Layout>
+    <>
       <SEO data={seoData} />
-      <Heading textAlign="center" mb={8}>
-        My items
-      </Heading>
-      <Tokens tokens={tokens} fetching={fetching} error={error} mine />
+      <Layout>
+        <Heading textAlign="center" mb={8}>
+          My items
+        </Heading>
+        <Tokens tokens={tokens} fetching={fetching} error={error} mine />
 
-      {
-        <Box align="center" mt={12}>
-          <Link passHref href="/gallery">
-            <Button
-              as="a"
-              variant="outline"
-              borderRadius="1rem"
-              border="2px"
-              borderColor="#3DDCC9"
-              color="#3DDCC9"
-              bgColor="white"
-              px={24}
-              rounded="full"
-              _hover={{}}
-              _active={{}}
-            >
-              Discover the gallery
-            </Button>
-          </Link>
-        </Box>
-      }
-    </Layout>
+        {
+          <Box align="center" mt={12}>
+            <Link passHref href="/gallery">
+              <Button
+                as="a"
+                variant="outline"
+                borderRadius="1rem"
+                border="2px"
+                borderColor="#3DDCC9"
+                color="#3DDCC9"
+                bgColor="white"
+                px={24}
+                rounded="full"
+                _hover={{}}
+                _active={{}}
+              >
+                Discover the gallery
+              </Button>
+            </Link>
+          </Box>
+        }
+      </Layout>
+    </>
   )
 }
 
