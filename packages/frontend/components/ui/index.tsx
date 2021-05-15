@@ -76,7 +76,7 @@ interface ActionButtonProps {
   color?: string
 }
 export const ActionButton = forwardRef<ButtonProps & ActionButtonProps, 'a'>(
-  ({ children, loadingText, isLoading, color = 'pink', ...props }, ref) => {
+  ({ children, loadingText, isLoading, color = 'pink', px = 12, ...props }, ref) => {
     return (
       <Button
         ref={ref}
@@ -113,7 +113,7 @@ export const ActionButton = forwardRef<ButtonProps & ActionButtonProps, 'a'>(
             rounded="full"
             w="100%"
             h="100%"
-            px={12}
+            px={px}
             align="center"
             justify="center"
           >
