@@ -21,8 +21,11 @@ const Gallery: React.FC = () => {
   return (
     <Layout>
       <SEO data={seoData} />
-      <Heading textAlign="center" mb={8}>
-        Newly minted
+      <Heading
+        textAlign="center"
+        mb={8}
+      >
+        Newly Minted
       </Heading>
       <Tokens tokens={tokens} fetching={fetching} error={error} />
     </Layout>

@@ -17,7 +17,7 @@ import {
   MenuList,
   useBreakpointValue,
 } from '../ui'
-import { WalletIcon } from './Icons'
+import { DefaultAvatarIcon, WalletIcon } from '../../assets/icons'
 
 export const MenuItem = forwardRef<MenuItemProps, 'a'>(
   ({ children, color, ...props }, ref) => {
@@ -43,8 +43,6 @@ export const MenuItem = forwardRef<MenuItemProps, 'a'>(
   }
 )
 
-const defaultAvatar = <FontAwesomeIcon icon={faStreetView} size="2x" />
-
 function MainButton({ account }) {
   const boxProfile = useBoxProfile()
   const mobile = useBreakpointValue({ base: true, md: false })
@@ -62,7 +60,7 @@ function MainButton({ account }) {
           <Avatar
             size="sm"
             src={boxProfile?.imageUrl}
-            icon={defaultAvatar}
+            icon={<DefaultAvatarIcon w={8} h={8} />}
             bg="white"
           />
         }
@@ -77,20 +75,21 @@ function MainButton({ account }) {
       width="170px"
       variant="outline"
       rounded="full"
-      border="1px"
+      border="2px"
       borderColor="black"
       backgroundColor="white"
       textTransform="none"
       fontWeight={300}
       fontFamily="Roboto, sans-serif"
-      fontSize={{ base: '1rem', sm: '1rem', md: '1rem' }}
+      fontSize='0.8rem'
       _hover={{}}
       _active={{}}
       rightIcon={
         <Avatar
           size="xs"
           src={boxProfile?.imageUrl}
-          icon={defaultAvatar}
+          pl={4}
+          icon={<DefaultAvatarIcon w={8} h={8} />}
           bg="white"
         />
       }
@@ -111,8 +110,11 @@ function ConnectButton() {
       <IconButton
         aria-label="connect"
         variant="outline"
-        border="1px"
+        border="2px"
         borderColor="black"
+        fontFamily="Roboto, sans-serif"
+        fontWeight={600}
+        fontSize="0.8rem"
         onClick={open}
         icon={<WalletIcon w={6} h={6} />}
         isLoading={isConnecting}
@@ -127,16 +129,16 @@ function ConnectButton() {
     <Button
       px={4}
       variant="outline"
-      border="1px"
+      border="2px"
       borderColor="black"
       onClick={open}
       leftIcon={<WalletIcon w={6} h={6} />}
       isLoading={isConnecting}
       backgroundColor="white"
       textTransform="uppercase"
-      fontWeight={300}
-      fontFamily="'Roboto Mono', sans-serif"
-      fontSize={{ base: '1rem', sm: '1rem', md: '1rem' }}
+      fontWeight={600}
+      fontFamily="'Roboto', sans-serif"
+      fontSize="0.8rem"
       _hover={{}}
       rounded="full"
       loadingText="Connecting..."

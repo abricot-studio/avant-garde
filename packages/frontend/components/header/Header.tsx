@@ -2,7 +2,7 @@ import Link from 'next/link'
 import React, { useMemo } from 'react'
 import { useWindowScroll } from 'react-use'
 import { Box, Button, Flex } from '../ui'
-import { LogoIcon } from './Icons'
+import { LogoIcon } from '../../assets/icons'
 import { LoginButton } from './LoginButton'
 import { Navigation } from './Navigation'
 
@@ -32,7 +32,7 @@ export function Header() {
         <Box>
           <Link href="/">
             <Button
-              textStyle="appName"
+              fontSize="2rem"
               leftIcon={<LogoIcon />}
               bgColor="transparent"
               textTransform="none"

@@ -14,5 +14,5 @@ export default {
     process.env.NEXT_PUBLIC_GENERATE_URL ||
     'https://avantgardebeta-fct.vercel.app/api/generate',
   // 'http://localhost:3001/api/generate',
-  enableAnalytics: !!process.env.ENABLE_ANALYTICS || false,
+  enableAnalytics: process.env.ENABLE_ANALYTICS === 'true' || false,
 }

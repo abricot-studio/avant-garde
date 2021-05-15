@@ -17,13 +17,14 @@ export default function Layout({ children }) {
     >
       <Header />
 
+      <Box position="absolute" bottom={0} left={0} right={0}>
+        <Footer />
+      </Box>
+
       <Box as="main" py={8}>
         <NetworkChecker>{children}</NetworkChecker>
       </Box>
 
-      <Box position="absolute" bottom={0} left={0} right={0}>
-        <Footer />
-      </Box>
       <WalletSelectorModal />
     </Box>
   )
