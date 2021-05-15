@@ -64,7 +64,7 @@ export async function uploadMetadata(
         description: `Avant garde art of ${address}`,
         external_url: `${config.pinata.externalUrlBase}${address}`,
         name: address,
-        // background_color: 'ffffff',
+        background_color: 'ffffff',
         // attributes: [
         //   {
         //     display_type: 'date',
