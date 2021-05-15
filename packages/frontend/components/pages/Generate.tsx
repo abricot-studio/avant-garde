@@ -102,12 +102,12 @@ export default function Generate() {
 
       <Box mt={8}>{cta}</Box>
 
-      {isGenerating && (
+      {(isGenerating || true) && (
         <Card mt={8} mb={8}>
           <Flex direction="column" align="center">
             <Text align="center">Your image is being generated.</Text>
             <Text align="center">The processing can take up to 30 seconds.</Text>
-            <Text align="center">
+            <Text align="center" fontWeight={500}>
               Each image is uniquely generated from your Ethereum address by deep learning algorithms{' '}
             </Text>
 
@@ -166,6 +166,7 @@ export default function Generate() {
                   variant="outline"
                   size="sm"
                   color="#6B93FB"
+                  fontFamily='"Roboto Mono", sans-serif'
                   _hover={{}}
                   _active={{}}
                   _focus={{}}

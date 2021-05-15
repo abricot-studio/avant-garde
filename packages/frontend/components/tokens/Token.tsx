@@ -68,7 +68,7 @@ function BurnButton({ token, isOpen, onToggle }) {
         fontFamily='"Roboto Mono", sans-serif'
         size="sm"
       >
-        Burned
+        🔥 Burned
       </Button>
     )
   }
@@ -91,7 +91,7 @@ function BurnButton({ token, isOpen, onToggle }) {
       >
         <Text>🔥</Text>
         <ScaleFade initialScale={0} in={isOpen} unmountOnExit reverse>
-          <Text pl={4}>
+          <Text pl={4} fontWeight={700} fontVariant="small-caps">
             Burn for Ξ
             {utils.formatEther(
               utils.parseUnits(tokenBurnPrice.currentPrice, 'wei')
@@ -170,7 +170,9 @@ export default function Token({ id }) {
         as="h3"
         textStyle="h3"
         textAlign="center"
-        fontSize="0.8rem"
+        fontSize="1rem"
+        textTransform="lowercase"
+        fontFamily="'Roboto Mono', sans-serif"
         maxWidth="50rem"
       >
         <IconButton
@@ -309,7 +311,9 @@ export default function Token({ id }) {
           {token.burnPrice && (
             <VStack justify="space-between" alignItems="start">
               <Box>
-                {moment(Number(token.burnTimestamp) * 1000).format('YYYYMMMDD')}
+                {moment(Number(token.burnTimestamp) * 1000)
+                  .format('YYYYMMMDD')
+                  .toUpperCase()}
               </Box>
               <Box>
                 Ξ {utils.formatEther(utils.parseUnits(token.burnPrice, 'wei'))}
@@ -331,6 +335,7 @@ export default function Token({ id }) {
                 variant="outline"
                 size="sm"
                 color="#6B93FB"
+                fontFamily='"Roboto Mono", sans-serif'
                 _hover={{}}
                 _active={{}}
                 _focus={{}}

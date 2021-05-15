@@ -8,7 +8,7 @@ const config = {
 const styles = {
   global: {
     'html, body': {
-      fontFamily: '"Roboto", sans-serif',
+      fontFamily: 'Poppins, sans-serif',
       fontSize: ['14px', '16px'],
       fontWeight: 300,
       background: 'theme',
@@ -77,17 +77,17 @@ const textStyles = {
     fontSize: ['0.8rem', '0.8rem', '0.9rem'],
   },
   semibold: {
-    fontFamily: '"Roboto", sans-serif',
+    fontFamily: 'Poppins, sans-serif',
     fontWeight: 400,
     fontSize: '1.1rem',
   },
   normal: {
-    fontFamily: '"Roboto", sans-serif',
+    fontFamily: 'Poppins, sans-serif',
     fontWeight: 300,
     fontSize: '1.1rem',
   },
   small: {
-    fontFamily: '"Roboto", sans-serif',
+    fontFamily: 'Poppins, sans-serif',
     fontWeight: 300,
     fontSize: ['0.9rem'],
   },

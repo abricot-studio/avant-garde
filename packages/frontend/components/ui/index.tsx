@@ -34,8 +34,9 @@ export const Button = forwardRef<ButtonProps, 'a'>(
     return (
       <ChakraButton
         ref={ref}
-        fontWeight={500}
+        fontWeight={600}
         size="md"
+        textTransform="none"
         _focus={{
           outline: 'none',
         }}
@@ -82,7 +83,7 @@ export const ActionButton = forwardRef<ButtonProps & ActionButtonProps, 'a'>(
         variant="outline"
         border="0"
         size="md"
-        fontWeight={500}
+        fontWeight={600}
         px={0}
         _active={{}}
         _hover={{}}

@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 import Layout from '../components/Layout'
 import Tokens from '../components/tokens/Tokens'
-import { Box, Button, Heading } from '../components/ui'
+import { ActionButton, Box, Heading } from '../components/ui'
 import SEO from '../components/utils/SEO'
 import { defaultMyTokensQueryVariables, useMyTokens } from '../hooks/tokens'
 import { wrapUrqlClient } from '../lib/graphql'
@@ -45,21 +45,9 @@ const MyTokensPage: React.FC = () => {
         {
           <Box align="center" mt={12}>
             <Link passHref href="/gallery">
-              <Button
-                as="a"
-                variant="outline"
-                borderRadius="1rem"
-                border="2px"
-                borderColor="#3DDCC9"
-                color="#3DDCC9"
-                bgColor="white"
-                px={24}
-                rounded="full"
-                _hover={{}}
-                _active={{}}
-              >
-                Discover the gallery
-              </Button>
+              <ActionButton as="a" w="12rem">
+                Gallery
+              </ActionButton>
             </Link>
           </Box>
         }

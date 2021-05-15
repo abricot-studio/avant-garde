@@ -143,7 +143,7 @@ export default function Tokens({ tokens, fetching, error, mine }: Props) {
         <Address
           mt={8}
           fontWeight={700}
-          fontSize={{ base: '0.8rem', sm: '1rem', md: '1.2rem' }}
+          fontSize={{ base: '0.8rem', sm: '1rem', md: '1rem' }}
           fontFamily='"Roboto Mono", sans-serif'
         >
           {tokensDisplayed[1].id}
