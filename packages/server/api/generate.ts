@@ -51,7 +51,6 @@ export default async (
 
     // const keys = await redis.keys('*')
     // await Promise.all(keys.map(key => redis.del(key) ) )
-
   }
 
   const redisExisting = await redis.get(address)
