@@ -1,10 +1,17 @@
+import { useDisclosure } from '@chakra-ui/hooks'
+import { ScaleFade } from '@chakra-ui/react'
 import { faRedditAlien } from '@fortawesome/free-brands-svg-icons'
 import {
   faArrowLeft,
   faExternalLinkAlt,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { addressEqual, getExplorerTransactionLink, isTestChain, useEthers } from '@usedapp/core'
+import {
+  addressEqual,
+  getExplorerTransactionLink,
+  isTestChain,
+  useEthers,
+} from '@usedapp/core'
 import BigNumber from 'bignumber.js'
 import { utils } from 'ethers'
 import moment from 'moment'
@@ -30,8 +37,6 @@ import {
   VStack,
 } from '../ui'
 import { defaultSize, TokenImage } from './TokenImage'
-import { useDisclosure } from '@chakra-ui/hooks'
-import { ScaleFade } from '@chakra-ui/react'
 
 function BurnButton({ token, isOpen, onToggle }) {
   const { account } = useEthers()
@@ -44,22 +49,28 @@ function BurnButton({ token, isOpen, onToggle }) {
   }
 
   if (!tokenBurnPrice) {
-    return <Button
-      isLoading
-      loadingText="Loading burn price..."
-      borderRadius="full"
-      boxShadow="0px 4px 4px rgba(0, 0, 0, 0.15)"
-      fontFamily='"Roboto Mono", sans-serif'
-      size="sm"
-    />
+    return (
+      <Button
+        isLoading
+        loadingText="Loading burn price..."
+        borderRadius="full"
+        boxShadow="0px 4px 4px rgba(0, 0, 0, 0.15)"
+        fontFamily='"Roboto Mono", sans-serif'
+        size="sm"
+      />
+    )
   } else if (burned) {
-    return <Button
-      isDisabled
-      borderRadius="full"
-      boxShadow="0px 4px 4px rgba(0, 0, 0, 0.15)"
-      fontFamily='"Roboto Mono", sans-serif'
-      size="sm"
-    >Burned</Button>
+    return (
+      <Button
+        isDisabled
+        borderRadius="full"
+        boxShadow="0px 4px 4px rgba(0, 0, 0, 0.15)"
+        fontFamily='"Roboto Mono", sans-serif'
+        size="sm"
+      >
+        Burned
+      </Button>
+    )
   }
 
   return (
@@ -79,12 +90,7 @@ function BurnButton({ token, isOpen, onToggle }) {
         onMouseLeave={onToggle}
       >
         <Text>🔥</Text>
-        <ScaleFade
-          initialScale={0}
-          in={isOpen}
-          unmountOnExit
-          reverse
-        >
+        <ScaleFade initialScale={0} in={isOpen} unmountOnExit reverse>
           <Text pl={4}>
             Burn for Ξ
             {utils.formatEther(
@@ -94,7 +100,6 @@ function BurnButton({ token, isOpen, onToggle }) {
         </ScaleFade>
       </Button>
     </Box>
-
   )
 }
 
@@ -182,7 +187,12 @@ export default function Token({ id }) {
         {id}
       </Heading>
       <Box>
-        <Box position="absolute" width={defaultSize} height={defaultSize} zIndex={1}>
+        <Box
+          position="absolute"
+          width={defaultSize}
+          height={defaultSize}
+          zIndex={1}
+        >
           <SocialLink
             icon={<TwitterIcon w={4} h={4} fill="#1FA1F1" />}
             href={socialPostUrls.twitter}
@@ -191,73 +201,71 @@ export default function Token({ id }) {
             left="10%"
             top="80%"
             sx={{
-              animation: isOpen ? 'x-motion-l-up 1s ease-out forwards' : 'x-motion-l-down 1s ease-out forwards',
+              animation: isOpen
+                ? 'x-motion-l-up 1s ease-out forwards'
+                : 'x-motion-l-down 1s ease-out forwards',
               '@keyframes x-motion-l-up': {
                 '0%': {
-                  top: "80%",
-                  left: "10%"
+                  top: '80%',
+                  left: '10%',
                 },
                 '100%': {
-                  top: "60%",
-                  left: "0%"
+                  top: '60%',
+                  left: '0%',
                 },
               },
               '@keyframes x-motion-l-down': {
                 '0%': {
-                  top: "60%",
-                  left: "0%"
+                  top: '60%',
+                  left: '0%',
                 },
                 '100%': {
-                  top: "80%",
-                  left: "10%"},
-              }
+                  top: '80%',
+                  left: '10%',
+                },
+              },
             }}
           />
           <SocialLink
-            icon={<FontAwesomeIcon icon={faRedditAlien} size="1x" color="#FF4500" />}
+            icon={
+              <FontAwesomeIcon icon={faRedditAlien} size="1x" color="#FF4500" />
+            }
             href={socialPostUrls.reddit}
             label="reddit"
             position="absolute"
             right="10%"
             top="80%"
             sx={{
-              animation: isOpen ? 'x-motion-r-up 1s ease-out forwards' : 'x-motion-r-down 1s ease-out forwards',
+              animation: isOpen
+                ? 'x-motion-r-up 1s ease-out forwards'
+                : 'x-motion-r-down 1s ease-out forwards',
               '@keyframes x-motion-r-up': {
                 '0%': {
-                  top: "80%",
-                  right: "10%"
+                  top: '80%',
+                  right: '10%',
                 },
                 '100%': {
-                  top: "60%",
-                  right: "0%"
+                  top: '60%',
+                  right: '0%',
                 },
               },
               '@keyframes x-motion-r-down': {
                 '0%': {
-                  top: "60%",
-                  right: "0%"
+                  top: '60%',
+                  right: '0%',
                 },
                 '100%': {
-                  top: "80%",
-                  right: "10%"
+                  top: '80%',
+                  right: '10%',
                 },
-              }
+              },
             }}
           />
-          <Box
-            position="absolute"
-            top="93%"
-            textAlign="center"
-            width="100%"
-          >
-            <BurnButton
-              token={token}
-              isOpen={isOpen}
-              onToggle={onToggle}
-            />
+          <Box position="absolute" top="93%" textAlign="center" width="100%">
+            <BurnButton token={token} isOpen={isOpen} onToggle={onToggle} />
           </Box>
         </Box>
-        <TokenImage avantGardeToken={token} size={defaultSize}/>
+        <TokenImage avantGardeToken={token} size={defaultSize} />
       </Box>
 
       <Box align="center" mt={8}>
@@ -268,32 +276,31 @@ export default function Token({ id }) {
           _active={{}}
           _focus={{}}
         >
-          <ActionButton
-          >
-            <Text pr={4} >Trade on OpenSea</Text>
-            <FontAwesomeIcon
-              icon={faExternalLinkAlt}
-            />
+          <ActionButton>
+            <Text pr={4}>Trade on OpenSea</Text>
+            <FontAwesomeIcon icon={faExternalLinkAlt} />
           </ActionButton>
         </CLink>
       </Box>
 
       <Card mt={8}>
         <HStack justifyContent="center">
-          <VStack justify="space-between" alignItems="start" >
-            <Box fontWeight={600} >⌛ Mint Date</Box>
+          <VStack justify="space-between" alignItems="start">
+            <Box fontWeight={600}>⌛ Mint Date</Box>
             <Box fontWeight={600}>⛏ Mint Price</Box>
           </VStack>
           <VStack justify="space-between" alignItems="start">
             <Box>
-              {moment(Number(token.mintTimestamp) * 1000).format('YYYYMMMDD').toUpperCase()}
+              {moment(Number(token.mintTimestamp) * 1000)
+                .format('YYYYMMMDD')
+                .toUpperCase()}
             </Box>
             <Box>
               Ξ {utils.formatEther(utils.parseUnits(token.mintPrice, 'wei'))}
             </Box>
           </VStack>
 
-          { token.burnPrice && (
+          {token.burnPrice && (
             <VStack justify="space-between" alignItems="start">
               <Box fontWeight={600}>⌛ Burn Date</Box>
               <Box fontWeight={600}>🔥 Burn Price</Box>
@@ -310,12 +317,17 @@ export default function Token({ id }) {
             </VStack>
           )}
         </HStack>
-        {
-          burnTx &&
+        {burnTx && (
           <HStack justifyContent="center" mt={2}>
-            <CLink href={getExplorerTransactionLink(burnTx, chainId)} isExternal color="#6B93FB">
+            <CLink
+              href={getExplorerTransactionLink(burnTx, chainId)}
+              isExternal
+              color="#6B93FB"
+            >
               <Button
-                rightIcon={<FontAwesomeIcon icon={faExternalLinkAlt} size="1x" />}
+                rightIcon={
+                  <FontAwesomeIcon icon={faExternalLinkAlt} size="1x" />
+                }
                 variant="outline"
                 size="sm"
                 color="#6B93FB"
@@ -327,9 +339,8 @@ export default function Token({ id }) {
               </Button>
             </CLink>
           </HStack>
-        }
+        )}
       </Card>
-
     </Flex>
   )
 }

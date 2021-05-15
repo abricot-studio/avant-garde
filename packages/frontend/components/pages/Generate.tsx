@@ -1,3 +1,5 @@
+import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { getExplorerTransactionLink, useEthers } from '@usedapp/core'
 import { utils } from 'ethers'
 import Link from 'next/link'
@@ -12,9 +14,17 @@ import { useToken } from '../../hooks/tokens'
 import { getIpfsUrl } from '../../lib/ipfs'
 import { useWalletSelector } from '../../lib/WalletSelector/context'
 import { ImageFrame } from '../tokens/TokenImage'
-import { ActionButton, Box, Button, Card, Flex, HStack, Text, VStack,  Link as CLink } from '../ui'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
+import {
+  ActionButton,
+  Box,
+  Button,
+  Card,
+  Flex,
+  HStack,
+  Link as CLink,
+  Text,
+  VStack,
+} from '../ui'
 
 export default function Generate() {
   const { isConnecting, open } = useWalletSelector()
@@ -59,20 +69,25 @@ export default function Generate() {
           >
             Mint for{' '}
             <Text ml={2}>
-              Ξ {utils.formatEther(utils.parseUnits(tokenMintPrice.total, 'wei'))}
+              Ξ{' '}
+              {utils.formatEther(utils.parseUnits(tokenMintPrice.total, 'wei'))}
             </Text>
           </ActionButton>
-          {
-            mintTx &&
-            <CLink href={getExplorerTransactionLink(mintTx, chainId)} isExternal>
+          {mintTx && (
+            <CLink
+              href={getExplorerTransactionLink(mintTx, chainId)}
+              isExternal
+            >
               <Button
-                rightIcon={<FontAwesomeIcon icon={faExternalLinkAlt} size="1x" />}
+                rightIcon={
+                  <FontAwesomeIcon icon={faExternalLinkAlt} size="1x" />
+                }
                 variant="outline"
               >
                 View in Etherscan
               </Button>
             </CLink>
-          }
+          )}
         </Box>
       )
     }

@@ -1,8 +1,7 @@
-import { faStreetView } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { shortenAddress, useEthers } from '@usedapp/core'
 import Link from 'next/link'
 import React from 'react'
+import { DefaultAvatarIcon, WalletIcon } from '../../assets/icons'
 import { useBoxProfile } from '../../hooks/profile'
 import { useWalletSelector } from '../../lib/WalletSelector/context'
 import {
@@ -17,7 +16,6 @@ import {
   MenuList,
   useBreakpointValue,
 } from '../ui'
-import { DefaultAvatarIcon, WalletIcon } from '../../assets/icons'
 
 export const MenuItem = forwardRef<MenuItemProps, 'a'>(
   ({ children, color, ...props }, ref) => {
@@ -81,7 +79,7 @@ function MainButton({ account }) {
       textTransform="none"
       fontWeight={300}
       fontFamily="Roboto, sans-serif"
-      fontSize='0.8rem'
+      fontSize="0.8rem"
       _hover={{}}
       _active={{}}
       rightIcon={

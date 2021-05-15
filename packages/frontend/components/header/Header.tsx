@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import React, { useMemo } from 'react'
 import { useWindowScroll } from 'react-use'
-import { Box, Button, Flex } from '../ui'
 import { LogoIcon } from '../../assets/icons'
+import { Box, Button, Flex } from '../ui'
 import { LoginButton } from './LoginButton'
 import { Navigation } from './Navigation'
 

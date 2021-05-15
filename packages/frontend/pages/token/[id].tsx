@@ -27,7 +27,7 @@ const TokenPage: React.FC<TokenPageProps> = ({ initialMetadata }) => {
     <>
       <SEO data={seoData} />
       <Layout>
-          <Token id={id} />
+        <Token id={id} />
       </Layout>
     </>
   )

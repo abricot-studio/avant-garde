@@ -160,7 +160,12 @@ export default async (
   const ipfsHashMetadata = await Pinata.uploadMetadata(ipfsHashImage, address)
   await render.viewer.rm(address)
 
-  logger.info('end processing', { address, ipfsHashMetadata, ipfsHashImage, time: Date.now() - startTime })
+  logger.info('end processing', {
+    address,
+    ipfsHashMetadata,
+    ipfsHashImage,
+    time: Date.now() - startTime,
+  })
 
   const signature = await signURI(ipfsHashMetadata, address, signer)
   await redis.set(

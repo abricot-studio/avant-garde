@@ -48,7 +48,6 @@ function App({ Component, pageProps }: AppProps) {
           href="/favicons/favicon-16x16.png"
         />
 
-
         {config.enableAnalytics && (
           <script
             async
