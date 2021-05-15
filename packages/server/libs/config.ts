@@ -66,8 +66,8 @@ const config: Config = {
   },
   alchemyApiKey: process.env.ALCHEMY_API_KEY,
   image: {
-    width: parseInt(process.env.IMAGE_WIDTH || '512', 10),
-    height: parseInt(process.env.IMAGE_HEIGHT || '512', 10),
+    width: parseInt(process.env.IMAGE_WIDTH || '620', 10),
+    height: parseInt(process.env.IMAGE_HEIGHT || '620', 10),
     scale: parseInt(process.env.IMAGE_SCALE || '10', 10),
     blackWhite: Boolean(process.env.IMAGE_BLACK_WHITE),
     batchSize: parseInt(process.env.IMAGE_BATCH_SIZE || '1000', 10),
