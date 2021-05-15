@@ -11,13 +11,15 @@ const seoData = {
 
 const Generator: React.FC = () => {
   return (
-    <Layout>
+    <>
       <SEO data={seoData} />
-      <Heading color="transparent" mb={8}>
-        Generator
-      </Heading>
-      <Generate />
-    </Layout>
+      <Layout>
+        <Heading color="transparent" mb={8}>
+          Generator
+        </Heading>
+        <Generate />
+      </Layout>
+    </>
   )
 }
 

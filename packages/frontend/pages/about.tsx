@@ -10,10 +10,12 @@ const seoData = {
 
 function AboutPage() {
   return (
-    <Layout>
+    <>
       <SEO data={seoData} />
-      <About />
-    </Layout>
+      <Layout>
+        <About />
+      </Layout>
+    </>
   )
 }
 
