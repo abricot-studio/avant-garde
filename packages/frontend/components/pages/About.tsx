@@ -287,22 +287,25 @@ function Chart() {
               if (['linetPast', 'linetNext'].includes(datum.childName)) {
                 return `
                     # Circulating: ${datum.x}
-                    Mint Price: Ξ ${bondingCurveFn(datum.x + 1)}
-                    ${datum.x !== 0 ? `Burn Price: Ξ ${datum.y}` : ''}
+                    
+                    Mint Price: Ξ ${bondingCurveFn(datum.x + 1)}\n${datum.x !== 0 ? `Burn Price: Ξ ${datum.y}` : ''}
                   `
               }
               return null
             }}
             labelComponent={
               <VictoryTooltip
-                cornerRadius={0}
+                cornerRadius={5}
+                pointerLength={5}
                 style={{
                   fontFamily: 'Roboto Mono',
                   fontSize: 7,
+                  fill: 'white',
                   fontWeight: 500,
                 }}
                 flyoutStyle={{
-                  fill: 'white',
+                  fill: '#6B93FB',
+                  stroke: '#6B93FB'
                 }}
               />
             }
