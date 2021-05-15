@@ -32,17 +32,17 @@ const Gallery: React.FC = () => {
   )
 }
 
-export const getStaticProps = async () => {
-  const [ssrClient, ssrCache] = getSsrClient()
-
-  await ssrClient.query(TokensQuery, defaultTokensQueryVariables).toPromise()
-
-  return {
-    props: {
-      urqlState: ssrCache.extractData(),
-    },
-    revalidate: 30,
-  }
-}
+// export const getStaticProps = async () => {
+//   const [ssrClient, ssrCache] = getSsrClient()
+//
+//   await ssrClient.query(TokensQuery, defaultTokensQueryVariables).toPromise()
+//
+//   return {
+//     props: {
+//       urqlState: ssrCache.extractData(),
+//     },
+//     revalidate: 30,
+//   }
+// }
 
 export default wrapUrqlClient(Gallery)

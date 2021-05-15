@@ -37,6 +37,6 @@ export const wrapUrqlClient = (AppOrPage: React.FC<any>) =>
     }),
     {
       neverSuspend: true,
-      ssr: false,
+      ssr: true,
     }
   )(AppOrPage)
