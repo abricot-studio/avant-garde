@@ -45,7 +45,7 @@ export default function Generate() {
   if (token || fetchingToken) {
     cta = <ActionButton isLoading loadingText="Loading token..." />
   } else if (minted) {
-    cta = <ActionButton isDisabled>Mint successful !</ActionButton>
+    cta = <ActionButton isDisabled>⛏ Minted successfully !</ActionButton>
   } else if (!account) {
     cta = (
       <ActionButton
@@ -65,29 +65,14 @@ export default function Generate() {
           <ActionButton
             onClick={() => mint(generationResult)}
             isLoading={isMinting}
-            loadingText="Minting token..."
+            loadingText="⛏ Minting art..."
           >
-            Mint for{' '}
+            ⛏ Mint for{' '}
             <Text ml={2}>
               Ξ{' '}
               {utils.formatEther(utils.parseUnits(tokenMintPrice.total, 'wei'))}
             </Text>
           </ActionButton>
-          {mintTx && (
-            <CLink
-              href={getExplorerTransactionLink(mintTx, chainId)}
-              isExternal
-            >
-              <Button
-                rightIcon={
-                  <FontAwesomeIcon icon={faExternalLinkAlt} size="1x" />
-                }
-                variant="outline"
-              >
-                View in Etherscan
-              </Button>
-            </CLink>
-          )}
         </Box>
       )
     }
@@ -96,9 +81,9 @@ export default function Generate() {
       <ActionButton
         onClick={() => generateImage()}
         isLoading={isGenerating}
-        loadingText="Generating"
+        loadingText="🎨 Generating art..."
       >
-        Generate
+        Generate yours
       </ActionButton>
     )
   }
@@ -118,15 +103,25 @@ export default function Generate() {
       <Box mt={8}>{cta}</Box>
 
       {isGenerating && (
-        <Card mt={8}>
+        <Card mt={8} mb={8}>
           <Flex direction="column" align="center">
-            <Text>Your image is being generated.</Text>
-            <Text>The processing can take up to 30 seconds.</Text>
-            <Text>
-              Each image is uniquely generated from your Ethereum address by
-              deep learning algorithms{' '}
+            <Text align="center">Your image is being generated.</Text>
+            <Text align="center">The processing can take up to 30 seconds.</Text>
+            <Text align="center">
+              Each image is uniquely generated from your Ethereum address by deep learning algorithms{' '}
             </Text>
-            <Link href="/about">Learn more </Link>
+
+            <Link href="/about">
+              <Button
+                variant="outline"
+                size="sm"
+                _hover={{}}
+                _active={{}}
+                _focus={{}}
+              >
+                Learn more
+              </Button>
+            </Link>
           </Flex>
         </Card>
       )}
@@ -157,6 +152,29 @@ export default function Generate() {
               </Flex>
             </VStack>
           </HStack>
+          {mintTx && (
+            <HStack justifyContent="center" mt={2}>
+              <CLink
+                href={getExplorerTransactionLink(mintTx, chainId)}
+                isExternal
+                color="#6B93FB"
+              >
+                <Button
+                  rightIcon={
+                    <FontAwesomeIcon icon={faExternalLinkAlt} size="1x" />
+                  }
+                  variant="outline"
+                  size="sm"
+                  color="#6B93FB"
+                  _hover={{}}
+                  _active={{}}
+                  _focus={{}}
+                >
+                  Open Transaction
+                </Button>
+              </CLink>
+            </HStack>
+          )}
         </Card>
       )}
     </Flex>
