@@ -30,6 +30,12 @@ import {
 import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useDisclosure } from '@chakra-ui/hooks'
+import dynamic from 'next/dynamic'
+
+const DynamicMathComponent = dynamic(
+  () => import('mathjax-react').then(mathjax => mathjax.MathComponent),
+  { ssr: false }
+) as (typeof import('mathjax-react').MathComponent)
 
 const Title = ({ children, ...props }) => (
   <Heading textAlign="center" mt={8} mb={4} fontSize={24} fontFamily="Poppins, sans-serif" {...props}>
@@ -254,6 +260,9 @@ function Chart() {
     </VStack>
   ) : (
     <>
+      <Box pl={8} pt={4}>
+        <DynamicMathComponent tex={String.raw`f(x) = \frac{x^2}{10000}`} />
+      </Box>
       <svg style={{ height: 0 }}>
         <defs>
           <linearGradient id="myGradient1">
@@ -280,16 +289,16 @@ function Chart() {
           <VictoryVoronoiContainer
             voronoiDimension="x"
             labels={({ datum }) => {
-              if (datum.childName === 'linetNext' && datum.x === mintCounter) {
+              if (datum.childName === 'linetNext' && datum.x === mintCounter || datum.x === 0) {
                 return null
               }
 
               if (['linetPast', 'linetNext'].includes(datum.childName)) {
-                return `
-                    # Circulating: ${datum.x}
+                return `# Circulating: ${datum.x}
                     
-                    Mint Price: Ξ ${bondingCurveFn(datum.x + 1)}\n${datum.x !== 0 ? `Burn Price: Ξ ${datum.y}` : ''}
-                  `
+                    Mint Price: Ξ ${bondingCurveFn(datum.x + 1)}
+                    
+                    ${datum.x !== 0 ? `Burn Price: Ξ ${datum.y}` : ''}`
               }
               return null
             }}
@@ -312,51 +321,6 @@ function Chart() {
           />
         }
       >
-        <VictoryLabel
-          x={330}
-          y={40}
-          style={{
-            fontFamily: 'Roboto Mono',
-            fontSize: 15,
-            borderBottom: '1px solid black',
-          }}
-          text={'x²'}
-        />
-        <VictoryLine
-          name="formulaUnderscore"
-          style={{
-            data: {
-              stroke: 'black',
-              strokeWidth: 2,
-            },
-          }}
-          data={[
-            {
-              x:
-                dataNext[dataNext.length - 1].x -
-                dataNext[dataNext.length - 1].x * 0.25,
-              y: dataNext[dataNext.length - 1].y,
-            },
-            {
-              x:
-                dataNext[dataNext.length - 1].x -
-                dataNext[dataNext.length - 1].x * 0.11,
-              y: dataNext[dataNext.length - 1].y,
-            },
-          ]}
-          x="x"
-          y="y"
-        />
-        <VictoryLabel
-          x={315}
-          y={60}
-          style={{
-            fontFamily: 'Roboto Mono',
-            fontSize: 15,
-            borderBottom: '1px solid black',
-          }}
-          text={'10000'}
-        />
         <VictoryAxis
           dependentAxis
           tickFormat={(y) => `Ξ ${y}`}
@@ -373,7 +337,7 @@ function Chart() {
           style={{
             fontFamily: 'Roboto Mono',
             fontWeight: 400,
-            fontSize: 14,
+            fontSize: 12,
           }}
           text={'Price'}
         />
@@ -401,17 +365,17 @@ function Chart() {
           }}
         />
         <VictoryLabel
-          x={260}
+          x={272}
           y={235}
           style={{
             fontFamily: 'Roboto Mono',
             fontWeight: 400,
-            fontSize: 14,
+            fontSize: 12,
           }}
           text={'Circulating tokens'}
         />
         <VictoryLabel
-          x={350}
+          x={342}
           y={220}
           style={{
             fontFamily: 'Roboto Mono',
