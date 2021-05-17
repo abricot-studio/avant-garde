@@ -43,12 +43,12 @@ const Title = ({ children, ...props }) => (
   </Heading>
 )
 const SubTitle = ({ children }) => (
-  <Heading textAlign="left" mt={4} ml={4} mb={2} fontSize={16} fontFamily="Poppins, sans-serif">
+  <Heading textAlign="left" mt={4} mb={2} fontSize={16} fontFamily="Poppins, sans-serif">
     {children}
   </Heading>
 )
 const Paragraph = ({ children, ...props }) => (
-  <Text align="justify" mb={1} fontSize={14} lineHeight={1.7} fontFamily="Poppins, sans-serif" {...props}>
+  <Text align="justify" pb={1} fontSize={14} lineHeight={1.7} fontFamily="Poppins, sans-serif" {...props}>
     {children}
   </Text>
 )
@@ -142,7 +142,7 @@ function Description() {
             <FontAwesomeIcon icon={isOpenBondingCurve ? faArrowUp: faArrowDown } size="xs"/>
           </ActionButton>
         </SubTitle>
-        <Collapse in={isOpenBondingCurve} animateOpacity>
+        <Collapse in={isOpenBondingCurve} animateOpacity startingHeight={1}>
           <Paragraph>
             A bonding curve is a mathematical function defining a buy and sell price
             depending on the number of circulating tokens at a given moment. The
@@ -156,7 +156,7 @@ function Description() {
             <FontAwesomeIcon icon={isOpenMinting ? faArrowUp: faArrowDown } size="xs"/>
           </ActionButton>
         </SubTitle>
-        <Collapse in={isOpenMinting} animateOpacity>
+        <Collapse in={isOpenMinting} animateOpacity startingHeight={1}>
           <Paragraph>
             In order to get a copy of your art on the blockchain, you have to pay
             the price defined by the bonding curve at the time of minting. There is
@@ -171,7 +171,7 @@ function Description() {
             <FontAwesomeIcon icon={isOpenBurning ? faArrowUp: faArrowDown } size="xs"/>
           </ActionButton>
         </SubTitle>
-        <Collapse in={isOpenBurning} animateOpacity>
+        <Collapse in={isOpenBurning} animateOpacity startingHeight={1}>
           <Paragraph>
             In addition to the secondary market, token holders can come anytime on
             this app and sell their token at the price defined by the bonding curve.
@@ -190,7 +190,7 @@ function Description() {
             <FontAwesomeIcon icon={isOpenRational ? faArrowUp: faArrowDown } size="xs"/>
           </ActionButton>
         </SubTitle>
-        <Collapse in={isOpenRational} animateOpacity>
+        <Collapse in={isOpenRational} animateOpacity startingHeight={1}>
           <Paragraph>
             Bonding curves are a novel and quite interesting economic mechanism. If
             you want to learn more about them, we suggest you to read more about
@@ -207,7 +207,7 @@ function Description() {
             <FontAwesomeIcon icon={isOpenChart ? faArrowUp: faArrowDown } size="xs"/>
           </ActionButton>
         </SubTitle>
-        <Collapse in={isOpenChart} animateOpacity>
+        <Collapse in={isOpenChart} animateOpacity startingHeight={1}>
           <Chart />
         </Collapse>
       </Card>
@@ -253,16 +253,16 @@ function Chart() {
 
   return isLoading ? (
     <VStack align="center">
-      <Text textStyle="caption" mb={4}>
+      <Text textStyle="caption" pb={4}>
         Loading chart...
       </Text>
       <Spinner size="lg" />
     </VStack>
   ) : (
-    <>
-      <Box pl={8} pt={4}>
+    <Box>
+      <Center>
         <DynamicMathComponent tex={String.raw`f(x) = \frac{x^2}{10000}`} />
-      </Box>
+      </Center>
       <svg style={{ height: 0 }}>
         <defs>
           <linearGradient id="myGradient1">
@@ -452,7 +452,7 @@ function Chart() {
           y="y"
         />
       </VictoryChart>
-    </>
+    </Box>
   )
 }
 
