@@ -56,19 +56,19 @@ export const WalletIcon = (props) => (
 
 export const DefaultAvatarIcon = (props) => (
   <Icon viewBox="0 0 256 256" fill="none" {...props}>
-      <mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="35" y="41" width="186" height="208">
-        <ellipse cx="128.714" cy="93.8678" rx="45.5119" ry="45.5121" fill="#C4C4C4" stroke="black" strokeWidth="14.2649" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M128.705 139.375C168.544 139.375 200.996 170.659 213.333 206.302C213.333 206.302 202.278 218.133 190.578 224.709C169.907 236.326 152.416 241.91 128.705 241.775C105.538 241.644 86.3075 237.027 65.4223 224.709C54.2307 218.108 42.6667 206.302 42.6667 206.302C55.0045 170.659 88.8659 139.375 128.705 139.375Z" fill="#C4C4C4" stroke="black" strokeWidth="14.2649" strokeLinecap="round" strokeLinejoin="round"/>
-      </mask>
-      <g mask="url(#mask0)">
-        <rect x="40.855" y="36.9778" width="195.401" height="195.402" rx="97.7007" fill="#FB6B6B"/>
-        <rect x="-19.9114" y="86.1056" width="178.41" height="178.411" rx="89.205" fill="#6B93FB"/>
-        <rect x="120.399" y="114.55" width="178.41" height="178.411" rx="89.205" fill="#61E68E"/>
-      </g>
-      <circle cx="128" cy="128" r="120.5" stroke="black" strokeWidth="15"/>
-      <ellipse cx="128.712" cy="93.8678" rx="45.5119" ry="45.5121" stroke="black" strokeWidth="15" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M213.333 206.304C200.996 170.661 168.544 139.378 128.705 139.378C88.8659 139.378 55.0045 170.661 42.6667 206.304" stroke="black" strokeWidth="15" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M167.812 179.2H139.367C139.367 179.2 127.98 207.644 153.59 207.644C179.199 207.644 167.812 179.2 167.812 179.2Z" stroke="black" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round"/>
+    <mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="35" y="41" width="186" height="208">
+      <ellipse cx="128.714" cy="93.8678" rx="45.5119" ry="45.5121" fill="#C4C4C4" stroke="black" strokeWidth="14.2649" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M128.705 139.375C168.544 139.375 200.996 170.659 213.333 206.302C213.333 206.302 202.278 218.133 190.578 224.709C169.907 236.326 152.416 241.91 128.705 241.775C105.538 241.644 86.3075 237.027 65.4223 224.709C54.2307 218.108 42.6667 206.302 42.6667 206.302C55.0045 170.659 88.8659 139.375 128.705 139.375Z" fill="#C4C4C4" stroke="black" strokeWidth="14.2649" strokeLinecap="round" strokeLinejoin="round"/>
+    </mask>
+    <g mask="url(#mask0)">
+      <rect x="40.855" y="36.9778" width="195.401" height="195.402" rx="97.7007" fill="#FB6B6B"/>
+      <rect x="-19.9114" y="86.1056" width="178.41" height="178.411" rx="89.205" fill="#6B93FB"/>
+      <rect x="120.399" y="114.55" width="178.41" height="178.411" rx="89.205" fill="#61E68E"/>
+    </g>
+    <circle cx="128" cy="128" r="120.5" stroke="black" strokeWidth="15"/>
+    <ellipse cx="128.712" cy="93.8678" rx="45.5119" ry="45.5121" stroke="black" strokeWidth="15" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M213.333 206.304C200.996 170.661 168.544 139.378 128.705 139.378C88.8659 139.378 55.0045 170.661 42.6667 206.304" stroke="black" strokeWidth="15" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M167.812 179.2H139.367C139.367 179.2 127.98 207.644 153.59 207.644C179.199 207.644 167.812 179.2 167.812 179.2Z" stroke="black" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round"/>
 
   </Icon>
 )
@@ -126,5 +126,33 @@ export const LogoIcon = (props) => (
       strokeLinecap="round"
       strokeLinejoin="round"
     />
+  </Icon>
+)
+
+export const MobileMenuIcon = (props) => (
+  <Icon viewBox="0 0 298 298" fill="none" {...props}>
+    <g filter="url(#filter0_d)">
+      <circle cx="149" cy="139" r="122.88" fill="white" stroke="black" strokeWidth="10.24"/>
+      <path opacity="0.5" fillRule="evenodd" clipRule="evenodd" d="M266.385 190.119C273.213 174.461 277 157.173 277 139C277 68.3076 219.692 11 149 11C137.869 11 127.07 12.4208 116.774 15.091C99.0333 35.6903 88.2798 62.6801 88.2798 92.2263C88.2798 156.88 139.771 209.293 203.289 209.293C226.589 209.293 248.27 202.241 266.385 190.119Z" fill="#FB6B6B"/>
+      <path opacity="0.5" fillRule="evenodd" clipRule="evenodd" d="M274.503 164.284C262.766 222.867 211.037 267 149 267C109.974 267 75.0264 249.534 51.5486 221.993C48.9799 212.273 47.6099 202.052 47.6099 191.506C47.6099 126.852 99.1014 74.44 162.62 74.44C216.93 74.44 262.448 112.759 274.503 164.284Z" fill="#6B93FB"/>
+      <path opacity="0.5" fillRule="evenodd" clipRule="evenodd" d="M73.1578 242.122C78.6326 242.936 84.2327 243.358 89.9294 243.358C153.448 243.358 204.939 190.945 204.939 126.291C204.939 72.9783 169.927 27.9889 122.031 13.8461C64.2892 26.2291 21 77.5592 21 139C21 181.305 41.5238 218.817 73.1578 242.122Z" fill="#6BFB9C"/>
+      <path d="M120.013 158.858C120.003 164.757 117.548 170.388 113.232 174.41C99.597 187.118 77.3696 177.428 77.3998 158.789L77.4686 116.26C77.4782 110.361 79.9331 104.73 84.2488 100.708C97.8843 88.0001 120.112 97.6902 120.081 116.329L120.013 158.858Z" fill="white"/>
+      <path d="M217.975 159.022C217.966 164.921 215.511 170.552 211.195 174.574C197.559 187.282 175.332 177.592 175.362 158.953L175.431 116.424C175.441 110.525 177.896 104.893 182.211 100.871C195.847 88.164 218.074 97.8541 218.044 116.493L217.975 159.022Z" fill="white"/>
+      <path d="M218.037 118.879C217.993 146.153 196.029 168.228 168.978 168.184C141.927 168.141 120.033 145.993 120.077 118.717L120.078 117.671C120.123 89.8179 142.553 67.2753 170.177 67.3201L218.121 67.3978L218.037 118.879Z" fill="white"/>
+      <path d="M175.338 172.545C175.306 192.147 159.521 208.011 140.081 207.979L77.3198 207.878L77.4256 142.503C77.4573 122.901 93.2422 107.037 112.682 107.069L140.243 107.113C159.684 107.145 175.418 123.061 175.386 142.663L175.338 172.545Z" fill="white"/>
+      <path d="M218.121 67.3978L170.177 67.3201C142.553 67.2753 120.123 89.8179 120.078 117.671L120.077 118.717C120.033 145.993 141.927 168.141 168.978 168.184C196.029 168.228 217.993 146.153 218.037 118.879L218.121 67.3978ZM218.121 67.3978L191.721 95.6322M120.078 155.969C120.078 187.912 77.3198 207.878 77.3198 207.878M77.3198 207.878L140.081 207.979C159.521 208.011 175.306 192.147 175.338 172.545L175.386 142.663C175.418 123.061 159.684 107.145 140.243 107.113L112.682 107.069C93.2422 107.037 77.4573 122.901 77.4256 142.503L77.3198 207.878ZM77.4686 116.26L77.3998 158.789C77.3696 177.428 99.597 187.118 113.232 174.41C117.548 170.388 120.003 164.757 120.013 158.858L120.081 116.329C120.112 97.6902 97.8843 88.0001 84.2488 100.708C79.9331 104.73 77.4782 110.361 77.4686 116.26ZM175.431 116.424L175.362 158.953C175.332 177.592 197.559 187.282 211.195 174.574C215.511 170.552 217.966 164.921 217.975 159.022L218.044 116.493C218.074 97.8541 195.847 88.164 182.211 100.871C177.896 104.893 175.441 110.525 175.431 116.424Z" stroke="black" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round"/>
+      <circle cx="149" cy="139" r="122.5" stroke="black" strokeWidth="11"/>
+    </g>
+    <defs>
+      <filter id="filter0_d" x="0.52" y="0.76" width="296.96" height="296.96" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+        <feFlood floodOpacity="0" result="BackgroundImageFix"/>
+        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
+        <feOffset dy="10.24"/>
+        <feGaussianBlur stdDeviation="10.24"/>
+        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0"/>
+        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+      </filter>
+    </defs>
   </Icon>
 )

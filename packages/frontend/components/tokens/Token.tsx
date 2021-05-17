@@ -34,6 +34,8 @@ import {
   Spinner,
   Text,
   VStack,
+  Wrap,
+  WrapItem
 } from '../ui'
 import { defaultSize, TokenImage } from './TokenImage'
 
@@ -319,66 +321,74 @@ export default function Token({ id }) {
         </CLink>
       </Box>
 
-      <Card mt={8}>
-        <HStack justifyContent="center">
-          <VStack justify="space-between" alignItems="start">
-            <Box fontWeight={600}>⌛ Mint Date</Box>
-            <Box fontWeight={600}>⛏ Mint Price</Box>
-          </VStack>
-          <VStack justify="space-between" alignItems="start">
-            <Box>
-              {moment(Number(token.mintTimestamp) * 1000)
-                .format('YYYYMMMDD')
-                .toUpperCase()}
-            </Box>
-            <Box>
-              Ξ {utils.formatEther(utils.parseUnits(token.mintPrice, 'wei'))}
-            </Box>
-          </VStack>
+      <Card mt={8} pt={0}>
+        <Wrap justify="center">
+          <WrapItem >
+            <HStack justifyContent="center" pt={4}>
+              <VStack justify="space-between" alignItems="start">
+                <Box fontWeight={600}>⌛ Mint Date</Box>
+                <Box fontWeight={600}>⛏ Mint Price</Box>
+              </VStack>
+              <VStack justify="space-between" alignItems="start">
+                <Box>
+                  {moment(Number(token.mintTimestamp) * 1000)
+                    .format('YYYYMMMDD')
+                    .toUpperCase()}
+                </Box>
+                <Box>
+                  Ξ {utils.formatEther(utils.parseUnits(token.mintPrice, 'wei'))}
+                </Box>
+              </VStack>
+            </HStack>
+          </WrapItem>
+          <WrapItem>
+            <HStack justifyContent="center" pt={4}>
 
-          {token.burnPrice && (
-            <VStack justify="space-between" alignItems="start">
-              <Box fontWeight={600}>⌛ Burn Date</Box>
-              <Box fontWeight={600}>🔥 Burn Price</Box>
-            </VStack>
-          )}
-          {token.burnPrice && (
-            <VStack justify="space-between" alignItems="start">
-              <Box>
-                {moment(Number(token.burnTimestamp) * 1000)
-                  .format('YYYYMMMDD')
-                  .toUpperCase()}
-              </Box>
-              <Box>
-                Ξ {utils.formatEther(utils.parseUnits(token.burnPrice, 'wei'))}
-              </Box>
-            </VStack>
-          )}
-        </HStack>
-        {burnTx && (
-          <HStack justifyContent="center" mt={2}>
-            <CLink
-              href={getExplorerTransactionLink(burnTx, chainId)}
-              isExternal
-              color="#6B93FB"
-            >
-              <Button
-                rightIcon={
-                  <FontAwesomeIcon icon={faExternalLinkAlt} size="1x" />
-                }
-                variant="outline"
-                size="sm"
-                color="#6B93FB"
-                fontFamily='"Roboto Mono", sans-serif'
-                _hover={{}}
-                _active={{}}
-                _focus={{}}
-              >
-                Open Transaction
-              </Button>
-            </CLink>
-          </HStack>
-        )}
+              {token.burnPrice && (
+                <VStack justify="space-between" alignItems="start">
+                  <Box fontWeight={600}>⌛ Burn Date</Box>
+                  <Box fontWeight={600}>🔥 Burn Price</Box>
+                </VStack>
+              )}
+              {token.burnPrice && (
+                <VStack justify="space-between" alignItems="start">
+                  <Box>
+                    {moment(Number(token.burnTimestamp) * 1000)
+                      .format('YYYYMMMDD')
+                      .toUpperCase()}
+                  </Box>
+                  <Box>
+                    Ξ {utils.formatEther(utils.parseUnits(token.burnPrice, 'wei'))}
+                  </Box>
+                </VStack>
+              )}
+            </HStack>
+            {burnTx && (
+              <HStack justifyContent="center" mt={2}>
+                <CLink
+                  href={getExplorerTransactionLink(burnTx, chainId)}
+                  isExternal
+                  color="#6B93FB"
+                >
+                  <Button
+                    rightIcon={
+                      <FontAwesomeIcon icon={faExternalLinkAlt} size="1x" />
+                    }
+                    variant="outline"
+                    size="sm"
+                    color="#6B93FB"
+                    fontFamily='"Roboto Mono", sans-serif'
+                    _hover={{}}
+                    _active={{}}
+                    _focus={{}}
+                  >
+                    Open Transaction
+                  </Button>
+                </CLink>
+              </HStack>
+            )}
+          </WrapItem>
+        </Wrap>
       </Card>
     </Flex>
   )

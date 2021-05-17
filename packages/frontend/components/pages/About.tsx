@@ -461,7 +461,11 @@ export function About() {
 
   return (
     <Box position="relative">
-      <Heading textAlign="center" mb={8}>
+      <Heading
+        textAlign="center"
+        fontFamily="Poppins, sans-serif"
+        mb={8}
+      >
         What's this ?
       </Heading>
       <Flex
