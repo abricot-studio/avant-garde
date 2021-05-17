@@ -37,8 +37,13 @@ export const Button = forwardRef<ButtonProps, 'a'>(
         fontWeight={600}
         size="md"
         textTransform="none"
+        sx={{
+          userSelect: 'none',
+          touchCallout: 'none',
+        }}
         _focus={{
           outline: 'none',
+          boxShadow: 'none'
         }}
         _active={{
           outline: 'none',
@@ -58,6 +63,10 @@ export const IconButton = forwardRef<IconButtonProps, 'a'>(
         ref={ref}
         _hover={{}}
         lineHeight={1}
+        sx={{
+          userSelect: 'none',
+          touchCallout: 'none',
+        }}
         _focus={{
           outline: 'none',
         }}
@@ -85,8 +94,16 @@ export const ActionButton = forwardRef<ButtonProps & ActionButtonProps, 'a'>(
         size="md"
         fontWeight={600}
         px={0}
-        _active={{}}
-        _hover={{}}
+        sx={{
+          userSelect: 'none',
+          touchCallout: 'none'
+        }}
+        _active={{
+          outline: 'none',
+        }}
+        _hover={{
+          outline: 'none',
+        }}
         isDisabled={isLoading}
         {...props}
       >

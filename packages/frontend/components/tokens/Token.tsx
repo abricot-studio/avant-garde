@@ -314,13 +314,13 @@ export default function Token({ id }) {
           _focus={{}}
         >
           <ActionButton>
-            <Text>Trade on OpenSea</Text>
+            <Text pr={4} >Trade on OpenSea</Text>
             <FontAwesomeIcon icon={faExternalLinkAlt} />
           </ActionButton>
         </CLink>
       </Box>
 
-      <Card mt={8} >
+      <Card my={8} >
         <Flex justifyContent="center" direction={mobile ? 'column' : 'row' }>
           <Flex>
             <HStack justifyContent="center">
@@ -340,7 +340,7 @@ export default function Token({ id }) {
               </VStack>
             </HStack>
           </Flex>
-          <Flex pt={mobile ? 8 : 0 } pl={mobile && (token.burnPrice || burnTx) ? 0 : 8 }>
+          <Flex pt={mobile && (token.burnPrice || burnTx) ? 8 : 0 } pl={mobile && (token.burnPrice || burnTx) ? 0 : 8 }>
               {token.burnPrice && (
                 <HStack justifyContent="center" >
 

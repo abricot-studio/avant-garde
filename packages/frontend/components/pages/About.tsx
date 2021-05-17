@@ -481,13 +481,20 @@ export function About() {
 
         <Description />
 
-        {canMint && (
-          <Center my={8}>
+        <Center my={8}>
+          {canMint ? (
             <Link passHref href="/generator">
               <ActionButton as="a">Generate yours</ActionButton>
             </Link>
-          </Center>
-        )}
+          ) : (
+            <Link passHref href="/gallery">
+              <ActionButton as="a" w="12rem">
+                Gallery
+              </ActionButton>
+            </Link>
+          )}
+
+        </Center>
       </Container>
     </Box>
   )

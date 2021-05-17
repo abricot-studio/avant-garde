@@ -21,6 +21,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { getPageStuff, NavButtonIcon, pagePaths } from './header/Navigation'
 import { useDisclosure } from '@chakra-ui/hooks'
+import { useMountedState, useWindowScroll } from 'react-use'
 
 function LinkItem({ href, icon, label, ...props }) {
   return (
@@ -48,11 +49,13 @@ export function Footer() {
   const mobile = useBreakpointValue({ base: true, md: false, lg: false })
   const router = useRouter()
   const { isOpen, onToggle } = useDisclosure()
+  const isMounted = useMountedState()
+  const { y } = useWindowScroll()
 
   return (
     <>
       {
-        mobile && (
+        mobile && isMounted && y > 0 && (
           <Flex minHeight="4rem" />
         )
       }

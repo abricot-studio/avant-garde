@@ -13,12 +13,20 @@ const styles = {
       fontWeight: 300,
       background: 'theme',
       minHeight: '100vh',
+      WebkitTapHighlightColor: 'transparent'
     },
     a: {
       color: '#000000',
       fontWeight: 300,
-      _focus: {
+      focus: {
         outline: 'none',
+        boxShadow: 'none'
+      },
+    },
+    button: {
+      focus: {
+        outline: 'none',
+        boxShadow: 'none'
       },
     },
     b: {
