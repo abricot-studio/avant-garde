@@ -173,7 +173,7 @@ export function Footer() {
           />
         </Flex>
         {
-          mobile && (
+          mobile && !isOpen && (
             <Flex
               position='absolute'
               align="center"
@@ -193,7 +193,6 @@ export function Footer() {
                 p={0}
                 style={{
                   zIndex: 11,
-                  display: isOpen ? 'none' : 'inline-flex'
                 }}
               />
             </Flex>
