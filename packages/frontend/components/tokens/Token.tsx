@@ -340,7 +340,7 @@ export default function Token({ id }) {
               </VStack>
             </HStack>
           </Flex>
-          <Flex pt={mobile ? 8 : 0 } pl={mobile ? 0 : 8 }>
+          <Flex pt={mobile ? 8 : 0 } pl={mobile && (token.burnPrice || burnTx) ? 0 : 8 }>
               {token.burnPrice && (
                 <HStack justifyContent="center" >
 
