@@ -59,6 +59,9 @@ export function Footer() {
           <Flex minHeight="4rem" />
         )
       }
+      {
+        mobile && (<MobileMenuIcon w={0} h={0}/>)
+      }
       <Flex
         as="footer"
         justifyContent="center"
