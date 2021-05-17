@@ -32,10 +32,8 @@ import {
   IconButton,
   Link as CLink,
   Spinner,
-  Text,
+  Text, useBreakpointValue,
   VStack,
-  Wrap,
-  WrapItem
 } from '../ui'
 import { defaultSize, TokenImage } from './TokenImage'
 
@@ -136,6 +134,7 @@ export default function Token({ id }) {
   const isMounted = useMountedState()
   const { isOpen: isOpenBurned, onToggle: onToggleBurned } = useDisclosure()
   const { isOpen: isOpenHover, onToggle: onToggleHover } = useDisclosure()
+  const mobile = useBreakpointValue({ base: true, md: false, lg: false })
 
   const socialPostUrls = useMemo(() => {
     if (!isMounted() || !token) return {}
@@ -315,16 +314,16 @@ export default function Token({ id }) {
           _focus={{}}
         >
           <ActionButton>
-            <Text pr={4}>Trade on OpenSea</Text>
+            <Text>Trade on OpenSea</Text>
             <FontAwesomeIcon icon={faExternalLinkAlt} />
           </ActionButton>
         </CLink>
       </Box>
 
-      <Card mt={8} pt={0}>
-        <Wrap justify="center">
-          <WrapItem >
-            <HStack justifyContent="center" pt={4}>
+      <Card mt={8} >
+        <Flex justifyContent="center" direction={mobile ? 'column' : 'row' }>
+          <Flex>
+            <HStack justifyContent="center">
               <VStack justify="space-between" alignItems="start">
                 <Box fontWeight={600}>⌛ Mint Date</Box>
                 <Box fontWeight={600}>⛏ Mint Price</Box>
@@ -340,29 +339,28 @@ export default function Token({ id }) {
                 </Box>
               </VStack>
             </HStack>
-          </WrapItem>
-          <WrapItem>
-            <HStack justifyContent="center" pt={4}>
-
+          </Flex>
+          <Flex pt={mobile ? 8 : 0 } pl={mobile ? 0 : 8 }>
               {token.burnPrice && (
+                <HStack justifyContent="center" >
+
                 <VStack justify="space-between" alignItems="start">
                   <Box fontWeight={600}>⌛ Burn Date</Box>
                   <Box fontWeight={600}>🔥 Burn Price</Box>
                 </VStack>
+                  <VStack justify="space-between" alignItems="start">
+                    <Box>
+                      {moment(Number(token.burnTimestamp) * 1000)
+                        .format('YYYYMMMDD')
+                        .toUpperCase()}
+                    </Box>
+                    <Box>
+                      Ξ {utils.formatEther(utils.parseUnits(token.burnPrice, 'wei'))}
+                    </Box>
+                  </VStack>
+                </HStack>
+
               )}
-              {token.burnPrice && (
-                <VStack justify="space-between" alignItems="start">
-                  <Box>
-                    {moment(Number(token.burnTimestamp) * 1000)
-                      .format('YYYYMMMDD')
-                      .toUpperCase()}
-                  </Box>
-                  <Box>
-                    Ξ {utils.formatEther(utils.parseUnits(token.burnPrice, 'wei'))}
-                  </Box>
-                </VStack>
-              )}
-            </HStack>
             {burnTx && (
               <HStack justifyContent="center" mt={2}>
                 <CLink
@@ -387,8 +385,8 @@ export default function Token({ id }) {
                 </CLink>
               </HStack>
             )}
-          </WrapItem>
-        </Wrap>
+          </Flex>
+        </Flex>
       </Card>
     </Flex>
   )
