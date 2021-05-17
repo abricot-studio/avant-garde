@@ -36,6 +36,12 @@ export const TwitterIcon = (props) => (
   </Icon>
 )
 
+export const RedditIcon = (props) => (
+  <Icon viewBox="0 0 512 512" {...props}>
+    <path d="M440.3 203.5c-15 0-28.2 6.2-37.9 15.9-35.7-24.7-83.8-40.6-137.1-42.3L293 52.3l88.2 19.8c0 21.6 17.6 39.2 39.2 39.2 22 0 39.7-18.1 39.7-39.7s-17.6-39.7-39.7-39.7c-15.4 0-28.7 9.3-35.3 22l-97.4-21.6c-4.9-1.3-9.7 2.2-11 7.1L246.3 177c-52.9 2.2-100.5 18.1-136.3 42.8-9.7-10.1-23.4-16.3-38.4-16.3-55.6 0-73.8 74.6-22.9 100.1-1.8 7.9-2.6 16.3-2.6 24.7 0 83.8 94.4 151.7 210.3 151.7 116.4 0 210.8-67.9 210.8-151.7 0-8.4-.9-17.2-3.1-25.1 49.9-25.6 31.5-99.7-23.8-99.7zM129.4 308.9c0-22 17.6-39.7 39.7-39.7 21.6 0 39.2 17.6 39.2 39.7 0 21.6-17.6 39.2-39.2 39.2-22 .1-39.7-17.6-39.7-39.2zm214.3 93.5c-36.4 36.4-139.1 36.4-175.5 0-4-3.5-4-9.7 0-13.7 3.5-3.5 9.7-3.5 13.2 0 27.8 28.5 120 29 149 0 3.5-3.5 9.7-3.5 13.2 0 4.1 4 4.1 10.2.1 13.7zm-.8-54.2c-21.6 0-39.2-17.6-39.2-39.2 0-22 17.6-39.7 39.2-39.7 22 0 39.7 17.6 39.7 39.7-.1 21.5-17.7 39.2-39.7 39.2z" />
+  </Icon>
+)
+
 export const WalletIcon = (props) => (
   <Icon viewBox="0 0 32 22" fill="none" {...props}>
     <path
@@ -49,72 +55,21 @@ export const WalletIcon = (props) => (
 )
 
 export const DefaultAvatarIcon = (props) => (
-  <Icon viewBox="0 0 353 353" fill="none" {...props}>
-    <mask
-      id="mask0"
-      mask-type="alpha"
-      maskUnits="userSpaceOnUse"
-      x="46"
-      y="77"
-      width="261"
-      height="260"
-    >
-      <ellipse
-        cx="176.501"
-        cy="144.643"
-        rx="62.2011"
-        ry="62.2014"
-        fill="black"
-        stroke="black"
-        strokeWidth="10.3667"
-      />
-      <path
-        d="M52.0947 331.25C52.0947 262.544 107.792 206.847 176.497 206.847C245.202 206.847 300.899 262.544 300.899 331.25H52.0947Z"
-        fill="black"
-        stroke="black"
-        strokeWidth="10.3667"
-      />
-    </mask>
-    <g mask="url(#mask0)">
-      <ellipse
-        cx="176.493"
-        cy="175.739"
-        rx="155.503"
-        ry="155.504"
-        fill="black"
-        stroke="black"
-        strokeWidth="10.3667"
-      />
-      <rect
-        x="37.1572"
-        y="-44.8594"
-        width="267.055"
-        height="267.056"
-        rx="133.527"
-        fill="#FB6B6B"
-      />
-      <rect
-        x="-90.564"
-        y="59.6377"
-        width="243.833"
-        height="243.834"
-        rx="121.916"
-        fill="#6B93FB"
-      />
-      <rect
-        x="199.714"
-        y="59.6377"
-        width="243.833"
-        height="243.834"
-        rx="121.916"
-        fill="#6BFB9C"
-      />
-    </g>
-    <path
-      d="M176.5 342.368C268.106 342.368 342.367 268.107 342.367 176.501C342.367 84.8947 268.106 10.6333 176.5 10.6333C84.8943 10.6333 10.6333 84.8947 10.6333 176.501C10.6333 268.107 84.8943 342.368 176.5 342.368Z"
-      stroke="black"
-      strokeWidth="20.7334"
-    />
+  <Icon viewBox="0 0 256 256" fill="none" {...props}>
+      <mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="35" y="41" width="186" height="208">
+        <ellipse cx="128.714" cy="93.8678" rx="45.5119" ry="45.5121" fill="#C4C4C4" stroke="black" strokeWidth="14.2649" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M128.705 139.375C168.544 139.375 200.996 170.659 213.333 206.302C213.333 206.302 202.278 218.133 190.578 224.709C169.907 236.326 152.416 241.91 128.705 241.775C105.538 241.644 86.3075 237.027 65.4223 224.709C54.2307 218.108 42.6667 206.302 42.6667 206.302C55.0045 170.659 88.8659 139.375 128.705 139.375Z" fill="#C4C4C4" stroke="black" strokeWidth="14.2649" strokeLinecap="round" strokeLinejoin="round"/>
+      </mask>
+      <g mask="url(#mask0)">
+        <rect x="40.855" y="36.9778" width="195.401" height="195.402" rx="97.7007" fill="#FB6B6B"/>
+        <rect x="-19.9114" y="86.1056" width="178.41" height="178.411" rx="89.205" fill="#6B93FB"/>
+        <rect x="120.399" y="114.55" width="178.41" height="178.411" rx="89.205" fill="#61E68E"/>
+      </g>
+      <circle cx="128" cy="128" r="120.5" stroke="black" strokeWidth="15"/>
+      <ellipse cx="128.712" cy="93.8678" rx="45.5119" ry="45.5121" stroke="black" strokeWidth="15" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M213.333 206.304C200.996 170.661 168.544 139.378 128.705 139.378C88.8659 139.378 55.0045 170.661 42.6667 206.304" stroke="black" strokeWidth="15" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M167.812 179.2H139.367C139.367 179.2 127.98 207.644 153.59 207.644C179.199 207.644 167.812 179.2 167.812 179.2Z" stroke="black" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round"/>
+
   </Icon>
 )
 

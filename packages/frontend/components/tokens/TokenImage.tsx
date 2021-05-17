@@ -6,16 +6,18 @@ import { Box, Center, Flex, Image, Text } from '../ui'
 export function TokenImage({
   avantGardeToken,
   size,
+  noBurned = false
 }: {
   avantGardeToken: AvantGardeToken
   size?: any
+  noBurned?: boolean
 }) {
   const metadata = useMetadata(avantGardeToken)
 
   return (
     <ImageFrame
       size={size}
-      isBurned={Boolean(avantGardeToken.burnPrice)}
+      isBurned={noBurned ? !noBurned : Boolean(avantGardeToken.burnPrice)}
       src={metadata && getIpfsUrl(metadata.image)}
     />
   )

@@ -81,12 +81,14 @@ function MainButton({ account }) {
       textTransform="lowercase"
       fontSize="0.8rem"
       _hover={{}}
+      _focus={{}}
       _active={{}}
+      pr={1}
       rightIcon={
         <Avatar
           size="xs"
           src={boxProfile?.imageUrl}
-          pl={4}
+          w={8} h={8}
           icon={<DefaultAvatarIcon w={8} h={8} />}
           bg="white"
         />
