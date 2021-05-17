@@ -234,14 +234,14 @@ function Chart() {
       const dataPast = []
       const dataNext = []
 
-      for (let i = Math.max(0, mintCounter - 8); i <= mintCounter; i++) {
+      for (let i = 0; i <= mintCounter; i++) {
         dataPast.push({
           x: i,
           y: bondingCurveFn(i),
         })
       }
 
-      for (let i = mintCounter; i < mintCounter + 8; i++) {
+      for (let i = mintCounter; i < mintCounter * 3; i++) {
         dataNext.push({
           x: i,
           y: bondingCurveFn(i),
@@ -282,8 +282,8 @@ function Chart() {
       </svg>
       <VictoryChart
         domain={{
-          x: [0, dataNext[dataNext.length - 1].x],
-          y: [0, dataNext[dataNext.length - 1].y],
+          x: [0, dataNext[dataNext.length - 1].x * 1.1],
+          y: [0, dataNext[dataNext.length - 1].y * 1.1],
         }}
         containerComponent={
           <VictoryVoronoiContainer
