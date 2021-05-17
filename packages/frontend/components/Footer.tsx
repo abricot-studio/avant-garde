@@ -177,7 +177,7 @@ export function Footer() {
             <Flex
               position='absolute'
               align="center"
-              top={-6}
+              top="-1.5rem"
             >
               <Button
                 as={IconButton}
@@ -190,9 +190,10 @@ export function Footer() {
                 _active={{}}
                 _focus={{}}
                 onClick={onToggle}
+                p={0}
                 style={{
                   zIndex: 11,
-                  display: isOpen ? 'none' : 'block'
+                  display: isOpen ? 'none' : 'inline-flex'
                 }}
               />
             </Flex>
