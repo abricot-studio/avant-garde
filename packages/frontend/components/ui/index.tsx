@@ -37,6 +37,7 @@ export const Button = forwardRef<ButtonProps, 'a'>(
         fontWeight={600}
         size="md"
         textTransform="none"
+        color="black"
         sx={{
           userSelect: 'none',
           touchCallout: 'none',
@@ -63,6 +64,7 @@ export const IconButton = forwardRef<IconButtonProps, 'a'>(
         ref={ref}
         _hover={{}}
         lineHeight={1}
+        color="black"
         sx={{
           userSelect: 'none',
           touchCallout: 'none',
@@ -93,6 +95,7 @@ export const ActionButton = forwardRef<ButtonProps & ActionButtonProps, 'a'>(
         border="0"
         size="md"
         fontWeight={600}
+        color="black"
         px={0}
         sx={{
           userSelect: 'none',

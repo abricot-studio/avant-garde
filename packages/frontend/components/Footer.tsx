@@ -46,7 +46,7 @@ function LinkItem({ href, icon, label, ...props }) {
 
 export function Footer() {
   const { etherscanURL: contractEtherscanURL } = useContract()
-  const mobile = useBreakpointValue({ base: true, md: false, lg: false })
+  const mobile = useBreakpointValue({ base: true, lg: false })
   const router = useRouter()
   const { isOpen, onToggle } = useDisclosure()
   const isMounted = useMountedState()
@@ -122,7 +122,11 @@ export function Footer() {
                           pb={6}
                         >
                           <NavButtonIcon color={getPageStuff(pagePath)[1]} />
-                          <Text ml={2} color="black" fontWeight={400}>
+                          <Text
+                            ml={2}
+                            color="black"
+                            fontWeight={400}
+                          >
                             {getPageStuff(pagePath)[0]}
                           </Text>
                         </Flex>
@@ -166,7 +170,12 @@ export function Footer() {
 
           <LinkItem
             href={URLs.github}
-            icon={<FontAwesomeIcon icon={faGithub} size="2x" color="black" />}
+            icon={
+              <FontAwesomeIcon
+                icon={faGithub} size="2x"
+                color="black"
+              />
+            }
             label={mobile ? '' : 'Github'}
           />
           <LinkItem

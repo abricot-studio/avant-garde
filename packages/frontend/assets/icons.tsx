@@ -42,11 +42,11 @@ export const RedditIcon = (props) => (
   </Icon>
 )
 
-export const WalletIcon = (props) => (
+export const WalletIcon = ({ color = "black", ...props }) => (
   <Icon viewBox="0 0 32 22" fill="none" {...props}>
     <path
       d="M1.01376 5.24242C1.01376 5.24242 0.597348 1 4.34557 1C4.64583 1 18.3679 1 26.0023 1C28.7638 1 31 3.23858 31 6V12.6258C31 14.4659 29.5083 15.9576 27.6682 15.9576V15.9576M1.01376 5.24242C7.79049 5.24242 17.0408 5.24242 22.6716 5.24242C25.433 5.24242 27.6682 7.481 27.6682 10.2424V15.9576M1.01376 5.24242C1.01376 8.50703 1.01376 12.7427 1.01376 16.0002C1.01376 18.7617 3.25234 21 6.01376 21H22.6682C25.4296 21 27.6682 18.719 27.6682 15.9576V15.9576"
-      stroke="black"
+      stroke={color}
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
