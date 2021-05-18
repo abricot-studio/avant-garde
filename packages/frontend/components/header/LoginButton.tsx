@@ -76,17 +76,19 @@ function MainButton({ account }) {
       border="2px"
       borderColor="black"
       backgroundColor="white"
-      textTransform="none"
       fontWeight={300}
-      fontFamily="Roboto, sans-serif"
+      fontFamily="Poppins, sans-serif"
+      textTransform="lowercase"
       fontSize="0.8rem"
       _hover={{}}
+      _focus={{}}
       _active={{}}
+      pr={1}
       rightIcon={
         <Avatar
           size="xs"
           src={boxProfile?.imageUrl}
-          pl={4}
+          w={8} h={8}
           icon={<DefaultAvatarIcon w={8} h={8} />}
           bg="white"
         />
@@ -110,7 +112,7 @@ function ConnectButton() {
         variant="outline"
         border="2px"
         borderColor="black"
-        fontFamily="Roboto, sans-serif"
+        fontFamily="Poppins, sans-serif"
         fontWeight={600}
         fontSize="0.8rem"
         onClick={open}
@@ -135,7 +137,7 @@ function ConnectButton() {
       backgroundColor="white"
       textTransform="uppercase"
       fontWeight={600}
-      fontFamily="'Roboto', sans-serif"
+      fontFamily="Poppins, sans-serif"
       fontSize="0.8rem"
       _hover={{}}
       rounded="full"

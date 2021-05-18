@@ -1,6 +1,5 @@
 import { useDisclosure } from '@chakra-ui/hooks'
 import { ScaleFade } from '@chakra-ui/react'
-import { faRedditAlien } from '@fortawesome/free-brands-svg-icons'
 import {
   faArrowLeft,
   faExternalLinkAlt,
@@ -18,7 +17,7 @@ import moment from 'moment'
 import { useRouter } from 'next/router'
 import React, { useMemo } from 'react'
 import { useMountedState } from 'react-use'
-import { TwitterIcon } from '../../assets/icons'
+import { RedditIcon, TwitterIcon } from '../../assets/icons'
 import { useBurn, useBurnPrice } from '../../hooks/burn'
 import { useContract } from '../../hooks/contracts'
 import { useToken } from '../../hooks/tokens'
@@ -33,7 +32,7 @@ import {
   IconButton,
   Link as CLink,
   Spinner,
-  Text,
+  Text, useBreakpointValue,
   VStack,
 } from '../ui'
 import { defaultSize, TokenImage } from './TokenImage'
@@ -68,7 +67,7 @@ function BurnButton({ token, isOpen, onToggle }) {
         fontFamily='"Roboto Mono", sans-serif'
         size="sm"
       >
-        Burned
+        🔥 Burned
       </Button>
     )
   }
@@ -91,7 +90,7 @@ function BurnButton({ token, isOpen, onToggle }) {
       >
         <Text>🔥</Text>
         <ScaleFade initialScale={0} in={isOpen} unmountOnExit reverse>
-          <Text pl={4}>
+          <Text pl={4} fontWeight={700} fontVariant="small-caps">
             Burn for Ξ
             {utils.formatEther(
               utils.parseUnits(tokenBurnPrice.currentPrice, 'wei')
@@ -133,7 +132,9 @@ export default function Token({ id }) {
   const { address: contractAddress, chainId } = useContract()
   const { burnTx } = useBurn()
   const isMounted = useMountedState()
-  const { isOpen, onToggle } = useDisclosure()
+  const { isOpen: isOpenBurned, onToggle: onToggleBurned } = useDisclosure()
+  const { isOpen: isOpenHover, onToggle: onToggleHover } = useDisclosure()
+  const mobile = useBreakpointValue({ base: true, md: false, lg: false })
 
   const socialPostUrls = useMemo(() => {
     if (!isMounted() || !token) return {}
@@ -170,7 +171,9 @@ export default function Token({ id }) {
         as="h3"
         textStyle="h3"
         textAlign="center"
-        fontSize="0.8rem"
+        fontSize="1rem"
+        textTransform="lowercase"
+        fontFamily="'Roboto Mono', sans-serif"
         maxWidth="50rem"
       >
         <IconButton
@@ -192,16 +195,34 @@ export default function Token({ id }) {
           width={defaultSize}
           height={defaultSize}
           zIndex={1}
+          onMouseEnter={onToggleHover}
+          onMouseLeave={onToggleHover}
         >
           <SocialLink
-            icon={<TwitterIcon w={4} h={4} fill="#1FA1F1" />}
+            icon={<TwitterIcon
+              w={6} h={6} fill="#1FA1F1"
+              sx={{
+                animation: ' breathing 3s ease-out infinite',
+                '@keyframes breathing': {
+                  '0%': {
+                    transform: 'scale(1)'
+                  },
+                  '50%': {
+                    transform: 'scale(0.7)'
+                  },
+                  '100%': {
+                    transform: 'scale(1)'
+                  }
+                }
+              }}
+            />}
             href={socialPostUrls.twitter}
             label="twitter"
             position="absolute"
             left="10%"
             top="80%"
             sx={{
-              animation: isOpen
+              animation: isOpenBurned
                 ? 'x-motion-l-up 1s ease-out forwards'
                 : 'x-motion-l-down 1s ease-out forwards',
               '@keyframes x-motion-l-up': {
@@ -223,12 +244,28 @@ export default function Token({ id }) {
                   top: '80%',
                   left: '10%',
                 },
-              },
+              }
             }}
           />
           <SocialLink
             icon={
-              <FontAwesomeIcon icon={faRedditAlien} size="1x" color="#FF4500" />
+              <RedditIcon
+                w={6} h={6} fill="#FF4500"
+                sx={{
+                  animation: ' breathing 3s ease-out infinite',
+                  '@keyframes breathing': {
+                    '0%': {
+                      transform: 'scale(1)'
+                    },
+                    '50%': {
+                      transform: 'scale(0.7)'
+                    },
+                    '100%': {
+                      transform: 'scale(1)'
+                    }
+                  }
+                }}
+              />
             }
             href={socialPostUrls.reddit}
             label="reddit"
@@ -236,7 +273,7 @@ export default function Token({ id }) {
             right="10%"
             top="80%"
             sx={{
-              animation: isOpen
+              animation: isOpenBurned
                 ? 'x-motion-r-up 1s ease-out forwards'
                 : 'x-motion-r-down 1s ease-out forwards',
               '@keyframes x-motion-r-up': {
@@ -262,10 +299,10 @@ export default function Token({ id }) {
             }}
           />
           <Box position="absolute" top="93%" textAlign="center" width="100%">
-            <BurnButton token={token} isOpen={isOpen} onToggle={onToggle} />
+            <BurnButton token={token} isOpen={isOpenBurned} onToggle={onToggleBurned} />
           </Box>
         </Box>
-        <TokenImage avantGardeToken={token} size={defaultSize} />
+        <TokenImage avantGardeToken={token} size={defaultSize} noBurned={isOpenHover} />
       </Box>
 
       <Box align="center" mt={8}>
@@ -277,69 +314,79 @@ export default function Token({ id }) {
           _focus={{}}
         >
           <ActionButton>
-            <Text pr={4}>Trade on OpenSea</Text>
+            <Text pr={4} >Trade on OpenSea</Text>
             <FontAwesomeIcon icon={faExternalLinkAlt} />
           </ActionButton>
         </CLink>
       </Box>
 
-      <Card mt={8}>
-        <HStack justifyContent="center">
-          <VStack justify="space-between" alignItems="start">
-            <Box fontWeight={600}>⌛ Mint Date</Box>
-            <Box fontWeight={600}>⛏ Mint Price</Box>
-          </VStack>
-          <VStack justify="space-between" alignItems="start">
-            <Box>
-              {moment(Number(token.mintTimestamp) * 1000)
-                .format('YYYYMMMDD')
-                .toUpperCase()}
-            </Box>
-            <Box>
-              Ξ {utils.formatEther(utils.parseUnits(token.mintPrice, 'wei'))}
-            </Box>
-          </VStack>
+      <Card my={8} >
+        <Flex justifyContent="center" direction={mobile ? 'column' : 'row' }>
+          <Flex>
+            <HStack justifyContent="center">
+              <VStack justify="space-between" alignItems="start">
+                <Box fontWeight={600}>⌛ Mint Date</Box>
+                <Box fontWeight={600}>⛏ Mint Price</Box>
+              </VStack>
+              <VStack justify="space-between" alignItems="start">
+                <Box>
+                  {moment(Number(token.mintTimestamp) * 1000)
+                    .format('YYYYMMMDD')
+                    .toUpperCase()}
+                </Box>
+                <Box>
+                  Ξ {utils.formatEther(utils.parseUnits(token.mintPrice, 'wei'))}
+                </Box>
+              </VStack>
+            </HStack>
+          </Flex>
+          <Flex pt={mobile && (token.burnPrice || burnTx) ? 8 : 0 } pl={mobile && (token.burnPrice || burnTx) ? 0 : 8 }>
+              {token.burnPrice && (
+                <HStack justifyContent="center" >
 
-          {token.burnPrice && (
-            <VStack justify="space-between" alignItems="start">
-              <Box fontWeight={600}>⌛ Burn Date</Box>
-              <Box fontWeight={600}>🔥 Burn Price</Box>
-            </VStack>
-          )}
-          {token.burnPrice && (
-            <VStack justify="space-between" alignItems="start">
-              <Box>
-                {moment(Number(token.burnTimestamp) * 1000).format('YYYYMMMDD')}
-              </Box>
-              <Box>
-                Ξ {utils.formatEther(utils.parseUnits(token.burnPrice, 'wei'))}
-              </Box>
-            </VStack>
-          )}
-        </HStack>
-        {burnTx && (
-          <HStack justifyContent="center" mt={2}>
-            <CLink
-              href={getExplorerTransactionLink(burnTx, chainId)}
-              isExternal
-              color="#6B93FB"
-            >
-              <Button
-                rightIcon={
-                  <FontAwesomeIcon icon={faExternalLinkAlt} size="1x" />
-                }
-                variant="outline"
-                size="sm"
-                color="#6B93FB"
-                _hover={{}}
-                _active={{}}
-                _focus={{}}
-              >
-                Open Transaction
-              </Button>
-            </CLink>
-          </HStack>
-        )}
+                <VStack justify="space-between" alignItems="start">
+                  <Box fontWeight={600}>⌛ Burn Date</Box>
+                  <Box fontWeight={600}>🔥 Burn Price</Box>
+                </VStack>
+                  <VStack justify="space-between" alignItems="start">
+                    <Box>
+                      {moment(Number(token.burnTimestamp) * 1000)
+                        .format('YYYYMMMDD')
+                        .toUpperCase()}
+                    </Box>
+                    <Box>
+                      Ξ {utils.formatEther(utils.parseUnits(token.burnPrice, 'wei'))}
+                    </Box>
+                  </VStack>
+                </HStack>
+
+              )}
+            {burnTx && (
+              <HStack justifyContent="center" mt={2}>
+                <CLink
+                  href={getExplorerTransactionLink(burnTx, chainId)}
+                  isExternal
+                  color="#6B93FB"
+                >
+                  <Button
+                    rightIcon={
+                      <FontAwesomeIcon icon={faExternalLinkAlt} size="1x" />
+                    }
+                    variant="outline"
+                    size="sm"
+                    color="#6B93FB"
+                    fontFamily='"Roboto Mono", sans-serif'
+                    _hover={{}}
+                    _active={{}}
+                    _focus={{}}
+                  >
+                    Open Transaction
+                  </Button>
+                </CLink>
+              </HStack>
+            )}
+          </Flex>
+        </Flex>
       </Card>
     </Flex>
   )
