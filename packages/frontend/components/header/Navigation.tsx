@@ -20,7 +20,7 @@ interface NavButtonProps {
   isSelected: boolean
 }
 
-const NavButtonIcon = ({ color }) => <Box w={4} h={4} background={color} />
+export const NavButtonIcon = ({ color }) => <Box w={4} h={4} background={color} />
 
 const NavButton = forwardRef<NavButtonProps & ButtonProps, 'a'>(
   ({ children, color, isSelected, ...props }, ref) => {
@@ -33,7 +33,7 @@ const NavButton = forwardRef<NavButtonProps & ButtonProps, 'a'>(
         borderColor={isSelected ? color : 'transparent'}
         textTransform="none"
         fontWeight={500}
-        fontFamily="'Roboto Mono', sans-serif"
+        fontFamily="Poppins, sans-serif"
         lineHeight={1}
         fontSize="1rem"
         rounded="xl"
@@ -50,9 +50,9 @@ const NavButton = forwardRef<NavButtonProps & ButtonProps, 'a'>(
   }
 )
 
-const pagePaths = ['/generator', '/about', '/gallery']
+export const pagePaths = ['/generator', '/about', '/gallery']
 
-const getPageStuff = (pathname) => {
+export const getPageStuff = (pathname) => {
   if (pathname === '/') {
     return ['Home', 'black']
   }
@@ -78,46 +78,8 @@ export function Navigation() {
   const mobile = useBreakpointValue({ base: true, lg: false })
   const router = useRouter()
 
-  const [pageName, pageColor] = useMemo(
-    () => getPageStuff(router.pathname),
-    [router.pathname]
-  )
-
   if (mobile) {
-    return (
-      <Menu placement="bottom">
-        <MenuButton as={NavButton} color={pageColor} isSelected>
-          {pageName}
-        </MenuButton>
-        <MenuList
-          bg="black"
-          color="white"
-          minWidth="150px"
-          borderRadius="1rem"
-          overflow="hidden"
-          // py={0}
-        >
-          {pagePaths.map(
-            (pagePath) =>
-              pagePath !== router.pathname && (
-                <Link passHref href={pagePath} key={pagePath}>
-                  <MenuItem
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="start"
-                    pl={4}
-                  >
-                    <NavButtonIcon color={getPageStuff(pagePath)[1]} />
-                    <Text ml={2} pb={1}>
-                      {getPageStuff(pagePath)[0]}
-                    </Text>
-                  </MenuItem>
-                </Link>
-              )
-          )}
-        </MenuList>
-      </Menu>
-    )
+    return null
   }
 
   return (

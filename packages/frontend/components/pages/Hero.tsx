@@ -22,7 +22,7 @@ export default function Hero() {
       <Center h={defaultSize} position="absolute" opacity="0.8" w="100%">
         {token ? (
           <Box opacity="0.5">
-            <TokenImage avantGardeToken={token} />
+            <TokenImage avantGardeToken={token} noBurned={true} />
           </Box>
         ) : (
           <ImageFrame />

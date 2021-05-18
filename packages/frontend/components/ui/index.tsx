@@ -34,10 +34,17 @@ export const Button = forwardRef<ButtonProps, 'a'>(
     return (
       <ChakraButton
         ref={ref}
-        fontWeight={500}
+        fontWeight={600}
         size="md"
+        textTransform="none"
+        color="black"
+        sx={{
+          userSelect: 'none',
+          touchCallout: 'none',
+        }}
         _focus={{
           outline: 'none',
+          boxShadow: 'none'
         }}
         _active={{
           outline: 'none',
@@ -57,6 +64,11 @@ export const IconButton = forwardRef<IconButtonProps, 'a'>(
         ref={ref}
         _hover={{}}
         lineHeight={1}
+        color="black"
+        sx={{
+          userSelect: 'none',
+          touchCallout: 'none',
+        }}
         _focus={{
           outline: 'none',
         }}
@@ -75,17 +87,26 @@ interface ActionButtonProps {
   color?: string
 }
 export const ActionButton = forwardRef<ButtonProps & ActionButtonProps, 'a'>(
-  ({ children, loadingText, isLoading, color = 'pink', ...props }, ref) => {
+  ({ children, loadingText, isLoading, color = 'pink', px = 12, ...props }, ref) => {
     return (
       <Button
         ref={ref}
         variant="outline"
         border="0"
         size="md"
-        fontWeight={500}
+        fontWeight={600}
+        color="black"
         px={0}
-        _active={{}}
-        _hover={{}}
+        sx={{
+          userSelect: 'none',
+          touchCallout: 'none'
+        }}
+        _active={{
+          outline: 'none',
+        }}
+        _hover={{
+          outline: 'none',
+        }}
         isDisabled={isLoading}
         {...props}
       >
@@ -112,7 +133,7 @@ export const ActionButton = forwardRef<ButtonProps & ActionButtonProps, 'a'>(
             rounded="full"
             w="100%"
             h="100%"
-            px={12}
+            px={px}
             align="center"
             justify="center"
           >

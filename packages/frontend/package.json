@@ -31,6 +31,7 @@
     "graphql": "^15.5.0",
     "graphql-tag": "^2.12.4",
     "lodash": "^4.17.21",
+    "mathjax-react": "^1.0.6",
     "moment": "^2.29.1",
     "next": "^10.2.0",
     "next-urql": "^3.1.0",

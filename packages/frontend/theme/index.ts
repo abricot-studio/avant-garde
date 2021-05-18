@@ -7,20 +7,30 @@ const config = {
 
 const styles = {
   global: {
-    'html, body': {
-      fontFamily: '"Roboto", sans-serif',
+    'html, body': (props) => ({
+      color: props.colorMode === 'dark' ? 'white' : '#000000',
+      fontFamily: 'Poppins, sans-serif',
       fontSize: ['14px', '16px'],
       fontWeight: 300,
       background: 'theme',
       minHeight: '100vh',
-    },
-    a: {
-      color: '#000000',
+      WebkitTapHighlightColor: 'transparent'
+    }),
+    a: (props) => ({
+      color: props.colorMode === 'dark' ? 'white' : '#000000',
       fontWeight: 300,
-      _focus: {
+      focus: {
         outline: 'none',
+        boxShadow: 'none'
       },
-    },
+    }),
+    button: (props) => ({
+      color: props.colorMode === 'dark' ? 'white' : '#000000',
+      focus: {
+        outline: 'none',
+        boxShadow: 'none'
+      },
+    }),
     b: {
       fontWeight: 400,
     },
@@ -29,11 +39,12 @@ const styles = {
 
 const components = {
   Button: {
-    baseStyle: {
+    baseStyle:  (props) => ({
+      color: props.colorMode === 'dark' ? 'white' : '#000000',
       fontWeight: 700,
       textTransform: 'uppercase',
       cursor: 'pointer',
-    },
+    }),
     variants: {},
   },
 }
@@ -50,11 +61,12 @@ const layerStyles = {
 }
 
 const textStyles = {
-  h1: {
+  h1:  (props) => ({
+    color: props.colorMode === 'dark' ? 'white' : '#000000',
     fontFamily: '"Roboto Mono", sans-serif',
     fontWeight: 700,
     fontSize: ['1.3rem', '2rem', '3rem'],
-  },
+  }),
   h2: {
     fontFamily: '"Roboto Mono", sans-serif',
     fontWeight: 600,
@@ -74,20 +86,21 @@ const textStyles = {
   h5: {
     fontFamily: "'Roboto Mono', sans-serif",
     fontWeight: 300,
-    fontSize: ['0.8rem', '0.8rem', '0.9rem'],
+    fontSize: ['0.6rem', '0.8rem', '0.9rem'],
   },
   semibold: {
-    fontFamily: '"Roboto", sans-serif',
+    fontFamily: 'Poppins, sans-serif',
     fontWeight: 400,
     fontSize: '1.1rem',
   },
-  normal: {
-    fontFamily: '"Roboto", sans-serif',
+  normal: (props) => ({
+    color: props.colorMode === 'dark' ? 'white' : '#000000',
+    fontFamily: 'Poppins, sans-serif',
     fontWeight: 300,
     fontSize: '1.1rem',
-  },
+  }),
   small: {
-    fontFamily: '"Roboto", sans-serif',
+    fontFamily: 'Poppins, sans-serif',
     fontWeight: 300,
     fontSize: ['0.9rem'],
   },
@@ -98,12 +111,13 @@ const textStyles = {
     fontSize: ['1rem', '1.2rem', '1.2rem', '1.2rem'],
     fontVariant: 'small-caps',
   },
-  appName: {
+  appName: (props) => ({
+    color: props.colorMode === 'dark' ? 'white' : '#000000',
     fontFamily: '"Roboto Mono", sans-serif',
     fontWeight: 800,
     lineHeight: 1,
     fontSize: '2rem',
-  },
+  }),
 }
 
 const colors = {
