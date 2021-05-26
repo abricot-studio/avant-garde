@@ -1,7 +1,7 @@
 import { useEthers } from '@usedapp/core'
 import axios from 'axios'
 import { useCallback, useEffect, useState } from 'react'
-import { useToast } from '../components/ui'
+import { ToastImageGenerated, useToast } from '../components/ui'
 import config from '../config'
 
 const generateApi = axios.create({
@@ -55,14 +55,8 @@ export const useImageGeneration = () => {
         setGenerationResult(result.data)
         setIsGenerating(false)
         generationCache[account] = result.data
+        ToastImageGenerated(toast)
 
-        toast({
-          title: '🎉 Image generated',
-          description: 'Your image have been generated!',
-          status: 'success',
-          duration: 5000,
-          isClosable: true,
-        })
       })
       .catch((error) => {
         setGenerationResult(null)

@@ -1,16 +1,20 @@
 import {
   Box,
   Button as ChakraButton,
-  ButtonProps,
+  ButtonProps, Center,
   Flex,
   forwardRef,
   HStack,
   IconButton as ChakraIconButton,
-  IconButtonProps,
+  IconButtonProps, Link as CLink,
   Spinner,
   Text,
 } from '@chakra-ui/react'
 import React from 'react'
+import { CloseIcon } from '@chakra-ui/icons'
+import { getExplorerTransactionLink } from '@usedapp/core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
 
 export * from '@chakra-ui/react'
 
@@ -151,3 +155,84 @@ export const ActionButton = forwardRef<ButtonProps & ActionButtonProps, 'a'>(
     )
   }
 )
+
+export const ToastImageGenerated = (toast) => {
+  const t = toast({
+    render: () => (
+      <Box color="white" p={2} bg="green.500" rounded="md">
+        <IconButton
+          aria-label="close"
+          onClick={() => toast.close(t)}
+          icon={<CloseIcon />}
+          backgroundColor="transparent"
+          rounded="full"
+          size="xs"
+          float="right"
+        />
+        <Text textAlign="center" fontWeight={700}> 🎉 Image generated</Text>
+        <Text textAlign="center">Your image has been generated!</Text>
+        <Center>
+          <CLink passHref href="/generator">
+            <Button
+              color="white"
+              bg="transparent"
+              size="sm"
+              _hover={{}}
+              _active={{}}
+              _focus={{}}
+            >
+              Open
+            </Button>
+          </CLink>
+        </Center>
+      </Box>
+    ),
+    status: 'success',
+    duration: 5000,
+    isClosable: true,
+  })
+}
+
+export const ToastImageMinted = (toast, mintTx, chainId) => {
+  const t = toast({
+    render: () => (
+      <Box color="white" p={2} bg="green.500" rounded="md">
+        <IconButton
+          aria-label="close"
+          onClick={() => toast.close(t)}
+          icon={<CloseIcon />}
+          backgroundColor="transparent"
+          rounded="full"
+          size="xs"
+          float="right"
+        />
+        <Text textAlign="center" fontWeight={700}> 🎉 Token minted</Text>
+        <Text textAlign="center">Your image have been minted on the blockchain! </Text>
+        <Center>
+          <CLink
+            href={getExplorerTransactionLink(mintTx, chainId)}
+            isExternal
+            color="#6B93FB"
+          >
+            <Button
+              rightIcon={
+                <FontAwesomeIcon icon={faExternalLinkAlt} size="1x" />
+              }
+              color="white"
+              bg="transparent"
+              size="sm"
+              _hover={{}}
+              _active={{}}
+              _focus={{}}
+            >
+              Open Transaction
+            </Button>
+          </CLink>
+        </Center>
+      </Box>
+    ),
+    status: 'success',
+    duration: 5000,
+    isClosable: true,
+  })
+}
