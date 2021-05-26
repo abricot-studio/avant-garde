@@ -1,8 +1,9 @@
 import { useEthers } from '@usedapp/core'
 import axios from 'axios'
-import { useCallback, useEffect, useState } from 'react'
-import { useToast } from '../components/ui'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { ToastImageGenerated, useToast } from '../components/ui'
 import config from '../config'
+import { useRouter } from 'next/router'
 
 const generateApi = axios.create({
   baseURL: config.generateUrl,
@@ -22,6 +23,50 @@ export interface ImageGeneration {
 }
 
 const generationCache = {}
+type Timeout = ReturnType<typeof setTimeout>
+
+function useInterval(delay: number) {
+  const savedCallback = useRef<Function | null>(null);
+  const savedOnError = useRef<Function | null>(null);
+  const poll = useRef<Timeout | null>(null)
+
+  const refresh = useCallback(() => {
+    savedCallback.current().then( (shouldContinue) => {
+
+      if(shouldContinue){
+        poll.current = setTimeout(refresh, delay);
+      }
+
+    }).catch(error => savedOnError.current(error) )
+  }, [savedCallback])
+
+  const startPolling = useCallback(() => {
+    refresh()
+  }, [refresh])
+
+  const stopPolling = useCallback(() => {
+    if (poll.current) {
+      clearTimeout(poll.current)
+      poll.current = null
+    }
+  }, [])
+
+  const setCallback = ({callback, onError}) => {
+    savedCallback.current = callback
+    savedOnError.current = onError
+  }
+  useEffect(() => {
+    return () => stopPolling()
+  }, [])
+
+  return {
+    setCallback,
+    refresh,
+    startPolling,
+    stopPolling,
+  }
+
+}
 
 export const useImageGeneration = () => {
   const { account } = useEthers()
@@ -30,7 +75,8 @@ export const useImageGeneration = () => {
     useState<ImageGeneration | null>(null)
   const [isGenerating, setIsGenerating] = useState<boolean>(false)
   const toast = useToast()
-
+  const router = useRouter()
+  const { startPolling, stopPolling, setCallback } = useInterval(5000)
   useEffect(() => {
     if (!account || !generationCache[account]) {
       setGenerationResult(null)
@@ -38,6 +84,7 @@ export const useImageGeneration = () => {
       setGenerationResult(generationCache[account])
     }
     setIsGenerating(false)
+    stopPolling()
   }, [account])
 
   const generateImage = useCallback(() => {
@@ -46,25 +93,21 @@ export const useImageGeneration = () => {
     }
 
     setIsGenerating(true)
-
-    generateApi({
-      method: 'POST',
-      data: { address: account },
-    })
-      .then((result) => {
+    setCallback({
+      callback: () => generateApi({
+        method: 'POST',
+        data: { address: account },
+      }).then((result) => {
+        if(result.data.status === 'processing' ){
+          return true
+        }
         setGenerationResult(result.data)
         setIsGenerating(false)
         generationCache[account] = result.data
-
-        toast({
-          title: '🎉 Image generated',
-          description: 'Your image have been generated!',
-          status: 'success',
-          duration: 5000,
-          isClosable: true,
-        })
-      })
-      .catch((error) => {
+        ToastImageGenerated(toast, router)
+        return false
+      }),
+      onError: (error) => {
         setGenerationResult(null)
         console.error(error)
         toast({
@@ -75,7 +118,9 @@ export const useImageGeneration = () => {
           isClosable: true,
         })
         setIsGenerating(false)
-      })
+      },
+    })
+    startPolling()
   }, [account])
 
   return { generateImage, isGenerating, generationResult }
