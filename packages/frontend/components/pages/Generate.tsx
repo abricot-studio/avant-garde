@@ -24,6 +24,7 @@ import {
   Link as CLink,
   Text,
   VStack,
+  useToast
 } from '../ui'
 
 export default function Generate() {
@@ -34,9 +35,11 @@ export default function Generate() {
   const { generateImage, isGenerating, generationResult } = useImageGeneration()
   const { mint, minted, isMinting, mintTx } = useMint()
   const router = useRouter()
+  const toast = useToast()
 
   useEffect(() => {
     if (token) {
+      toast.closeAll()
       router.push(`/token/${token.id}`)
     }
   }, [token])

@@ -1,6 +1,6 @@
 import { useContractCall, useEthers } from '@usedapp/core'
 import { useCallback, useMemo, useState } from 'react'
-import { useToast } from '../components/ui'
+import { ToastImageMinted, useToast } from '../components/ui'
 import { getContractFromProvider } from '../lib/contracts'
 import { useContract } from './contracts'
 import { useToken } from './tokens'
@@ -61,7 +61,7 @@ export const useTokenTotalSupply = (): AvantGardeTokenTotalSupply | false => {
 }
 
 export const useMint = () => {
-  const { account, library } = useEthers()
+  const { account, library, chainId } = useEthers()
   const [isMinting, setIsMinting] = useState<boolean>(false)
   const [mintTx, setMintTx] = useState<string | null>(null)
   const [minted, setMinted] = useState<boolean>(false)
@@ -96,14 +96,8 @@ export const useMint = () => {
           setMinted(true)
           setIsMinting(false)
           startPollingMint()
+          ToastImageMinted(toast, mintTx, chainId)
 
-          toast({
-            title: '🎉 Token minted',
-            description: 'Your image have been minted on the blockchain!',
-            status: 'success',
-            duration: 5000,
-            isClosable: true,
-          })
         })
         .catch((error) => {
           console.error(error)
