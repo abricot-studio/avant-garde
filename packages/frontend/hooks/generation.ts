@@ -3,6 +3,7 @@ import axios from 'axios'
 import { useCallback, useEffect, useState } from 'react'
 import { ToastImageGenerated, useToast } from '../components/ui'
 import config from '../config'
+import { useRouter } from 'next/router'
 
 const generateApi = axios.create({
   baseURL: config.generateUrl,
@@ -30,6 +31,7 @@ export const useImageGeneration = () => {
     useState<ImageGeneration | null>(null)
   const [isGenerating, setIsGenerating] = useState<boolean>(false)
   const toast = useToast()
+  const router = useRouter()
 
   useEffect(() => {
     if (!account || !generationCache[account]) {
@@ -55,7 +57,7 @@ export const useImageGeneration = () => {
         setGenerationResult(result.data)
         setIsGenerating(false)
         generationCache[account] = result.data
-        ToastImageGenerated(toast)
+        ToastImageGenerated(toast, router)
 
       })
       .catch((error) => {

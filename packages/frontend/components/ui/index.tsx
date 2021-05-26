@@ -1,5 +1,5 @@
 import {
-  Box,
+  Box, BoxProps,
   Button as ChakraButton,
   ButtonProps, Center,
   Flex,
@@ -10,7 +10,7 @@ import {
   Spinner,
   Text,
 } from '@chakra-ui/react'
-import React from 'react'
+import React, { MouseEventHandler } from 'react'
 import { CloseIcon } from '@chakra-ui/icons'
 import { getExplorerTransactionLink } from '@usedapp/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -156,23 +156,38 @@ export const ActionButton = forwardRef<ButtonProps & ActionButtonProps, 'a'>(
   }
 )
 
-export const ToastImageGenerated = (toast) => {
-  const t = toast({
-    render: () => (
-      <Box color="white" p={2} bg="green.500" rounded="md">
+interface ToastContainerProps {
+  onClose: MouseEventHandler
+}
+
+export const ToastContainer = forwardRef<BoxProps & ToastContainerProps, 'div'>(
+  ({ children, onClose, ...props }, ref) => {
+
+    return (
+      <Box color="white" p={2} bg="green.500" rounded="md" ref={ref} {...props}>
         <IconButton
           aria-label="close"
-          onClick={() => toast.close(t)}
+          onClick={onClose}
           icon={<CloseIcon />}
           backgroundColor="transparent"
           rounded="full"
           size="xs"
           float="right"
         />
-        <Text textAlign="center" fontWeight={700}> 🎉 Image generated</Text>
-        <Text textAlign="center">Your image has been generated!</Text>
-        <Center>
-          <CLink passHref href="/generator">
+        {children}
+      </Box>
+    )
+  }
+)
+
+export const ToastImageGenerated = (toast, router) => {
+  const t = toast({
+    render: () => (
+      <ToastContainer onClose={() => toast.close(t)}>
+        <Box>
+          <Text textAlign="center" fontWeight={700}> 🎉 Image generated</Text>
+          <Text textAlign="center">Your image has been generated!</Text>
+          <Center>
             <Button
               color="white"
               bg="transparent"
@@ -180,12 +195,16 @@ export const ToastImageGenerated = (toast) => {
               _hover={{}}
               _active={{}}
               _focus={{}}
+              onClick={() => {
+                router.push('/generator')
+                toast.close(t)
+              }}
             >
               Open
             </Button>
-          </CLink>
-        </Center>
-      </Box>
+          </Center>
+        </Box>
+      </ToastContainer>
     ),
     status: 'success',
     duration: 5000,
