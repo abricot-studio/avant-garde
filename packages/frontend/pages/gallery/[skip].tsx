@@ -31,7 +31,7 @@ const Gallery: React.FC = () => {
         <Heading textAlign="center" mb={8} fontFamily="Poppins, sans-serif">
           Newly Minted
         </Heading>
-        <Tokens tokens={tokens} fetching={fetching} error={error} />
+        <Tokens tokens={tokens} fetching={fetching} error={error} skip={parseInt(skip || '0')}/>
       </Layout>
     </>
   )

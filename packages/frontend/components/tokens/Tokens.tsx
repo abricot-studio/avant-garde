@@ -31,12 +31,13 @@ export interface Props {
   tokens?: any[]
   fetching?: boolean
   error?: any
-  mine?: boolean
+  mine?: boolean,
+  skip?: number
 }
 
-export default function Tokens({ tokens, fetching, error, mine }: Props) {
+export default function Tokens({ tokens, fetching, error, mine, skip = 0}: Props) {
   const router = useRouter()
-  const [index, setIndex] = React.useState(0)
+  const [index, setIndex] = React.useState(skip)
   const { isOpen, onToggle } = useDisclosure({
     defaultIsOpen: true,
   })
@@ -111,7 +112,7 @@ export default function Tokens({ tokens, fetching, error, mine }: Props) {
             const i = index === 0 ? tokens.length - 1 : index - 1
             setIndex(i)
             if(router.route.startsWith('/gallery')){
-              router.replace(`/gallery/${i}`, `/gallery/${i}`, { shallow: true })
+              router.replace(`/gallery/${i}`, undefined, { shallow: true })
             }
           }}
         />
@@ -131,7 +132,7 @@ export default function Tokens({ tokens, fetching, error, mine }: Props) {
             const i = index === tokens.length - 1 ? 0 : index + 1
             setIndex(i)
             if(router.route.startsWith('/gallery')) {
-              router.replace(`/gallery/${i}`, `/gallery/${i}`, { shallow: true })
+              router.replace(`/gallery/${i}`, undefined, { shallow: true })
             }
           }}
         />
