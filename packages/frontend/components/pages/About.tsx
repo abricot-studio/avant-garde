@@ -251,7 +251,7 @@ function Chart() {
       return { dataPast, dataNext, mintCounter, currentPrice, isLoading: false }
     }, [tokenTotalSupply])
 
-  return isLoading ? (
+  return isLoading || dataPast.length === 0 || dataNext.length === 0 ? (
     <VStack align="center">
       <Text textStyle="caption" pb={4}>
         Loading chart...

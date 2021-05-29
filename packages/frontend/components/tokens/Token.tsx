@@ -324,7 +324,7 @@ export default function Token({ id }) {
         <Flex justifyContent="center" direction={mobile ? 'column' : 'row' }>
           <Flex>
             <HStack justifyContent="center">
-              <VStack justify="space-between" alignItems="start">
+              <VStack justify="space-between" alignItems="center">
                 <Box fontWeight={600}>⌛ Mint Date</Box>
                 <Box fontWeight={600}>⛏ Mint Price</Box>
               </VStack>
@@ -340,7 +340,7 @@ export default function Token({ id }) {
               </VStack>
             </HStack>
           </Flex>
-          <Flex pt={mobile && (token.burnPrice || burnTx) ? 8 : 0 } pl={mobile && (token.burnPrice || burnTx) ? 0 : 8 }>
+          <Flex pt={mobile && token.burnPrice ? 8 : 0 } pl={!mobile && token.burnPrice ? 8 : 0 }>
               {token.burnPrice && (
                 <HStack justifyContent="center" >
 
@@ -359,34 +359,33 @@ export default function Token({ id }) {
                     </Box>
                   </VStack>
                 </HStack>
-
               )}
-            {burnTx && (
-              <HStack justifyContent="center" mt={2}>
-                <CLink
-                  href={getExplorerTransactionLink(burnTx, chainId)}
-                  isExternal
-                  color="#6B93FB"
-                >
-                  <Button
-                    rightIcon={
-                      <FontAwesomeIcon icon={faExternalLinkAlt} size="1x" />
-                    }
-                    variant="outline"
-                    size="sm"
-                    color="#6B93FB"
-                    fontFamily='"Roboto Mono", sans-serif'
-                    _hover={{}}
-                    _active={{}}
-                    _focus={{}}
-                  >
-                    Open Transaction
-                  </Button>
-                </CLink>
-              </HStack>
-            )}
           </Flex>
         </Flex>
+        {burnTx && (
+          <Flex justifyContent="center" mt={2}>
+            <CLink
+              href={getExplorerTransactionLink(burnTx, chainId)}
+              isExternal
+              color="#6B93FB"
+            >
+              <Button
+                rightIcon={
+                  <FontAwesomeIcon icon={faExternalLinkAlt} size="1x" />
+                }
+                variant="outline"
+                size="sm"
+                color="#6B93FB"
+                fontFamily='"Roboto Mono", sans-serif'
+                _hover={{}}
+                _active={{}}
+                _focus={{}}
+              >
+                Open Transaction
+              </Button>
+            </CLink>
+          </Flex>
+        )}
       </Card>
     </Flex>
   )

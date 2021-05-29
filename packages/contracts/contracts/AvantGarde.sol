@@ -68,13 +68,14 @@ contract AvantGarde is ERC721URIStorage {
 
   }
 
-  function burn(uint256 _tokenId) public returns (bool){
+  function burn(uint256 _tokenId, uint256 _minBurnPrice) public returns (bool){
 
     require(ownerOf(_tokenId) == msg.sender, "NO");
 
     totalSupply.decrement();
     _burn(_tokenId);
     uint256 burnPrice = currentPrice();
+    require(burnPrice >= _minBurnPrice, "MBPI");
     payable(msg.sender).sendValue(burnPrice);
 
     emit Burned(_tokenId, burnPrice);

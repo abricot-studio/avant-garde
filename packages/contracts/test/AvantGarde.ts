@@ -220,8 +220,9 @@ describe('AvantGarde', function () {
     const minterOriginalBalance = await ethers.provider.getBalance(
       memory.other.address
     )
+    const burnPrice = await memory.contract.currentBurnPrice()
 
-    const tx = await memory.contract.connect(memory.other).burn(tokenId)
+    const tx = await memory.contract.connect(memory.other).burn(tokenId, burnPrice)
 
     const receipt = await tx.wait()
     const feesInEth = tx.gasPrice.mul(receipt.gasUsed)
@@ -238,6 +239,27 @@ describe('AvantGarde', function () {
         .sub(feesInEth)
         .add(ethers.utils.parseEther('0.0001'))
     )
+  })
+
+  it('cant mint and burn with invalid min burn price', async () => {
+    const uri = 'Qmsfzefi221ifjzifj'
+    const signature = await signMintingRequest(
+      uri,
+      memory.other.address,
+      memory.manager
+    )
+    const mintWithFeesPrice = await memory.contract.currentMintWithFeesPrice()
+    expect(mintWithFeesPrice).to.eq(ethers.utils.parseEther('0.00011'))
+
+    await memory.contract.connect(memory.other).mint(uri, signature, {
+      value: mintWithFeesPrice,
+    })
+
+    const tokenId = memory.other.address
+    const burnPrice = await memory.contract.currentPrice()
+
+    await expect(memory.contract.connect(memory.other).burn(tokenId, burnPrice) ).to.be.revertedWith('MBPI')
+
   })
 
   it('mint and burn multiple', async () => {
@@ -288,8 +310,8 @@ describe('AvantGarde', function () {
     const minterOriginal1Balance = await ethers.provider.getBalance(
       memory.other.address
     )
-
-    const txBurn1 = await memory.contract.connect(memory.other).burn(tokenId1)
+    const burnPrice = await memory.contract.currentBurnPrice()
+    const txBurn1 = await memory.contract.connect(memory.other).burn(tokenId1, burnPrice)
 
     const receipt1 = await txBurn1.wait()
     const feesInEth1 = txBurn1.gasPrice.mul(receipt1.gasUsed)
@@ -309,8 +331,9 @@ describe('AvantGarde', function () {
     const minterOriginal2Balance = await ethers.provider.getBalance(
       memory.other2.address
     )
+    const burnPrice2 = await memory.contract.currentBurnPrice()
 
-    const txBurn2 = await memory.contract.connect(memory.other2).burn(tokenId2)
+    const txBurn2 = await memory.contract.connect(memory.other2).burn(tokenId2, burnPrice2)
 
     const receipt2 = await txBurn2.wait()
     const feesInEth2 = txBurn2.gasPrice.mul(receipt2.gasUsed)
