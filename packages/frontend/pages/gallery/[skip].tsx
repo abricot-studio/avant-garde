@@ -22,7 +22,7 @@ const Gallery: React.FC = () => {
   const { skip } = router.query as QueryParams
 
   const { tokens, fetching, error } = useTokens({
-    ...Object.assign({}, defaultTokensQueryVariables, { skip: parseInt(skip || '0') }),
+    ...defaultTokensQueryVariables
   })
   return (
     <>
@@ -64,9 +64,8 @@ export const getStaticProps = async (
   ctx: GetStaticPropsContext<QueryParams>
 ) => {
   const [ssrClient, ssrCache] = getSsrClient()
-  const skip = parseInt(ctx.params.skip || '0')
 
-  await ssrClient.query(TokensQuery, Object.assign({}, defaultTokensQueryVariables, { skip }) ).toPromise()
+  await ssrClient.query(TokensQuery, defaultTokensQueryVariables).toPromise()
 
   return {
     props: {
