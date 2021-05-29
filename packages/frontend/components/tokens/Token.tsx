@@ -185,7 +185,7 @@ export default function Token({ id }) {
           _focus={{
             outline: 'none',
           }}
-          onClick={() => router.push('/gallery')}
+          onClick={() => router.back()}
         />
         {id}
       </Heading>
