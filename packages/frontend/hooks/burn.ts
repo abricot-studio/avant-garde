@@ -33,16 +33,17 @@ export const useBurnPrice = (): AvantGardeTokenBurnPrice | false => {
 
 export const useBurn = () => {
   const { account, library } = useEthers()
-  const { startPollingBurn } = useToken(account)
   const [isBurning, setIsBurning] = useState<boolean>(false)
   const [burnTx, setBurnTx] = useState<string | null>(null)
   const [burned, setBurned] = useState<boolean>(false)
   const [error, setError] = useState<boolean>(null)
+  const tokenBurnPrice = useBurnPrice()
+  const { startPollingBurn } = useToken(account)
   const toast = useToast()
 
   const burn = useCallback(
     (tokenId) => {
-      if (!library) {
+      if (!account || !tokenBurnPrice) {
         throw new Error('cannot call burn if not connected 👎')
       }
 
@@ -51,7 +52,7 @@ export const useBurn = () => {
 
       getContractFromProvider(library)
         .then((c) => c.connect(library.getSigner()))
-        .then((contract) => contract.burn(tokenId))
+        .then((contract) => contract.burn(tokenId, tokenBurnPrice.currentPrice))
         .then((tx) => {
           setBurnTx(tx.hash)
           return library.waitForTransaction(tx.hash)
@@ -84,7 +85,7 @@ export const useBurn = () => {
           setIsBurning(false)
         })
     },
-    [library, startPollingBurn]
+    [account, startPollingBurn, tokenBurnPrice]
   )
 
   return { burn, burned, burnTx, isBurning, error }

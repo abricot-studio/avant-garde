@@ -116,7 +116,7 @@ function ConnectButton() {
         fontWeight={600}
         fontSize="0.8rem"
         onClick={open}
-        icon={<WalletIcon w={6} h={6} />}
+        icon={<WalletIcon w={12} h={12} />}
         isLoading={isConnecting}
         backgroundColor="white"
         rounded="full"
@@ -132,7 +132,7 @@ function ConnectButton() {
       border="2px"
       borderColor="black"
       onClick={open}
-      leftIcon={<WalletIcon w={6} h={6} />}
+      leftIcon={<WalletIcon w={12} h={12} />}
       isLoading={isConnecting}
       backgroundColor="white"
       textTransform="uppercase"

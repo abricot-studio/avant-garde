@@ -24,7 +24,7 @@ interface AvantGardeInterface extends ethers.utils.Interface {
   functions: {
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
-    "burn(uint256)": FunctionFragment;
+    "burn(uint256,uint256)": FunctionFragment;
     "changeFeesReceiver(address)": FunctionFragment;
     "changeManager(address)": FunctionFragment;
     "currentBurnPrice()": FunctionFragment;
@@ -55,7 +55,10 @@ interface AvantGardeInterface extends ethers.utils.Interface {
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
-  encodeFunctionData(functionFragment: "burn", values: [BigNumberish]): string;
+  encodeFunctionData(
+    functionFragment: "burn",
+    values: [BigNumberish, BigNumberish]
+  ): string;
   encodeFunctionData(
     functionFragment: "changeFeesReceiver",
     values: [string]
@@ -284,6 +287,7 @@ export class AvantGarde extends BaseContract {
 
     burn(
       _tokenId: BigNumberish,
+      _minBurnPrice: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -407,6 +411,7 @@ export class AvantGarde extends BaseContract {
 
   burn(
     _tokenId: BigNumberish,
+    _minBurnPrice: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -518,7 +523,11 @@ export class AvantGarde extends BaseContract {
 
     balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-    burn(_tokenId: BigNumberish, overrides?: CallOverrides): Promise<boolean>;
+    burn(
+      _tokenId: BigNumberish,
+      _minBurnPrice: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
     changeFeesReceiver(
       _newFeesReceiver: string,
@@ -678,6 +687,7 @@ export class AvantGarde extends BaseContract {
 
     burn(
       _tokenId: BigNumberish,
+      _minBurnPrice: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -799,6 +809,7 @@ export class AvantGarde extends BaseContract {
 
     burn(
       _tokenId: BigNumberish,
+      _minBurnPrice: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
