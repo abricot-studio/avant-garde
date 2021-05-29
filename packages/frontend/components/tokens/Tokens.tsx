@@ -15,6 +15,7 @@ import {
   Spinner,
 } from '../ui'
 import { defaultSize, ImageFrame, smallSize, TokenImage } from './TokenImage'
+import { useRouter } from 'next/router'
 
 function TokenCard({ token, size }) {
   return (
@@ -30,11 +31,13 @@ export interface Props {
   tokens?: any[]
   fetching?: boolean
   error?: any
-  mine?: boolean
+  mine?: boolean,
+  skip?: number
 }
 
-export default function Tokens({ tokens, fetching, error, mine }: Props) {
-  const [index, setIndex] = React.useState(0)
+export default function Tokens({ tokens, fetching, error, mine, skip = 0}: Props) {
+  const router = useRouter()
+  const [index, setIndex] = React.useState(skip)
   const { isOpen, onToggle } = useDisclosure({
     defaultIsOpen: true,
   })
@@ -106,7 +109,11 @@ export default function Tokens({ tokens, fetching, error, mine }: Props) {
           isDisabled={!tokensDisplayed[0]}
           onClick={() => {
             onToggle()
-            setIndex(index === 0 ? tokens.length - 1 : index - 1)
+            const i = index === 0 ? tokens.length - 1 : index - 1
+            setIndex(i)
+            if(router.route.startsWith('/gallery')){
+              router.replace(`/gallery/${i}`, undefined, { shallow: true })
+            }
           }}
         />
         {tokensDisplayed[1] && (
@@ -122,7 +129,11 @@ export default function Tokens({ tokens, fetching, error, mine }: Props) {
           isDisabled={!tokensDisplayed[2]}
           onClick={() => {
             onToggle()
-            setIndex(index === tokens.length - 1 ? 0 : index + 1)
+            const i = index === tokens.length - 1 ? 0 : index + 1
+            setIndex(i)
+            if(router.route.startsWith('/gallery')) {
+              router.replace(`/gallery/${i}`, undefined, { shallow: true })
+            }
           }}
         />
         <Box

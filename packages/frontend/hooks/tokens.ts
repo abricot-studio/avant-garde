@@ -42,12 +42,12 @@ export const TokenQuery = gql`
   }
 `
 export const TokensQuery = gql`
-  query TokensQuery($first: Int, $skip: Int) {
+  query TokensQuery($first: Int, $skip: Int, $orderBy: Int, $orderDirection: String) {
     avantGardeTokens(
       first: $first
+      skip: $skip
       orderBy: mintTimestamp
       orderDirection: desc
-      skip: $skip
     ) {
       id
       owner
