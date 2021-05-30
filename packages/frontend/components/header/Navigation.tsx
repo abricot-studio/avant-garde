@@ -1,26 +1,23 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React, { useMemo } from 'react'
+import React from 'react'
 import {
   Box,
   Button,
   ButtonProps,
   forwardRef,
   HStack,
-  Menu,
-  MenuButton,
-  MenuList,
-  Text,
   useBreakpointValue,
 } from '../ui'
-import { MenuItem } from './LoginButton'
 
 interface NavButtonProps {
   color: string
   isSelected: boolean
 }
 
-export const NavButtonIcon = ({ color }) => <Box w={4} h={4} background={color} />
+export const NavButtonIcon = ({ color }) => (
+  <Box w={4} h={4} background={color} />
+)
 
 const NavButton = forwardRef<NavButtonProps & ButtonProps, 'a'>(
   ({ children, color, isSelected, ...props }, ref) => {
