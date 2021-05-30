@@ -58,6 +58,7 @@ export class Gallery implements ISystem {
               minter.getComponent(OnPointerDown).hoverText = 'Minting art...'
               await this.contractOperation.mint(this.mintParams)
               log('Minted')
+              this.userPiece = await getPieceByAddress(this.contractOperation.address)
               minter.removeComponent(OnPointerDown)
 
             } catch (error) {
@@ -78,5 +79,8 @@ export class Gallery implements ISystem {
 
   update(dt: number): void {
 
+    if(!this.userPiece && this.contractOperation.mintPrices){
+      // update mint price
+    }
   }
 }

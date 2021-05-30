@@ -6,6 +6,7 @@ import RequestManager, { BigNumber, toChecksumAddress } from 'eth-connect'
 import * as utils from '@dcl/ecs-scene-utils'
 import avantGardeNetwork from "./networks"
 import { mintParams } from './generate'
+import { setTimeout } from './utils'
 
 interface networkConfig {
   network: string
@@ -32,9 +33,7 @@ export default class ContractOperation {
     total: '0',
   }
 
-  constructor() {
-
-  }
+  constructor() {}
 
   async init(){
 
@@ -43,7 +42,23 @@ export default class ContractOperation {
     this.address = address
     this.contract = contract
     this.requestManager = requestManager
-    this.mintPrices = await this.getMintPrice()
+    this.startPoolingMintPrice()
+
+  }
+
+  startPoolingMintPrice(){
+
+    this.getMintPrice().then((mintPrices) => {
+      this.mintPrices = mintPrices
+      setTimeout( () => {
+        this.startPoolingMintPrice()
+      }, 5000)
+    }).catch(error => {
+      log('error pooling mint price', error)
+      setTimeout( () => {
+        this.startPoolingMintPrice()
+      }, 5000)
+    })
 
   }
 
@@ -54,14 +69,14 @@ export default class ContractOperation {
         const provider = await getProvider()
         const requestManagerNet = new EthConnect.RequestManager(provider)
         const network = await requestManagerNet.net_version()
-        log('network', network)
         const getContract = await crypto.contract.getContract(avantGardeNetwork[4].address, avantGardeNetwork[4].abi) as any
         const contract = getContract.contract
         const requestManager = getContract.requestManager
         const address = toChecksumAddress(await getUserAccount() )
+        log('getNetworkConfig', { network, contract, requestManager, address })
         return { network, contract, requestManager, address }
       } catch (error) {
-        log(error.toString())
+        log('error getNetworkConfig', error)
         throw error
       }
     })
@@ -105,12 +120,13 @@ export default class ContractOperation {
           await new Promise( resolve => new utils.Delay(2000, resolve) )
           receipt = await this.requestManager?.eth_getTransactionReceipt(res.toString())
         }
-        log('contract:mint', 'receipt', receipt)
+        log('mint', 'receipt', receipt)
 
       } catch (error) {
-        log(error.toString())
+        log('error mint', error)
         throw error
       }
+
     })
   }
 
