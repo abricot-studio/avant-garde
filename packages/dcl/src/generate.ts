@@ -1,4 +1,5 @@
 import config from './config'
+import { wait } from './utils'
 
 export interface mintParams {
   status: string,
@@ -19,6 +20,14 @@ export async function Generate(address: string): Promise<mintParams>{
       body: JSON.stringify({ address })
     })
     const mintParams: mintParams = await response.json()
+
+    if(mintParams.status === 'processing'){
+
+      await wait(5000)
+      return Generate(address)
+
+    }
+
     return mintParams
   })
 

@@ -3,10 +3,9 @@ import {getUserAccount} from "@decentraland/EthereumController"
 import * as EthConnect from 'eth-connect'
 import { getProvider } from '@decentraland/web3-provider'
 import RequestManager, { BigNumber, toChecksumAddress } from 'eth-connect'
-import * as utils from '@dcl/ecs-scene-utils'
 import avantGardeNetwork from "./networks"
 import { mintParams } from './generate'
-import { setTimeout } from './utils'
+import { setTimeout, wait } from './utils'
 
 interface networkConfig {
   network: string
@@ -117,7 +116,7 @@ export default class ContractOperation {
 
         let receipt = null
         while (receipt == null) {
-          await new Promise( resolve => new utils.Delay(2000, resolve) )
+          await wait(2000)
           receipt = await this.requestManager?.eth_getTransactionReceipt(res.toString())
         }
         log('mint', 'receipt', receipt)

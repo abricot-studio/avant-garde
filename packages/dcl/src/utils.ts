@@ -1,5 +1,4 @@
-import { Delay } from '@dcl/ecs-scene-utils'
-import { Interval } from '@dcl/ecs-scene-utils'
+import { Delay, Interval } from '@dcl/ecs-scene-utils'
 
 export interface ITimeoutClean {
   clearTimeout(): void
@@ -21,6 +20,10 @@ export function setTimeout(cb: Function, ms: number): ITimeoutClean {
     }
   }
 
+}
+
+export async function wait(ms: number): Promise<void> {
+  return new Promise( resolve => setTimeout(() => resolve(), ms) )
 }
 
 interface IIntervalClean {
