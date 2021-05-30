@@ -108,7 +108,7 @@ export function getPieceByAddress(address: string): Promise<AvantGardeToken>{
         body: JSON.stringify({
           query: TokenQuery,
           variables: {
-            address
+            address: address.toLowerCase()
           }
         })
       })
