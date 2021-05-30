@@ -1,3 +1,6 @@
+import config from '../config'
+import { mintParams } from '../generate'
+
 export class Minter extends Entity {
 
   constructor(position: Vector3) {
@@ -14,6 +17,15 @@ export class Minter extends Entity {
     })
     this.addComponent(transform)
     engine.addEntity(this)
+
+  }
+
+  addPiece(mintParams: mintParams) {
+
+    const myTexture = new Texture(`${config.ipfsEndpoint}${mintParams.ipfsHashImage}`)
+    const myMaterial = new Material()
+    myMaterial.albedoTexture = myTexture
+    this.addComponent(myMaterial)
 
   }
 

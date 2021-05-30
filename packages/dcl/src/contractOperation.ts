@@ -5,15 +5,7 @@ import { getProvider } from '@decentraland/web3-provider'
 import RequestManager, { BigNumber, toChecksumAddress } from 'eth-connect'
 import * as utils from '@dcl/ecs-scene-utils'
 import avantGardeNetwork from "./networks"
-import config from './config'
-
-interface mintParams {
-  status: string,
-  ipfsHashMetadata: string
-  ipfsHashImage: string
-  signature: string
-  signerAddress: string
-}
+import { mintParams } from './generate'
 
 interface networkConfig {
   network: string
@@ -90,20 +82,11 @@ export default class ContractOperation {
 
   }
 
-  mint(): Promise<any>{
+  mint(mintParams: mintParams): Promise<any>{
 
     return executeTask(async () => {
 
       try {
-
-        const response = await fetch(config.generateUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ address: this.address })
-        })
-        const mintParams: mintParams = await response.json()
 
         let res = null
 

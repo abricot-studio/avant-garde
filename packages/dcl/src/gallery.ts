@@ -2,6 +2,7 @@ import { AvantGardeToken, getPieceByAddress, getPieces } from './graphql'
 import { Piece } from './entities/Piece'
 import ContractOperation from './contractOperation'
 import { Minter } from './entities/Minter'
+import { Generate, mintParams } from './generate'
 
 export class Gallery implements ISystem {
 
@@ -10,6 +11,7 @@ export class Gallery implements ISystem {
   piecesEntities: Piece[] = []
   userPiece: AvantGardeToken | null = null
   userPieceEntity: Piece | null = null
+  mintParams?: mintParams
 
   constructor() {
 
@@ -38,26 +40,35 @@ export class Gallery implements ISystem {
 
     } else {
 
-      //user can mint
       let isMinting = false
       const minter = new Minter(new Vector3(10, 2, 2) )
       minter.addComponentOrReplace(
-        new OnPointerDown(e => {
-            if(isMinting){
-              return false
-            }
-            log('clicked')
-            isMinting = true
-            this.contractOperation.mint().then(() => {
-              debugger
-            }).catch(error => {
+        new OnPointerDown(async (e) => {
+            try {
+              if(isMinting || !this.contractOperation.address){
+                return false
+              }
+              log('clicked')
+              isMinting = true
+              if(!this.mintParams) {
+                minter.getComponent(OnPointerDown).hoverText = 'Generating art...'
+                this.mintParams = await Generate(this.contractOperation.address)
+                minter.addPiece(this.mintParams)
+              }
+              minter.getComponent(OnPointerDown).hoverText = 'Minting art...'
+              await this.contractOperation.mint(this.mintParams)
+              log('Minted')
+              minter.removeComponent(OnPointerDown)
+
+            } catch (error) {
               isMinting = false
+              minter.getComponent(OnPointerDown).hoverText = 'Mint your!'
               log('failed to mint', error)
-            })
+            }
           },
           {
             button: ActionButton.POINTER,
-            hoverText: 'Mint your!',
+            hoverText: `Mint your!`,
             distance: 10
           }
         ) )
