@@ -10,6 +10,9 @@ cache
 deployments
 typechain
 
+# dcl
+bin
+
 # Frontend
 public
 

@@ -5,7 +5,6 @@ export interface ITimeoutClean {
 }
 
 export function setTimeout(cb: Function, ms: number): ITimeoutClean {
-
   const ent = new Entity()
   engine.addEntity(ent)
   const delay = new Delay(ms, () => {
@@ -17,13 +16,12 @@ export function setTimeout(cb: Function, ms: number): ITimeoutClean {
   return {
     clearTimeout() {
       delay.setCallback(() => {})
-    }
+    },
   }
-
 }
 
 export async function wait(ms: number): Promise<void> {
-  return new Promise( resolve => setTimeout(() => resolve(), ms) )
+  return new Promise((resolve) => setTimeout(() => resolve(), ms))
 }
 
 interface IIntervalClean {
@@ -31,7 +29,6 @@ interface IIntervalClean {
 }
 
 export function setInterval(cb: Function, ms: number): IIntervalClean {
-
   const ent = new Entity()
   engine.addEntity(ent)
   const interval = new Interval(ms, () => {
@@ -43,19 +40,16 @@ export function setInterval(cb: Function, ms: number): IIntervalClean {
     clearInterval() {
       interval.setCallback(() => {})
       engine.removeEntity(ent)
-    }
+    },
   }
-
 }
 
-export function arrayOfLength(length: number){
-
+export function arrayOfLength(length: number) {
   const arr = []
 
-  for(let i = 0; i < length; i++){
+  for (let i = 0; i < length; i++) {
     arr.push(i)
   }
 
   return arr
-
 }

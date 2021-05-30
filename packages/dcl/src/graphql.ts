@@ -7,7 +7,7 @@ export interface AvantGardeToken {
   mintTimestamp: string
   mintPrice?: string
   burnTimestamp?: string
-  burnPrice?: string,
+  burnPrice?: string
   metadata?: AvantGardeTokenMetadata
 }
 
@@ -73,34 +73,39 @@ export const TokensQuery = `{
 //   }
 // `
 
-
-export function getPieces(): Promise<AvantGardeToken[]>{
+export function getPieces(): Promise<AvantGardeToken[]> {
   return executeTask(async () => {
     try {
       const response = await fetch(config.subgraphUrl, {
         method: 'POST',
         body: JSON.stringify({
-          query: TokensQuery
-        })
+          query: TokensQuery,
+        }),
       })
       const json = await response.json()
-      const avantGardes: AvantGardeToken[] = await Promise.all(json.data.avantGardeTokens.map( async (avantGardeToken: AvantGardeToken): Promise<AvantGardeToken> => {
-        const metadataHash = avantGardeToken.tokenURI.split('ipfs://')[1]
-        const response = await fetch(`${config.ipfsEndpoint}${metadataHash}`)
-        avantGardeToken.metadata = await response.json()
-        return avantGardeToken
-      }) )
+      const avantGardes: AvantGardeToken[] = await Promise.all(
+        json.data.avantGardeTokens.map(
+          async (
+            avantGardeToken: AvantGardeToken
+          ): Promise<AvantGardeToken> => {
+            const metadataHash = avantGardeToken.tokenURI.split('ipfs://')[1]
+            const response = await fetch(
+              `${config.ipfsEndpoint}${metadataHash}`
+            )
+            avantGardeToken.metadata = await response.json()
+            return avantGardeToken
+          }
+        )
+      )
       return avantGardes
-    } catch (error){
-
-      log("failed to reach URL getPieces", error)
+    } catch (error) {
+      log('failed to reach URL getPieces', error)
       return []
     }
   })
-
 }
 
-export function getPieceByAddress(address: string): Promise<AvantGardeToken>{
+export function getPieceByAddress(address: string): Promise<AvantGardeToken> {
   return executeTask(async () => {
     try {
       const response = await fetch(config.subgraphUrl, {
@@ -108,20 +113,21 @@ export function getPieceByAddress(address: string): Promise<AvantGardeToken>{
         body: JSON.stringify({
           query: TokenQuery,
           variables: {
-            address: address.toLowerCase()
-          }
-        })
+            address: address.toLowerCase(),
+          },
+        }),
       })
       const json = await response.json()
-      const metadataHash = json.data.avantGardeToken.tokenURI.split('ipfs://')[1]
-      const responseMetadata = await fetch(`${config.ipfsEndpoint}${metadataHash}`)
+      const metadataHash =
+        json.data.avantGardeToken.tokenURI.split('ipfs://')[1]
+      const responseMetadata = await fetch(
+        `${config.ipfsEndpoint}${metadataHash}`
+      )
       json.data.avantGardeToken.metadata = await responseMetadata.json()
       return json.data.avantGardeToken
-    } catch (error){
-
-      log("failed to reach URL getPieceByAddress", error)
+    } catch (error) {
+      log('failed to reach URL getPieceByAddress', error)
       return false
     }
   })
-
 }

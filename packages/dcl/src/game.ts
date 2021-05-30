@@ -1,3 +1,3 @@
 import { Gallery } from './gallery'
 
-engine.addSystem(new Gallery() )
+engine.addSystem(new Gallery())

@@ -6,7 +6,7 @@ import { Box, Center, Flex, Image, Text } from '../ui'
 export function TokenImage({
   avantGardeToken,
   size,
-  noBurned = false
+  noBurned = false,
 }: {
   avantGardeToken: AvantGardeToken
   size?: any

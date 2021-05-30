@@ -1,34 +1,32 @@
+import { useDisclosure } from '@chakra-ui/hooks'
 import {
   faDiscord,
   faGithub,
   faTwitter,
 } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React  from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import React from 'react'
+import { useMountedState, useWindowScroll } from 'react-use'
 import { EtherscanIcon, MobileMenuIcon } from '../assets/icons'
 import { useContract } from '../hooks/contracts'
 import { URLs } from '../lib/constants'
+import { getPageStuff, NavButtonIcon, pagePaths } from './header/Navigation'
 import {
   Button,
   Flex,
+  IconButton,
   Link as CLink,
+  Slide,
+  Spacer,
   Text,
   useBreakpointValue,
-  Spacer,
-  IconButton, Slide
 } from './ui'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { getPageStuff, NavButtonIcon, pagePaths } from './header/Navigation'
-import { useDisclosure } from '@chakra-ui/hooks'
-import { useMountedState, useWindowScroll } from 'react-use'
 
 function LinkItem({ href, icon, label, ...props }) {
   return (
-    <Flex
-      {...props}
-      px={4}
-    >
+    <Flex {...props} px={4}>
       <CLink href={href} isExternal lineHeight="100%">
         <Button
           leftIcon={icon}
@@ -54,14 +52,8 @@ export function Footer() {
 
   return (
     <>
-      {
-        mobile && isMounted && y > 0 && (
-          <Flex minHeight="4rem" />
-        )
-      }
-      {
-        mobile && (<MobileMenuIcon w={0} h={0}/>)
-      }
+      {mobile && isMounted && y > 0 && <Flex minHeight="4rem" />}
+      {mobile && <MobileMenuIcon w={0} h={0} />}
       <Flex
         as="footer"
         justifyContent="center"
@@ -73,96 +65,80 @@ export function Footer() {
         bottom={0}
         zIndex={2}
       >
-        {
-          mobile && (
-            <Slide
-              direction="bottom"
-              in={isOpen}
-              style={{
-                bottom: '3.31rem',
-                display: isOpen ? 'block' : 'none'
-              }}
-            >
-              <Flex
-                color="white"
-                direction="column"
-                bg="white"
-                pb={4}
-              >
-                <Flex
-                  position="relative"
-                  top={-5}
-                  alignSelf="center"
-                >
-                  <Button
-                    as={IconButton}
-                    aria-label="Options"
-                    borderRadius="full"
-                    size="lg"
-                    p={0}
-                    icon={<MobileMenuIcon w={12} h={12}/>}
-                    bgColor="transparent"
-                    _hover={{}}
-                    _active={{}}
-                    _focus={{}}
-                    onClick={onToggle}
-                    style={{
-                      display: isOpen ? 'inline' : 'none'
-                    }}
-                  />
-                </Flex>
-                {pagePaths.map(
-                  (pagePath) =>
-                    pagePath !== router.pathname && (
-                      <Link passHref href={pagePath} key={pagePath}>
-                        <Flex
-                          display="flex"
-                          alignItems="center"
-                          justifyContent="center"
-                          pb={6}
-                        >
-                          <NavButtonIcon color={getPageStuff(pagePath)[1]} />
-                          <Text
-                            ml={2}
-                            color="black"
-                            fontWeight={400}
-                          >
-                            {getPageStuff(pagePath)[0]}
-                          </Text>
-                        </Flex>
-                      </Link>
-                    )
-                )}
+        {mobile && (
+          <Slide
+            direction="bottom"
+            in={isOpen}
+            style={{
+              bottom: '3.31rem',
+              display: isOpen ? 'block' : 'none',
+            }}
+          >
+            <Flex color="white" direction="column" bg="white" pb={4}>
+              <Flex position="relative" top={-5} alignSelf="center">
+                <Button
+                  as={IconButton}
+                  aria-label="Options"
+                  borderRadius="full"
+                  size="lg"
+                  p={0}
+                  icon={<MobileMenuIcon w={12} h={12} />}
+                  bgColor="transparent"
+                  _hover={{}}
+                  _active={{}}
+                  _focus={{}}
+                  onClick={onToggle}
+                  style={{
+                    display: isOpen ? 'inline' : 'none',
+                  }}
+                />
               </Flex>
-            </Slide>
-          )
-        }
+              {pagePaths.map(
+                (pagePath) =>
+                  pagePath !== router.pathname && (
+                    <Link passHref href={pagePath} key={pagePath}>
+                      <Flex
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        pb={6}
+                      >
+                        <NavButtonIcon color={getPageStuff(pagePath)[1]} />
+                        <Text ml={2} color="black" fontWeight={400}>
+                          {getPageStuff(pagePath)[0]}
+                        </Text>
+                      </Flex>
+                    </Link>
+                  )
+              )}
+            </Flex>
+          </Slide>
+        )}
         <Flex
           grow={1}
           borderTop="1px solid #E5E5E5"
-          bg={ mobile ? 'white' : 'transparent'}
+          bg={mobile ? 'white' : 'transparent'}
           py={4}
           alignItems="center"
           zIndex={10}
         >
           <LinkItem
             href={URLs.twitter}
-            icon={<FontAwesomeIcon icon={faTwitter} size="2x" color="#1FA1F1" />}
+            icon={
+              <FontAwesomeIcon icon={faTwitter} size="2x" color="#1FA1F1" />
+            }
             label={mobile ? '' : 'Twitter'}
           />
           <LinkItem
             href={URLs.discord}
-            icon={<FontAwesomeIcon icon={faDiscord} size="2x" color="#7388da" />}
+            icon={
+              <FontAwesomeIcon icon={faDiscord} size="2x" color="#7388da" />
+            }
             label={mobile ? '' : 'Discord'}
           />
           <Spacer />
-          <Flex
-            justifyContent="center"
-          >
-            <Text
-              textStyle="h5"
-              align="center"
-            >
+          <Flex justifyContent="center">
+            <Text textStyle="h5" align="center">
               AbricotStudio - 2021
             </Text>
           </Flex>
@@ -170,46 +146,35 @@ export function Footer() {
 
           <LinkItem
             href={URLs.github}
-            icon={
-              <FontAwesomeIcon
-                icon={faGithub} size="2x"
-                color="black"
-              />
-            }
+            icon={<FontAwesomeIcon icon={faGithub} size="2x" color="black" />}
             label={mobile ? '' : 'Github'}
           />
           <LinkItem
             href={contractEtherscanURL}
-            icon={<EtherscanIcon w={7}  h={7} />}
+            icon={<EtherscanIcon w={7} h={7} />}
             label={mobile ? '' : 'Etherscan'}
           />
         </Flex>
-        {
-          mobile && !isOpen && (
-            <Flex
-              position='absolute'
-              align="center"
-              top="-1.5rem"
-            >
-              <Button
-                as={IconButton}
-                aria-label="Options"
-                borderRadius="full"
-                size="lg"
-                icon={<MobileMenuIcon w={12} h={12}/>}
-                bgColor="transparent"
-                _hover={{}}
-                _active={{}}
-                _focus={{}}
-                onClick={onToggle}
-                p={0}
-                style={{
-                  zIndex: 11,
-                }}
-              />
-            </Flex>
-          )
-        }
+        {mobile && !isOpen && (
+          <Flex position="absolute" align="center" top="-1.5rem">
+            <Button
+              as={IconButton}
+              aria-label="Options"
+              borderRadius="full"
+              size="lg"
+              icon={<MobileMenuIcon w={12} h={12} />}
+              bgColor="transparent"
+              _hover={{}}
+              _active={{}}
+              _focus={{}}
+              onClick={onToggle}
+              p={0}
+              style={{
+                zIndex: 11,
+              }}
+            />
+          </Flex>
+        )}
       </Flex>
     </>
   )

@@ -42,7 +42,12 @@ export const TokenQuery = gql`
   }
 `
 export const TokensQuery = gql`
-  query TokensQuery($first: Int, $skip: Int, $orderBy: Int, $orderDirection: String) {
+  query TokensQuery(
+    $first: Int
+    $skip: Int
+    $orderBy: Int
+    $orderDirection: String
+  ) {
     avantGardeTokens(
       first: $first
       skip: $skip

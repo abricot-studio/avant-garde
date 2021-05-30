@@ -14,21 +14,21 @@ const styles = {
       fontWeight: 300,
       background: 'theme',
       minHeight: '100vh',
-      WebkitTapHighlightColor: 'transparent'
+      WebkitTapHighlightColor: 'transparent',
     }),
     a: (props) => ({
       color: props.colorMode === 'dark' ? 'white' : '#000000',
       fontWeight: 300,
       focus: {
         outline: 'none',
-        boxShadow: 'none'
+        boxShadow: 'none',
       },
     }),
     button: (props) => ({
       color: props.colorMode === 'dark' ? 'white' : '#000000',
       focus: {
         outline: 'none',
-        boxShadow: 'none'
+        boxShadow: 'none',
       },
     }),
     b: {
@@ -39,7 +39,7 @@ const styles = {
 
 const components = {
   Button: {
-    baseStyle:  (props) => ({
+    baseStyle: (props) => ({
       color: props.colorMode === 'dark' ? 'white' : '#000000',
       fontWeight: 700,
       textTransform: 'uppercase',
@@ -61,7 +61,7 @@ const layerStyles = {
 }
 
 const textStyles = {
-  h1:  (props) => ({
+  h1: (props) => ({
     color: props.colorMode === 'dark' ? 'white' : '#000000',
     fontFamily: '"Roboto Mono", sans-serif',
     fontWeight: 700,

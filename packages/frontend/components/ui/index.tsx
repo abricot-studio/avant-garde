@@ -1,20 +1,23 @@
+import { CloseIcon } from '@chakra-ui/icons'
 import {
-  Box, BoxProps,
+  Box,
+  BoxProps,
   Button as ChakraButton,
-  ButtonProps, Center,
+  ButtonProps,
+  Center,
   Flex,
   forwardRef,
   HStack,
   IconButton as ChakraIconButton,
-  IconButtonProps, Link as CLink,
+  IconButtonProps,
+  Link as CLink,
   Spinner,
   Text,
 } from '@chakra-ui/react'
-import React, { MouseEventHandler } from 'react'
-import { CloseIcon } from '@chakra-ui/icons'
-import { getExplorerTransactionLink } from '@usedapp/core'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { getExplorerTransactionLink } from '@usedapp/core'
+import React, { MouseEventHandler } from 'react'
 
 export * from '@chakra-ui/react'
 
@@ -48,7 +51,7 @@ export const Button = forwardRef<ButtonProps, 'a'>(
         }}
         _focus={{
           outline: 'none',
-          boxShadow: 'none'
+          boxShadow: 'none',
         }}
         _active={{
           outline: 'none',
@@ -91,7 +94,10 @@ interface ActionButtonProps {
   color?: string
 }
 export const ActionButton = forwardRef<ButtonProps & ActionButtonProps, 'a'>(
-  ({ children, loadingText, isLoading, color = 'pink', px = 12, ...props }, ref) => {
+  (
+    { children, loadingText, isLoading, color = 'pink', px = 12, ...props },
+    ref
+  ) => {
     return (
       <Button
         ref={ref}
@@ -103,7 +109,7 @@ export const ActionButton = forwardRef<ButtonProps & ActionButtonProps, 'a'>(
         px={0}
         sx={{
           userSelect: 'none',
-          touchCallout: 'none'
+          touchCallout: 'none',
         }}
         _active={{
           outline: 'none',
@@ -162,7 +168,6 @@ interface ToastContainerProps {
 
 export const ToastContainer = forwardRef<BoxProps & ToastContainerProps, 'div'>(
   ({ children, onClose, ...props }, ref) => {
-
     return (
       <Box color="white" p={2} bg="green.500" rounded="md" ref={ref} {...props}>
         <IconButton
@@ -185,7 +190,10 @@ export const ToastImageGenerated = (toast, router) => {
     render: () => (
       <ToastContainer onClose={() => toast.close(t)}>
         <Box>
-          <Text textAlign="center" fontWeight={700}> 🎉 Image generated</Text>
+          <Text textAlign="center" fontWeight={700}>
+            {' '}
+            🎉 Image generated
+          </Text>
           <Text textAlign="center">Your image has been generated!</Text>
           <Center>
             <Button
@@ -225,8 +233,13 @@ export const ToastImageMinted = (toast, mintTx, chainId) => {
           size="xs"
           float="right"
         />
-        <Text textAlign="center" fontWeight={700}> 🎉 Token minted</Text>
-        <Text textAlign="center">Your image have been minted on the blockchain! </Text>
+        <Text textAlign="center" fontWeight={700}>
+          {' '}
+          🎉 Token minted
+        </Text>
+        <Text textAlign="center">
+          Your image have been minted on the blockchain!{' '}
+        </Text>
         <Center>
           <CLink
             href={getExplorerTransactionLink(mintTx, chainId)}
@@ -234,9 +247,7 @@ export const ToastImageMinted = (toast, mintTx, chainId) => {
             color="#6B93FB"
           >
             <Button
-              rightIcon={
-                <FontAwesomeIcon icon={faExternalLinkAlt} size="1x" />
-              }
+              rightIcon={<FontAwesomeIcon icon={faExternalLinkAlt} size="1x" />}
               color="white"
               bg="transparent"
               size="sm"

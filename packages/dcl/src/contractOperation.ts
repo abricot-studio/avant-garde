@@ -1,10 +1,10 @@
 import * as crypto from '@dcl/crypto-scene-utils'
-import {getUserAccount} from "@decentraland/EthereumController"
-import * as EthConnect from 'eth-connect'
+import { getUserAccount } from '@decentraland/EthereumController'
 import { getProvider } from '@decentraland/web3-provider'
+import * as EthConnect from 'eth-connect'
 import RequestManager, { BigNumber, toChecksumAddress } from 'eth-connect'
-import avantGardeNetwork from "./networks"
 import { mintParams } from './generate'
+import avantGardeNetwork from './networks'
 import { setTimeout, wait } from './utils'
 
 interface networkConfig {
@@ -21,7 +21,6 @@ interface mintPrices {
 }
 
 export default class ContractOperation {
-
   address?: string
   network?: string
   contract?: any
@@ -34,44 +33,45 @@ export default class ContractOperation {
 
   constructor() {}
 
-  async init(){
-
-    const { network, address, contract, requestManager } = await this.getNetworkConfig()
+  async init() {
+    const { network, address, contract, requestManager } =
+      await this.getNetworkConfig()
     this.network = network
     this.address = address
     this.contract = contract
     this.requestManager = requestManager
     this.startPoolingMintPrice()
-
   }
 
-  startPoolingMintPrice(){
-
-    this.getMintPrice().then((mintPrices) => {
-      this.mintPrices = mintPrices
-      setTimeout( () => {
-        this.startPoolingMintPrice()
-      }, 5000)
-    }).catch(error => {
-      log('error pooling mint price', error)
-      setTimeout( () => {
-        this.startPoolingMintPrice()
-      }, 5000)
-    })
-
+  startPoolingMintPrice() {
+    this.getMintPrice()
+      .then((mintPrices) => {
+        this.mintPrices = mintPrices
+        setTimeout(() => {
+          this.startPoolingMintPrice()
+        }, 5000)
+      })
+      .catch((error) => {
+        log('error pooling mint price', error)
+        setTimeout(() => {
+          this.startPoolingMintPrice()
+        }, 5000)
+      })
   }
 
-  getNetworkConfig(): Promise<networkConfig>{
-
+  getNetworkConfig(): Promise<networkConfig> {
     return executeTask(async (): Promise<networkConfig> => {
       try {
         const provider = await getProvider()
         const requestManagerNet = new EthConnect.RequestManager(provider)
         const network = await requestManagerNet.net_version()
-        const getContract = await crypto.contract.getContract(avantGardeNetwork[4].address, avantGardeNetwork[4].abi) as any
+        const getContract = (await crypto.contract.getContract(
+          avantGardeNetwork[4].address,
+          avantGardeNetwork[4].abi
+        )) as any
         const contract = getContract.contract
         const requestManager = getContract.requestManager
-        const address = toChecksumAddress(await getUserAccount() )
+        const address = toChecksumAddress(await getUserAccount())
         log('getNetworkConfig', { network, contract, requestManager, address })
         return { network, contract, requestManager, address }
       } catch (error) {
@@ -79,13 +79,10 @@ export default class ContractOperation {
         throw error
       }
     })
-
   }
 
-  getMintPrice(): Promise<any>{
-
+  getMintPrice(): Promise<any> {
     return executeTask(async () => {
-
       const res: BigNumber[] = await this.contract.currentMintPrice()
       return {
         currentPrice: res[0].toString(),
@@ -93,15 +90,11 @@ export default class ContractOperation {
         total: res[0].plus(res[1]).toString(),
       }
     })
-
   }
 
-  mint(mintParams: mintParams): Promise<any>{
-
+  mint(mintParams: mintParams): Promise<any> {
     return executeTask(async () => {
-
       try {
-
         let res = null
 
         res = await this.contract?.mint(
@@ -109,7 +102,7 @@ export default class ContractOperation {
           mintParams.signature,
           {
             from: this.address,
-            value: this.mintPrices.total
+            value: this.mintPrices.total,
           }
         )
         log('contract:mint', 'res', res)
@@ -117,16 +110,15 @@ export default class ContractOperation {
         let receipt = null
         while (receipt == null) {
           await wait(2000)
-          receipt = await this.requestManager?.eth_getTransactionReceipt(res.toString())
+          receipt = await this.requestManager?.eth_getTransactionReceipt(
+            res.toString()
+          )
         }
         log('mint', 'receipt', receipt)
-
       } catch (error) {
         log('error mint', error)
         throw error
       }
-
     })
   }
-
 }

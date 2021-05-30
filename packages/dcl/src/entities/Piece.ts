@@ -1,13 +1,15 @@
-import { AvantGardeToken } from '../graphql'
 import config from '../config'
+import { AvantGardeToken } from '../graphql'
 
 export class Piece extends Entity {
-
   constructor(position: Vector3, avantGardeToken: AvantGardeToken) {
-
     super()
     const model = new BoxShape()
-    const myTexture = new Texture(`${config.ipfsEndpoint}${avantGardeToken.metadata?.image.split('ipfs://')[1]}`)
+    const myTexture = new Texture(
+      `${config.ipfsEndpoint}${
+        avantGardeToken.metadata?.image.split('ipfs://')[1]
+      }`
+    )
 
     const myMaterial = new Material()
     myMaterial.albedoTexture = myTexture
@@ -22,7 +24,5 @@ export class Piece extends Entity {
     })
     this.addComponent(transform)
     engine.addEntity(this)
-
   }
-
 }
