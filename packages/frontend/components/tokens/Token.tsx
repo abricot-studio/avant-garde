@@ -32,7 +32,8 @@ import {
   IconButton,
   Link as CLink,
   Spinner,
-  Text, useBreakpointValue,
+  Text,
+  useBreakpointValue,
   VStack,
 } from '../ui'
 import { defaultSize, TokenImage } from './TokenImage'
@@ -199,23 +200,27 @@ export default function Token({ id }) {
           onMouseLeave={onToggleHover}
         >
           <SocialLink
-            icon={<TwitterIcon
-              w={6} h={6} fill="#1FA1F1"
-              sx={{
-                animation: ' breathing 3s ease-out infinite',
-                '@keyframes breathing': {
-                  '0%': {
-                    transform: 'scale(1)'
+            icon={
+              <TwitterIcon
+                w={6}
+                h={6}
+                fill="#1FA1F1"
+                sx={{
+                  animation: ' breathing 3s ease-out infinite',
+                  '@keyframes breathing': {
+                    '0%': {
+                      transform: 'scale(1)',
+                    },
+                    '50%': {
+                      transform: 'scale(0.7)',
+                    },
+                    '100%': {
+                      transform: 'scale(1)',
+                    },
                   },
-                  '50%': {
-                    transform: 'scale(0.7)'
-                  },
-                  '100%': {
-                    transform: 'scale(1)'
-                  }
-                }
-              }}
-            />}
+                }}
+              />
+            }
             href={socialPostUrls.twitter}
             label="twitter"
             position="absolute"
@@ -244,26 +249,28 @@ export default function Token({ id }) {
                   top: '80%',
                   left: '10%',
                 },
-              }
+              },
             }}
           />
           <SocialLink
             icon={
               <RedditIcon
-                w={6} h={6} fill="#FF4500"
+                w={6}
+                h={6}
+                fill="#FF4500"
                 sx={{
                   animation: ' breathing 3s ease-out infinite',
                   '@keyframes breathing': {
                     '0%': {
-                      transform: 'scale(1)'
+                      transform: 'scale(1)',
                     },
                     '50%': {
-                      transform: 'scale(0.7)'
+                      transform: 'scale(0.7)',
                     },
                     '100%': {
-                      transform: 'scale(1)'
-                    }
-                  }
+                      transform: 'scale(1)',
+                    },
+                  },
                 }}
               />
             }
@@ -299,10 +306,18 @@ export default function Token({ id }) {
             }}
           />
           <Box position="absolute" top="93%" textAlign="center" width="100%">
-            <BurnButton token={token} isOpen={isOpenBurned} onToggle={onToggleBurned} />
+            <BurnButton
+              token={token}
+              isOpen={isOpenBurned}
+              onToggle={onToggleBurned}
+            />
           </Box>
         </Box>
-        <TokenImage avantGardeToken={token} size={defaultSize} noBurned={isOpenHover} />
+        <TokenImage
+          avantGardeToken={token}
+          size={defaultSize}
+          noBurned={isOpenHover}
+        />
       </Box>
 
       <Box align="center" mt={8}>
@@ -314,14 +329,14 @@ export default function Token({ id }) {
           _focus={{}}
         >
           <ActionButton>
-            <Text pr={4} >Trade on OpenSea</Text>
+            <Text pr={4}>Trade on OpenSea</Text>
             <FontAwesomeIcon icon={faExternalLinkAlt} />
           </ActionButton>
         </CLink>
       </Box>
 
-      <Card my={8} >
-        <Flex justifyContent="center" direction={mobile ? 'column' : 'row' }>
+      <Card my={8}>
+        <Flex justifyContent="center" direction={mobile ? 'column' : 'row'}>
           <Flex>
             <HStack justifyContent="center">
               <VStack justify="space-between" alignItems="center">
@@ -335,31 +350,37 @@ export default function Token({ id }) {
                     .toUpperCase()}
                 </Box>
                 <Box>
-                  Ξ {utils.formatEther(utils.parseUnits(token.mintPrice, 'wei'))}
+                  Ξ{' '}
+                  {utils.formatEther(utils.parseUnits(token.mintPrice, 'wei'))}
                 </Box>
               </VStack>
             </HStack>
           </Flex>
-          <Flex pt={mobile && token.burnPrice ? 8 : 0 } pl={!mobile && token.burnPrice ? 8 : 0 }>
-              {token.burnPrice && (
-                <HStack justifyContent="center" >
-
+          <Flex
+            pt={mobile && token.burnPrice ? 8 : 0}
+            pl={!mobile && token.burnPrice ? 8 : 0}
+          >
+            {token.burnPrice && (
+              <HStack justifyContent="center">
                 <VStack justify="space-between" alignItems="start">
                   <Box fontWeight={600}>⌛ Burn Date</Box>
                   <Box fontWeight={600}>🔥 Burn Price</Box>
                 </VStack>
-                  <VStack justify="space-between" alignItems="start">
-                    <Box>
-                      {moment(Number(token.burnTimestamp) * 1000)
-                        .format('YYYYMMMDD')
-                        .toUpperCase()}
-                    </Box>
-                    <Box>
-                      Ξ {utils.formatEther(utils.parseUnits(token.burnPrice, 'wei'))}
-                    </Box>
-                  </VStack>
-                </HStack>
-              )}
+                <VStack justify="space-between" alignItems="start">
+                  <Box>
+                    {moment(Number(token.burnTimestamp) * 1000)
+                      .format('YYYYMMMDD')
+                      .toUpperCase()}
+                  </Box>
+                  <Box>
+                    Ξ{' '}
+                    {utils.formatEther(
+                      utils.parseUnits(token.burnPrice, 'wei')
+                    )}
+                  </Box>
+                </VStack>
+              </HStack>
+            )}
           </Flex>
         </Flex>
         {burnTx && (

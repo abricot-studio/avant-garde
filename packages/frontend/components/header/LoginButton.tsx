@@ -88,7 +88,8 @@ function MainButton({ account }) {
         <Avatar
           size="xs"
           src={boxProfile?.imageUrl}
-          w={8} h={8}
+          w={8}
+          h={8}
           icon={<DefaultAvatarIcon w={8} h={8} />}
           bg="white"
         />

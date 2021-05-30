@@ -97,7 +97,6 @@ export const useMint = () => {
           setIsMinting(false)
           startPollingMint()
           ToastImageMinted(toast, mintTx, chainId)
-
         })
         .catch((error) => {
           console.error(error)

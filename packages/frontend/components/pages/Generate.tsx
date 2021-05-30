@@ -23,8 +23,8 @@ import {
   HStack,
   Link as CLink,
   Text,
+  useToast,
   VStack,
-  useToast
 } from '../ui'
 
 export default function Generate() {
@@ -109,9 +109,12 @@ export default function Generate() {
         <Card mt={8} mb={8}>
           <Flex direction="column" align="center">
             <Text align="center">Your image is being generated.</Text>
-            <Text align="center">The processing can take up to 30 seconds.</Text>
+            <Text align="center">
+              The processing can take up to 30 seconds.
+            </Text>
             <Text align="center" fontWeight={500}>
-              Each image is uniquely generated from your Ethereum address by deep learning algorithms{' '}
+              Each image is uniquely generated from your Ethereum address by
+              deep learning algorithms{' '}
             </Text>
 
             <Link href="/about">

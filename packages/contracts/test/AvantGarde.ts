@@ -222,7 +222,9 @@ describe('AvantGarde', function () {
     )
     const burnPrice = await memory.contract.currentBurnPrice()
 
-    const tx = await memory.contract.connect(memory.other).burn(tokenId, burnPrice)
+    const tx = await memory.contract
+      .connect(memory.other)
+      .burn(tokenId, burnPrice)
 
     const receipt = await tx.wait()
     const feesInEth = tx.gasPrice.mul(receipt.gasUsed)
@@ -258,8 +260,9 @@ describe('AvantGarde', function () {
     const tokenId = memory.other.address
     const burnPrice = await memory.contract.currentPrice()
 
-    await expect(memory.contract.connect(memory.other).burn(tokenId, burnPrice) ).to.be.revertedWith('MBPI')
-
+    await expect(
+      memory.contract.connect(memory.other).burn(tokenId, burnPrice)
+    ).to.be.revertedWith('MBPI')
   })
 
   it('mint and burn multiple', async () => {
@@ -311,7 +314,9 @@ describe('AvantGarde', function () {
       memory.other.address
     )
     const burnPrice = await memory.contract.currentBurnPrice()
-    const txBurn1 = await memory.contract.connect(memory.other).burn(tokenId1, burnPrice)
+    const txBurn1 = await memory.contract
+      .connect(memory.other)
+      .burn(tokenId1, burnPrice)
 
     const receipt1 = await txBurn1.wait()
     const feesInEth1 = txBurn1.gasPrice.mul(receipt1.gasUsed)
@@ -333,7 +338,9 @@ describe('AvantGarde', function () {
     )
     const burnPrice2 = await memory.contract.currentBurnPrice()
 
-    const txBurn2 = await memory.contract.connect(memory.other2).burn(tokenId2, burnPrice2)
+    const txBurn2 = await memory.contract
+      .connect(memory.other2)
+      .burn(tokenId2, burnPrice2)
 
     const receipt2 = await txBurn2.wait()
     const feesInEth2 = txBurn2.gasPrice.mul(receipt2.gasUsed)

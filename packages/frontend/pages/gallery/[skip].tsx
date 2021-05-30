@@ -1,3 +1,5 @@
+import { GetStaticPropsContext } from 'next'
+import { useRouter } from 'next/router'
 import React from 'react'
 import Layout from '../../components/Layout'
 import Tokens from '../../components/tokens/Tokens'
@@ -9,8 +11,6 @@ import {
   useTokens,
 } from '../../hooks/tokens'
 import { defaultClient, getSsrClient, wrapUrqlClient } from '../../lib/graphql'
-import { useRouter } from 'next/router'
-import { GetStaticPropsContext } from 'next'
 
 const seoData = {
   title: 'Gallery',
@@ -22,7 +22,7 @@ const Gallery: React.FC = () => {
   const { skip } = router.query as QueryParams
 
   const { tokens, fetching, error } = useTokens({
-    ...defaultTokensQueryVariables
+    ...defaultTokensQueryVariables,
   })
   return (
     <>
@@ -43,7 +43,6 @@ const Gallery: React.FC = () => {
 }
 
 export const getStaticPaths = async () => {
-
   const { data } = await defaultClient
     .query(TokensQuery, {
       first: 50,
@@ -51,7 +50,7 @@ export const getStaticPaths = async () => {
     .toPromise()
   if (data?.avantGardeTokens) {
     return {
-      paths: data.avantGardeTokens.map( (t, i) => ({
+      paths: data.avantGardeTokens.map((t, i) => ({
         params: { skip: i.toString() },
       })),
       fallback: true,
@@ -62,7 +61,6 @@ export const getStaticPaths = async () => {
     paths: [],
     fallback: true,
   }
-
 }
 
 export const getStaticProps = async (
