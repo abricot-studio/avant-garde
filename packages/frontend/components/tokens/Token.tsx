@@ -108,7 +108,7 @@ function SocialLink({ href, icon, label, ...props }) {
       <IconButton
         icon={icon}
         aria-label={label}
-        variant="outline"
+        border="none"
         borderRadius="full"
         size="lg"
         backgroundColor="white"

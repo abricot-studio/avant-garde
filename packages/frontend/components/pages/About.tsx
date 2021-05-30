@@ -64,7 +64,7 @@ function Description() {
     <>
       <Card mt={8} ml={16} mr={16} p={8}>
         <Heading textAlign="center" fontSize={18} fontFamily="Poppins, sans-serif">
-          Avant/Garde is a digital artwork platform.
+          AvantGarde is a digital artwork platform.
         </Heading>
         <Paragraph pt={4} textAlign="center" id="image-generation">
           It relies on state-of-the-art technologies to computationally generate
