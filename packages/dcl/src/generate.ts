@@ -1,3 +1,4 @@
+import { sendRequest } from '@dcl/ecs-scene-utils'
 import config from './config'
 import { wait } from './utils'
 
@@ -11,14 +12,14 @@ export interface mintParams {
 
 export async function Generate(address: string): Promise<mintParams> {
   return executeTask(async () => {
-    const response = await fetch(config.generateUrl, {
-      method: 'POST',
-      headers: {
+    const mintParams: mintParams = await sendRequest(
+      config.generateUrl,
+      'POST',
+      {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ address }),
-    })
-    const mintParams: mintParams = await response.json()
+      { address }
+    )
 
     if (mintParams.status === 'processing') {
       await wait(5000)
