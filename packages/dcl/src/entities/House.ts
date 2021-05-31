@@ -5,7 +5,7 @@ export class House extends Entity {
 
     this.addComponent(model)
     const transform = new Transform({
-      position: new Vector3(8, 0, 8) ,
+      position: new Vector3(8, 0, 8),
     })
     this.addComponent(transform)
     engine.addEntity(this)

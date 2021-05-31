@@ -14,7 +14,7 @@ const Config: config = {
     'https://corsanywherepinata.herokuapp.com/https://gateway.pinata.cloud/ipfs/',
   generateUrl: 'https://avantgardebeta-fct.vercel.app/api/generate',
   // generateUrl: 'http://localhost:3001/api/generate',
-  loadingUrl: 'https://beta.avant-garde.gallery/TEST-ANIM-AVANTGARDE.webm',
+  loadingUrl: 'https://beta.avant-garde.gallery/avantgarde.webm',
   poapSeverUrl: 'poapapi.dcl.guru',
   poapEventId: '2369',
 }
