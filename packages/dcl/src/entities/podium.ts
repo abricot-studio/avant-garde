@@ -1,11 +1,11 @@
-export class House extends Entity {
+export class Podium extends Entity {
   constructor() {
     super()
-    const model = new GLTFShape('models/box.glb')
+    const model = new GLTFShape('models/podium.glb')
 
     this.addComponent(model)
     const transform = new Transform({
-      position: new Vector3(8, 0, 8) ,
+      position: new Vector3(8, 0, 8),
     })
     this.addComponent(transform)
     engine.addEntity(this)

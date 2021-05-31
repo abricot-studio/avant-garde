@@ -75,9 +75,9 @@ export function ImageFrame({
             />
           )}
           {!src && isLoading && (
-            <Box bgColor="white" opacity={0.5} style={{ filter: 'blur(20px)' }}>
+            <Box bgColor="white">
               <video width="100%" height="100%" autoPlay loop>
-                <source src="../TEST-ANIM-AVANTGARDE.webm" type="video/webm" />
+                <source src="../avantgarde.webm" type="video/webm" />
                 Your browser does not support the video tag.
               </video>
             </Box>

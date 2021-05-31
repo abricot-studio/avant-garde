@@ -2,19 +2,38 @@ import config from '../config'
 import { mintParams } from '../generate'
 
 export class Minter extends Entity {
-  constructor(position: Vector3) {
+  placeholder: Entity
+  loadingTexture: VideoTexture
+
+  constructor() {
     super()
-    const model = new BoxShape()
+    this.loadingTexture = new VideoTexture(new VideoClip(config.loadingUrl))
 
-    model.withCollisions = true
-    this.addComponent(model)
-
-    const transform = new Transform({
-      position: position,
-      scale: new Vector3(2, 2, 0.04),
-    })
-    this.addComponent(transform)
+    this.addComponent(new GLTFShape('models/cadre.glb'))
+    this.addComponent(new Transform({
+      position: new Vector3(8, 3, 8),
+    }))
     engine.addEntity(this)
+    this.placeholder = new Entity()
+    this.placeholder.addComponent(new CylinderShape() )
+    const myMaterial = new Material()
+    myMaterial.albedoColor = new Color4(0, 0, 0, 0)
+    myMaterial.castShadows = false
+    this.placeholder.addComponent(myMaterial)
+    this.placeholder.addComponent(new Transform({
+      position: new Vector3(8, 3, 8.09),
+      scale: new Vector3(1.8, 0.001, 1.8),
+      rotation: Quaternion.Euler(90, 0, 0),
+    }))
+    engine.addEntity(this.placeholder)
+  }
+
+  loading(){
+    const myMaterial = new BasicMaterial()
+    myMaterial.texture = this.loadingTexture
+    this.loadingTexture.loop = true
+    this.loadingTexture.play()
+    this.placeholder.addComponentOrReplace(myMaterial)
   }
 
   addPiece(mintParams: mintParams) {
@@ -23,6 +42,6 @@ export class Minter extends Entity {
     )
     const myMaterial = new Material()
     myMaterial.albedoTexture = myTexture
-    this.addComponent(myMaterial)
+    this.placeholder.addComponentOrReplace(myMaterial)
   }
 }

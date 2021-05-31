@@ -6,6 +6,7 @@ import { Piece } from './entities/Piece'
 import { Generate, mintParams } from './generate'
 import { AvantGardeToken, getPieceByAddress, getPieces } from './graphql'
 import { House } from './entities/House'
+import { Podium } from './entities/podium'
 
 export class Gallery implements ISystem {
   contractOperation: ContractOperation
@@ -24,18 +25,19 @@ export class Gallery implements ISystem {
   }
 
   async init() {
-    // await this.initPieces()
+    new House()
+    new Podium()
+    await this.initPieces()
     await this.contractOperation.init()
     await this.initUserPiece()
     await this.initPoap()
-    const house = new House(new Vector3(8, 0, 8) )
 
   }
 
   async initPieces() {
     this.pieces = await getPieces()
-    this.piecesEntities = this.pieces.map(
-      (piece, i) => new Piece(new Vector3(i * 2, 2, 5), piece)
+    this.piecesEntities = this.pieces.slice(0, Piece.Transformations.length).map(
+      (piece, i) => new Piece(Piece.Transformations[i], piece)
     )
   }
 
@@ -48,11 +50,13 @@ export class Gallery implements ISystem {
     log('userPiece', this.userPiece)
 
     if (this.userPiece) {
-      new Piece(new Vector3(10, 2, 2), this.userPiece)
+      new Piece(new Transform({
+        position: new Vector3(10, 2, 2)
+      }), this.userPiece)
     } else {
       let isMinting = false
-      const minter = new Minter(new Vector3(8, 3, 9))
-      minter.addComponentOrReplace(
+      const minter = new Minter()
+      minter.placeholder.addComponentOrReplace(
         new OnPointerDown(
           async (e) => {
             try {
@@ -62,27 +66,31 @@ export class Gallery implements ISystem {
               log('clicked')
               isMinting = true
               if (!this.mintParams) {
-                minter.getComponent(OnPointerDown).hoverText =
+                minter.loading()
+                minter.placeholder.getComponent(OnPointerDown).hoverText =
                   'Generating art...'
                 this.mintParams = await Generate(this.contractOperation.address)
                 minter.addPiece(this.mintParams)
+                minter.placeholder.getComponent(OnPointerDown).hoverText = 'Mint your!'
+                isMinting = false
+                return true
               }
-              minter.getComponent(OnPointerDown).hoverText = 'Minting art...'
+              minter.placeholder.getComponent(OnPointerDown).hoverText = 'Minting art...'
               await this.contractOperation.mint(this.mintParams)
               log('Minted')
               this.userPiece = await getPieceByAddress(
                 this.contractOperation.address
               )
-              minter.removeComponent(OnPointerDown)
+              minter.placeholder.removeComponent(OnPointerDown)
             } catch (error) {
               isMinting = false
-              minter.getComponent(OnPointerDown).hoverText = 'Mint your!'
+              minter.placeholder.getComponent(OnPointerDown).hoverText = 'Generate your!'
               log('failed to mint', error)
             }
           },
           {
             button: ActionButton.POINTER,
-            hoverText: `Mint your!`,
+            hoverText: `Generate your!`,
             distance: 10,
           }
         )
