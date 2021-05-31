@@ -23,6 +23,15 @@ export class Piece extends Entity {
       // rotation: Quaternion.Euler(0,0,0)
     })
     this.addComponent(transform)
+    this.addComponent(
+      new OnPointerDown(() => {
+        openExternalURL(`${avantGardeToken.metadata?.external_url}`)
+      }, {
+        button: ActionButton.POINTER,
+        hoverText: `Open details`,
+        distance: 4,
+      })
+    )
     engine.addEntity(this)
   }
 }
