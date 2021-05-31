@@ -1,11 +1,12 @@
 {
   "display": {
-    "title": "interactive-text",
-    "favicon": "favicon_asset"
+    "title": "Avant-Garde",
+    "favicon": "favicon_asset",
+    "navmapThumbnail": "https://gateway.pinata.cloud/ipfs/QmYn8ZRMPmExGj5NDB1kQJubfetbmU6LPVhcfgKxTRD1qU"
   },
   "contact": {
-    "name": "author-name",
-    "email": ""
+    "name": "Avant-Garde",
+    "email": "hello@avant-garde.gallery"
   },
   "owner": "",
   "scene": {
@@ -22,7 +23,7 @@
     "voiceEnabled": true,
     "blacklist": []
   },
-  "requiredPermissions": [],
+  "requiredPermissions": ["ALLOW_TO_MOVE_PLAYER_INSIDE_SCENE"],
   "main": "bin/game.js",
   "tags": [],
   "spawnPoints": [
