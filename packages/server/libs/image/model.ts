@@ -13,7 +13,7 @@ export class Model {
   model: import('@tensorflow/tfjs').Sequential
   useBias: boolean
   tf: any
-  seed?: number
+  seed: number
 
   constructor(
     inputShape: any,
@@ -23,7 +23,7 @@ export class Model {
     units = 32,
     depth = 8,
     tf: any,
-    seed?: number
+    seed: number
   ) {
     this.inputShape = inputShape
     this.blackWhite = blackWhite
