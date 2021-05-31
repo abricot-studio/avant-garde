@@ -12,6 +12,7 @@ typechain
 
 # dcl
 bin
+models
 
 # Frontend
 public

@@ -1,4 +1,6 @@
+import Config from './config'
 import ContractOperation from './contractOperation'
+import { Dispenser } from './entities/Dispenser'
 import { Minter } from './entities/Minter'
 import { Piece } from './entities/Piece'
 import { Generate, mintParams } from './generate'
@@ -6,29 +8,39 @@ import { AvantGardeToken, getPieceByAddress, getPieces } from './graphql'
 
 export class Gallery implements ISystem {
   contractOperation: ContractOperation
+  sceneMessageBus: MessageBus
   pieces: AvantGardeToken[] = []
   piecesEntities: Piece[] = []
   userPiece: AvantGardeToken | null = null
   userPieceEntity: Piece | null = null
   mintParams?: mintParams
+  POAPBooth?: Dispenser
 
   constructor() {
-    this.init().catch((error) => log('error init gallery', error))
     this.contractOperation = new ContractOperation()
+    this.sceneMessageBus = new MessageBus()
+    this.init().catch((error) => log('error init gallery', error))
   }
 
   async init() {
+    await this.initPieces()
+    await this.contractOperation.init()
+    await this.initUserPiece()
+    await this.initPoap()
+  }
+
+  async initPieces() {
     this.pieces = await getPieces()
     this.piecesEntities = this.pieces.map(
       (piece, i) => new Piece(new Vector3(i * 2, 2, 5), piece)
     )
-    await this.contractOperation.init()
+  }
 
+  async initUserPiece() {
     if (!this.contractOperation.address) {
       log('address not found', this.contractOperation.address)
       return false
     }
-    log('address', this.contractOperation.address)
     this.userPiece = await getPieceByAddress(this.contractOperation.address)
     log('userPiece', this.userPiece)
 
@@ -73,6 +85,22 @@ export class Gallery implements ISystem {
         )
       )
     }
+  }
+
+  async initPoap() {
+    this.POAPBooth = new Dispenser(
+      {
+        position: new Vector3(8, 0, 8),
+        rotation: Quaternion.Euler(0, 0, 0),
+      },
+      Config.poapSeverUrl,
+      Config.poapEventId,
+      this.sceneMessageBus
+    )
+
+    this.sceneMessageBus.on('activatePoap', () => {
+      this.POAPBooth?.activate()
+    })
   }
 
   update(dt: number): void {
