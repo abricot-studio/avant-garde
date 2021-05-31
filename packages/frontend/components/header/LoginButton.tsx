@@ -50,6 +50,8 @@ function MainButton({ account }) {
       <MenuButton
         as={IconButton}
         variant="outline"
+        border="2px"
+        borderColor="black"
         rounded="full"
         backgroundColor="white"
         textTransform="none"
@@ -117,7 +119,7 @@ function ConnectButton() {
         fontWeight={600}
         fontSize="0.8rem"
         onClick={open}
-        icon={<WalletIcon w={12} h={12} />}
+        icon={<WalletIcon w={7} h={7} />}
         isLoading={isConnecting}
         backgroundColor="white"
         rounded="full"
@@ -133,7 +135,7 @@ function ConnectButton() {
       border="2px"
       borderColor="black"
       onClick={open}
-      leftIcon={<WalletIcon w={12} h={12} />}
+      leftIcon={<WalletIcon w={8} h={8} />}
       isLoading={isConnecting}
       backgroundColor="white"
       textTransform="uppercase"
