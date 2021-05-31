@@ -2,7 +2,7 @@
   "display": {
     "title": "Avant-Garde",
     "favicon": "favicon_asset",
-    "navmapThumbnail": "https://gateway.pinata.cloud/ipfs/QmYn8ZRMPmExGj5NDB1kQJubfetbmU6LPVhcfgKxTRD1qU"
+    "navmapThumbnail": "https://beta.avant-garde.gallery/card.png"
   },
   "contact": {
     "name": "Avant-Garde",
@@ -10,8 +10,8 @@
   },
   "owner": "",
   "scene": {
-    "parcels": ["0,0"],
-    "base": "0,0"
+    "parcels": ["-37,79"],
+    "base": "-37,79"
   },
   "communications": {
     "type": "webrtc",
@@ -31,9 +31,9 @@
       "name": "spawn1",
       "default": true,
       "position": {
-        "x": 0,
+        "x": 8,
         "y": 0,
-        "z": 0
+        "z": 16
       },
       "cameraTarget": {
         "x": 8,

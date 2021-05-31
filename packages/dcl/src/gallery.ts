@@ -5,6 +5,7 @@ import { Minter } from './entities/Minter'
 import { Piece } from './entities/Piece'
 import { Generate, mintParams } from './generate'
 import { AvantGardeToken, getPieceByAddress, getPieces } from './graphql'
+import { House } from './entities/House'
 
 export class Gallery implements ISystem {
   contractOperation: ContractOperation
@@ -23,10 +24,12 @@ export class Gallery implements ISystem {
   }
 
   async init() {
-    await this.initPieces()
+    // await this.initPieces()
     await this.contractOperation.init()
     await this.initUserPiece()
     await this.initPoap()
+    const house = new House(new Vector3(8, 0, 8) )
+
   }
 
   async initPieces() {
@@ -48,7 +51,7 @@ export class Gallery implements ISystem {
       new Piece(new Vector3(10, 2, 2), this.userPiece)
     } else {
       let isMinting = false
-      const minter = new Minter(new Vector3(10, 2, 2))
+      const minter = new Minter(new Vector3(8, 3, 9))
       minter.addComponentOrReplace(
         new OnPointerDown(
           async (e) => {
@@ -90,8 +93,8 @@ export class Gallery implements ISystem {
   async initPoap() {
     this.POAPBooth = new Dispenser(
       {
-        position: new Vector3(8, 0, 8),
-        rotation: Quaternion.Euler(0, 0, 0),
+        position: new Vector3(14, 0, 14),
+        rotation: Quaternion.Euler(0, -90, 0),
       },
       Config.poapSeverUrl,
       Config.poapEventId,
