@@ -77,15 +77,17 @@ export function ImageFrame({
           {!src && isLoading && (
             <Box bgColor="white">
               <video
-                width="150%"
-                height="150%"
+                width="125%"
+                height="125%"
                 autoPlay
                 loop
                 style={{
-                  marginLeft: '-25%',
-                  marginTop: '-25%',
-                  width: '150%',
-                  height: '150%',
+                  marginLeft: '-12.5%',
+                  marginTop: '-12.5%',
+                  width: '125%',
+                  maxWidth: '125%',
+                  height: '125%',
+                  maxHeight: '125%',
                 }}
               >
                 <source src="../avantgarde.webm" type="video/webm" />

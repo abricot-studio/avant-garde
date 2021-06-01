@@ -51,7 +51,7 @@ export class Gallery implements ISystem {
     if (this.userPiece) {
       new Piece(
         new Transform({
-          position: new Vector3(10, 2, 2),
+          position: new Vector3(8, 3, 8),
         }),
         this.userPiece
       )
