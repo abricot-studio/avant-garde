@@ -1,10 +1,16 @@
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { getExplorerTransactionLink, useEthers } from '@usedapp/core'
+import {
+  getExplorerTransactionLink,
+  isTestChain,
+  useEthers,
+} from '@usedapp/core'
 import { utils } from 'ethers'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
+import { useMountedState } from 'react-use'
+import { useContract } from '../../hooks/contracts'
 import {
   ImageGenerationStatus,
   useImageGeneration,
@@ -21,6 +27,7 @@ import {
   Card,
   Flex,
   HStack,
+  Image,
   Link as CLink,
   Text,
   useToast,
@@ -30,12 +37,24 @@ import {
 export default function Generate() {
   const { isConnecting, open } = useWalletSelector()
   const { account, chainId } = useEthers()
+  const { address: contractAddress } = useContract()
   const { token, fetching: fetchingToken } = useToken(account)
   const tokenMintPrice = useMintPrice()
   const { generateImage, isGenerating, generationResult } = useImageGeneration()
   const { mint, minted, isMinting, mintTx } = useMint()
   const router = useRouter()
   const toast = useToast()
+  const isMounted = useMountedState()
+
+  const socialPostUrls = useMemo(() => {
+    if (!isMounted()) return {}
+    const testnetPrefix = isTestChain(chainId) ? 'testnets.' : ''
+    const opensea = `https://${testnetPrefix}opensea.io/assets/${contractAddress}`
+
+    return {
+      opensea,
+    }
+  }, [contractAddress, chainId])
 
   useEffect(() => {
     if (token) {
@@ -104,7 +123,38 @@ export default function Generate() {
       />
 
       <Box mt={8}>{cta}</Box>
-
+      {!isGenerating && !generationResult && (
+        <>
+          <Text
+            align="center"
+            py={6}
+            px={4}
+            fontSize="0.8rem"
+            fontWeight={600}
+            fontFamily="Poppins, sans-serif"
+          >
+            You will get unique artwork based on your address, directly
+            integrated and tradebale in
+            <CLink
+              href={socialPostUrls.opensea}
+              isExternal
+              _hover={{}}
+              _active={{}}
+              _focus={{}}
+            >
+              <Image
+                src="/opensea.png"
+                alt="opensea"
+                h="1.2rem"
+                w="5.2rem"
+                display="inline"
+                verticalAlign="bottom"
+                pl={2}
+              />
+            </CLink>
+          </Text>
+        </>
+      )}
       {isGenerating && (
         <Card mt={8} mb={8}>
           <Flex direction="column" align="center">
@@ -136,8 +186,8 @@ export default function Generate() {
         <Card mt={8}>
           <HStack justifyContent="center">
             <VStack alignItems="start">
-              <Flex fontWeight={500}>Price</Flex>
-              <Flex fontWeight={500}>Platform fees</Flex>
+              <Flex fontWeight={500}>💰 Price</Flex>
+              <Flex fontWeight={500}>☕️ Platform fees</Flex>
             </VStack>
             <VStack alignItems="start">
               <Flex>

@@ -5,7 +5,8 @@
   "description": "",
   "scripts": {
     "lint": "eslint \"**/*.{js,ts}\"",
-    "lint:fix": "eslint --fix \"**/*.{js,ts}\""
+    "lint:fix": "eslint --fix \"**/*.{js,ts}\"",
+    "image": "TS_NODE_PROJECT='./tsconfigImage.json' ts-node libs/image/index.ts"
   },
   "engines": {
     "node": "12.x"

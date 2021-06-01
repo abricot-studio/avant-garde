@@ -1,3 +1,4 @@
+import { sendRequest } from '@dcl/ecs-scene-utils'
 import config from './config'
 
 export interface AvantGardeToken {
@@ -76,13 +77,14 @@ export const TokensQuery = `{
 export function getPieces(): Promise<AvantGardeToken[]> {
   return executeTask(async () => {
     try {
-      const response = await fetch(config.subgraphUrl, {
-        method: 'POST',
-        body: JSON.stringify({
+      const json = await sendRequest(
+        config.subgraphUrl,
+        'POST',
+        {},
+        {
           query: TokensQuery,
-        }),
-      })
-      const json = await response.json()
+        }
+      )
       const avantGardes: AvantGardeToken[] = await Promise.all(
         json.data.avantGardeTokens.map(
           async (
@@ -108,16 +110,17 @@ export function getPieces(): Promise<AvantGardeToken[]> {
 export function getPieceByAddress(address: string): Promise<AvantGardeToken> {
   return executeTask(async () => {
     try {
-      const response = await fetch(config.subgraphUrl, {
-        method: 'POST',
-        body: JSON.stringify({
+      const json = await sendRequest(
+        config.subgraphUrl,
+        'POST',
+        {},
+        {
           query: TokenQuery,
           variables: {
             address: address.toLowerCase(),
           },
-        }),
-      })
-      const json = await response.json()
+        }
+      )
       const metadataHash =
         json.data.avantGardeToken.tokenURI.split('ipfs://')[1]
       const responseMetadata = await fetch(

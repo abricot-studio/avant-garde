@@ -30,6 +30,7 @@ import {
   Heading,
   HStack,
   IconButton,
+  Image,
   Link as CLink,
   Spinner,
   Text,
@@ -186,7 +187,13 @@ export default function Token({ id }) {
           _focus={{
             outline: 'none',
           }}
-          onClick={() => router.back()}
+          onClick={() => {
+            if (window.history.state.idx === 0) {
+              router.push(`/gallery`)
+            } else {
+              router.back()
+            }
+          }}
         />
         {id}
       </Heading>
@@ -329,8 +336,17 @@ export default function Token({ id }) {
           _focus={{}}
         >
           <ActionButton>
-            <Text pr={4}>Trade on OpenSea</Text>
-            <FontAwesomeIcon icon={faExternalLinkAlt} />
+            <Text>
+              Trade on
+              <Image
+                src="/opensea.png"
+                alt="opensea"
+                h="1.4rem"
+                w="6rem"
+                display="inline"
+                pl={2}
+              />
+            </Text>
           </ActionButton>
         </CLink>
       </Box>

@@ -3,7 +3,6 @@
     "outFile": "./bin/game.js",
     "allowJs": true,
     "strict": true,
-    "resolveJsonModule": true,
     "paths": {
       "@dcl/crypto-scene-utils": [
         "node_modules/@dcl/crypto-scene-utils/dist/index.d.ts"

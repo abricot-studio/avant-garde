@@ -1,16 +1,17 @@
 {
   "display": {
-    "title": "interactive-text",
-    "favicon": "favicon_asset"
+    "title": "Avant-Garde",
+    "favicon": "favicon_asset",
+    "navmapThumbnail": "https://beta.avant-garde.gallery/card.png"
   },
   "contact": {
-    "name": "author-name",
-    "email": ""
+    "name": "Avant-Garde",
+    "email": "hello@avant-garde.gallery"
   },
   "owner": "",
   "scene": {
-    "parcels": ["0,0"],
-    "base": "0,0"
+    "parcels": ["-37,79"],
+    "base": "-37,79"
   },
   "communications": {
     "type": "webrtc",
@@ -22,7 +23,7 @@
     "voiceEnabled": true,
     "blacklist": []
   },
-  "requiredPermissions": [],
+  "requiredPermissions": ["ALLOW_TO_MOVE_PLAYER_INSIDE_SCENE"],
   "main": "bin/game.js",
   "tags": [],
   "spawnPoints": [
@@ -30,9 +31,9 @@
       "name": "spawn1",
       "default": true,
       "position": {
-        "x": 0,
+        "x": 8,
         "y": 0,
-        "z": 0
+        "z": 16
       },
       "cameraTarget": {
         "x": 8,

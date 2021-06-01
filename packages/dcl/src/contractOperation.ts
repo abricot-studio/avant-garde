@@ -1,7 +1,6 @@
-import * as crypto from '@dcl/crypto-scene-utils'
+import { contract } from '@dcl/crypto-scene-utils'
 import { getUserAccount } from '@decentraland/EthereumController'
 import { getProvider } from '@decentraland/web3-provider'
-import * as EthConnect from 'eth-connect'
 import RequestManager, { BigNumber, toChecksumAddress } from 'eth-connect'
 import { mintParams } from './generate'
 import avantGardeNetwork from './networks'
@@ -10,7 +9,7 @@ import { setTimeout, wait } from './utils'
 interface networkConfig {
   network: string
   address: string
-  contract: any
+  avantGardeContract: any
   requestManager: any
 }
 
@@ -23,7 +22,7 @@ interface mintPrices {
 export default class ContractOperation {
   address?: string
   network?: string
-  contract?: any
+  avantGardeContract?: any
   requestManager?: RequestManager
   mintPrices: mintPrices = {
     currentPrice: '0',
@@ -34,12 +33,13 @@ export default class ContractOperation {
   constructor() {}
 
   async init() {
-    const { network, address, contract, requestManager } =
+    const { network, address, avantGardeContract, requestManager } =
       await this.getNetworkConfig()
     this.network = network
     this.address = address
-    this.contract = contract
+    this.avantGardeContract = avantGardeContract
     this.requestManager = requestManager
+    log('address', this.address)
     this.startPoolingMintPrice()
   }
 
@@ -63,17 +63,17 @@ export default class ContractOperation {
     return executeTask(async (): Promise<networkConfig> => {
       try {
         const provider = await getProvider()
-        const requestManagerNet = new EthConnect.RequestManager(provider)
+        const requestManagerNet = new RequestManager(provider)
         const network = await requestManagerNet.net_version()
-        const getContract = (await crypto.contract.getContract(
+        const getContract = (await contract.getContract(
           avantGardeNetwork[4].address,
           avantGardeNetwork[4].abi
         )) as any
-        const contract = getContract.contract
+        const avantGardeContract = getContract.contract
         const requestManager = getContract.requestManager
         const address = toChecksumAddress(await getUserAccount())
         log('getNetworkConfig', { network, contract, requestManager, address })
-        return { network, contract, requestManager, address }
+        return { network, avantGardeContract, requestManager, address }
       } catch (error) {
         log('error getNetworkConfig', error)
         throw error
@@ -81,9 +81,9 @@ export default class ContractOperation {
     })
   }
 
-  getMintPrice(): Promise<any> {
-    return executeTask(async () => {
-      const res: BigNumber[] = await this.contract.currentMintPrice()
+  getMintPrice(): Promise<mintPrices> {
+    return executeTask(async (): Promise<mintPrices> => {
+      const res: BigNumber[] = await this.avantGardeContract.currentMintPrice()
       return {
         currentPrice: res[0].toString(),
         fees: res[1].toString(),
@@ -97,7 +97,7 @@ export default class ContractOperation {
       try {
         let res = null
 
-        res = await this.contract?.mint(
+        res = await this.avantGardeContract.mint(
           mintParams.ipfsHashMetadata,
           mintParams.signature,
           {

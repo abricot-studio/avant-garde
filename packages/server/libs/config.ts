@@ -54,17 +54,17 @@ const config: Config = {
     secret: process.env.HOOK_SECRET || '1d8c3623fb5ae3e6da37edfaad82794be462',
     discord: {
       enable: process.env.HOOK_DISCORD_ENABLE === 'true',
-      webHook: process.env.HOOK_DISCORD_WEB_HOOK,
+      webHook: process.env.HOOK_DISCORD_WEB_HOOK || '',
     },
     twitter: {
       enable: process.env.HOOK_TWITTER_ENABLE === 'true',
-      consumerKey: process.env.HOOK_TWITTER_CONSUMER_KEY,
-      consumerSecret: process.env.HOOK_TWITTER_CONSUMER_SECRET,
-      accessTokenKey: process.env.HOOK_TWITTER_ACCESS_TOKEN_KEY,
-      accessTokenSecret: process.env.HOOK_TWITTER_ACCESS_TOKEN_SECRET,
+      consumerKey: process.env.HOOK_TWITTER_CONSUMER_KEY || '',
+      consumerSecret: process.env.HOOK_TWITTER_CONSUMER_SECRET || '',
+      accessTokenKey: process.env.HOOK_TWITTER_ACCESS_TOKEN_KEY || '',
+      accessTokenSecret: process.env.HOOK_TWITTER_ACCESS_TOKEN_SECRET || '',
     },
   },
-  alchemyApiKey: process.env.ALCHEMY_API_KEY,
+  alchemyApiKey: process.env.ALCHEMY_API_KEY || '',
   image: {
     width: parseInt(process.env.IMAGE_WIDTH || '512', 10),
     height: parseInt(process.env.IMAGE_HEIGHT || '512', 10),
@@ -74,8 +74,8 @@ const config: Config = {
     outputsDir: process.env.IMAGE_OUTPUTS_DIR || '.',
   },
   pinata: {
-    apiKey: process.env.PINATA_API_KEY,
-    apiSecret: process.env.PINATA_API_SECRET,
+    apiKey: process.env.PINATA_API_KEY || '',
+    apiSecret: process.env.PINATA_API_SECRET || '',
     externalUrlBase:
       process.env.PINATA_EXTERNAL_URL_BASE ||
       'https://beta.avant-garde.gallery/token/',
@@ -84,7 +84,7 @@ const config: Config = {
     process.env.PRIVATE_KEY ||
     '0x630af0fbddb248b53f97ecf899ce11878d9dcd7e718574c92607153027632135', //0xE4D29ec42F4057EfF92c9124c82844b2689f9C6d
   redis: {
-    url: process.env.REDIS_URL,
+    url: process.env.REDIS_URL || '',
     expirationProcessing: parseInt(
       process.env.REDIS_EXPIRATION_PROCESSING || '120',
       10

@@ -1,7 +1,7 @@
 {
-  "name": "dcl-project",
+  "name": "@avant-garde/dcl",
   "version": "1.0.0",
-  "description": "My new Decentraland project",
+  "description": "Avant-Garde Decentraland project",
   "main": "index.js",
   "scripts": {
     "start": "dcl start",
@@ -11,7 +11,7 @@
     "ecs:install": "npm install --save-dev decentraland-ecs@latest",
     "ecs:install-next": "npm install --save-dev decentraland-ecs@next"
   },
-  "author": "",
+  "author": "avant-garde",
   "license": "MIT",
   "dependencies": {
     "@dcl/crypto-scene-utils": "^1.1.1",
