@@ -40,7 +40,7 @@ const DynamicMathComponent = dynamic(
 const Title = ({ children, ...props }) => (
   <Heading
     textAlign="center"
-    mt={8}
+    mt={16}
     mb={4}
     fontSize={24}
     fontFamily="Poppins, sans-serif"
@@ -83,22 +83,7 @@ function Description() {
 
   return (
     <>
-      <Card mt={8} ml={16} mr={16} p={8}>
-        <Heading
-          textAlign="center"
-          fontSize={18}
-          fontFamily="Poppins, sans-serif"
-        >
-          AvantGarde is a digital artwork platform.
-        </Heading>
-        <Paragraph pt={4} textAlign="center" id="image-generation">
-          It relies on state-of-the-art technologies to computationally generate
-          unique abstract art and sell it to collectors on decentralized
-          blockchains.
-        </Paragraph>
-      </Card>
-
-      <Center mt={8}>
+      <Center mt={8} id="image-generation">
         <CLink href="#image-generation">
           <ActionButton px={0}>
             <FontAwesomeIcon icon={faArrowDown} size="1x" />
@@ -106,7 +91,7 @@ function Description() {
         </CLink>
       </Center>
 
-      <Title>Image generation</Title>
+      <Title>Deep learning based image generation</Title>
 
       <Card mt={8} p={8}>
         <Paragraph>
@@ -126,7 +111,7 @@ function Description() {
         </Paragraph>
       </Card>
 
-      <Title>NFT minting</Title>
+      <Title>That gets minted in a click</Title>
       <Card mt={8} p={8}>
         <Paragraph>
           After our algorithms have generated your image, you need to mint it on
@@ -154,7 +139,7 @@ function Description() {
         </Paragraph>
       </Card>
 
-      <Title>Economics</Title>
+      <Title>With economics that will react to mint & burn</Title>
       <Card mt={4} p={8}>
         <Paragraph>
           Images can be minted and burned on the blockchain, depending on a
@@ -508,8 +493,13 @@ export function About() {
 
   return (
     <Box position="relative">
-      <Heading textAlign="center" fontFamily="Poppins, sans-serif" mb={8}>
-        What's this ?
+      <Heading
+        textAlign="center"
+        fontFamily="Poppins, sans-serif"
+        mb={8}
+        px={4}
+      >
+        We generate unique images with AI, but how?
       </Heading>
       <Flex direction="column" align="center" w="100%" opacity="0.6">
         <ImageFrame size={350} isQuestion />

@@ -4,11 +4,15 @@ import { mintParams } from '../generate'
 export class Minter extends Entity {
   placeholder: Entity
   loadingTexture: VideoTexture
+  loadingMaterial: BasicMaterial
 
   constructor() {
     super()
     this.loadingTexture = new VideoTexture(new VideoClip(config.loadingUrl))
-
+    this.loadingTexture.loop = true
+    this.loadingTexture.play()
+    this.loadingMaterial = new BasicMaterial()
+    this.loadingMaterial.texture = this.loadingTexture
     this.addComponent(new GLTFShape('models/cadre.glb'))
     this.addComponent(
       new Transform({
@@ -32,16 +36,12 @@ export class Minter extends Entity {
   }
 
   loading() {
+    this.placeholder.addComponentOrReplace(this.loadingMaterial)
     this.placeholder.getComponent(Transform).scale = new Vector3(
       2.5,
       0.001,
       2.5
     )
-    const myMaterial = new BasicMaterial()
-    myMaterial.texture = this.loadingTexture
-    this.loadingTexture.loop = true
-    this.loadingTexture.play()
-    this.placeholder.addComponentOrReplace(myMaterial)
   }
 
   addPiece(mintParams: mintParams) {
