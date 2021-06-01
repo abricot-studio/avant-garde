@@ -76,7 +76,18 @@ export function ImageFrame({
           )}
           {!src && isLoading && (
             <Box bgColor="white">
-              <video width="100%" height="100%" autoPlay loop>
+              <video
+                width="150%"
+                height="150%"
+                autoPlay
+                loop
+                style={{
+                  marginLeft: '-25%',
+                  marginTop: '-25%',
+                  width: '150%',
+                  height: '150%',
+                }}
+              >
                 <source src="../avantgarde.webm" type="video/webm" />
                 Your browser does not support the video tag.
               </video>
