@@ -39,6 +39,7 @@ export default class ContractOperation {
     this.address = address
     this.avantGardeContract = avantGardeContract
     this.requestManager = requestManager
+    log('address', this.address)
     this.startPoolingMintPrice()
   }
 

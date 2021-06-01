@@ -2,6 +2,9 @@ interface config {
   subgraphUrl: string
   ipfsEndpoint: string
   generateUrl: string
+  loadingUrl: string
+  poapSeverUrl: string
+  poapEventId: string
 }
 
 const Config: config = {
@@ -11,6 +14,9 @@ const Config: config = {
     'https://corsanywherepinata.herokuapp.com/https://gateway.pinata.cloud/ipfs/',
   generateUrl: 'https://avantgardebeta-fct.vercel.app/api/generate',
   // generateUrl: 'http://localhost:3001/api/generate',
+  loadingUrl: 'https://beta.avant-garde.gallery/avantgarde.webm',
+  poapSeverUrl: 'poapapi.dcl.guru',
+  poapEventId: '2369',
 }
 
 export default Config
