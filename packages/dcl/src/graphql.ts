@@ -99,6 +99,7 @@ export function getPieces(): Promise<AvantGardeToken[]> {
           }
         )
       )
+      log(' getPieces', avantGardes)
       return avantGardes
     } catch (error) {
       log('failed to reach URL getPieces', error)

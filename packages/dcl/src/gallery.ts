@@ -7,6 +7,7 @@ import { Piece } from './entities/Piece'
 import { Podium } from './entities/podium'
 import { Generate, mintParams } from './generate'
 import { AvantGardeToken, getPieceByAddress, getPieces } from './graphql'
+import { Teleporter } from './entities/teleporter'
 
 export class Gallery implements ISystem {
   contractOperation: ContractOperation
@@ -17,6 +18,7 @@ export class Gallery implements ISystem {
   userPieceEntity: Piece | null = null
   mintParams?: mintParams
   POAPBooth?: Dispenser
+  teleporter?: Teleporter
 
   constructor() {
     this.contractOperation = new ContractOperation()
@@ -86,6 +88,8 @@ export class Gallery implements ISystem {
                 this.contractOperation.address
               )
               minter.placeholder.removeComponent(OnPointerDown)
+              this.teleporter?.activate()
+              isMinting = false
             } catch (error) {
               isMinting = false
               minter.placeholder.getComponent(OnPointerDown).hoverText =
@@ -101,6 +105,9 @@ export class Gallery implements ISystem {
         )
       )
     }
+
+    await this.initMinterTeleporter()
+
   }
 
   async initPoap() {
@@ -117,6 +124,17 @@ export class Gallery implements ISystem {
     this.sceneMessageBus.on('activatePoap', () => {
       this.POAPBooth?.activate()
     })
+  }
+
+  async initMinterTeleporter(){
+
+    this.teleporter = new Teleporter()
+    if(this.userPiece){
+
+      this.teleporter.activate()
+
+    }
+
   }
 
   update(dt: number): void {
