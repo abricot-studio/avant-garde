@@ -7,7 +7,8 @@ export class Teleporter extends Entity {
 
     this.addComponent(model)
     const transform = new Transform({
-      position: new Vector3(1, 2, 15),
+      position: new Vector3(29, 2, 14),
+      rotation: Quaternion.Euler(0 , 90, 0),
       scale: new Vector3(0.1, 1, 1),
     })
     this.addComponent(transform)
@@ -18,8 +19,8 @@ export class Teleporter extends Entity {
 
     plan.addComponent(modelPlan)
     const transformPlan = new Transform({
-      position: new Vector3(8, 10, 8),
-      scale: new Vector3(16, 0.1, 16),
+      position: new Vector3(16, 15, 0),
+      scale: new Vector3(20, 0.1, 20),
     })
     plan.addComponent(transformPlan)
 
@@ -40,7 +41,7 @@ export class Teleporter extends Entity {
     this.addComponentOrReplace(new OnPointerDown(
       async (e) => {
 
-        await movePlayerTo({ x: 1, y: 12, z: 15 }, { x: 8, y: 12, z: 8 })
+        await movePlayerTo({ x: 24, y: 17, z: 8 }, { x: 16, y: 17, z: 0 })
       }, {
         button: ActionButton.POINTER,
         hoverText: `Go to minter only room!`,

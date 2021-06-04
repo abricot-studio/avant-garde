@@ -8,7 +8,7 @@ import { Podium } from './entities/podium'
 import { Generate, mintParams } from './generate'
 import { AvantGardeToken, getPieceByAddress, getPieces } from './graphql'
 import { Teleporter } from './entities/teleporter'
-import { formatEther } from './utils'
+import { formatEther, isPreview } from './utils'
 
 export class Gallery implements ISystem {
   contractOperation: ContractOperation
@@ -21,6 +21,7 @@ export class Gallery implements ISystem {
   POAPBooth?: Dispenser
   teleporter?: Teleporter
   minter?: Minter
+  isPreview: boolean = false
 
   constructor() {
     this.contractOperation = new ContractOperation()
@@ -30,11 +31,18 @@ export class Gallery implements ISystem {
 
   async init() {
     new House()
-    new Podium()
-    await this.initPieces()
+    // new Podium()
     await this.contractOperation.init()
-    await this.initUserPiece()
-    await this.initPoap()
+    this.isPreview = await isPreview()
+
+    if(this.isPreview){
+      await Promise.all([
+        this.initPieces(),
+        this.initUserPiece(),
+        this.initPoap()
+      ])
+      await this.initMinterTeleporter()
+    }
   }
 
   async initPieces() {
@@ -55,7 +63,7 @@ export class Gallery implements ISystem {
     if (this.userPiece) {
       const mintedPiece = new Piece(
         new Transform({
-          position: new Vector3(8, 3, 8),
+          position: new Vector3(16, 3, 0),
         }),
         this.userPiece
       )
@@ -112,15 +120,13 @@ export class Gallery implements ISystem {
       )
     }
 
-    await this.initMinterTeleporter()
-
   }
 
   async initPoap() {
     this.POAPBooth = new Dispenser(
       {
-        position: new Vector3(14, 0, 14),
-        rotation: Quaternion.Euler(0, -90, 0),
+        position: new Vector3(29, 0.3, -9),
+        rotation: Quaternion.Euler(0, 0, 0),
       },
       Config.poapSeverUrl,
       Config.poapEventId,

@@ -15,7 +15,7 @@ export class Minter extends Entity {
     this.addComponent(new GLTFShape('models/cadre.glb'))
     this.addComponent(
       new Transform({
-        position: new Vector3(8, 4, 8),
+        position: new Vector3(16, 4, 16),
       })
     )
     engine.addEntity(this)
