@@ -4,32 +4,32 @@ import { AvantGardeToken } from '../graphql'
 export class Piece extends Entity {
   static Transformations: Transform[] = [
     new Transform({
-      position: new Vector3(11, 3, 4),
-      rotation: Quaternion.Euler(0, -30, 0),
+      position: new Vector3(10, 3, 0),
+      rotation: Quaternion.Euler(0, 90, 0),
     }),
     new Transform({
-      position: new Vector3(14, 3, 6),
-      rotation: Quaternion.Euler(0, -60, 0),
+      position: new Vector3(12, 3, 4),
+      rotation: Quaternion.Euler(0, 120, 0),
     }),
     new Transform({
-      position: new Vector3(15, 3, 9),
-      rotation: Quaternion.Euler(0, -90, 0),
-    }),
-    new Transform({
-      position: new Vector3(8, 3, 3),
-      rotation: Quaternion.Euler(0, 0, 0),
-    }),
-    new Transform({
-      position: new Vector3(5, 3, 4),
-      rotation: Quaternion.Euler(0, 30, 0),
-    }),
-    new Transform({
-      position: new Vector3(3, 3, 6),
+      position: new Vector3(12, 3, -4),
       rotation: Quaternion.Euler(0, 60, 0),
     }),
     new Transform({
-      position: new Vector3(2, 3, 9),
-      rotation: Quaternion.Euler(0, 90, 0),
+      position: new Vector3(14, 3, 8),
+      rotation: Quaternion.Euler(0, 150, 0),
+    }),
+    new Transform({
+      position: new Vector3(14, 3, -8),
+      rotation: Quaternion.Euler(0, 30, 0),
+    }),
+    new Transform({
+      position: new Vector3(18, 3, 10),
+      rotation: Quaternion.Euler(0, 180, 0),
+    }),
+    new Transform({
+      position: new Vector3(18, 3, -10),
+      rotation: Quaternion.Euler(0, 0, 0),
     }),
   ]
 
