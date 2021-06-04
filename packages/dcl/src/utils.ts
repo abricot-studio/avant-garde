@@ -53,3 +53,9 @@ export function arrayOfLength(length: number) {
 
   return arr
 }
+
+export function formatEther(wei: string) {
+
+  return parseFloat(wei) / 10 ** 18
+
+}

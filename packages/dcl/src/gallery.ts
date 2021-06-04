@@ -8,6 +8,7 @@ import { Podium } from './entities/podium'
 import { Generate, mintParams } from './generate'
 import { AvantGardeToken, getPieceByAddress, getPieces } from './graphql'
 import { Teleporter } from './entities/teleporter'
+import { formatEther } from './utils'
 
 export class Gallery implements ISystem {
   contractOperation: ContractOperation
@@ -19,6 +20,7 @@ export class Gallery implements ISystem {
   mintParams?: mintParams
   POAPBooth?: Dispenser
   teleporter?: Teleporter
+  minter?: Minter
 
   constructor() {
     this.contractOperation = new ContractOperation()
@@ -51,16 +53,17 @@ export class Gallery implements ISystem {
     log('userPiece', this.userPiece)
 
     if (this.userPiece) {
-      new Piece(
+      const mintedPiece = new Piece(
         new Transform({
           position: new Vector3(8, 3, 8),
         }),
         this.userPiece
       )
+      mintedPiece.addComponent(new Billboard(false, true, false) )
     } else {
       let isMinting = false
-      const minter = new Minter()
-      minter.placeholder.addComponentOrReplace(
+      this.minter = new Minter()
+      this.minter.placeholder.addComponentOrReplace(
         new OnPointerDown(
           async (e) => {
             try {
@@ -69,31 +72,34 @@ export class Gallery implements ISystem {
               }
               log('clicked')
               isMinting = true
-              if (!this.mintParams) {
-                minter.loading()
-                minter.placeholder.getComponent(OnPointerDown).hoverText =
-                  'Generating art...'
-                this.mintParams = await Generate(this.contractOperation.address)
-                minter.addPiece(this.mintParams)
-                minter.placeholder.getComponent(OnPointerDown).hoverText =
-                  'Mint your!'
+              if (this.minter){
+                if(!this.mintParams) {
+                  this.minter.loading()
+                  this.minter.placeholder.getComponent(OnPointerDown).hoverText =
+                    'Generating art...'
+                  this.mintParams = await Generate(this.contractOperation.address)
+                  this.minter.addPiece(this.mintParams)
+                  this.minter.placeholder.getComponent(OnPointerDown).hoverText =
+                    'Mint your!'
+                  isMinting = false
+                  return true
+                }
+                this.minter.placeholder.getComponent(OnPointerDown).hoverText =
+                  'Minting art...'
+                await this.contractOperation.mint(this.mintParams)
+                log('Minted')
+                this.userPiece = await getPieceByAddress(
+                  this.contractOperation.address
+                )
+                this.minter.placeholder.removeComponent(OnPointerDown)
+                this.teleporter?.activate()
                 isMinting = false
-                return true
               }
-              minter.placeholder.getComponent(OnPointerDown).hoverText =
-                'Minting art...'
-              await this.contractOperation.mint(this.mintParams)
-              log('Minted')
-              this.userPiece = await getPieceByAddress(
-                this.contractOperation.address
-              )
-              minter.placeholder.removeComponent(OnPointerDown)
-              this.teleporter?.activate()
-              isMinting = false
             } catch (error) {
               isMinting = false
-              minter.placeholder.getComponent(OnPointerDown).hoverText =
-                'Generate your!'
+              if(this.minter){
+                this.minter.placeholder.getComponent(OnPointerDown).hoverText = 'Generate your!'
+              }
               log('failed to mint', error)
             }
           },
@@ -138,8 +144,11 @@ export class Gallery implements ISystem {
   }
 
   update(dt: number): void {
-    if (!this.userPiece && this.contractOperation.mintPrices) {
-      // update mint price
+    if (!this.userPiece && this.contractOperation.mintPrices && this.minter) {
+      this.minter.priceText2.value = `
+      ${formatEther(this.contractOperation.mintPrices.currentPrice)} Ξ
+      ${formatEther(this.contractOperation.mintPrices.fees)} Ξ
+      `
     }
   }
 }

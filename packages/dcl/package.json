@@ -9,7 +9,8 @@
     "watch": "build-ecs --watch",
     "deploy:now": "dcl export && now export",
     "ecs:install": "npm install --save-dev decentraland-ecs@latest",
-    "ecs:install-next": "npm install --save-dev decentraland-ecs@next"
+    "ecs:install-next": "npm install --save-dev decentraland-ecs@next",
+    "deploy:guru": "dclguru deploy --target linker.dcl.guru"
   },
   "author": "avant-garde",
   "license": "MIT",
@@ -17,6 +18,7 @@
     "@dcl/crypto-scene-utils": "^1.1.1",
     "@dcl/ecs-scene-utils": "^1.7.0",
     "@dcl/ui-scene-utils": "^1.8.1",
+    "@dclguru/cli": "^3.4.9",
     "eth-connect": "^5.0.0"
   },
   "devDependencies": {
