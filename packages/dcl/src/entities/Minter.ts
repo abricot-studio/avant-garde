@@ -53,7 +53,7 @@ export class Minter extends Entity {
     this.priceText1.font = new Font(Fonts.LiberationSans)
     this.priceText1.color = Color3.Black()
     this.priceText1.value = `
-      💥 Price:
+      Price:
       Platform fees:
       `
     this.price1.addComponent(this.priceText1)

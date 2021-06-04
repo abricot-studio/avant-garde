@@ -35,7 +35,7 @@ query($address: String){
 
 export const TokensQuery = `{
   avantGardeTokens(
-      first: 100
+      first: 10
       skip: 0
       orderBy: mintTimestamp
       orderDirection: desc
@@ -108,14 +108,14 @@ export class Graphql {
         }
       )
       await Promise.all(
-        json.data.avantGardeTokens.map(
+        json.data.avantGardeTokens.reverse().map(
           async (avantGardeToken: AvantGardeToken) => {
             if (!this.pieces.some((piece) => piece.id === avantGardeToken.id)) {
               const metadataHash = avantGardeToken.tokenURI.split('ipfs://')[1]
               avantGardeToken.metadata = await sendRequest(
                 `${config.ipfsEndpoint}${metadataHash}`
               )
-              this.pieces.push(avantGardeToken)
+              this.pieces.unshift(avantGardeToken)
             }
           }
         )

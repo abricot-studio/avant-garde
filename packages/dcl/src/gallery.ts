@@ -8,6 +8,7 @@ import { Teleporter } from './entities/teleporter'
 import { Generate, mintParams } from './generate'
 import { AvantGardeToken, Graphql } from './graphql'
 import { formatEther, isPreview } from './utils'
+import * as UI from '@dcl/ui-scene-utils'
 
 export class Gallery implements ISystem {
   contractOperation: ContractOperation
@@ -108,12 +109,27 @@ export class Gallery implements ISystem {
                 this.userPiece = await this.graphql.getPieceByAddress(
                   this.contractOperation.address
                 )
-                this.minter.placeholder.removeComponent(OnPointerDown)
+                log('userPiece', this.userPiece)
+                this.minter.priceText1.value = ''
+                this.minter.priceText2.value = ''
+                this.minter.placeholder.addComponentOrReplace(
+                  new OnPointerDown(
+                    () => {
+                      openExternalURL(`${this.userPiece?.metadata?.external_url}`)
+                    },
+                    {
+                      button: ActionButton.POINTER,
+                      hoverText: `Open details`,
+                      distance: 4,
+                    }
+                  )
+                )
                 this.teleporter?.activate()
                 isMinting = false
               }
             } catch (error) {
               isMinting = false
+              UI.displayAnnouncement(`Oops, there was an error: "${error}"`, 3)
               if (this.minter) {
                 this.minter.placeholder.getComponent(OnPointerDown).hoverText =
                   'Generate your!'
