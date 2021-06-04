@@ -1,5 +1,6 @@
 import { sendRequest } from '@dcl/ecs-scene-utils'
 import config from './config'
+import { setTimeout } from './utils'
 
 export interface AvantGardeToken {
   id: string
@@ -74,9 +75,30 @@ export const TokensQuery = `{
 //   }
 // `
 
-export function getPieces(): Promise<AvantGardeToken[]> {
-  return executeTask(async () => {
-    try {
+export class Graphql {
+  pieces: AvantGardeToken[] = []
+
+  async init() {
+    this.startPoolingGetPieces()
+  }
+
+  startPoolingGetPieces() {
+    this.getPieces()
+      .then(() => {
+        setTimeout(() => {
+          this.startPoolingGetPieces()
+        }, 5000)
+      })
+      .catch((error) => {
+        log('error pooling get pieces', error)
+        setTimeout(() => {
+          this.startPoolingGetPieces()
+        }, 5000)
+      })
+  }
+
+  async getPieces(): Promise<any> {
+    return executeTask(async () => {
       const json = await sendRequest(
         config.subgraphUrl,
         'POST',
@@ -85,53 +107,47 @@ export function getPieces(): Promise<AvantGardeToken[]> {
           query: TokensQuery,
         }
       )
-      const avantGardes: AvantGardeToken[] = await Promise.all(
+      await Promise.all(
         json.data.avantGardeTokens.map(
-          async (
-            avantGardeToken: AvantGardeToken
-          ): Promise<AvantGardeToken> => {
-            const metadataHash = avantGardeToken.tokenURI.split('ipfs://')[1]
-            const response = await fetch(
-              `${config.ipfsEndpoint}${metadataHash}`
-            )
-            avantGardeToken.metadata = await response.json()
-            return avantGardeToken
+          async (avantGardeToken: AvantGardeToken) => {
+            if (!this.pieces.some((piece) => piece.id === avantGardeToken.id)) {
+              const metadataHash = avantGardeToken.tokenURI.split('ipfs://')[1]
+              avantGardeToken.metadata = await sendRequest(
+                `${config.ipfsEndpoint}${metadataHash}`
+              )
+              this.pieces.push(avantGardeToken)
+            }
           }
         )
       )
-      log(' getPieces', avantGardes)
-      return avantGardes
-    } catch (error) {
-      log('failed to reach URL getPieces', error)
-      return []
-    }
-  })
-}
+      log(' pieces', this.pieces)
+    })
+  }
 
-export function getPieceByAddress(address: string): Promise<AvantGardeToken> {
-  return executeTask(async () => {
-    try {
-      const json = await sendRequest(
-        config.subgraphUrl,
-        'POST',
-        {},
-        {
-          query: TokenQuery,
-          variables: {
-            address: address.toLowerCase(),
-          },
-        }
-      )
-      const metadataHash =
-        json.data.avantGardeToken.tokenURI.split('ipfs://')[1]
-      const responseMetadata = await fetch(
-        `${config.ipfsEndpoint}${metadataHash}`
-      )
-      json.data.avantGardeToken.metadata = await responseMetadata.json()
-      return json.data.avantGardeToken
-    } catch (error) {
-      log('failed to reach URL getPieceByAddress', error)
-      return false
-    }
-  })
+  async getPieceByAddress(address: string): Promise<AvantGardeToken> {
+    return executeTask(async () => {
+      try {
+        const json = await sendRequest(
+          config.subgraphUrl,
+          'POST',
+          {},
+          {
+            query: TokenQuery,
+            variables: {
+              address: address.toLowerCase(),
+            },
+          }
+        )
+        const metadataHash =
+          json.data.avantGardeToken.tokenURI.split('ipfs://')[1]
+        json.data.avantGardeToken.metadata = await sendRequest(
+          `${config.ipfsEndpoint}${metadataHash}`
+        )
+        return json.data.avantGardeToken
+      } catch (error) {
+        log('failed to reach URL getPieceByAddress', error)
+        return false
+      }
+    })
+  }
 }

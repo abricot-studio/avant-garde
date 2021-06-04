@@ -4,16 +4,14 @@ import { Dispenser } from './entities/Dispenser'
 import { House } from './entities/House'
 import { Minter } from './entities/Minter'
 import { Piece } from './entities/Piece'
-import { Podium } from './entities/podium'
-import { Generate, mintParams } from './generate'
-import { AvantGardeToken, getPieceByAddress, getPieces } from './graphql'
 import { Teleporter } from './entities/teleporter'
+import { Generate, mintParams } from './generate'
+import { AvantGardeToken, Graphql } from './graphql'
 import { formatEther, isPreview } from './utils'
 
 export class Gallery implements ISystem {
   contractOperation: ContractOperation
   sceneMessageBus: MessageBus
-  pieces: AvantGardeToken[] = []
   piecesEntities: Piece[] = []
   userPiece: AvantGardeToken | null = null
   userPieceEntity: Piece | null = null
@@ -22,10 +20,12 @@ export class Gallery implements ISystem {
   teleporter?: Teleporter
   minter?: Minter
   isPreview: boolean = false
+  graphql: Graphql
 
   constructor() {
     this.contractOperation = new ContractOperation()
     this.sceneMessageBus = new MessageBus()
+    this.graphql = new Graphql()
     this.init().catch((error) => log('error init gallery', error))
   }
 
@@ -35,21 +35,21 @@ export class Gallery implements ISystem {
     await this.contractOperation.init()
     this.isPreview = await isPreview()
 
-    if(this.isPreview){
+    if (this.isPreview) {
       await Promise.all([
-        this.initPieces(),
+        this.graphql.init(),
         this.initUserPiece(),
-        this.initPoap()
+        this.initPoap(),
       ])
       await this.initMinterTeleporter()
     }
   }
 
   async initPieces() {
-    this.pieces = await getPieces()
-    this.piecesEntities = this.pieces
-      .slice(0, Piece.Transformations.length)
-      .map((piece, i) => new Piece(Piece.Transformations[i], piece))
+    // this.pieces = await this.graphql.getPieces()
+    // this.piecesEntities = this.pieces
+    //   .slice(0, Piece.Transformations.length)
+    //   .map((piece, i) => new Piece(Piece.Transformations[i], piece))
   }
 
   async initUserPiece() {
@@ -57,7 +57,9 @@ export class Gallery implements ISystem {
       log('address not found', this.contractOperation.address)
       return false
     }
-    this.userPiece = await getPieceByAddress(this.contractOperation.address)
+    this.userPiece = await this.graphql.getPieceByAddress(
+      this.contractOperation.address
+    )
     log('userPiece', this.userPiece)
 
     if (this.userPiece) {
@@ -67,7 +69,7 @@ export class Gallery implements ISystem {
         }),
         this.userPiece
       )
-      mintedPiece.addComponent(new Billboard(false, true, false) )
+      mintedPiece.addComponent(new Billboard(false, true, false))
     } else {
       let isMinting = false
       this.minter = new Minter()
@@ -80,23 +82,30 @@ export class Gallery implements ISystem {
               }
               log('clicked')
               isMinting = true
-              if (this.minter){
-                if(!this.mintParams) {
+              if (this.minter) {
+                if (!this.mintParams) {
                   this.minter.loading()
-                  this.minter.placeholder.getComponent(OnPointerDown).hoverText =
-                    'Generating art...'
-                  this.mintParams = await Generate(this.contractOperation.address)
+                  this.minter.placeholder.getComponent(
+                    OnPointerDown
+                  ).hoverText = 'Generating art...'
+                  this.mintParams = await Generate(
+                    this.contractOperation.address
+                  )
                   this.minter.addPiece(this.mintParams)
-                  this.minter.placeholder.getComponent(OnPointerDown).hoverText =
-                    'Mint your!'
+                  this.minter.placeholder.getComponent(
+                    OnPointerDown
+                  ).hoverText = 'Mint your!'
                   isMinting = false
                   return true
                 }
                 this.minter.placeholder.getComponent(OnPointerDown).hoverText =
                   'Minting art...'
-                await this.contractOperation.mint(this.mintParams)
-                log('Minted')
-                this.userPiece = await getPieceByAddress(
+                const txHash = await this.contractOperation.mint(
+                  this.mintParams
+                )
+                const receipt = await this.contractOperation.waitForTx(txHash)
+                log('Minted', receipt)
+                this.userPiece = await this.graphql.getPieceByAddress(
                   this.contractOperation.address
                 )
                 this.minter.placeholder.removeComponent(OnPointerDown)
@@ -105,8 +114,9 @@ export class Gallery implements ISystem {
               }
             } catch (error) {
               isMinting = false
-              if(this.minter){
-                this.minter.placeholder.getComponent(OnPointerDown).hoverText = 'Generate your!'
+              if (this.minter) {
+                this.minter.placeholder.getComponent(OnPointerDown).hoverText =
+                  'Generate your!'
               }
               log('failed to mint', error)
             }
@@ -119,7 +129,6 @@ export class Gallery implements ISystem {
         )
       )
     }
-
   }
 
   async initPoap() {
@@ -138,15 +147,11 @@ export class Gallery implements ISystem {
     })
   }
 
-  async initMinterTeleporter(){
-
+  async initMinterTeleporter() {
     this.teleporter = new Teleporter()
-    if(this.userPiece){
-
+    if (this.userPiece) {
       this.teleporter.activate()
-
     }
-
   }
 
   update(dt: number): void {
@@ -155,6 +160,21 @@ export class Gallery implements ISystem {
       ${formatEther(this.contractOperation.mintPrices.currentPrice)} Ξ
       ${formatEther(this.contractOperation.mintPrices.fees)} Ξ
       `
+    }
+
+    if (this.graphql.pieces.length > 0) {
+      this.graphql.pieces
+        .slice(0, Piece.Transformations.length)
+        .forEach((piece, i) => {
+          if (!this.piecesEntities[i]) {
+            log('new piece add', i, piece)
+            this.piecesEntities.push(new Piece(Piece.Transformations[i], piece))
+          } else if (this.piecesEntities[i].avantGardeToken.id !== piece.id) {
+            log('piece updated', i, piece)
+            this.piecesEntities[i].avantGardeToken = piece
+            this.piecesEntities[i].refreshPlaceholder()
+          }
+        })
     }
   }
 }

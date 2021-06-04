@@ -34,23 +34,20 @@ export class Piece extends Entity {
   ]
 
   placeholder: Entity
+  avantGardeToken: AvantGardeToken
 
   constructor(transform: Transform, avantGardeToken: AvantGardeToken) {
     super()
+    this.avantGardeToken = avantGardeToken
+
     this.addComponent(new GLTFShape('models/cadre.glb'))
     transform.scale = new Vector3(0.8, 0.8, 0.8)
     this.addComponent(transform)
     engine.addEntity(this)
+
     this.placeholder = new Entity()
     this.placeholder.setParent(this)
     this.placeholder.addComponent(new CylinderShape())
-    const myMaterial = new Material()
-    myMaterial.albedoTexture = new Texture(
-      `${config.ipfsEndpoint}${
-        avantGardeToken.metadata?.image.split('ipfs://')[1]
-      }`
-    )
-    this.placeholder.addComponent(myMaterial)
     this.placeholder.addComponent(
       new Transform({
         position: new Vector3(0, 0, 0.09),
@@ -58,10 +55,22 @@ export class Piece extends Entity {
         rotation: Quaternion.Euler(90, 0, 0),
       })
     )
-    this.placeholder.addComponent(
+    this.refreshPlaceholder()
+    engine.addEntity(this.placeholder)
+  }
+
+  refreshPlaceholder() {
+    const myMaterial = new Material()
+    myMaterial.albedoTexture = new Texture(
+      `${config.ipfsEndpoint}${
+        this.avantGardeToken.metadata?.image.split('ipfs://')[1]
+      }`
+    )
+    this.placeholder.addComponentOrReplace(myMaterial)
+    this.placeholder.addComponentOrReplace(
       new OnPointerDown(
         () => {
-          openExternalURL(`${avantGardeToken.metadata?.external_url}`)
+          openExternalURL(`${this.avantGardeToken.metadata?.external_url}`)
         },
         {
           button: ActionButton.POINTER,
@@ -70,6 +79,5 @@ export class Piece extends Entity {
         }
       )
     )
-    engine.addEntity(this.placeholder)
   }
 }

@@ -93,11 +93,10 @@ export default class ContractOperation {
     })
   }
 
-  mint(mintParams: mintParams): Promise<any> {
+  mint(mintParams: mintParams): Promise<string> {
     return executeTask(async () => {
       try {
         let res = null
-
         res = await this.avantGardeContract.mint(
           mintParams.ipfsHashMetadata,
           mintParams.signature,
@@ -108,18 +107,24 @@ export default class ContractOperation {
         )
         log('contract:mint', 'res', res)
 
-        let receipt = null
-        while (receipt == null) {
-          await wait(2000)
-          receipt = await this.requestManager?.eth_getTransactionReceipt(
-            res.toString()
-          )
-        }
-        log('mint', 'receipt', receipt)
+        const txHash = res.toString()
+
+        log('mint txHash', txHash)
+
+        return txHash
       } catch (error) {
         log('error mint', error)
         throw error
       }
     })
+  }
+
+  async waitForTx(txHash: string): Promise<any> {
+    let receipt = null
+    while (receipt == null) {
+      await wait(2000)
+      receipt = await this.requestManager?.eth_getTransactionReceipt(txHash)
+    }
+    return receipt
   }
 }
