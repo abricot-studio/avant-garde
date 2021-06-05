@@ -119,7 +119,7 @@ export class Gallery implements ISystem {
                     {
                       button: ActionButton.POINTER,
                       hoverText: `Open details`,
-                      distance: 4,
+                      distance: 6,
                     }
                   )
                 )
@@ -139,7 +139,7 @@ export class Gallery implements ISystem {
           {
             button: ActionButton.POINTER,
             hoverText: `Generate your!`,
-            distance: 10,
+            distance: 6,
           }
         )
       )
