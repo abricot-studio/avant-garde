@@ -32,11 +32,10 @@ export class Gallery implements ISystem {
 
   async init() {
     new House()
-    // new Podium()
-    // await this.contractOperation.init()
-    // this.isPreview = await isPreview()
+    await this.contractOperation.init()
+    this.isPreview = await isPreview()
 
-    if (this.isPreview && false) {
+    if (this.isPreview) {
       await Promise.all([
         this.graphql.init(),
         this.initUserPiece(),
@@ -66,7 +65,7 @@ export class Gallery implements ISystem {
     if (this.userPiece) {
       const mintedPiece = new Piece(
         new Transform({
-          position: new Vector3(16, 3, 0),
+          position: new Vector3(0, 4, 0),
         }),
         this.userPiece
       )
@@ -150,7 +149,7 @@ export class Gallery implements ISystem {
   async initPoap() {
     this.POAPBooth = new Dispenser(
       {
-        position: new Vector3(29, 0.3, -9),
+        position: new Vector3(14, 0.3, -14),
         rotation: Quaternion.Euler(0, 0, 0),
       },
       Config.poapSeverUrl,

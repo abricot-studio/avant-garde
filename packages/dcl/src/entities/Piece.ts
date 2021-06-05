@@ -6,30 +6,37 @@ export class Piece extends Entity {
     new Transform({
       position: new Vector3(10, 3, 0),
       rotation: Quaternion.Euler(0, 90, 0),
+      scale: new Vector3(0.8, 0.8, 0.8)
     }),
     new Transform({
       position: new Vector3(12, 3, 4),
       rotation: Quaternion.Euler(0, 120, 0),
+      scale: new Vector3(0.8, 0.8, 0.8)
     }),
     new Transform({
       position: new Vector3(12, 3, -4),
       rotation: Quaternion.Euler(0, 60, 0),
+      scale: new Vector3(0.8, 0.8, 0.8)
     }),
     new Transform({
       position: new Vector3(14, 3, 8),
       rotation: Quaternion.Euler(0, 150, 0),
+      scale: new Vector3(0.8, 0.8, 0.8)
     }),
     new Transform({
       position: new Vector3(14, 3, -8),
       rotation: Quaternion.Euler(0, 30, 0),
+      scale: new Vector3(0.8, 0.8, 0.8)
     }),
     new Transform({
       position: new Vector3(18, 3, 10),
       rotation: Quaternion.Euler(0, 180, 0),
+      scale: new Vector3(0.8, 0.8, 0.8)
     }),
     new Transform({
       position: new Vector3(18, 3, -10),
       rotation: Quaternion.Euler(0, 0, 0),
+      scale: new Vector3(0.8, 0.8, 0.8)
     }),
   ]
 
@@ -41,7 +48,6 @@ export class Piece extends Entity {
     this.avantGardeToken = avantGardeToken
 
     this.addComponent(new GLTFShape('models/cadre.glb'))
-    transform.scale = new Vector3(0.8, 0.8, 0.8)
     this.addComponent(transform)
     engine.addEntity(this)
 
