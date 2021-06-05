@@ -33,10 +33,10 @@ export class Gallery implements ISystem {
   async init() {
     new House()
     // new Podium()
-    await this.contractOperation.init()
-    this.isPreview = await isPreview()
+    // await this.contractOperation.init()
+    // this.isPreview = await isPreview()
 
-    if (this.isPreview) {
+    if (this.isPreview && false) {
       await Promise.all([
         this.graphql.init(),
         this.initUserPiece(),
