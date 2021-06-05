@@ -1,4 +1,4 @@
-# AvantGarde Decentraland 
+# AvantGarde Decentraland
 
 ## Dev:
 

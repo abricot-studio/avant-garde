@@ -22,7 +22,6 @@ export class Teleporter extends Entity {
         showFeedback: true,
       })
     )
-
   }
 
   activate() {

@@ -1,3 +1,4 @@
+import * as UI from '@dcl/ui-scene-utils'
 import Config from './config'
 import ContractOperation from './contractOperation'
 import { Dispenser } from './entities/Dispenser'
@@ -8,7 +9,6 @@ import { Teleporter } from './entities/teleporter'
 import { Generate, mintParams } from './generate'
 import { AvantGardeToken, Graphql } from './graphql'
 import { formatEther, isPreview } from './utils'
-import * as UI from '@dcl/ui-scene-utils'
 
 export class Gallery implements ISystem {
   contractOperation: ContractOperation
@@ -31,11 +31,11 @@ export class Gallery implements ISystem {
   }
 
   async init() {
-    new House()
-    await this.contractOperation.init()
     this.isPreview = await isPreview()
 
     if (this.isPreview) {
+      new House()
+      await this.contractOperation.init()
       await Promise.all([
         this.graphql.init(),
         this.initUserPiece(),
@@ -113,7 +113,9 @@ export class Gallery implements ISystem {
                 this.minter.placeholder.addComponentOrReplace(
                   new OnPointerDown(
                     () => {
-                      openExternalURL(`${this.userPiece?.metadata?.external_url}`)
+                      openExternalURL(
+                        `${this.userPiece?.metadata?.external_url}`
+                      )
                     },
                     {
                       button: ActionButton.POINTER,
@@ -180,15 +182,23 @@ export class Gallery implements ISystem {
       this.graphql.pieces
         .slice(0, Piece.Transformations.length * 2)
         .forEach((piece, i) => {
-          const iFloor = Math.floor(i/2)
+          const iFloor = Math.floor(i / 2)
           if (!this.piecesEntities[iFloor]) {
             log('new piece add', i, piece)
-            this.piecesEntities.push(new Piece(Piece.Transformations[iFloor], piece))
-          } else if (iFloor === i / 2 && this.piecesEntities[iFloor].avantGardeToken1.id !== piece.id) {
+            this.piecesEntities.push(
+              new Piece(Piece.Transformations[iFloor], piece)
+            )
+          } else if (
+            iFloor === i / 2 &&
+            this.piecesEntities[iFloor].avantGardeToken1.id !== piece.id
+          ) {
             log('piece1 updated', i, piece)
             this.piecesEntities[iFloor].avantGardeToken1 = piece
             this.piecesEntities[iFloor].refreshPlaceholder1()
-          } else if (Math.round(i / 2) !== i / 2 && this.piecesEntities[iFloor].avantGardeToken2?.id !== piece.id){
+          } else if (
+            Math.round(i / 2) !== i / 2 &&
+            this.piecesEntities[iFloor].avantGardeToken2?.id !== piece.id
+          ) {
             log('piece2 updated', i, piece)
             this.piecesEntities[iFloor].avantGardeToken2 = piece
             this.piecesEntities[iFloor].refreshPlaceholder2()

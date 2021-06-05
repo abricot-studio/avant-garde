@@ -108,8 +108,9 @@ export class Graphql {
         }
       )
       await Promise.all(
-        json.data.avantGardeTokens.reverse().map(
-          async (avantGardeToken: AvantGardeToken) => {
+        json.data.avantGardeTokens
+          .reverse()
+          .map(async (avantGardeToken: AvantGardeToken) => {
             if (!this.pieces.some((piece) => piece.id === avantGardeToken.id)) {
               const metadataHash = avantGardeToken.tokenURI.split('ipfs://')[1]
               avantGardeToken.metadata = await sendRequest(
@@ -117,8 +118,7 @@ export class Graphql {
               )
               this.pieces.unshift(avantGardeToken)
             }
-          }
-        )
+          })
       )
       log(' pieces', this.pieces)
     })

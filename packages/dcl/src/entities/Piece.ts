@@ -6,49 +6,49 @@ export class Piece extends Entity {
     new Transform({
       position: new Vector3(-8.24, 3.5, -7.85),
       rotation: Quaternion.Euler(0, -55, 0),
-      scale: new Vector3(0.625, 0.625, 0.625)
+      scale: new Vector3(0.625, 0.625, 0.625),
     }),
     new Transform({
       position: new Vector3(-6.25, 3.5, -5.17),
       rotation: Quaternion.Euler(0, -50, 0),
-      scale: new Vector3(0.625, 0.625, 0.625)
+      scale: new Vector3(0.625, 0.625, 0.625),
     }),
     new Transform({
       position: new Vector3(-3.9, 3.5, -2.79),
       rotation: Quaternion.Euler(0, -40, 0),
-      scale: new Vector3(0.625, 0.625, 0.625)
+      scale: new Vector3(0.625, 0.625, 0.625),
     }),
 
     new Transform({
       position: new Vector3(-7.86, 3.5, 8.24),
       rotation: Quaternion.Euler(0, 33, 0),
-      scale: new Vector3(0.625, 0.625, 0.625)
+      scale: new Vector3(0.625, 0.625, 0.625),
     }),
     new Transform({
       position: new Vector3(-5.08, 3.5, 6.2),
       rotation: Quaternion.Euler(0, 40, 0),
-      scale: new Vector3(0.625, 0.625, 0.625)
+      scale: new Vector3(0.625, 0.625, 0.625),
     }),
     new Transform({
-      position: new Vector3(-2.62, 3.5,3.69),
+      position: new Vector3(-2.62, 3.5, 3.69),
       rotation: Quaternion.Euler(0, 50, 0),
-      scale: new Vector3(0.625, 0.625, 0.625)
+      scale: new Vector3(0.625, 0.625, 0.625),
     }),
 
     new Transform({
-      position: new Vector3(8.40, 3.5, 8.08),
+      position: new Vector3(8.4, 3.5, 8.08),
       rotation: Quaternion.Euler(0, -56, 0),
-      scale: new Vector3(0.625, 0.625, 0.625)
+      scale: new Vector3(0.625, 0.625, 0.625),
     }),
     new Transform({
       position: new Vector3(6.61, 3.5, 5.56),
       rotation: Quaternion.Euler(0, -52, 0),
-      scale: new Vector3(0.625, 0.625, 0.625)
+      scale: new Vector3(0.625, 0.625, 0.625),
     }),
     new Transform({
       position: new Vector3(4.56, 3.5, 3.36),
       rotation: Quaternion.Euler(0, -43, 0),
-      scale: new Vector3(0.625, 0.625, 0.625)
+      scale: new Vector3(0.625, 0.625, 0.625),
     }),
   ]
 
@@ -57,7 +57,11 @@ export class Piece extends Entity {
   avantGardeToken1: AvantGardeToken
   avantGardeToken2?: AvantGardeToken
 
-  constructor(transform: Transform, avantGardeToken1: AvantGardeToken, avantGardeToken2?: AvantGardeToken) {
+  constructor(
+    transform: Transform,
+    avantGardeToken1: AvantGardeToken,
+    avantGardeToken2?: AvantGardeToken
+  ) {
     super()
     this.avantGardeToken1 = avantGardeToken1
     this.avantGardeToken2 = avantGardeToken2
@@ -90,7 +94,6 @@ export class Piece extends Entity {
     this.refreshPlaceholder2()
     engine.addEntity(this.placeholder1)
     engine.addEntity(this.placeholder2)
-
   }
 
   refreshPlaceholder1() {
@@ -116,7 +119,7 @@ export class Piece extends Entity {
   }
 
   refreshPlaceholder2() {
-    if(this.avantGardeToken2){
+    if (this.avantGardeToken2) {
       const myMaterial2 = new Material()
       myMaterial2.albedoTexture = new Texture(
         `${config.ipfsEndpoint}${
@@ -138,5 +141,4 @@ export class Piece extends Entity {
       )
     }
   }
-
 }
