@@ -109,8 +109,7 @@ export class Gallery implements ISystem {
                   this.contractOperation.address
                 )
                 log('userPiece', this.userPiece)
-                this.minter.priceText1.value = ''
-                this.minter.priceText2.value = ''
+                this.minter.priceText.value = ''
                 this.minter.placeholder.addComponentOrReplace(
                   new OnPointerDown(
                     () => {
@@ -171,23 +170,28 @@ export class Gallery implements ISystem {
 
   update(dt: number): void {
     if (!this.userPiece && this.contractOperation.mintPrices && this.minter) {
-      this.minter.priceText2.value = `
-      ${formatEther(this.contractOperation.mintPrices.currentPrice)} Ξ
-      ${formatEther(this.contractOperation.mintPrices.fees)} Ξ
+      this.minter.priceText.value = `
+      ${formatEther(this.contractOperation.mintPrices.currentPrice)}
+      ${formatEther(this.contractOperation.mintPrices.fees)}
       `
     }
 
     if (this.graphql.pieces.length > 0) {
       this.graphql.pieces
-        .slice(0, Piece.Transformations.length)
+        .slice(0, Piece.Transformations.length * 2)
         .forEach((piece, i) => {
-          if (!this.piecesEntities[i]) {
+          const iFloor = Math.floor(i/2)
+          if (!this.piecesEntities[iFloor]) {
             log('new piece add', i, piece)
-            this.piecesEntities.push(new Piece(Piece.Transformations[i], piece))
-          } else if (this.piecesEntities[i].avantGardeToken.id !== piece.id) {
-            log('piece updated', i, piece)
-            this.piecesEntities[i].avantGardeToken = piece
-            this.piecesEntities[i].refreshPlaceholder()
+            this.piecesEntities.push(new Piece(Piece.Transformations[iFloor], piece))
+          } else if (iFloor === i / 2 && this.piecesEntities[iFloor].avantGardeToken1.id !== piece.id) {
+            log('piece1 updated', i, piece)
+            this.piecesEntities[iFloor].avantGardeToken1 = piece
+            this.piecesEntities[iFloor].refreshPlaceholder1()
+          } else if (Math.round(i / 2) !== i / 2 && this.piecesEntities[iFloor].avantGardeToken2?.id !== piece.id){
+            log('piece2 updated', i, piece)
+            this.piecesEntities[iFloor].avantGardeToken2 = piece
+            this.piecesEntities[iFloor].refreshPlaceholder2()
           }
         })
     }

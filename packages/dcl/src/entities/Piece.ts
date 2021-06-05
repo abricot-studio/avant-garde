@@ -54,11 +54,13 @@ export class Piece extends Entity {
 
   placeholder1: Entity
   placeholder2: Entity
-  avantGardeToken: AvantGardeToken
+  avantGardeToken1: AvantGardeToken
+  avantGardeToken2?: AvantGardeToken
 
-  constructor(transform: Transform, avantGardeToken: AvantGardeToken) {
+  constructor(transform: Transform, avantGardeToken1: AvantGardeToken, avantGardeToken2?: AvantGardeToken) {
     super()
-    this.avantGardeToken = avantGardeToken
+    this.avantGardeToken1 = avantGardeToken1
+    this.avantGardeToken2 = avantGardeToken2
 
     this.addComponent(new GLTFShape('models/cadre.glb'))
     this.addComponent(transform)
@@ -84,37 +86,25 @@ export class Piece extends Entity {
         rotation: Quaternion.Euler(90, 0, 0),
       })
     )
-    this.refreshPlaceholder()
+    this.refreshPlaceholder1()
+    this.refreshPlaceholder2()
     engine.addEntity(this.placeholder1)
     engine.addEntity(this.placeholder2)
 
   }
 
-  refreshPlaceholder() {
-    const myMaterial = new Material()
-    myMaterial.albedoTexture = new Texture(
+  refreshPlaceholder1() {
+    const myMaterial1 = new Material()
+    myMaterial1.albedoTexture = new Texture(
       `${config.ipfsEndpoint}${
-        this.avantGardeToken.metadata?.image.split('ipfs://')[1]
+        this.avantGardeToken1.metadata?.image.split('ipfs://')[1]
       }`
     )
-    this.placeholder1.addComponentOrReplace(myMaterial)
+    this.placeholder1.addComponentOrReplace(myMaterial1)
     this.placeholder1.addComponentOrReplace(
       new OnPointerDown(
         () => {
-          openExternalURL(`${this.avantGardeToken.metadata?.external_url}`)
-        },
-        {
-          button: ActionButton.POINTER,
-          hoverText: `Open details`,
-          distance: 6,
-        }
-      )
-    )
-    this.placeholder2.addComponentOrReplace(myMaterial)
-    this.placeholder2.addComponentOrReplace(
-      new OnPointerDown(
-        () => {
-          openExternalURL(`${this.avantGardeToken.metadata?.external_url}`)
+          openExternalURL(`${this.avantGardeToken1.metadata?.external_url}`)
         },
         {
           button: ActionButton.POINTER,
@@ -124,4 +114,29 @@ export class Piece extends Entity {
       )
     )
   }
+
+  refreshPlaceholder2() {
+    if(this.avantGardeToken2){
+      const myMaterial2 = new Material()
+      myMaterial2.albedoTexture = new Texture(
+        `${config.ipfsEndpoint}${
+          this.avantGardeToken2.metadata?.image.split('ipfs://')[1]
+        }`
+      )
+      this.placeholder2.addComponentOrReplace(myMaterial2)
+      this.placeholder2.addComponentOrReplace(
+        new OnPointerDown(
+          () => {
+            openExternalURL(`${this.avantGardeToken2?.metadata?.external_url}`)
+          },
+          {
+            button: ActionButton.POINTER,
+            hoverText: `Open details`,
+            distance: 6,
+          }
+        )
+      )
+    }
+  }
+
 }

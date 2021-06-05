@@ -35,7 +35,7 @@ query($address: String){
 
 export const TokensQuery = `{
   avantGardeTokens(
-      first: 10
+      first: 18
       skip: 0
       orderBy: mintTimestamp
       orderDirection: desc
