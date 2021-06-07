@@ -1,6 +1,7 @@
 import { useEthers } from '@usedapp/core'
 import Link from 'next/link'
 import React from 'react'
+import config from '../../config'
 import { useToken } from '../../hooks/tokens'
 import { defaultSize, ImageFrame, TokenImage } from '../tokens/TokenImage'
 import {
@@ -22,7 +23,10 @@ export default function Hero() {
       <Center h={defaultSize} position="absolute" opacity="0.8" w="100%">
         {token ? (
           <Box opacity="0.5">
-            <TokenImage avantGardeToken={token} noBurned={true} />
+            <TokenImage
+              avantGardeToken={!config.whitelistMode && token}
+              noBurned={true}
+            />
           </Box>
         ) : (
           <ImageFrame />
@@ -46,16 +50,24 @@ export default function Hero() {
 
       <Wrap spacing={8} justify="center" mt={8} mx={16}>
         <WrapItem>
-          {token ? (
+          {!config.whitelistMode && token && (
             <Link passHref href={`/gallery`}>
               <ActionButton as="a" w="12rem">
                 Gallery
               </ActionButton>
             </Link>
-          ) : (
+          )}
+          {!config.whitelistMode && !token && (
             <Link passHref href="/generator">
               <ActionButton as="a" w="12rem">
                 Generate yours
+              </ActionButton>
+            </Link>
+          )}
+          {config.whitelistMode && (
+            <Link passHref href={`/register`}>
+              <ActionButton as="a" w="12rem">
+                Register before 15 July
               </ActionButton>
             </Link>
           )}

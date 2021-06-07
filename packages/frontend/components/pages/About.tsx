@@ -14,6 +14,7 @@ import {
   VictoryTooltip,
   VictoryVoronoiContainer,
 } from 'victory'
+import config from '../../config'
 import { useCanMint, useTokenTotalSupply } from '../../hooks/mint'
 import { bondingCurveFn, contractConstants } from '../../lib/constants'
 import { ImageFrame } from '../tokens/TokenImage'
@@ -249,7 +250,7 @@ function Chart() {
 
   const { dataPast, dataNext, mintCounter, currentPrice, isLoading } =
     useMemo(() => {
-      if (!tokenTotalSupply) {
+      if (!tokenTotalSupply && !config.whitelistMode) {
         return {
           dataPast: [],
           dataNext: [],
@@ -258,8 +259,13 @@ function Chart() {
           isLoading: true,
         }
       }
-      const mintCounter = Number(tokenTotalSupply.current)
-      const currentPrice = bondingCurveFn(mintCounter)
+      const mintCounter =
+        tokenTotalSupply && !config.whitelistMode
+          ? Number(tokenTotalSupply.current)
+          : 0
+      const currentPrice = !config.whitelistMode
+        ? bondingCurveFn(mintCounter)
+        : 0
       const dataPast = []
       const dataNext = []
 
@@ -270,7 +276,8 @@ function Chart() {
         })
       }
 
-      for (let i = mintCounter; i < mintCounter * 3; i++) {
+      const iMax = !config.whitelistMode ? mintCounter * 3 : 100
+      for (let i = mintCounter; i < iMax; i++) {
         dataNext.push({
           x: i,
           y: bondingCurveFn(i),
@@ -280,7 +287,7 @@ function Chart() {
       return { dataPast, dataNext, mintCounter, currentPrice, isLoading: false }
     }, [tokenTotalSupply])
 
-  return isLoading || dataPast.length === 0 || dataNext.length === 0 ? (
+  return isLoading || dataNext.length === 0 ? (
     <VStack align="center">
       <Text textStyle="caption" pb={4}>
         Loading chart...
@@ -444,45 +451,50 @@ function Chart() {
           x="x"
           y="y"
         />
-
-        <VictoryScatter
-          name="currentPoint"
-          style={{
-            data: {
-              fill: '#6B93FB',
-            },
-          }}
-          size={5}
-          data={[{ x: mintCounter, y: currentPrice }]}
-          x="x"
-          y="y"
-          labels={({ datum }) => ''}
-        />
-        <VictoryLine
-          name="currentHLine"
-          style={{
-            data: {
-              stroke: '#6B93FB',
-              strokeWidth: 1,
-            },
-          }}
-          data={[
-            { x: 0, y: currentPrice, label: '' },
-            { x: mintCounter, y: currentPrice, label: '' },
-          ]}
-        />
-        <VictoryBar
-          name="currentVLine"
-          style={{
-            data: {
-              width: 1,
-              fill: '#6B93FB',
-            },
-          }}
-          data={[{ x: mintCounter, y: currentPrice }]}
-          x="x"
-          y="y"
-        />
+        {!config.whitelistMode && (
+          <VictoryScatter
+            name="currentPoint"
+            style={{
+              data: {
+                fill: '#6B93FB',
+              },
+            }}
+            size={5}
+            data={[{ x: mintCounter, y: currentPrice }]}
+            x="x"
+            y="y"
+            labels={({ datum }) => ''}
+          />
+        )}
+        {!config.whitelistMode && (
+          <VictoryLine
+            name="currentHLine"
+            style={{
+              data: {
+                stroke: '#6B93FB',
+                strokeWidth: 1,
+              },
+            }}
+            data={[
+              { x: 0, y: currentPrice, label: '' },
+              { x: mintCounter, y: currentPrice, label: '' },
+            ]}
+          />
+        )}
+        {!config.whitelistMode && (
+          <VictoryBar
+            name="currentVLine"
+            style={{
+              data: {
+                width: 1,
+                fill: '#6B93FB',
+              },
+            }}
+            data={[{ x: mintCounter, y: currentPrice }]}
+            x="x"
+            y="y"
+          />
+        )}
       </VictoryChart>
     </Box>
   )
@@ -509,14 +521,22 @@ export function About() {
         <Description />
 
         <Center my={8}>
-          {canMint ? (
+          {!config.whitelistMode && canMint && (
             <Link passHref href="/generator">
               <ActionButton as="a">Generate yours</ActionButton>
             </Link>
-          ) : (
+          )}
+          {!config.whitelistMode && !canMint && (
             <Link passHref href="/gallery">
               <ActionButton as="a" w="12rem">
                 Gallery
+              </ActionButton>
+            </Link>
+          )}
+          {config.whitelistMode && (
+            <Link passHref href="/register">
+              <ActionButton as="a" w="12rem">
+                Register
               </ActionButton>
             </Link>
           )}

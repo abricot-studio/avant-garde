@@ -1,7 +1,7 @@
 export default {
   infuraId:
     process.env.NEXT_PUBLIC_INFURA_ID || '781d8466252d47508e177b8637b1c2fd',
-  defaultChainId: parseInt(process.env.DEFAULT_CHAIN_ID || '4'),
+  defaultChainId: parseInt(process.env.DEFAULT_CHAIN_ID || '1'),
   ipfsEndpoint:
     process.env.NEXT_PUBLIC_IPFS_ENDPOINT ||
     'https://gateway.pinata.cloud/ipfs/',
@@ -15,4 +15,5 @@ export default {
     'https://avantgardebeta-fct.vercel.app/api/generate',
   // 'http://localhost:3001/api/generate',
   enableAnalytics: process.env.ENABLE_ANALYTICS === 'true' || false,
+  whitelistMode: process.env.WHITELIST_MODE === 'true' || true,
 }

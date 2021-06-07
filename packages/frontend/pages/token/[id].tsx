@@ -1,8 +1,10 @@
 import { GetStaticPropsContext } from 'next'
 import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 import Layout from '../../components/Layout'
 import Token from '../../components/tokens/Token'
 import SEO from '../../components/utils/SEO'
+import config from '../../config'
 import { TokenQuery, TokensQuery } from '../../hooks/tokens'
 import { defaultClient, getSsrClient, wrapUrqlClient } from '../../lib/graphql'
 import { getIpfsData, getIpfsUrl } from '../../lib/ipfs'
@@ -17,12 +19,18 @@ const TokenPage: React.FC<TokenPageProps> = ({ initialMetadata }) => {
   if (router.isFallback) {
     return <p>Loading</p>
   }
-
+  useEffect(() => {
+    if (config.whitelistMode) {
+      router.replace(`/`)
+    }
+  }, [])
   const seoData = {
     title: 'Token',
     card: getIpfsUrl(initialMetadata.image),
   }
-
+  if (config.whitelistMode) {
+    return <div></div>
+  }
   return (
     <>
       <SEO data={seoData} />
