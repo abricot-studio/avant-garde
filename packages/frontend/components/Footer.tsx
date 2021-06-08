@@ -9,7 +9,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { useMountedState, useWindowScroll } from 'react-use'
-import { EtherscanIcon, MobileMenuIcon } from '../assets/icons'
+import { DiscordIcon, EtherscanIcon, MobileMenuIcon } from '../assets/icons'
 import config from '../config'
 import { useContract } from '../hooks/contracts'
 import { URLs } from '../lib/constants'
@@ -167,7 +167,7 @@ export function Footer() {
             <LinkItem
               href={URLs.discord}
               icon={
-                <FontAwesomeIcon icon={faDiscord} size="2x" color="#7388da" />
+                <DiscordIcon w={7} h={7}/>
               }
               label={mobile ? '' : 'Discord'}
             />

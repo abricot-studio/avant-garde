@@ -12,6 +12,7 @@ const generateApi = axios.create({
 export enum ImageGenerationStatus {
   SUCCESS = 'success',
   PROCESSING = 'processing',
+  ERROR = 'error',
 }
 
 export interface ImageGeneration {
