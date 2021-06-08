@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
+import config from '../../config'
 import {
   Box,
   Button,
@@ -47,7 +48,9 @@ const NavButton = forwardRef<NavButtonProps & ButtonProps, 'a'>(
   }
 )
 
-export const pagePaths = ['/generator', '/about', '/gallery']
+export const pagePaths = config.whitelistMode
+  ? ['/register', '/about']
+  : ['/generator', '/about', '/gallery']
 
 export const getPageStuff = (pathname) => {
   if (pathname === '/') {
@@ -55,6 +58,9 @@ export const getPageStuff = (pathname) => {
   }
   if (pathname === '/generator') {
     return ['Generator', 'reddy']
+  }
+  if (pathname === '/register') {
+    return ['Register', 'reddy']
   }
   if (pathname === '/about') {
     return ['About', 'greeny']
