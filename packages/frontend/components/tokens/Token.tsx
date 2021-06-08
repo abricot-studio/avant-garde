@@ -36,6 +36,7 @@ import {
   Text,
   useBreakpointValue,
   VStack,
+  SocialLink,
 } from '../ui'
 import { defaultSize, TokenImage } from './TokenImage'
 
@@ -101,29 +102,6 @@ function BurnButton({ token, isOpen, onToggle }) {
         </ScaleFade>
       </Button>
     </Box>
-  )
-}
-
-function SocialLink({ href, icon, label, ...props }) {
-  return (
-    <CLink href={href} isExternal {...props}>
-      <IconButton
-        icon={icon}
-        aria-label={label}
-        border="none"
-        borderRadius="full"
-        size="lg"
-        backgroundColor="white"
-        _hover={{}}
-        _focus={{
-          outline: 'none',
-        }}
-        _active={{
-          outline: 'none',
-        }}
-        boxShadow="0px 4px 4px rgba(0, 0, 0, 0.15)"
-      />
-    </CLink>
   )
 }
 

@@ -6,6 +6,7 @@ import Layout from '../components/Layout'
 import Tokens from '../components/tokens/Tokens'
 import { ActionButton, Box, Heading } from '../components/ui'
 import SEO from '../components/utils/SEO'
+import config from '../config'
 import { defaultMyTokensQueryVariables, useMyTokens } from '../hooks/tokens'
 import { wrapUrqlClient } from '../lib/graphql'
 import { useWalletSelector } from '../lib/WalletSelector/context'
@@ -24,12 +25,12 @@ const MyTokensPage: React.FC = () => {
   })
 
   useEffect(() => {
-    if (!isConnecting && !account) {
+    if ((!isConnecting && !account) || config.whitelistMode) {
       router.push(`/`)
     }
   }, [isConnecting, account])
 
-  if (!account) {
+  if (!account || config.whitelistMode) {
     return <div></div>
   }
 
