@@ -42,6 +42,12 @@ const TokenPage: React.FC<TokenPageProps> = ({ initialMetadata }) => {
 }
 
 export const getStaticPaths = async () => {
+  if (config.whitelistMode) {
+    return {
+      paths: [],
+      fallback: true,
+    }
+  }
   const { data } = await defaultClient
     .query(TokensQuery, {
       first: 50,
