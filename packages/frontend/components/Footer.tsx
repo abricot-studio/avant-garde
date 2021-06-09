@@ -166,9 +166,7 @@ export function Footer() {
           ) : (
             <LinkItem
               href={URLs.discord}
-              icon={
-                <DiscordIcon w={7} h={7}/>
-              }
+              icon={<DiscordIcon w={7} h={7} />}
               label={mobile ? '' : 'Discord'}
             />
           )}
