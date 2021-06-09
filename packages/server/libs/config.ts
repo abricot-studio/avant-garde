@@ -84,7 +84,7 @@ const config: Config = {
     process.env.PRIVATE_KEY ||
     '0x630af0fbddb248b53f97ecf899ce11878d9dcd7e718574c92607153027632135', //0xE4D29ec42F4057EfF92c9124c82844b2689f9C6d
   redis: {
-    url: process.env.REDIS_URL || '',
+    url: process.env.REDIS_URL || 'redis://localhost:6379',
     expirationProcessing: parseInt(
       process.env.REDIS_EXPIRATION_PROCESSING || '120',
       10

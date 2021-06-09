@@ -9,7 +9,8 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { useMountedState, useWindowScroll } from 'react-use'
-import { EtherscanIcon, MobileMenuIcon } from '../assets/icons'
+import { DiscordIcon, EtherscanIcon, MobileMenuIcon } from '../assets/icons'
+import config from '../config'
 import { useContract } from '../hooks/contracts'
 import { URLs } from '../lib/constants'
 import { getPageStuff, NavButtonIcon, pagePaths } from './header/Navigation'
@@ -129,13 +130,16 @@ export function Footer() {
             }
             label={mobile ? '' : 'Twitter'}
           />
-          <LinkItem
-            href={URLs.discord}
-            icon={
-              <FontAwesomeIcon icon={faDiscord} size="2x" color="#7388da" />
-            }
-            label={mobile ? '' : 'Discord'}
-          />
+          {!config.whitelistMode && (
+            <LinkItem
+              href={URLs.discord}
+              icon={
+                <FontAwesomeIcon icon={faDiscord} size="2x" color="#7388da" />
+              }
+              label={mobile ? '' : 'Discord'}
+            />
+          )}
+
           <Spacer />
           <Flex justifyContent="center">
             <Text textStyle="h5" align="center">
@@ -144,16 +148,30 @@ export function Footer() {
           </Flex>
           <Spacer />
 
-          <LinkItem
-            href={URLs.github}
-            icon={<FontAwesomeIcon icon={faGithub} size="2x" color="black" />}
-            label={mobile ? '' : 'Github'}
-          />
-          <LinkItem
-            href={contractEtherscanURL}
-            icon={<EtherscanIcon w={7} h={7} />}
-            label={mobile ? '' : 'Etherscan'}
-          />
+          {!config.whitelistMode ? (
+            <>
+              <LinkItem
+                href={URLs.github}
+                icon={
+                  <FontAwesomeIcon icon={faGithub} size="2x" color="black" />
+                }
+                label={mobile ? '' : 'Github'}
+              />
+              <LinkItem
+                href={contractEtherscanURL}
+                icon={<EtherscanIcon w={7} h={7} />}
+                label={mobile ? '' : 'Etherscan'}
+              />
+            </>
+          ) : (
+            <LinkItem
+              href={URLs.discord}
+              icon={
+                <DiscordIcon w={7} h={7}/>
+              }
+              label={mobile ? '' : 'Discord'}
+            />
+          )}
         </Flex>
         {mobile && !isOpen && (
           <Flex position="absolute" align="center" top="-1.5rem">

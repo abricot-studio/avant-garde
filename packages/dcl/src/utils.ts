@@ -1,4 +1,5 @@
 import { Delay, Interval } from '@dcl/ecs-scene-utils'
+import { isPreviewMode } from '@decentraland/EnvironmentAPI'
 
 export interface ITimeoutClean {
   clearTimeout(): void
@@ -52,4 +53,21 @@ export function arrayOfLength(length: number) {
   }
 
   return arr
+}
+
+export function formatEther(wei: string) {
+  return parseFloat(wei) / 10 ** 18
+}
+
+export function isPreview(): Promise<boolean> {
+  return new Promise((resolve) => {
+    executeTask(async () => {
+      const preview: boolean = await isPreviewMode()
+
+      if (preview) {
+        log('Running in preview')
+      }
+      resolve(preview)
+    })
+  })
 }

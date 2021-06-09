@@ -50,10 +50,22 @@ export default async (
     redis = await getRedis()
 
     // const keys = await redis.keys('*')
-    // await Promise.all(keys.map(key => redis.del(key) ) )
+    // await Promise.all(keys.map((key) => redis.del(key)))
   }
 
-  const redisExisting = await redis.get(address)
+  const isRegister = await redis.sismember('register', address)
+  if (isRegister === 0) {
+    return res.status(400).json({
+      status: 'error',
+      message: 'address is not registry',
+      ipfsHashMetadata: null,
+      ipfsHashImage: null,
+      signature: null,
+      signerAddress: signer.address,
+    })
+  }
+
+  const redisExisting = await redis.get(`generate:${address}`)
 
   if (redisExisting) {
     if (redisExisting === 'processing') {
@@ -85,6 +97,7 @@ export default async (
         address,
         redisExisting,
       })
+      throw new Error('redis data incorrect')
     }
   }
 
@@ -102,7 +115,7 @@ export default async (
       signer
     )
     await redis.set(
-      address,
+      `generate:${address}`,
       `${existIpfsHash.ipfsHashMetadata}:${existIpfsHash.ipfsHashImage}:${signature}`,
       'EX',
       config.redis.expirationData
@@ -118,7 +131,7 @@ export default async (
   }
 
   const resSetNx = await redis.set(
-    address,
+    `generate:${address}`,
     'processing',
     'NX',
     'EX',
@@ -169,7 +182,7 @@ export default async (
 
   const signature = await signURI(ipfsHashMetadata, address, signer)
   await redis.set(
-    address,
+    `generate:${address}`,
     `${ipfsHashMetadata}:${ipfsHashImage}:${signature}`,
     'EX',
     config.redis.expirationData

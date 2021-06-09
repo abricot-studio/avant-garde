@@ -1,8 +1,10 @@
-import React from 'react'
+import { useRouter } from 'next/router'
+import React, { useEffect } from 'react'
 import Layout from '../components/Layout'
 import Tokens from '../components/tokens/Tokens'
 import { Heading } from '../components/ui'
 import SEO from '../components/utils/SEO'
+import config from '../config'
 import {
   defaultTokensQueryVariables,
   TokensQuery,
@@ -18,6 +20,17 @@ const Gallery: React.FC = () => {
   const { tokens, fetching, error } = useTokens({
     ...defaultTokensQueryVariables,
   })
+  const router = useRouter()
+  useEffect(() => {
+    if (config.whitelistMode) {
+      router.replace(`/`)
+    }
+  }, [])
+
+  if (config.whitelistMode) {
+    return <div></div>
+  }
+
   return (
     <>
       <SEO data={seoData} />
@@ -32,6 +45,11 @@ const Gallery: React.FC = () => {
 }
 
 export const getStaticProps = async () => {
+  if (config.whitelistMode) {
+    return {
+      props: {},
+    }
+  }
   const [ssrClient, ssrCache] = getSsrClient()
 
   await ssrClient.query(TokensQuery, defaultTokensQueryVariables).toPromise()

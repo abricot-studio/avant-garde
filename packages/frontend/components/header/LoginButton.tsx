@@ -2,6 +2,7 @@ import { shortenAddress, useEthers } from '@usedapp/core'
 import Link from 'next/link'
 import React from 'react'
 import { DefaultAvatarIcon, WalletIcon } from '../../assets/icons'
+import config from '../../config'
 import { useBoxProfile } from '../../hooks/profile'
 import { useWalletSelector } from '../../lib/WalletSelector/context'
 import {
@@ -169,12 +170,19 @@ export function LoginButton() {
           minWidth="170px"
           overflow="hidden"
         >
-          <Link passHref href="/myItems">
-            <MenuItem mt={mobile ? 0 : 4} pr={6} justifyContent="flex-end">
-              My items
-            </MenuItem>
-          </Link>
-          <MenuItem pr={6} justifyContent="flex-end" onClick={disconnect}>
+          {!config.whitelistMode && (
+            <Link passHref href="/myItems">
+              <MenuItem mt={mobile ? 0 : 4} pr={6} justifyContent="flex-end">
+                My items
+              </MenuItem>
+            </Link>
+          )}
+          <MenuItem
+            pr={6}
+            mt={!mobile && config.whitelistMode ? 4 : 0}
+            justifyContent="flex-end"
+            onClick={disconnect}
+          >
             Disconnect
           </MenuItem>
         </MenuList>

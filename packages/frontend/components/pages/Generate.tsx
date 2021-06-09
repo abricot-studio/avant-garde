@@ -10,6 +10,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useEffect, useMemo } from 'react'
 import { useMountedState } from 'react-use'
+import config from '../../config'
 import { useContract } from '../../hooks/contracts'
 import {
   ImageGenerationStatus,
@@ -60,6 +61,8 @@ export default function Generate() {
     if (token) {
       toast.closeAll()
       router.push(`/token/${token.id}`)
+    } else if (config.whitelistMode) {
+      router.replace(`/`)
     }
   }, [token])
 
