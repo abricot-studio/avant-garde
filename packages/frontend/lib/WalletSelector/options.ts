@@ -8,6 +8,7 @@ interface WalletOptions {
   description: string
   color: string
   primary?: true
+  deepLink?: string
 }
 
 export const options: WalletOptions[] = [
@@ -17,6 +18,7 @@ export const options: WalletOptions[] = [
     icon: require('./icons/metamask.svg').default,
     description: 'Easy-to-use browser extension.',
     color: '#E8831D',
+    deepLink: 'https://metamask.app.link/dapp/'
   },
   {
     connector: connectors.walletconnect,

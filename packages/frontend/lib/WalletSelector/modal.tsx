@@ -15,10 +15,12 @@ import {
 import React from 'react'
 import { useWalletSelector } from './context'
 import { options } from './options'
+import { useBreakpointValue } from '../../components/ui'
 
 export function WalletSelectorModal() {
   const { isConnecting, modalOpen, close, connect, disconnect } =
     useWalletSelector()
+  const mobile = useBreakpointValue({ base: true, lg: false })
 
   return (
     <Modal isOpen={modalOpen} isCentered onClose={close}>
@@ -49,7 +51,7 @@ export function WalletSelectorModal() {
                 {options.map((option) => (
                   <WrapItem key={option.name}>
                     <Button
-                      onClick={() => connect(option.connector)}
+                      onClick={() => mobile && option.name === 'MetaMask' ? window.open(`${option.deepLink}${window.location.hostname}`) : connect(option.connector)}
                       variant="outline"
                       width={40}
                       height={32}

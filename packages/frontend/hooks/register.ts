@@ -23,7 +23,9 @@ const registrationCache = {}
 export const useRegister = () => {
   const { account } = useEthers()
 
-  const [registrationResult, setRegistrationResult] = useState<Register | null>(null)
+  const [registrationResult, setRegistrationResult] = useState<Register | null>(
+    null
+  )
   const [isRegistring, setIsRegistring] = useState<boolean>(false)
   const toast = useToast()
 
@@ -45,30 +47,38 @@ export const useRegister = () => {
     registerApi({
       method: 'POST',
       data: { address: account },
-    }).then((result) => {
-      setRegistrationResult(result.data)
-      setIsRegistring(false)
-      registrationCache[account] = result.data
-      toast({
-        title: result.data.message === 'address already register' ? '🔥 Registration done' : '🔥 Registration success',
-        description: result.data.message === 'address already register' ? `You're already on the list!` : `You're on the list!`,
-        status: 'success',
-        duration: 5000,
-        isClosable: true,
-      })
-      return false
-    }).catch( (error) => {
-      setRegistrationResult(null)
-      console.error(error)
-      toast({
-        title: '⚠️ Registration error',
-        description: error.message,
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      })
-      setIsRegistring(false)
     })
+      .then((result) => {
+        setRegistrationResult(result.data)
+        setIsRegistring(false)
+        registrationCache[account] = result.data
+        toast({
+          title:
+            result.data.message === 'address already register'
+              ? '🔥 Registration done'
+              : '🔥 Registration success',
+          description:
+            result.data.message === 'address already register'
+              ? `You're already on the list!`
+              : `You're on the list!`,
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+        })
+        return false
+      })
+      .catch((error) => {
+        setRegistrationResult(null)
+        console.error(error)
+        toast({
+          title: '⚠️ Registration error',
+          description: error.message,
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        })
+        setIsRegistring(false)
+      })
   }, [account])
 
   return { register, isRegistring, registrationResult }

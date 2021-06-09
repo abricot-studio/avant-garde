@@ -32,11 +32,11 @@ import {
   IconButton,
   Image,
   Link as CLink,
+  SocialLink,
   Spinner,
   Text,
   useBreakpointValue,
   VStack,
-  SocialLink,
 } from '../ui'
 import { defaultSize, TokenImage } from './TokenImage'
 

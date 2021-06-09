@@ -267,7 +267,6 @@ export const ToastImageMinted = (toast, mintTx, chainId) => {
   })
 }
 
-
 export function SocialLink({ href, icon, label, ...props }) {
   return (
     <CLink href={href} isExternal {...props}>
