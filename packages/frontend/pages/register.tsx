@@ -34,12 +34,18 @@ const Generator: React.FC = () => {
 
   const socialPostUrls = useMemo(() => {
     if (!isMounted()) return {}
-
-    const message = encodeURI('Look at this unique AI-generated piece of art !')
     const link = typeof window !== 'undefined' ? window.location.origin : ''
 
+    const message = encodeURI(`I’m now registered on @avantgardenft 💘
+    
+Register and join the AvanGardists and to discover your personalized AvantGarde NFT based on deep-learning algorithms 🎨
+
+${link}
+
+`)
+
     const reddit = `https://reddit.com/submit?url=${link}&title=${message}`
-    const twitter = `https://twitter.com/intent/tweet?text=${message}&via=avantgardenft&url=${link}&hashtags=nft,art,deeplearning`
+    const twitter = `https://twitter.com/intent/tweet?text=${message}&hashtags=NFT,nftart,abstractart,art,NFTartist,generativeart,NFTCommunity,cryptoart`
     const discord = URLs.discord
     return {
       reddit,
