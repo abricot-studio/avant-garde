@@ -16,7 +16,7 @@ const injected = new InjectedConnector({
 
 export const walletconnect = new WalletConnectConnector({
   rpc: {
-    // [ChainId.Mainnet]: `https://mainnet.infura.io/v3/${config.infuraId}`,
+    [ChainId.Mainnet]: `https://mainnet.infura.io/v3/${config.infuraId}`,
     [ChainId.Rinkeby]: `https://rinkeby.infura.io/v3/${config.infuraId}`,
     [ChainId.Kovan]: `https://kovan.infura.io/v3/${config.infuraId}`,
     // [ChainId.Localhost]: `http://localhost:8545`,
