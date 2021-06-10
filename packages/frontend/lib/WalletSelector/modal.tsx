@@ -15,12 +15,35 @@ import {
 import React from 'react'
 import { useWalletSelector } from './context'
 import { options } from './options'
-import { useBreakpointValue } from '../../components/ui'
+
+const getMobileDetect = (userAgent: string) => {
+  const isAndroid = (): boolean => Boolean(userAgent.match(/Android/i));
+  const isIos = (): boolean => Boolean(userAgent.match(/iPhone|iPad|iPod/i));
+  const isOpera = (): boolean => Boolean(userAgent.match(/Opera Mini/i));
+  const isWindows = (): boolean => Boolean(userAgent.match(/IEMobile/i));
+  const isSSR = (): boolean => Boolean(userAgent.match(/SSR/i));
+
+  const isMobile = (): boolean => Boolean(isAndroid() || isIos() || isOpera() || isWindows());
+  const isDesktop = (): boolean => Boolean(!isMobile() && !isSSR());
+  return {
+    isMobile,
+    isDesktop,
+    isAndroid,
+    isIos,
+    isSSR
+  };
+};
+
+const useMobileDetect = () => {
+  const userAgent = typeof navigator === 'undefined' ? 'SSR' : navigator.userAgent;
+  return getMobileDetect(userAgent);
+};
 
 export function WalletSelectorModal() {
   const { isConnecting, modalOpen, close, connect, disconnect } =
     useWalletSelector()
-  const mobile = useBreakpointValue({ base: true, lg: false })
+
+  const mobileDetect = useMobileDetect()
 
   return (
     <Modal isOpen={modalOpen} isCentered onClose={close}>
@@ -51,7 +74,7 @@ export function WalletSelectorModal() {
                 {options.map((option) => (
                   <WrapItem key={option.name}>
                     <Button
-                      onClick={() => mobile && option.name === 'MetaMask' ? window.open(`${option.deepLink}${window.location.hostname}`) : connect(option.connector)}
+                      onClick={() => mobileDetect.isMobile() && option.name === 'MetaMask' ? window.open(`${option.deepLink}${window.location.hostname}`) : connect(option.connector)}
                       variant="outline"
                       width={40}
                       height={32}
