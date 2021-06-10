@@ -167,7 +167,7 @@ export default function Generate() {
             </Text>
             <Text align="center" fontWeight={500}>
               Each image is uniquely generated from your Ethereum address by
-              deep learning algorithms{' '}
+              deep learning algorithm{' '}
             </Text>
 
             <Link href="/about">
