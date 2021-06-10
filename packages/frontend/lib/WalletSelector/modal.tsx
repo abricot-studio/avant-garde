@@ -71,10 +71,10 @@ export function WalletSelectorModal() {
             <ModalHeader textAlign="center">Select wallet</ModalHeader>
             <ModalBody textAlign="center">
               <Wrap justify="center" spacing={4}>
-                {options.map((option) => (
+                {options.filter(option => mobileDetect.isMobile() ? option.name !== 'MetaMask' : true).map((option) => (
                   <WrapItem key={option.name}>
                     <Button
-                      onClick={() => mobileDetect.isMobile() && option.name === 'MetaMask' ? window.open(`${option.deepLink}${window.location.hostname}`) : connect(option.connector)}
+                      onClick={() => connect(option.connector)}
                       variant="outline"
                       width={40}
                       height={32}
