@@ -116,7 +116,7 @@ function Description() {
       <Card mt={8} p={8}>
         <Paragraph>
           After our algorithm has generated your image, you need to mint it on
-          the blockchain ot become its owner. Only you can mint the unique
+          the blockchain to become its owner. Only you can mint the unique
           image related to your address.
         </Paragraph>
         <Paragraph pt={4}>
