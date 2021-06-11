@@ -12,7 +12,7 @@ export default async (
   req: VercelRequest,
   res: VercelResponse
 ): Promise<VercelResponse | void> => {
-  Middlewares(req, res)
+  if(!Middlewares(req, res)) return
 
   let address = null
 

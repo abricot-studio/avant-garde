@@ -1,14 +1,17 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
 import { config } from './config'
 
-export function Middlewares(req: VercelRequest, res: VercelResponse) {
+export function Middlewares(req: VercelRequest, res: VercelResponse): boolean {
   if (req.method === 'OPTIONS') {
-    return res.status(200).end()
+    res.status(200).end()
+    return false
   }
   if (
     req.headers['x-vercel-ip-country'] &&
     config.countries.includes(req.headers['x-vercel-ip-country'].toString())
   ) {
-    return res.status(400).end()
+    res.status(400).end()
+    return false
   }
+  return true
 }

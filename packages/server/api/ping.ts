@@ -5,7 +5,7 @@ export default (
   req: VercelRequest,
   res: VercelResponse
 ): VercelResponse | void => {
-  Middlewares(req, res)
+  if(!Middlewares(req, res)) return
 
   res.status(200).send(`pong ${Date.now()}`)
 }
