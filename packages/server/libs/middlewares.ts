@@ -5,7 +5,7 @@ export function Middlewares(req: VercelRequest, res: VercelResponse) {
   if (req.method === 'OPTIONS') {
     return res.status(200).end()
   }
-  console.log('Country', req.headers['X-Vercel-IP-Country'])
+  console.log('Country', req.headers)
   if (
     req.headers['X-Vercel-IP-Country'] &&
     config.countries.includes(req.headers['X-Vercel-IP-Country'].toString())
