@@ -5,6 +5,7 @@ import { providers, utils } from 'ethers'
 import Twitter from 'twitter'
 import { config } from '../libs/config'
 import { Log } from '../libs/logger'
+import { Middlewares } from '../libs/middlewares'
 
 const logger = Log({ service: 'txHook' })
 
@@ -64,28 +65,26 @@ async function onBurn(owner, burnPrice, tokenId) {
 }
 
 export default async (
-  request: VercelRequest,
-  response: VercelResponse
+  req: VercelRequest,
+  res: VercelResponse
 ): Promise<VercelResponse | void> => {
-  // logger.info('new request body', {body: request.body })
-  if (request.method === 'OPTIONS') {
-    return response.status(200).end()
+  // logger.info('new req body', {body: req.body })
+  Middlewares(req, res)
+
+  if (req.headers['hook-secret'] !== config.hook.secret) {
+    return res.status(400).end()
   }
 
-  if (request.headers['hook-secret'] !== config.hook.secret) {
-    return response.status(400).end()
-  }
-
-  const txHash = request.body.txHash
-  const network = request.body.network
-  const contractAddress = request.body.contractAddress
+  const txHash = req.body.txHash
+  const network = req.body.network
+  const contractAddress = req.body.contractAddress
   const provider = new providers.AlchemyProvider(network, config.alchemyApiKey)
 
   const tx = await provider.getTransactionReceipt(txHash)
 
   if (!tx) {
     logger.error('Tx not found', { txHash })
-    return response.status(200).end()
+    return res.status(200).end()
   }
 
   const logsParsed = tx.logs
@@ -122,5 +121,5 @@ export default async (
     logger.info('Burned log', { owner, burnPrice, tokenId })
   }
 
-  return response.status(200).end()
+  return res.status(200).end()
 }

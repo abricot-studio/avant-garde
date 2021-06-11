@@ -1,6 +1,7 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
 import { getAddress } from 'ethers/lib/utils'
 import { Log } from '../libs/logger'
+import { Middlewares } from '../libs/middlewares'
 import { getRedis } from '../libs/redis'
 
 const logger = Log({ service: 'register' })
@@ -11,9 +12,7 @@ export default async (
   req: VercelRequest,
   res: VercelResponse
 ): Promise<VercelResponse | void> => {
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end()
-  }
+  Middlewares(req, res)
 
   let address = null
 

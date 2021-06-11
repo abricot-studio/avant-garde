@@ -1,12 +1,11 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
+import { Middlewares } from '../libs/middlewares'
 
 export default (
-  request: VercelRequest,
-  response: VercelResponse
+  req: VercelRequest,
+  res: VercelResponse
 ): VercelResponse | void => {
-  if (request.method === 'OPTIONS') {
-    return response.status(200).end()
-  }
+  Middlewares(req, res)
 
-  response.status(200).send(`pong ${Date.now()}`)
+  res.status(200).send(`pong ${Date.now()}`)
 }

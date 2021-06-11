@@ -8,6 +8,7 @@ import { config } from '../libs/config'
 import generate from '../libs/image/generate'
 import { Render } from '../libs/image/render'
 import { Log } from '../libs/logger'
+import { Middlewares } from '../libs/middlewares'
 import Pinata from '../libs/pinata'
 import { getRedis } from '../libs/redis'
 import { signURI } from '../libs/sign'
@@ -22,9 +23,7 @@ export default async (
   req: VercelRequest,
   res: VercelResponse
 ): Promise<VercelResponse | void> => {
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end()
-  }
+  Middlewares(req, res)
 
   let address = null
 
