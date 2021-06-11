@@ -166,8 +166,8 @@ export default function Generate() {
               The processing can take up to 30 seconds.
             </Text>
             <Text align="center" fontWeight={500}>
-              Each image is uniquely generated from your Ethereum address by
-              a deep-learning algorithm{' '}
+              Each image is uniquely generated from your Ethereum address by a
+              deep-learning algorithm{' '}
             </Text>
 
             <Link href="/about">
