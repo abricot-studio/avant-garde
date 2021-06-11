@@ -4,7 +4,7 @@
 
 ## About
 
-AvantGarde is a digital artwork platform where users can mint unique NFT images automatically generated on top of their public address by deep-learning algorithm.
+AvantGarde is a digital artwork platform where users can mint unique NFT images automatically generated on top of their public address by a deep-learning algorithm.
 
 Mint and burn prices follow a bonding curve.
 

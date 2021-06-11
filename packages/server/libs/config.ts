@@ -46,6 +46,7 @@ export interface Config {
   privateKey: string
   alchemyApiKey: string
   hook: ConfigHook
+  countries: string[]
 }
 
 const config: Config = {
@@ -91,6 +92,7 @@ const config: Config = {
     ), // 2 min
     expirationData: parseInt(process.env.REDIS_EXPIRATION_DATA || '604800', 10), // 1 week
   },
+  countries: (process.env.COUNTRIES && process.env.COUNTRIES.split(',')) || [],
 }
 
 export { config }
