@@ -38,7 +38,7 @@ const Generator: React.FC = () => {
 
     const message = encodeURI(`I’m now registered on @avantgardenft 💘
     
-Register and join the AvantGardists to discover your personalized AvantGarde NFT based on deep-learning algorithm 🎨
+Register and join the AvantGardists to discover your personalized AvantGarde NFT based on a deep-learning algorithm 🎨
 
 ${link}
 
