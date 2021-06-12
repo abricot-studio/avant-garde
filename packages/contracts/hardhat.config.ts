@@ -24,10 +24,10 @@ const config: HardhatUserConfig = {
     ),
   },
   gasReporter: {
-    currency: 'EUR',
+    currency: 'USD',
     enabled: true,
     coinmarketcap: process.env.COINMARKETCAP_API_KEY,
-    gasPrice: 100, // in gwei
+    gasPrice: 10, // in gwei
   },
   etherscan: {
     apiKey: process.env.ETHERSCAN_API_KEY,
@@ -35,7 +35,7 @@ const config: HardhatUserConfig = {
   solidity: {
     compilers: [
       {
-        version: '0.8.4',
+        version: '0.8.5',
         settings: {
           optimizer: {
             enabled: true,
