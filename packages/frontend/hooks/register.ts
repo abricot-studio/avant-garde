@@ -50,7 +50,7 @@ export const useRegister = () => {
       params: {
         event_category: 'registration',
         event_label: 'pending',
-        value: 1,
+        value: '1',
       },
     })
     registerApi({
@@ -78,8 +78,8 @@ export const useRegister = () => {
           action: 'register',
           params: {
             event_category: 'registration',
-            event_label: 'success',
-            value: 1,
+            event_label: result.data.message === 'address already register' ? 'already_success' : 'success',
+            value: '1',
           },
         })
         return false
@@ -91,7 +91,7 @@ export const useRegister = () => {
           params: {
             event_category: 'registration',
             event_label: 'failed',
-            value: 1,
+            value: '1',
           },
         })
         console.error(error)

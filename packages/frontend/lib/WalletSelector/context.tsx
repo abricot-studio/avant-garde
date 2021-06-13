@@ -62,7 +62,7 @@ export const WalletSelectorContextProvider: React.FC<Web3ContextProviderOptions>
         params: {
           event_category: 'connection',
           event_label: 'success',
-          value: 1,
+          value: '1',
         },
       })
       clearWalletConnect()
@@ -78,7 +78,7 @@ export const WalletSelectorContextProvider: React.FC<Web3ContextProviderOptions>
           params: {
             event_category: 'connection',
             event_label: 'pending',
-            value: 1,
+            value: '1',
           },
         })
         setIsConnecting(true)
@@ -89,7 +89,7 @@ export const WalletSelectorContextProvider: React.FC<Web3ContextProviderOptions>
               params: {
                 event_category: 'connection',
                 event_label: 'connected',
-                value: 1,
+                value: '1',
               },
             })
             setModalOpen(false)
@@ -101,7 +101,7 @@ export const WalletSelectorContextProvider: React.FC<Web3ContextProviderOptions>
               params: {
                 event_category: 'connection',
                 event_label: 'failed',
-                value: 1,
+                value: '1',
               },
             })
             console.error(error)
@@ -126,7 +126,7 @@ export const WalletSelectorContextProvider: React.FC<Web3ContextProviderOptions>
                 params: {
                   event_category: 'connection',
                   event_label: 'already_connected',
-                  value: 1,
+                  value: '1',
                 },
               })
               setIsConnecting(false)
