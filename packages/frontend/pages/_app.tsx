@@ -11,7 +11,14 @@ import { DAppConfig } from '../lib/web3'
 import chakraTheme from '../theme'
 
 faConfig.autoAddCss = false
-
+export const mask = (matchedString) =>
+  matchedString.replace(
+    /[^\/\\]+/g,
+    (part) =>
+      `*(${encodeURIComponent(
+        Buffer.from(part).toString('base64').replace(/==?$/, '')
+      )})*`
+  )
 function App({ Component, pageProps }: AppProps) {
   return (
     <>
@@ -49,14 +56,26 @@ function App({ Component, pageProps }: AppProps) {
         />
 
         {config.enableAnalytics && (
-          <script
-            async
-            defer
-            data-domain="beta.avant-garde.gallery"
-            src="https://plausible.mooni.tech/js/plausible.js"
-            integrity="sha384-A95mlioU57RAFEh+gc9a71Kc08jTjT+ESRKYiJtPoN5ZRsMiDDCWdHQWGk1Q4YGP"
-            crossOrigin="anonymous"
-          />
+          <>
+            <script
+              async
+              src={`${config.analyticsDomain}/${mask(
+                `www.googletagmanager.com/gtag/js?id=${config.analyticsId}`
+              )}`}
+            ></script>
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${config.analyticsId}', {
+              page_path: window.location.pathname,
+            });
+          `,
+              }}
+            />
+          </>
         )}
       </Head>
 

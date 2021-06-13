@@ -19,6 +19,10 @@ export default {
     'https://api.avant-garde.gallery/api/register',
   // 'http://localhost:3001/api/register',
   enableAnalytics: process.env.NEXT_PUBLIC_ENABLE_ANALYTICS === 'true' || false,
+  analyticsId: process.env.NEXT_PUBLIC_ANALYTICS_ID || 'G-D7R9VRY5BF',
+  analyticsDomain:
+    process.env.NEXT_PUBLIC_ANALYTICS_DOMAIN ||
+    'https://something.avant-garde.gallery',
   whitelistMode: process.env.NEXT_PUBLIC_WHITELIST_MODE === 'true' || false,
   launchDate: '2021-07-15T20:00:00Z',
   startDate: '2021-06-03T20:00:00Z',
