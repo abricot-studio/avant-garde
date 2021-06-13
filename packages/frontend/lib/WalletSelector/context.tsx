@@ -74,10 +74,10 @@ export const WalletSelectorContextProvider: React.FC<Web3ContextProviderOptions>
     const connect = useCallback(
       (connector) => {
         ga.event({
-          action: 'connect',
+          action: 'connection_pending',
           params: {
             event_category: 'connection',
-            event_label: 'pending',
+            event_label: 'connect_pending',
             value: '1',
           },
         })
@@ -85,10 +85,10 @@ export const WalletSelectorContextProvider: React.FC<Web3ContextProviderOptions>
         activate(connector, undefined, true)
           .then(() => {
             ga.event({
-              action: 'connect',
+              action: 'connection_success',
               params: {
                 event_category: 'connection',
-                event_label: 'connected',
+                event_label: 'connection_success',
                 value: '1',
               },
             })
@@ -97,10 +97,10 @@ export const WalletSelectorContextProvider: React.FC<Web3ContextProviderOptions>
           })
           .catch((error) => {
             ga.event({
-              action: 'connect',
+              action: 'connection_failed',
               params: {
                 event_category: 'connection',
-                event_label: 'failed',
+                event_label: 'connection_failed',
                 value: '1',
               },
             })
@@ -122,10 +122,10 @@ export const WalletSelectorContextProvider: React.FC<Web3ContextProviderOptions>
             .catch(console.error)
             .finally(() => {
               ga.event({
-                action: 'connect',
+                action: 'connection_authorized',
                 params: {
                   event_category: 'connection',
-                  event_label: 'already_connected',
+                  event_label: 'connection_authorized',
                   value: '1',
                 },
               })

@@ -50,20 +50,32 @@ function App({ Component, pageProps }: AppProps) {
         <link
           rel="icon"
           type="image/png"
+          sizes="512x512"
+          href="/favicons/android-chrome-512x512.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
           sizes="192x192"
-          href="/favicons/android-icon-192x192.png"
+          href="/favicons/android-chrome-192x192.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="180x180"
+          href="/favicons/apple-touch-icon-180x180.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="152x152"
+          href="/favicons/android-chrome-152x152.png"
         />
         <link
           rel="icon"
           type="image/png"
           sizes="32x32"
           href="/favicons/favicon-32x32.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="96x96"
-          href="/favicons/favicon-96x96.png"
         />
         <link
           rel="icon"

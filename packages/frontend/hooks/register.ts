@@ -46,10 +46,10 @@ export const useRegister = () => {
 
     setIsRegistring(true)
     ga.event({
-      action: 'register',
+      action: 'register_pending',
       params: {
         event_category: 'registration',
-        event_label: 'pending',
+        event_label: 'register_pending',
         value: '1',
       },
     })
@@ -75,10 +75,16 @@ export const useRegister = () => {
           isClosable: true,
         })
         ga.event({
-          action: 'register',
+          action:
+            result.data.message === 'address already register'
+              ? 'register_already_success'
+              : 'register_success',
           params: {
             event_category: 'registration',
-            event_label: result.data.message === 'address already register' ? 'already_success' : 'success',
+            event_label:
+              result.data.message === 'address already register'
+                ? 'register_already_success'
+                : 'register_success',
             value: '1',
           },
         })
@@ -87,10 +93,10 @@ export const useRegister = () => {
       .catch((error) => {
         setRegistrationResult(null)
         ga.event({
-          action: 'register',
+          action: 'register_failed',
           params: {
             event_category: 'registration',
-            event_label: 'failed',
+            event_label: 'register_failed',
             value: '1',
           },
         })

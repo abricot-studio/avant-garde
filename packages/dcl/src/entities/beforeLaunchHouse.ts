@@ -11,7 +11,6 @@ export class BeforeLaunchHouse extends Entity {
     this.addComponent(new GLTFShape('models/beforeLaunchScene.glb'))
     const transform = new Transform({
       position: new Vector3(0, 0, 0),
-      // rotation: Quaternion.Euler(0, -90, 0),
     })
     this.addComponent(transform)
     engine.addEntity(this)
