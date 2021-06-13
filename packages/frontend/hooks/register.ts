@@ -47,9 +47,11 @@ export const useRegister = () => {
     setIsRegistring(true)
     ga.event({
       action: 'register',
-      params : {
-        status: 'pending'
-      }
+      params: {
+        event_category: 'registration',
+        event_label: 'pending',
+        value: 1,
+      },
     })
     registerApi({
       method: 'POST',
@@ -74,9 +76,11 @@ export const useRegister = () => {
         })
         ga.event({
           action: 'register',
-          params : {
-            status: 'success'
-          }
+          params: {
+            event_category: 'registration',
+            event_label: 'success',
+            value: 1,
+          },
         })
         return false
       })
@@ -84,10 +88,11 @@ export const useRegister = () => {
         setRegistrationResult(null)
         ga.event({
           action: 'register',
-          params : {
-            status: 'failed',
-            error_message: error.message
-          }
+          params: {
+            event_category: 'registration',
+            event_label: 'failed',
+            value: 1,
+          },
         })
         console.error(error)
         toast({

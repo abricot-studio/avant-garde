@@ -7,6 +7,7 @@ import React, {
   useRef,
   useState,
 } from 'react'
+import * as ga from '../ga'
 import { remove } from '../store'
 import { connectors } from './connectors'
 
@@ -56,6 +57,14 @@ export const WalletSelectorContextProvider: React.FC<Web3ContextProviderOptions>
     }, [isConnecting])
 
     const disconnect = useCallback(() => {
+      ga.event({
+        action: 'disconnect',
+        params: {
+          event_category: 'connection',
+          event_label: 'success',
+          value: 1,
+        },
+      })
       clearWalletConnect()
       deactivate()
       setIsConnecting(false)
@@ -64,13 +73,37 @@ export const WalletSelectorContextProvider: React.FC<Web3ContextProviderOptions>
 
     const connect = useCallback(
       (connector) => {
+        ga.event({
+          action: 'connect',
+          params: {
+            event_category: 'connection',
+            event_label: 'pending',
+            value: 1,
+          },
+        })
         setIsConnecting(true)
         activate(connector, undefined, true)
           .then(() => {
+            ga.event({
+              action: 'connect',
+              params: {
+                event_category: 'connection',
+                event_label: 'connected',
+                value: 1,
+              },
+            })
             setModalOpen(false)
             setIsConnecting(false)
           })
           .catch((error) => {
+            ga.event({
+              action: 'connect',
+              params: {
+                event_category: 'connection',
+                event_label: 'failed',
+                value: 1,
+              },
+            })
             console.error(error)
             setIsConnecting(false)
             disconnect()
@@ -88,6 +121,14 @@ export const WalletSelectorContextProvider: React.FC<Web3ContextProviderOptions>
           activate(connectors.injected)
             .catch(console.error)
             .finally(() => {
+              ga.event({
+                action: 'connect',
+                params: {
+                  event_category: 'connection',
+                  event_label: 'connected',
+                  value: 1,
+                },
+              })
               setIsConnecting(false)
             })
         } else {
