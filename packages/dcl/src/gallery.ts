@@ -1,6 +1,7 @@
 import * as UI from '@dcl/ui-scene-utils'
 import Config from './config'
 import ContractOperation from './contractOperation'
+import { BeforeLaunchHouse } from './entities/beforeLaunchHouse'
 import { Dispenser } from './entities/Dispenser'
 import { House } from './entities/House'
 import { Minter } from './entities/Minter'
@@ -42,6 +43,8 @@ export class Gallery implements ISystem {
         this.initPoap(),
       ])
       await this.initMinterTeleporter()
+    } else {
+      new BeforeLaunchHouse()
     }
   }
 
