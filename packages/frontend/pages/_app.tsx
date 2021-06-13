@@ -2,16 +2,40 @@ import { ChakraProvider } from '@chakra-ui/react'
 import { config as faConfig } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { DAppProvider } from '@usedapp/core'
-import { AppProps } from 'next/app'
+import { AppProps, NextWebVitalsMetric } from 'next/app'
 import Head from 'next/head'
 import GoogleFonts from '../components/utils/Fonts'
 import config from '../config'
+import * as ga from '../lib/ga'
 import { WalletSelectorContextProvider } from '../lib/WalletSelector/context'
 import { DAppConfig } from '../lib/web3'
 import chakraTheme from '../theme'
 
 faConfig.autoAddCss = false
 
+export function reportWebVitals(metric: NextWebVitalsMetric) {
+  ga.event({
+    action: `metric_${metric.name}`,
+    params: {
+      event_category:
+        metric.label === 'web-vital' ? 'Web Vitals' : 'Next.js custom metric',
+      value: Math.round(
+        metric.name === 'CLS' ? metric.value * 1000 : metric.value
+      ), // values must be integers
+      event_label: metric.id, // id unique to current page load
+      non_interaction: true, // avoids affecting bounce rate.
+    },
+  })
+}
+
+export const mask = (matchedString) =>
+  matchedString.replace(
+    /[^\/\\]+/g,
+    (part) =>
+      `*(${encodeURIComponent(
+        Buffer.from(part).toString('base64').replace(/==?$/, '')
+      )})*`
+  )
 function App({ Component, pageProps }: AppProps) {
   return (
     <>
@@ -49,14 +73,26 @@ function App({ Component, pageProps }: AppProps) {
         />
 
         {config.enableAnalytics && (
-          <script
-            async
-            defer
-            data-domain="beta.avant-garde.gallery"
-            src="https://plausible.mooni.tech/js/plausible.js"
-            integrity="sha384-A95mlioU57RAFEh+gc9a71Kc08jTjT+ESRKYiJtPoN5ZRsMiDDCWdHQWGk1Q4YGP"
-            crossOrigin="anonymous"
-          />
+          <>
+            <script
+              async
+              src={`${config.analyticsDomain}/${mask(
+                `www.googletagmanager.com/gtag/js?id=${config.analyticsId}`
+              )}`}
+            ></script>
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${config.analyticsId}', {
+              page_path: window.location.pathname,
+            });
+          `,
+              }}
+            />
+          </>
         )}
       </Head>
 

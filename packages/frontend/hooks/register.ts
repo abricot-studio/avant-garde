@@ -3,6 +3,7 @@ import axios from 'axios'
 import { useCallback, useEffect, useState } from 'react'
 import { useToast } from '../components/ui'
 import config from '../config'
+import * as ga from '../lib/ga'
 
 const registerApi = axios.create({
   baseURL: config.registerUrl,
@@ -44,6 +45,14 @@ export const useRegister = () => {
     }
 
     setIsRegistring(true)
+    ga.event({
+      action: 'register',
+      params: {
+        event_category: 'registration',
+        event_label: 'pending',
+        value: '1',
+      },
+    })
     registerApi({
       method: 'POST',
       data: { address: account },
@@ -65,10 +74,26 @@ export const useRegister = () => {
           duration: 5000,
           isClosable: true,
         })
+        ga.event({
+          action: 'register',
+          params: {
+            event_category: 'registration',
+            event_label: result.data.message === 'address already register' ? 'already_success' : 'success',
+            value: '1',
+          },
+        })
         return false
       })
       .catch((error) => {
         setRegistrationResult(null)
+        ga.event({
+          action: 'register',
+          params: {
+            event_category: 'registration',
+            event_label: 'failed',
+            value: '1',
+          },
+        })
         console.error(error)
         toast({
           title: '⚠️ Registration error',
