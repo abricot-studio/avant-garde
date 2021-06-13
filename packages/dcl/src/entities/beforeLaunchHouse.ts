@@ -20,7 +20,7 @@ export class BeforeLaunchHouse extends Entity {
     this.twitter.addComponent(new GLTFShape('models/twitter.glb'))
     this.twitter.addComponent(
       new Transform({
-        position: new Vector3(0, 0.9, 0),
+        position: new Vector3(0, 0, 0),
       })
     )
     this.twitter.addComponentOrReplace(
@@ -41,7 +41,7 @@ export class BeforeLaunchHouse extends Entity {
     this.discord.addComponent(new GLTFShape('models/discord.glb'))
     this.discord.addComponent(
       new Transform({
-        position: new Vector3(0, 0.9, 0),
+        position: new Vector3(0, 0, 0),
       })
     )
     this.discord.addComponentOrReplace(
