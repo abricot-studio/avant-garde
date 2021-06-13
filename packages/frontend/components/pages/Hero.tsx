@@ -37,7 +37,7 @@ export default function Hero() {
 
       <Center h={defaultSize} flexDirection="column" mx={8}>
         <Heading
-          as="h3"
+          as="h1"
           textStyle="h3"
           textAlign="center"
           fontSize={{ base: '1.2rem', sm: '1.4em', md: '1.8rem' }}

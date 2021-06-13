@@ -35,7 +35,12 @@ const Gallery: React.FC = () => {
     <>
       <SEO data={seoData} />
       <Layout>
-        <Heading textAlign="center" mb={8} fontFamily="Poppins, sans-serif">
+        <Heading
+          textAlign="center"
+          mb={8}
+          fontFamily="Poppins, sans-serif"
+          as="h1"
+        >
           Newly Minted
         </Heading>
         <Tokens tokens={tokens} fetching={fetching} error={error} />

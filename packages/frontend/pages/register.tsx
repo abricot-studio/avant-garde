@@ -58,7 +58,12 @@ ${link}
     <>
       <SEO data={seoData} />
       <Layout>
-        <Heading textAlign="center" mb={8} fontFamily="Poppins, sans-serif">
+        <Heading
+          textAlign="center"
+          mb={8}
+          fontFamily="Poppins, sans-serif"
+          as="h1"
+        >
           {registrationResult
             ? 'Thank you, see you again on the 15th of July'
             : 'Be part of the AvantGardist!'}
