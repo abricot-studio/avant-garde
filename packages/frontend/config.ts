@@ -19,7 +19,7 @@ export default {
     'https://api.avant-garde.gallery/api/register',
   // 'http://localhost:3001/api/register',
   enableAnalytics: process.env.NEXT_PUBLIC_ENABLE_ANALYTICS === 'true' || false,
-  analyticsId: process.env.NEXT_PUBLIC_ANALYTICS_ID || 'G-D7R9VRY5BF',
+  analyticsId: process.env.NEXT_PUBLIC_ANALYTICS_ID || '',
   analyticsDomain:
     process.env.NEXT_PUBLIC_ANALYTICS_DOMAIN ||
     'https://something.avant-garde.gallery',
