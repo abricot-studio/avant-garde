@@ -125,7 +125,7 @@ export const WalletSelectorContextProvider: React.FC<Web3ContextProviderOptions>
                 action: 'connect',
                 params: {
                   event_category: 'connection',
-                  event_label: 'connected',
+                  event_label: 'already_connected',
                   value: 1,
                 },
               })
