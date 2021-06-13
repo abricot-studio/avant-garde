@@ -45,14 +45,8 @@ function App({ Component, pageProps }: AppProps) {
           name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no"
         />
-
+        <link rel="manifest" href="manifest.json" />
         <link rel="icon" href="/favicon.ico" />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="512x512"
-          href="/favicons/android-chrome-512x512.png"
-        />
         <link
           rel="icon"
           type="image/png"
@@ -68,8 +62,26 @@ function App({ Component, pageProps }: AppProps) {
         <link
           rel="icon"
           type="image/png"
-          sizes="152x152"
+          sizes="120x120"
           href="/favicons/android-chrome-152x152.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="152x152"
+          href="/favicons/apple-touch-icon-120x120.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="76x76"
+          href="/favicons/apple-touch-icon-76x76.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="60x60"
+          href="/favicons/apple-touch-icon-60x60.png"
         />
         <link
           rel="icon"
@@ -83,6 +95,18 @@ function App({ Component, pageProps }: AppProps) {
           sizes="16x16"
           href="/favicons/favicon-16x16.png"
         />
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/favicons/apple-touch-icon-180x180.png"
+        />
+        <link
+          rel="mask-icon"
+          href="/favicons/safari-pinned-tab.svg"
+          color="#ffffff"
+        />
+        <meta name="msapplication-TileColor" content="#ffffff" />
+        <meta name="theme-color" content="#ffffff" />
 
         {config.enableAnalytics && (
           <>
