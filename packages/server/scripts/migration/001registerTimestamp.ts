@@ -1,8 +1,6 @@
-import * as dotenv from 'dotenv'
 import * as Fs from 'fs'
 import { Log } from '../../libs/logger'
 import { getRedis } from '../../libs/redis'
-dotenv.config()
 
 const logger = Log({ service: 'script:migration:registerTimestamp' })
 
