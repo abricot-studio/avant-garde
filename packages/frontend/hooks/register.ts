@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { useToast } from '../components/ui'
 import config from '../config'
 import * as ga from '../lib/ga'
+import { useAuth } from './auth'
 
 const registerApi = axios.create({
   baseURL: config.registerUrl,
@@ -29,6 +30,7 @@ export const useRegister = () => {
   )
   const [isRegistring, setIsRegistring] = useState<boolean>(false)
   const toast = useToast()
+  const { token, auth } = useAuth()
 
   useEffect(() => {
     if (!account || !registrationCache[account]) {
@@ -39,12 +41,20 @@ export const useRegister = () => {
     setIsRegistring(false)
   }, [account])
 
+  useEffect(() => {
+    if (account && token && !registrationResult) {
+      register()
+    }
+  }, [account, token, registrationResult])
+
   const register = useCallback(() => {
     if (!account) {
       throw new Error('cannot register if not connected 👎')
     }
-
     setIsRegistring(true)
+    if (!token) {
+      return auth()
+    }
     ga.event({
       action: 'register_pending',
       params: {
@@ -55,7 +65,10 @@ export const useRegister = () => {
     })
     registerApi({
       method: 'POST',
-      data: { address: account },
+      data: {
+        address: account,
+        token,
+      },
     })
       .then((result) => {
         setRegistrationResult(result.data)
@@ -110,7 +123,7 @@ export const useRegister = () => {
         })
         setIsRegistring(false)
       })
-  }, [account])
+  }, [account, token])
 
   return { register, isRegistring, registrationResult }
 }

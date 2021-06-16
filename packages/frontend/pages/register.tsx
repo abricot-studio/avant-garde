@@ -66,7 +66,7 @@ ${link}
         >
           {registrationResult
             ? 'Thank you, see you again on the 15th of July'
-            : 'Be part of the AvantGardist!'}
+            : 'Be part of the AvantGardists!'}
         </Heading>
         <Box as="section" my={8} position="relative">
           <Center h={defaultSize} position="absolute" opacity="0.8" w="100%">

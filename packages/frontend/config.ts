@@ -26,4 +26,7 @@ export default {
   whitelistMode: process.env.NEXT_PUBLIC_WHITELIST_MODE === 'true' || false,
   launchDate: '2021-07-15T20:00:00Z',
   startDate: '2021-06-03T20:00:00Z',
+  authMessage:
+    process.env.NEXT_PUBLIC_AUTH_MESSAGE ||
+    'Ethereum Signed Message:\nWelcome to AvantGarde, simple message to login',
 }

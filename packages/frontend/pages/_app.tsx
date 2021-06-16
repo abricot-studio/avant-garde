@@ -13,20 +13,20 @@ import chakraTheme from '../theme'
 
 faConfig.autoAddCss = false
 
-export function reportWebVitals(metric: NextWebVitalsMetric) {
-  ga.event({
-    action: `metric_${metric.name}`,
-    params: {
-      event_category:
-        metric.label === 'web-vital' ? 'Web Vitals' : 'Next.js custom metric',
-      value: Math.round(
-        metric.name === 'CLS' ? metric.value * 1000 : metric.value
-      ), // values must be integers
-      event_label: metric.id, // id unique to current page load
-      non_interaction: true, // avoids affecting bounce rate.
-    },
-  })
-}
+// export function reportWebVitals(metric: NextWebVitalsMetric) {
+  // ga.event({
+  //   action: `metric_${metric.name}`,
+  //   params: {
+  //     event_category:
+  //       metric.label === 'web-vital' ? 'Web Vitals' : 'Next.js custom metric',
+  //     value: Math.round(
+  //       metric.name === 'CLS' ? metric.value * 1000 : metric.value
+  //     ), // values must be integers
+  //     event_label: metric.id, // id unique to current page load
+  //     non_interaction: true, // avoids affecting bounce rate.
+  //   },
+  // })
+// }
 
 export const mask = (matchedString) =>
   matchedString.replace(
@@ -63,7 +63,7 @@ function App({ Component, pageProps }: AppProps) {
           rel="icon"
           type="image/png"
           sizes="120x120"
-          href="/favicons/android-chrome-152x152.png"
+          href="/favicons/apple-touch-icon-152x152.png"
         />
         <link
           rel="icon"
