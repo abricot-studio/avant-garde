@@ -30,7 +30,7 @@ export const useRegister = () => {
   )
   const [isRegistring, setIsRegistring] = useState<boolean>(false)
   const toast = useToast()
-  const { token, auth } = useAuth()
+  const { token, auth, isConnecting } = useAuth()
 
   useEffect(() => {
     if (!account || !registrationCache[account]) {
@@ -41,19 +41,14 @@ export const useRegister = () => {
     setIsRegistring(false)
   }, [account])
 
-  useEffect(() => {
-    if (account && token && !registrationResult) {
-      register()
-    }
-  }, [account, token, registrationResult])
-
   const register = useCallback(() => {
     if (!account) {
       throw new Error('cannot register if not connected 👎')
     }
     setIsRegistring(true)
     if (!token) {
-      return auth()
+      auth()
+      return
     }
     ga.event({
       action: 'register_pending',
@@ -104,7 +99,16 @@ export const useRegister = () => {
         return false
       })
       .catch((error) => {
+        console.error(error)
         setRegistrationResult(null)
+        setIsRegistring(false)
+        toast({
+          title: '⚠️ Registration error',
+          description: error.message,
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        })
         ga.event({
           action: 'register_failed',
           params: {
@@ -113,17 +117,16 @@ export const useRegister = () => {
             value: '1',
           },
         })
-        console.error(error)
-        toast({
-          title: '⚠️ Registration error',
-          description: error.message,
-          status: 'error',
-          duration: 5000,
-          isClosable: true,
-        })
-        setIsRegistring(false)
       })
   }, [account, token])
+
+  useEffect(() => {
+    if (!token && !isConnecting) {
+      setIsRegistring(false)
+    } else if (account && token && !registrationResult) {
+      register()
+    }
+  }, [account, token, isConnecting, registrationResult])
 
   return { register, isRegistring, registrationResult }
 }

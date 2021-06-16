@@ -8,15 +8,17 @@ import * as store from '../lib/store'
 export const useAuth = () => {
   const { account, library } = useEthers()
   const [token, setToken] = useState<string>(null)
+  const [isConnecting, setIsConnecting] = useState<boolean>(false)
   const toast = useToast()
 
   useEffect(() => {
-    if (account && store.get(`auth:${account}`)) {
+    if (account && store.get(`auth:${account}`) !== token && !isConnecting) {
+      setIsConnecting(false)
       setToken(store.get(`auth:${account}`))
-    } else {
+    } else if (!token) {
       setToken(null)
     }
-  }, [account])
+  }, [account, token])
 
   const auth = useCallback(() => {
     if (!account) {
@@ -30,13 +32,14 @@ export const useAuth = () => {
         value: '1',
       },
     })
-
+    setIsConnecting(true)
     const signer = library.getSigner(account)
     signer
       .signMessage(config.authMessage)
       .then((signedMessage) => {
-        setToken(signedMessage)
+        setIsConnecting(false)
         store.set(`auth:${account}`, signedMessage)
+        setToken(signedMessage)
         ga.event({
           action: 'auth_success',
           params: {
@@ -48,6 +51,7 @@ export const useAuth = () => {
       })
       .catch((error) => {
         console.error('Authentication error', error)
+        setIsConnecting(false)
         toast({
           title: '⚠️ Authentication error',
           description: error.message,
@@ -64,7 +68,7 @@ export const useAuth = () => {
           },
         })
       })
-  }, [account, token])
+  }, [account])
 
-  return { auth, token }
+  return { auth, isConnecting, token }
 }
