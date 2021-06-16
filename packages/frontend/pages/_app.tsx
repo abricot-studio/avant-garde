@@ -2,11 +2,10 @@ import { ChakraProvider } from '@chakra-ui/react'
 import { config as faConfig } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { DAppProvider } from '@usedapp/core'
-import { AppProps, NextWebVitalsMetric } from 'next/app'
+import { AppProps } from 'next/app'
 import Head from 'next/head'
 import GoogleFonts from '../components/utils/Fonts'
 import config from '../config'
-import * as ga from '../lib/ga'
 import { WalletSelectorContextProvider } from '../lib/WalletSelector/context'
 import { DAppConfig } from '../lib/web3'
 import chakraTheme from '../theme'
@@ -14,18 +13,18 @@ import chakraTheme from '../theme'
 faConfig.autoAddCss = false
 
 // export function reportWebVitals(metric: NextWebVitalsMetric) {
-  // ga.event({
-  //   action: `metric_${metric.name}`,
-  //   params: {
-  //     event_category:
-  //       metric.label === 'web-vital' ? 'Web Vitals' : 'Next.js custom metric',
-  //     value: Math.round(
-  //       metric.name === 'CLS' ? metric.value * 1000 : metric.value
-  //     ), // values must be integers
-  //     event_label: metric.id, // id unique to current page load
-  //     non_interaction: true, // avoids affecting bounce rate.
-  //   },
-  // })
+// ga.event({
+//   action: `metric_${metric.name}`,
+//   params: {
+//     event_category:
+//       metric.label === 'web-vital' ? 'Web Vitals' : 'Next.js custom metric',
+//     value: Math.round(
+//       metric.name === 'CLS' ? metric.value * 1000 : metric.value
+//     ), // values must be integers
+//     event_label: metric.id, // id unique to current page load
+//     non_interaction: true, // avoids affecting bounce rate.
+//   },
+// })
 // }
 
 export const mask = (matchedString) =>

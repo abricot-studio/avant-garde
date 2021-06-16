@@ -1,4 +1,10 @@
 import { useEthers } from '@usedapp/core'
+import { UnsupportedChainIdError } from '@web3-react/core'
+import {
+  NoEthereumProviderError,
+  UserRejectedRequestError as UserRejectedRequestErrorInjected,
+} from '@web3-react/injected-connector'
+import { UserRejectedRequestError as UserRejectedRequestErrorWalletConnect } from '@web3-react/walletconnect-connector'
 import React, {
   createContext,
   useCallback,
@@ -10,12 +16,6 @@ import React, {
 import * as ga from '../ga'
 import { remove } from '../store'
 import { connectors } from './connectors'
-import {
-  NoEthereumProviderError,
-  UserRejectedRequestError as UserRejectedRequestErrorInjected
-} from '@web3-react/injected-connector'
-import { UserRejectedRequestError as UserRejectedRequestErrorWalletConnect } from '@web3-react/walletconnect-connector'
-import { UnsupportedChainIdError } from '@web3-react/core'
 
 export const clearWalletConnect = (): void => {
   remove('walletconnect')
