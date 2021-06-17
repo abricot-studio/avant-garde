@@ -28,5 +28,6 @@ export default {
   startDate: '2021-06-03T20:00:00Z',
   authMessage:
     process.env.NEXT_PUBLIC_AUTH_MESSAGE ||
-    'Ethereum Signed Message:\nWelcome to AvantGarde, simple message to login',
+    '\x19Ethereum Signed Message:\nTo get registered and be part of the AvantGardists, please sign this message',
+  registerAuth: process.env.NEXT_PUBLIC_REGISTER_AUTH === 'true' || false,
 }

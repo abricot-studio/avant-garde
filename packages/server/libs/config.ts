@@ -51,6 +51,7 @@ export interface Config {
   hook: ConfigHook
   countries: string[]
   authMessage: string
+  registerAuth: boolean
 }
 
 const config: Config = {
@@ -99,7 +100,8 @@ const config: Config = {
   countries: (process.env.COUNTRIES && process.env.COUNTRIES.split(',')) || [],
   authMessage:
     process.env.AUTH_MESSAGE ||
-    'Ethereum Signed Message:\nWelcome to AvantGarde, simple message to login',
+    '\x19Ethereum Signed Message:\nTo get registered and be part of the AvantGardists, please sign this message',
+  registerAuth: process.env.REGISTER_AUTH === 'true' || false,
 }
 
 export { config }

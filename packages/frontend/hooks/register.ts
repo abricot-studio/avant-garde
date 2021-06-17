@@ -30,7 +30,7 @@ export const useRegister = () => {
   )
   const [isRegistring, setIsRegistring] = useState<boolean>(false)
   const toast = useToast()
-  const { token, auth, isConnecting } = useAuth()
+  const { token, auth, isAuthenticating } = useAuth()
 
   useEffect(() => {
     if (!account || !registrationCache[account]) {
@@ -46,7 +46,7 @@ export const useRegister = () => {
       throw new Error('cannot register if not connected 👎')
     }
     setIsRegistring(true)
-    if (!token) {
+    if (!token && config.registerAuth) {
       auth()
       return
     }
@@ -121,12 +121,12 @@ export const useRegister = () => {
   }, [account, token])
 
   useEffect(() => {
-    if (!token && !isConnecting) {
+    if (!token && !isAuthenticating) {
       setIsRegistring(false)
     } else if (account && token && !registrationResult) {
       register()
     }
-  }, [account, token, isConnecting, registrationResult])
+  }, [account, token, isAuthenticating, registrationResult])
 
   return { register, isRegistring, registrationResult }
 }
