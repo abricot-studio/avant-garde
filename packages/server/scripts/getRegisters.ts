@@ -24,7 +24,7 @@ async function Main() {
     })
   }
 
-  logger.info('registers', { registers })
+  logger.info('registers', { registers, count: registers.length })
   const path = `./backup/${new Date(
     new Date().toUTCString()
   ).toISOString()}_register.json`

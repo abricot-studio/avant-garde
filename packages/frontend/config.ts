@@ -26,4 +26,8 @@ export default {
   whitelistMode: process.env.NEXT_PUBLIC_WHITELIST_MODE === 'true' || false,
   launchDate: '2021-07-15T20:00:00Z',
   startDate: '2021-06-03T20:00:00Z',
+  authMessage:
+    process.env.NEXT_PUBLIC_AUTH_MESSAGE ||
+    '\x19Ethereum Signed Message:\nTo get registered and be part of the AvantGardists, please sign this message',
+  registerAuth: process.env.NEXT_PUBLIC_REGISTER_AUTH === 'true' || false,
 }
