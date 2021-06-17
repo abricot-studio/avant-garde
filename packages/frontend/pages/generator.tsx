@@ -14,7 +14,12 @@ const Generator: React.FC = () => {
     <>
       <SEO data={seoData} />
       <Layout>
-        <Heading color="transparent" mb={8} fontFamily="Poppins, sans-serif">
+        <Heading
+          color="transparent"
+          mb={8}
+          fontFamily="Poppins, sans-serif"
+          as="h1"
+        >
           Generator
         </Heading>
         <Generate />

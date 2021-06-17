@@ -11,7 +11,7 @@ export default function Layout({ children }) {
   return (
     <Flex
       minHeight="100vh"
-      backgroundImage="url(/background.png)"
+      backgroundImage="url(/background.webp)"
       filter={filter}
       backgroundSize="cover"
       backgroundPosition="center"

@@ -1,12 +1,13 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
 import { getAddress } from 'ethers/lib/utils'
+import Redis from 'ioredis'
 import { Log } from '../libs/logger'
 import { Middlewares } from '../libs/middlewares'
 import { getRedis } from '../libs/redis'
 
 const logger = Log({ service: 'register' })
 
-let redis: typeof import('ioredis') = null
+let redis: Redis.Redis = null
 
 export default async (
   req: VercelRequest,
@@ -34,7 +35,7 @@ export default async (
     redis = await getRedis()
   }
 
-  const redisAdd = await redis.sadd('register', address)
+  const redisAdd: any = await redis.zadd('register', 'NX', Date.now(), address)
 
   if (redisAdd === 1) {
     return res.status(200).json({

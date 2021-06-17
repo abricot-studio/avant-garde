@@ -2,6 +2,7 @@ import { Wallet } from '@ethersproject/wallet'
 import { VercelRequest, VercelResponse } from '@vercel/node'
 import axios from 'axios'
 import { getAddress } from 'ethers/lib/utils'
+import Redis from 'ioredis'
 import { tmpdir } from 'os'
 import loadTf from 'tfjs-node-lambda'
 import { config } from '../libs/config'
@@ -17,7 +18,7 @@ const logger = Log({ service: 'generation' })
 const signer = new Wallet(config.privateKey)
 
 let tf: typeof import('@tensorflow/tfjs') = null
-let redis: typeof import('ioredis') = null
+let redis: Redis.Redis = null
 
 export default async (
   req: VercelRequest,
@@ -52,8 +53,8 @@ export default async (
     // await Promise.all(keys.map((key) => redis.del(key)))
   }
 
-  const isRegister = await redis.sismember('register', address)
-  if (isRegister === 0) {
+  const isRegister: any = await redis.zscore('register', address)
+  if (isRegister === null) {
     return res.status(400).json({
       status: 'error',
       message: 'address is not registry',

@@ -4,3 +4,4 @@
 lerna-debug.log
 **/.env
 .vercel
+**/backup
