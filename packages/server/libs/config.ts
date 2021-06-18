@@ -1,3 +1,6 @@
+import * as dotenv from 'dotenv'
+dotenv.config()
+
 export interface ConfigPinata {
   apiKey: string
   apiSecret: string
@@ -47,6 +50,8 @@ export interface Config {
   alchemyApiKey: string
   hook: ConfigHook
   countries: string[]
+  authMessage: string
+  registerAuth: boolean
 }
 
 const config: Config = {
@@ -69,7 +74,7 @@ const config: Config = {
   image: {
     width: parseInt(process.env.IMAGE_WIDTH || '512', 10),
     height: parseInt(process.env.IMAGE_HEIGHT || '512', 10),
-    scale: parseInt(process.env.IMAGE_SCALE || '10', 10),
+    scale: parseInt(process.env.IMAGE_SCALE || '20', 10),
     blackWhite: Boolean(process.env.IMAGE_BLACK_WHITE),
     batchSize: parseInt(process.env.IMAGE_BATCH_SIZE || '1000', 10),
     outputsDir: process.env.IMAGE_OUTPUTS_DIR || '.',
@@ -93,6 +98,10 @@ const config: Config = {
     expirationData: parseInt(process.env.REDIS_EXPIRATION_DATA || '604800', 10), // 1 week
   },
   countries: (process.env.COUNTRIES && process.env.COUNTRIES.split(',')) || [],
+  authMessage:
+    process.env.AUTH_MESSAGE ||
+    '\x19Ethereum Signed Message:\nTo get registered and be part of the AvantGardists, please sign this message',
+  registerAuth: process.env.REGISTER_AUTH === 'true' || false,
 }
 
 export { config }

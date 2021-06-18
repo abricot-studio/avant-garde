@@ -21,3 +21,6 @@ public
 build
 generated
 subgraph.template.yaml
+
+#Server
+**/backup

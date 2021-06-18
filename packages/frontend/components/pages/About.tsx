@@ -510,6 +510,7 @@ export function About() {
         fontFamily="Poppins, sans-serif"
         mb={8}
         px={4}
+        as="h1"
       >
         We generate unique images with AI, but how?
       </Heading>
