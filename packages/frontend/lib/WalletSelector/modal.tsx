@@ -16,36 +16,9 @@ import React from 'react'
 import { useWalletSelector } from './context'
 import { options } from './options'
 
-const getMobileDetect = (userAgent: string) => {
-  const isAndroid = (): boolean => Boolean(userAgent.match(/Android/i))
-  const isIos = (): boolean => Boolean(userAgent.match(/iPhone|iPad|iPod/i))
-  const isOpera = (): boolean => Boolean(userAgent.match(/Opera Mini/i))
-  const isWindows = (): boolean => Boolean(userAgent.match(/IEMobile/i))
-  const isSSR = (): boolean => Boolean(userAgent.match(/SSR/i))
-
-  const isMobile = (): boolean =>
-    Boolean(isAndroid() || isIos() || isOpera() || isWindows())
-  const isDesktop = (): boolean => Boolean(!isMobile() && !isSSR())
-  return {
-    isMobile,
-    isDesktop,
-    isAndroid,
-    isIos,
-    isSSR,
-  }
-}
-
-const useMobileDetect = () => {
-  const userAgent =
-    typeof navigator === 'undefined' ? 'SSR' : navigator.userAgent
-  return getMobileDetect(userAgent)
-}
-
 export function WalletSelectorModal() {
-  const { isConnecting, modalOpen, close, connect, disconnect } =
+  const { injectedProviderExist, isConnecting, modalOpen, close, connect, disconnect } =
     useWalletSelector()
-
-  const mobileDetect = useMobileDetect()
 
   return (
     <Modal isOpen={modalOpen} isCentered onClose={close}>
@@ -75,7 +48,7 @@ export function WalletSelectorModal() {
               <Wrap justify="center" spacing={4}>
                 {options
                   .filter((option) =>
-                    mobileDetect.isMobile() ? option.name !== 'MetaMask' : true
+                    !injectedProviderExist ? option.name !== 'MetaMask' : true
                   )
                   .map((option) => (
                     <WrapItem key={option.name}>
