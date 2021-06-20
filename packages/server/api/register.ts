@@ -17,6 +17,8 @@ export default async (
   if (!Middlewares(req, res)) return
 
   let address = null
+  const token =
+    req.body.token && req.body.token.length === 132 && req.body.token
 
   try {
     address = getAddress(req.body.address)
@@ -28,14 +30,20 @@ export default async (
 
     return res.status(400).json({
       status: 'error',
-      message: 'address is not valid',
+      message: 'Address is not valid',
     })
   }
 
-  if (config.registerAuth && address !== verifyMessage(config.authMessage, req.body.token)) {
+  if (
+    config.registerAuth &&
+    (!token || address !== verifyMessage(config.authMessage, token))
+  ) {
+    logger.error('Token invalid', {
+      address,
+    })
     return res.status(400).json({
       status: 'error',
-      message: 'token invalid',
+      message: 'Token invalid',
     })
   }
 
@@ -43,17 +51,17 @@ export default async (
     redis = await getRedis()
   }
 
-  const redisAdd: any = await redis.zadd('register', 'NX', Date.now(), address)
+  const redisZAdd: any = await redis.zadd('register', 'NX', Date.now(), address)
 
-  if (redisAdd === 1) {
+  if (redisZAdd === 1) {
     return res.status(200).json({
       status: 'success',
-      message: 'address register',
+      message: 'Address register',
     })
   } else {
     return res.status(200).json({
       status: 'success',
-      message: 'address already register',
+      message: 'Address already register',
     })
   }
 }

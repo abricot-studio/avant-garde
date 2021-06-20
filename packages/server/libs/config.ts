@@ -52,6 +52,7 @@ export interface Config {
   countries: string[]
   authMessage: string
   registerAuth: boolean
+  subgraphUrl: string
 }
 
 const config: Config = {
@@ -102,6 +103,9 @@ const config: Config = {
     process.env.AUTH_MESSAGE ||
     '\x19Ethereum Signed Message:\nTo get registered and be part of the AvantGardists, please sign this message',
   registerAuth: process.env.REGISTER_AUTH === 'true' || false,
+  subgraphUrl:
+    process.env.SUBGRAPH_URL ||
+    'https://api.thegraph.com/subgraphs/name/abricot-studio/avant-garde-rinkeby',
 }
 
 export { config }

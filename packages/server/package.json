@@ -8,7 +8,8 @@
     "lint:fix": "eslint --fix \"**/*.{js,ts}\"",
     "image": "TS_NODE_PROJECT='tsconfigScript.json' ts-node libs/image/index.ts",
     "script:getRegisters": "TS_NODE_PROJECT='tsconfigScript.json' ts-node scripts/getRegisters.ts",
-    "script:migrate": "TS_NODE_PROJECT='tsconfigScript.json' ts-node scripts/migration/001registerTimestamp.ts"
+    "script:migrate": "TS_NODE_PROJECT='tsconfigScript.json' ts-node scripts/migration/001registerTimestamp.ts",
+    "redis:local": "docker-compose down && docker-compose up redis"
   },
   "engines": {
     "node": "12.x"
@@ -25,6 +26,7 @@
     "jpeg-js": "^0.4.3",
     "tfjs-node-lambda": "^2.0.13",
     "twitter": "^1.7.1",
+    "uuid": "^8.3.2",
     "winston": "^3.3.3"
   },
   "devDependencies": {

@@ -51,7 +51,8 @@ export const WalletSelectorContextProvider: React.FC<Web3ContextProviderOptions>
   ({ children }) => {
     const [isConnecting, setIsConnecting] = useState<boolean>(true)
     const [modalOpen, setModalOpen] = useState<boolean>(false)
-    const [injectedProviderExist, setInjectedProviderExist] = useState<boolean>(false)
+    const [injectedProviderExist, setInjectedProviderExist] =
+      useState<boolean>(false)
     const calledOnce = useRef<boolean>(false)
     const { activate, deactivate } = useEthers()
 
@@ -189,7 +190,7 @@ export const WalletSelectorContextProvider: React.FC<Web3ContextProviderOptions>
           disconnect,
           isConnecting,
           injectedProviderExist,
-          modalOpen
+          modalOpen,
         }}
       >
         {children}
