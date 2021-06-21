@@ -225,13 +225,11 @@ function Description() {
             In addition to the secondary market, token holders can return to
             AvantGarde anytime and sell their tokens at a price defined by the
             bonding curve. Our smart contract acts as an Automated Market Maker,
-            and always has enough funds to re-buy your art. If the number of
-            circulating tokens goes up after you mint your token, you can make a
-            profit by selling it.
+            and always has enough funds to re-buy your art.
           </Paragraph>
           <Paragraph pt={4}>
-            If the number of circulating tokens went up since you minted it,
-            you'll make a profit by selling it.
+            If the number of circulating tokens goes up after you mint your token,
+            you can make a profit by selling it.
           </Paragraph>
         </Collapse>
 
