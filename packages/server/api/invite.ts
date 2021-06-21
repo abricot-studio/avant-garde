@@ -113,7 +113,7 @@ export default async (
         '2',
         inviteCodes[2],
       ],
-      ...inviteCodes.map((inviteCode, i) => ([
+      ...inviteCodes.map((inviteCode, i) => [
         'hmset',
         `invite:code:${inviteCode}`,
         'time:create',
@@ -122,7 +122,7 @@ export default async (
         address,
         'index',
         i,
-      ])),
+      ]),
     ])
     .exec()
 

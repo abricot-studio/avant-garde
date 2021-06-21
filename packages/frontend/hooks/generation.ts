@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { ToastImageGenerated, useToast } from '../components/ui'
 import config from '../config'
+import { decode } from '../lib/inviteCode'
 
 const generateApi = axios.create({
   baseURL: config.generateUrl,
@@ -13,6 +14,11 @@ export enum ImageGenerationStatus {
   SUCCESS = 'success',
   PROCESSING = 'processing',
   ERROR = 'error',
+}
+
+export interface ImageGenerationParams {
+  address: string
+  inviteCode?: string
 }
 
 export interface ImageGeneration {
@@ -93,12 +99,30 @@ export const useImageGeneration = () => {
       throw new Error('cannot generate if not connected 👎')
     }
 
+    const params: ImageGenerationParams = { address: account }
+    if (router.query.inviteCode) {
+      try {
+        params.inviteCode = decode(router.query.inviteCode as string)
+      } catch (error) {
+        console.error(error)
+        toast({
+          title: '⚠️ Generation error',
+          description: error.message,
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        })
+
+        return false
+      }
+    }
+
     setIsGenerating(true)
     setCallback({
       callback: () =>
         generateApi({
           method: 'POST',
-          data: { address: account },
+          data: params,
         }).then((result) => {
           if (result.data.status === 'processing') {
             return true
@@ -114,7 +138,11 @@ export const useImageGeneration = () => {
         console.error(error)
         toast({
           title: '⚠️ Generation error',
-          description: error.message,
+          description:
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message,
           status: 'error',
           duration: 5000,
           isClosable: true,
