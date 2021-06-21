@@ -103,7 +103,13 @@ function Description() {
         <Paragraph pt={4}>
           In the background, AvantGarde uses neural network architecture
           supported by{' '}
-          <CLink href="https://www.tensorflow.org" color="#6B93FB" isExternal>
+          <CLink
+            href="https://www.tensorflow.org"
+            color="#6B93FB"
+            isExternal
+            _active={{}}
+            _focus={{}}
+          >
             TensorFlow
           </CLink>
           , to generate the output, a matrix of three values, defining RGB
@@ -125,11 +131,23 @@ function Description() {
         </Paragraph>
         <Paragraph pt={4}>
           You can then either list it on marketplaces (like on{' '}
-          <CLink href="https://opensea.io" color="#6B93FB" isExternal>
+          <CLink
+            href="https://opensea.io"
+            color="#6B93FB"
+            isExternal
+            _active={{}}
+            _focus={{}}
+          >
             Opensea
           </CLink>{' '}
           or on{' '}
-          <CLink href="https://tryshowtime.com" color="#6B93FB" isExternal>
+          <CLink
+            href="https://tryshowtime.com"
+            color="#6B93FB"
+            isExternal
+            _active={{}}
+            _focus={{}}
+          >
             Showtime
           </CLink>
           ), trade it on secondary markets, or burn it at AvantGarde.
@@ -137,7 +155,13 @@ function Description() {
         <Paragraph pt={4}>
           With AvantGarde, your art will be forever available online! Ownership
           is stored on a decentralized ledger and your image is stored on{' '}
-          <CLink href="https://docs.ipfs.io/concepts/what-is-ipfs" color="#6B93FB" isExternal>
+          <CLink
+            href="https://docs.ipfs.io/concepts/what-is-ipfs"
+            color="#6B93FB"
+            isExternal
+            _active={{}}
+            _focus={{}}
+          >
             IPFS
           </CLink>
           .
@@ -229,9 +253,12 @@ function Description() {
               href="https://hackernoon.com/what-are-bonding-curve-offerings-xi2k34bm"
               color="#6B93FB"
               isExternal
+              _active={{}}
+              _focus={{}}
             >
               here
-            </CLink>.
+            </CLink>
+            .
           </Paragraph>
           <Paragraph pt={4}>
             Regarding platform fees, some may claim that fees should be charged
