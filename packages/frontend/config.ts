@@ -18,6 +18,10 @@ export default {
     process.env.NEXT_PUBLIC_REGISTER_URL ||
     'https://api.avant-garde.gallery/api/register',
   // 'http://localhost:3001/api/register',
+  inviteUrl:
+    process.env.NEXT_PUBLIC_INVITE_URL ||
+    'https://api.avant-garde.gallery/api/invite',
+  // 'http://localhost:3001/api/invite',
   enableAnalytics: process.env.NEXT_PUBLIC_ENABLE_ANALYTICS === 'true' || false,
   analyticsId: process.env.NEXT_PUBLIC_ANALYTICS_ID || '',
   analyticsDomain:

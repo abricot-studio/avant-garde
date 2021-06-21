@@ -104,7 +104,11 @@ export const useRegister = () => {
         setIsRegistring(false)
         toast({
           title: '⚠️ Registration error',
-          description: error.message,
+          description:
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message,
           status: 'error',
           duration: 5000,
           isClosable: true,

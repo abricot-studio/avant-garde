@@ -4,11 +4,13 @@ import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 import Layout from '../components/Layout'
 import Tokens from '../components/tokens/Tokens'
-import { ActionButton, Box, Heading } from '../components/ui'
+import { ActionButton, Box, Flex, Heading } from '../components/ui'
 import SEO from '../components/utils/SEO'
 import config from '../config'
+import { useInvite } from '../hooks/invite'
 import { defaultMyTokensQueryVariables, useMyTokens } from '../hooks/tokens'
 import { wrapUrqlClient } from '../lib/graphql'
+import { encode } from '../lib/inviteCode'
 import { useWalletSelector } from '../lib/WalletSelector/context'
 
 const seoData = {
@@ -23,6 +25,7 @@ const MyTokensPage: React.FC = () => {
     ...defaultMyTokensQueryVariables,
     address: account,
   })
+  const { invites } = useInvite()
 
   useEffect(() => {
     if ((!isConnecting && !account) || config.whitelistMode) {
@@ -47,6 +50,12 @@ const MyTokensPage: React.FC = () => {
           My items
         </Heading>
         <Tokens tokens={tokens} fetching={fetching} error={error} mine />
+        <Flex direction="column" alignItems="center">
+          {invites &&
+            invites.map((invite) => (
+              <Flex key={invite.code}>{encode(invite.code)}</Flex>
+            ))}
+        </Flex>
 
         {
           <Box align="center" mt={12}>
