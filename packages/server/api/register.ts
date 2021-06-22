@@ -32,7 +32,10 @@ export default async (
     })
   }
 
-  if (config.registerAuth && address !== verifyMessage(config.authMessage, req.body.token)) {
+  if (
+    config.registerAuth &&
+    address !== verifyMessage(config.authMessage, req.body.token)
+  ) {
     return res.status(400).json({
       status: 'error',
       message: 'token invalid',

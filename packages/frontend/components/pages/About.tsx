@@ -228,8 +228,8 @@ function Description() {
             and always has enough funds to re-buy your art.
           </Paragraph>
           <Paragraph pt={4}>
-            If the number of circulating tokens goes up after you mint your token,
-            you can make a profit by selling it.
+            If the number of circulating tokens goes up after you mint your
+            token, you can make a profit by selling it.
           </Paragraph>
         </Collapse>
 

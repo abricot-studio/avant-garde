@@ -1,10 +1,10 @@
 import { useEthers } from '@usedapp/core'
+import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 import { useCallback, useEffect, useState } from 'react'
 import { useToast } from '../components/ui'
 import config from '../config'
 import * as ga from '../lib/ga'
 import * as store from '../lib/store'
-import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 
 export const useAuth = () => {
   const { account, library, connector } = useEthers()
@@ -13,7 +13,11 @@ export const useAuth = () => {
   const toast = useToast()
 
   useEffect(() => {
-    if (account && store.get(`auth:${account}`) !== token && !isAuthenticating) {
+    if (
+      account &&
+      store.get(`auth:${account}`) !== token &&
+      !isAuthenticating
+    ) {
       setIsAuthenticating(false)
       setToken(store.get(`auth:${account}`))
     } else if (!token) {
@@ -28,7 +32,8 @@ export const useAuth = () => {
     setIsAuthenticating(true)
 
     const signer = library.getSigner()
-    if (connector instanceof WalletConnectConnector) { // see https://github.com/WalletConnect/walletconnect-monorepo/issues/462
+    if (connector instanceof WalletConnectConnector) {
+      // see https://github.com/WalletConnect/walletconnect-monorepo/issues/462
       ga.event({
         action: 'auth_pending_wallet_connect',
         params: {
