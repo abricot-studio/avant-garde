@@ -35,7 +35,8 @@ const Generator: React.FC = () => {
   const socialPostUrls = useMemo(() => {
     if (!isMounted()) return {}
     const link = typeof window !== 'undefined' ? window.location.origin : ''
-    const tags = '#NFTs #nftart #abstractart #art #NFTartist #generativeart #NFTCommunity #cryptoart'
+    const tags =
+      '#NFTs #nftart #abstractart #art #NFTartist #generativeart #NFTCommunity #cryptoart'
 
     const message = `I’m now registered on @avantgardenft 💘
     
@@ -47,7 +48,9 @@ ${link}
 ${tags}
 `
     const reddit = `https://reddit.com/submit?url=${link}&title=${message}`
-      const twitter = `https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}`
+    const twitter = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+      message
+    )}`
     const discord = URLs.discord
     return {
       reddit,

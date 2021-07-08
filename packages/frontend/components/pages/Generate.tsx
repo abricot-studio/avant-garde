@@ -186,7 +186,7 @@ export default function Generate() {
       )}
 
       {tokenMintPrice && generationResult && (
-        <Card mt={8}>
+        <Card my={8}>
           <HStack justifyContent="center">
             <VStack alignItems="start">
               <Flex fontWeight={500}>💰 Price</Flex>

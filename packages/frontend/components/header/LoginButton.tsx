@@ -3,10 +3,14 @@ import Link from 'next/link'
 import React from 'react'
 import { DefaultAvatarIcon, WalletIcon } from '../../assets/icons'
 import config from '../../config'
+import { useAuth } from '../../hooks/authContext'
 import { useBoxProfile } from '../../hooks/profile'
+import { useToken } from '../../hooks/tokens'
 import { useWalletSelector } from '../../lib/WalletSelector/context'
 import {
   Avatar,
+  AvatarBadge,
+  Badge,
   Button,
   forwardRef,
   IconButton,
@@ -45,6 +49,8 @@ export const MenuItem = forwardRef<MenuItemProps, 'a'>(
 function MainButton({ account }) {
   const boxProfile = useBoxProfile()
   const mobile = useBreakpointValue({ base: true, md: false })
+  const { token } = useToken(account)
+  const { invites } = useAuth()
 
   if (mobile) {
     return (
@@ -63,7 +69,23 @@ function MainButton({ account }) {
             src={boxProfile?.imageUrl}
             icon={<DefaultAvatarIcon w={8} h={8} />}
             bg="white"
-          />
+          >
+            {!config.whitelistMode && token && (
+              <AvatarBadge
+                w="1rem"
+                h="1rem"
+                border="none"
+                lineHeight="1rem"
+                fontSize="0.7rem"
+                color="white"
+                top={-2}
+                right={-1}
+                bg="radial-gradient(99.98% 99.98% at 50.02% 99.98%, #FFAB07 0%, #FF3507 100%)"
+              >
+                {invites.length === 0 ? '' : invites.length}
+              </AvatarBadge>
+            )}
+          </Avatar>
         }
         zIndex={2}
       />
@@ -86,16 +108,32 @@ function MainButton({ account }) {
       _hover={{}}
       _focus={{}}
       _active={{}}
-      pr={1}
+      pr={2}
       rightIcon={
         <Avatar
           size="xs"
           src={boxProfile?.imageUrl}
-          w={8}
-          h={8}
-          icon={<DefaultAvatarIcon w={8} h={8} />}
+          w={6}
+          h={6}
+          icon={<DefaultAvatarIcon w={6} h={6} />}
           bg="white"
-        />
+        >
+          {!config.whitelistMode && token && (
+            <AvatarBadge
+              w="1rem"
+              h="1rem"
+              border="none"
+              lineHeight="1rem"
+              fontSize="0.7rem"
+              color="white"
+              top={-4}
+              right={-2}
+              bg="radial-gradient(99.98% 99.98% at 50.02% 99.98%, #FFAB07 0%, #FF3507 100%)"
+            >
+              {invites.length === 0 ? '' : invites.length}
+            </AvatarBadge>
+          )}
+        </Avatar>
       }
       zIndex={2}
     >
@@ -156,6 +194,8 @@ export function LoginButton() {
   const mobile = useBreakpointValue({ base: true, lg: false })
   const { disconnect } = useWalletSelector()
   const { account } = useEthers()
+  const { token } = useToken(account)
+  const { invites } = useAuth()
 
   if (account) {
     return (
@@ -174,6 +214,29 @@ export function LoginButton() {
             <Link passHref href="/myItems">
               <MenuItem mt={mobile ? 0 : 4} pr={6} justifyContent="flex-end">
                 My items
+              </MenuItem>
+            </Link>
+          )}
+          {!config.whitelistMode && (
+            <Link passHref href="/myInvitations">
+              <MenuItem pr={6} justifyContent="flex-end">
+                {token && (
+                  <Badge
+                    bg="radial-gradient(99.98% 99.98% at 50.02% 99.98%, #FFAB07 0%, #FF3507 100%)"
+                    color="white"
+                    rounded="full"
+                    w="1rem"
+                    h="1rem"
+                    fontSize="0.7rem"
+                    mr={2}
+                    borderRadius="full"
+                    textAlign="center"
+                    alignSelf="center"
+                  >
+                    {invites.length === 0 ? '' : invites.length}
+                  </Badge>
+                )}
+                My Invitations
               </MenuItem>
             </Link>
           )}

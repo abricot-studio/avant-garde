@@ -33,5 +33,4 @@ export default {
   authMessage:
     process.env.NEXT_PUBLIC_AUTH_MESSAGE ||
     '\x19Ethereum Signed Message:\nTo get registered and be part of the AvantGardists, please sign this message',
-  registerAuth: process.env.NEXT_PUBLIC_REGISTER_AUTH === 'true' || false,
 }

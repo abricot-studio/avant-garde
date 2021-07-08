@@ -6,6 +6,7 @@ import { AppProps } from 'next/app'
 import Head from 'next/head'
 import GoogleFonts from '../components/utils/Fonts'
 import config from '../config'
+import { AuthContextProvider } from '../hooks/authContext'
 import { WalletSelectorContextProvider } from '../lib/WalletSelector/context'
 import { DAppConfig } from '../lib/web3'
 import chakraTheme from '../theme'
@@ -135,7 +136,9 @@ function App({ Component, pageProps }: AppProps) {
       <ChakraProvider theme={chakraTheme}>
         <DAppProvider config={DAppConfig}>
           <WalletSelectorContextProvider>
-            <Component {...pageProps} />
+            <AuthContextProvider {...pageProps}>
+              <Component {...pageProps} />
+            </AuthContextProvider>
           </WalletSelectorContextProvider>
         </DAppProvider>
       </ChakraProvider>

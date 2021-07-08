@@ -4,13 +4,15 @@ import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 import Layout from '../components/Layout'
 import Tokens from '../components/tokens/Tokens'
-import { ActionButton, Box, Flex, Heading } from '../components/ui'
+import { ActionButton, Box, Heading } from '../components/ui'
 import SEO from '../components/utils/SEO'
 import config from '../config'
-import { useInvite } from '../hooks/invite'
-import { defaultMyTokensQueryVariables, useMyTokens } from '../hooks/tokens'
+import {
+  defaultMyTokensQueryVariables,
+  useMyTokens,
+  useToken,
+} from '../hooks/tokens'
 import { wrapUrqlClient } from '../lib/graphql'
-import { encode } from '../lib/inviteCode'
 import { useWalletSelector } from '../lib/WalletSelector/context'
 
 const seoData = {
@@ -21,11 +23,11 @@ const MyTokensPage: React.FC = () => {
   const { isConnecting } = useWalletSelector()
   const { account } = useEthers()
   const router = useRouter()
+  const { token } = useToken(account)
   const { tokens, fetching, error } = useMyTokens({
     ...defaultMyTokensQueryVariables,
     address: account,
   })
-  const { invites } = useInvite()
 
   useEffect(() => {
     if ((!isConnecting && !account) || config.whitelistMode) {
@@ -50,22 +52,21 @@ const MyTokensPage: React.FC = () => {
           My items
         </Heading>
         <Tokens tokens={tokens} fetching={fetching} error={error} mine />
-        <Flex direction="column" alignItems="center">
-          {invites &&
-            invites.map((invite) => (
-              <Flex key={invite.code}>{encode(invite.code)}</Flex>
-            ))}
-        </Flex>
-
-        {
-          <Box align="center" mt={12}>
+        <Box align="center" mt={12}>
+          {token ? (
             <Link passHref href="/gallery">
               <ActionButton as="a" w="12rem">
                 Gallery
               </ActionButton>
             </Link>
-          </Box>
-        }
+          ) : (
+            <Link passHref href="/generator">
+              <ActionButton as="a" w="12rem">
+                Generate yours
+              </ActionButton>
+            </Link>
+          )}
+        </Box>
       </Layout>
     </>
   )

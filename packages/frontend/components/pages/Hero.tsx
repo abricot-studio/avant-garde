@@ -23,12 +23,9 @@ export default function Hero() {
   return (
     <Box as="section" my={8} position="relative">
       <Center h={defaultSize} position="absolute" opacity="0.8" w="100%">
-        {token ? (
+        {!config.whitelistMode && token ? (
           <Box opacity="0.5">
-            <TokenImage
-              avantGardeToken={!config.whitelistMode && token}
-              noBurned={true}
-            />
+            <TokenImage avantGardeToken={token} noBurned={true} />
           </Box>
         ) : (
           <ImageFrame />

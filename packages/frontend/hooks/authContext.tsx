@@ -1,39 +1,92 @@
 import { useEthers } from '@usedapp/core'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
-import { useCallback, useEffect, useState } from 'react'
+import axios from 'axios'
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 import { useToast } from '../components/ui'
 import config from '../config'
 import * as ga from '../lib/ga'
+import { wrapUrqlClient } from '../lib/graphql'
 import * as store from '../lib/store'
+import { useToken } from './tokens'
+const inviteApi = axios.create({
+  baseURL: config.inviteUrl,
+})
 
-export const useAuth = () => {
+export enum InviteStatus {
+  SUCCESS = 'success',
+  ERROR = 'error',
+}
+
+export type IAuthContext = {
+  auth: () => void
+  isAuthenticating: boolean
+  session: string
+  invites: Invite[]
+}
+
+export const AuthContext = createContext<IAuthContext>({
+  auth: () => {},
+  isAuthenticating: false,
+  session: null,
+  invites: [],
+})
+
+export interface Invite {
+  code: string
+  used: boolean
+}
+export const AuthContextProvider = wrapUrqlClient(({ children }) => {
   const { account, library, connector } = useEthers()
-  const [token, setToken] = useState<string>(null)
+  const { token } = useToken(account)
+  const [session, setSession] = useState<string>(null)
   const [isAuthenticating, setIsAuthenticating] = useState<boolean>(false)
+  const [invites, setInvites] = useState<Invite[]>([])
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const toast = useToast()
 
   useEffect(() => {
-    if (
+    const storeAuth = store.get(`auth:${account}`)
+    if (account && storeAuth && storeAuth !== session && !isAuthenticating) {
+      setIsAuthenticating(false)
+      setSession(storeAuth)
+    } else if (
+      !config.whitelistMode &&
       account &&
-      store.get(`auth:${account}`) !== token &&
+      token &&
+      !session &&
       !isAuthenticating
     ) {
+      auth()
+    } else if (
+      !config.whitelistMode &&
+      account &&
+      session &&
+      token &&
+      invites.length === 0
+    ) {
+      getInvites()
+    } else if (!account || !session || !storeAuth) {
       setIsAuthenticating(false)
-      setToken(store.get(`auth:${account}`))
-    } else if (!token) {
-      setToken(null)
+      setSession(null)
+      setInvites([])
     }
-  }, [account, token])
+  }, [account, session, token])
 
   const auth = useCallback(() => {
     if (!account) {
-      throw new Error('cannot register if not connected 👎')
+      throw new Error('cannot auth if not connected 👎')
     }
+
     setIsAuthenticating(true)
 
     const signer = library.getSigner()
     if (connector instanceof WalletConnectConnector) {
-      // see https://github.com/WalletConnect/walletconnect-monorepo/issues/462
       ga.event({
         action: 'auth_pending_wallet_connect',
         params: {
@@ -42,13 +95,14 @@ export const useAuth = () => {
           value: '1',
         },
       })
+      // see https://github.com/WalletConnect/walletconnect-monorepo/issues/462
       connector.walletConnectProvider.connector
         .signPersonalMessage([config.authMessage, account.toLowerCase()])
         .then((signedMessage) => {
           console.log('signedMessage', signedMessage)
           setIsAuthenticating(false)
           store.set(`auth:${account}`, signedMessage)
-          setToken(signedMessage)
+          setSession(signedMessage)
           ga.event({
             action: 'auth_success_wallet_connect',
             params: {
@@ -92,7 +146,7 @@ export const useAuth = () => {
           console.log('signedMessage', signedMessage)
           setIsAuthenticating(false)
           store.set(`auth:${account}`, signedMessage)
-          setToken(signedMessage)
+          setSession(signedMessage)
           ga.event({
             action: 'auth_success_injected',
             params: {
@@ -124,5 +178,60 @@ export const useAuth = () => {
     }
   }, [account])
 
-  return { auth, isAuthenticating, token }
-}
+  const getInvites = useCallback(() => {
+    if (!account || !token || !session) {
+      throw new Error(
+        'cannot get invites if not connected or token not minted 👎'
+      )
+    }
+    if (isLoading) {
+      return
+    }
+    setIsLoading(true)
+    inviteApi({
+      method: 'POST',
+      data: {
+        address: account,
+        token: session,
+      },
+    })
+      .then((result) => {
+        if (result.data.status === InviteStatus.SUCCESS) {
+          setInvites(result.data.inviteCodes)
+          setIsLoading(false)
+          return true
+        }
+      })
+      .catch((error) => {
+        console.error(error)
+        setInvites([])
+        setIsLoading(false)
+        toast({
+          title: '⚠️ Error to get invitation',
+          description:
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message,
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        })
+      })
+  }, [account, session, token, isLoading])
+
+  return (
+    <AuthContext.Provider
+      value={{
+        auth,
+        isAuthenticating,
+        session,
+        invites,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  )
+})
+
+export const useAuth = (): IAuthContext => useContext(AuthContext)

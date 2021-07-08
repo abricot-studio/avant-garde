@@ -1,7 +1,6 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
-import { getAddress, verifyMessage } from 'ethers/lib/utils'
+import { getAddress } from 'ethers/lib/utils'
 import Redis from 'ioredis'
-import { config } from '../libs/config'
 import { Log } from '../libs/logger'
 import { Middlewares } from '../libs/middlewares'
 import { getRedis } from '../libs/redis'
@@ -31,19 +30,6 @@ export default async (
     return res.status(400).json({
       status: 'error',
       message: 'Address is not valid',
-    })
-  }
-
-  if (
-    config.registerAuth &&
-    (!token || address !== verifyMessage(config.authMessage, token))
-  ) {
-    logger.error('Token invalid', {
-      address,
-    })
-    return res.status(400).json({
-      status: 'error',
-      message: 'Token invalid',
     })
   }
 
