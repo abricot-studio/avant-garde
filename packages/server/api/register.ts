@@ -16,8 +16,6 @@ export default async (
   if (!Middlewares(req, res)) return
 
   let address = null
-  const token =
-    req.body.token && req.body.token.length === 132 && req.body.token
 
   try {
     address = getAddress(req.body.address)
