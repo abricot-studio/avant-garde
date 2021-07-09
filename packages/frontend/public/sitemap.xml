@@ -1,10 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-<url><loc>https://beta.avant-garde.gallery</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-08T08:55:47.798Z</lastmod></url>
-<url><loc>https://beta.avant-garde.gallery/about</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-08T08:55:47.798Z</lastmod></url>
-<url><loc>https://beta.avant-garde.gallery/gallery</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-08T08:55:47.798Z</lastmod></url>
-<url><loc>https://beta.avant-garde.gallery/generator</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-08T08:55:47.798Z</lastmod></url>
-<url><loc>https://beta.avant-garde.gallery/myInvitations</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-08T08:55:47.798Z</lastmod></url>
-<url><loc>https://beta.avant-garde.gallery/myItems</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-08T08:55:47.798Z</lastmod></url>
-<url><loc>https://beta.avant-garde.gallery/register</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-08T08:55:47.798Z</lastmod></url>
+<url><loc>https://beta.avant-garde.gallery</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-09T16:38:42.983Z</lastmod></url>
+<url><loc>https://beta.avant-garde.gallery/about</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-09T16:38:42.984Z</lastmod></url>
+<url><loc>https://beta.avant-garde.gallery/gallery</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-09T16:38:42.984Z</lastmod></url>
+<url><loc>https://beta.avant-garde.gallery/generator</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-09T16:38:42.984Z</lastmod></url>
+<url><loc>https://beta.avant-garde.gallery/myInvitations</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-09T16:38:42.984Z</lastmod></url>
+<url><loc>https://beta.avant-garde.gallery/myItems</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-09T16:38:42.984Z</lastmod></url>
+<url><loc>https://beta.avant-garde.gallery/register</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-09T16:38:42.984Z</lastmod></url>
+<url><loc>https://beta.avant-garde.gallery/gallery/0</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-09T16:38:42.984Z</lastmod></url>
+<url><loc>https://beta.avant-garde.gallery/gallery/1</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-09T16:38:42.984Z</lastmod></url>
+<url><loc>https://beta.avant-garde.gallery/gallery/2</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-09T16:38:42.984Z</lastmod></url>
+<url><loc>https://beta.avant-garde.gallery/gallery/3</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-09T16:38:42.984Z</lastmod></url>
+<url><loc>https://beta.avant-garde.gallery/gallery/4</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-09T16:38:42.984Z</lastmod></url>
+<url><loc>https://beta.avant-garde.gallery/gallery/5</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-09T16:38:42.984Z</lastmod></url>
+<url><loc>https://beta.avant-garde.gallery/gallery/6</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-09T16:38:42.984Z</lastmod></url>
+<url><loc>https://beta.avant-garde.gallery/gallery/7</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-09T16:38:42.984Z</lastmod></url>
+<url><loc>https://beta.avant-garde.gallery/gallery/8</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-09T16:38:42.984Z</lastmod></url>
+<url><loc>https://beta.avant-garde.gallery/gallery/9</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-09T16:38:42.984Z</lastmod></url>
+<url><loc>https://beta.avant-garde.gallery/token/0xabb8176ff6aa1d73cd8b89d9a74232ba73c345b8</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-09T16:38:42.984Z</lastmod></url>
+<url><loc>https://beta.avant-garde.gallery/token/0xe922b9a5d1464ea1fc6587834a27d8808a6298d5</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-09T16:38:42.984Z</lastmod></url>
+<url><loc>https://beta.avant-garde.gallery/token/0xea6f627c0915333e260fb0cfc1b83dd0a836c559</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-09T16:38:42.984Z</lastmod></url>
+<url><loc>https://beta.avant-garde.gallery/token/0x3341d4e09b5264d1d81f4077cba1183c128f59ad</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-09T16:38:42.984Z</lastmod></url>
+<url><loc>https://beta.avant-garde.gallery/token/0xdf09e4f37a814898300e10ddd1ba53420322287d</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-09T16:38:42.984Z</lastmod></url>
+<url><loc>https://beta.avant-garde.gallery/token/0x3a5d0cdf134f1046ca737b5b784057d6a3b36ae8</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-09T16:38:42.984Z</lastmod></url>
+<url><loc>https://beta.avant-garde.gallery/token/0x1d04fd05441e5af4b32013454c63a41522b57234</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-09T16:38:42.984Z</lastmod></url>
+<url><loc>https://beta.avant-garde.gallery/token/0xabd25bac0a19bb756fbe0e142817fbe7a2731c8a</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-09T16:38:42.984Z</lastmod></url>
+<url><loc>https://beta.avant-garde.gallery/token/0x04e63974340f9b48bd0e77e28749a6a76a130b69</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-09T16:38:42.984Z</lastmod></url>
+<url><loc>https://beta.avant-garde.gallery/token/0xad7a0ff67fc30bcf8e0b67cad612250ccfc5db02</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-09T16:38:42.984Z</lastmod></url>
 </urlset>
