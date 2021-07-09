@@ -211,7 +211,7 @@ export default async (
   if (!tf || !tf.sequential) {
     logger.info('fetch tf', { address })
     const response = await axios.get(
-      'https://github.com/jlarmstrongiv/tfjs-node-lambda/releases/download/v2.0.13/nodejs14.x-tf3.7.0.br',
+      'https://github.com/jlarmstrongiv/tfjs-node-lambda/releases/download/v2.0.12/nodejs14.x-tf3.6.1.br',
       { responseType: 'stream' }
     )
     tf = await loadTf(response.data)
