@@ -182,7 +182,7 @@ export default function Generate() {
       )}
       {isGenerating && (
         <Card mt={8} mb={8}>
-          <Flex direction="column" align="center">
+          <Flex direction="column" align="center" fontSize="sm">
             <Text align="center">Your image is being generated.</Text>
             <Text align="center">
               The processing can take up to 30 seconds.
@@ -199,6 +199,7 @@ export default function Generate() {
                 _hover={{}}
                 _active={{}}
                 _focus={{}}
+                mt={2}
               >
                 Learn more
               </Button>
