@@ -13,7 +13,7 @@ import config from '../config'
 import * as ga from '../lib/ga'
 import { wrapUrqlClient } from '../lib/graphql'
 import * as store from '../lib/store'
-import { useToken } from './tokens'
+import { AvantGardeToken, useToken } from './tokens'
 const inviteApi = axios.create({
   baseURL: config.inviteUrl,
 })
@@ -28,6 +28,11 @@ export type IAuthContext = {
   isAuthenticating: boolean
   session: string
   invites: Invite[]
+  accountToken: AvantGardeToken | null
+  accountTokenError: Error | null
+  accountTokenFetching: boolean
+  accountTokenStartPollingMint: any
+  accountTokenStartPollingBurn: any
 }
 
 export const AuthContext = createContext<IAuthContext>({
@@ -35,6 +40,11 @@ export const AuthContext = createContext<IAuthContext>({
   isAuthenticating: false,
   session: null,
   invites: [],
+  accountToken: null,
+  accountTokenError: null,
+  accountTokenFetching: false,
+  accountTokenStartPollingMint: null,
+  accountTokenStartPollingBurn: null,
 })
 
 export interface Invite {
@@ -43,7 +53,13 @@ export interface Invite {
 }
 export const AuthContextProvider = wrapUrqlClient(({ children }) => {
   const { account, library, connector } = useEthers()
-  const { token } = useToken(account)
+  const {
+    token: accountToken,
+    fetching: accountTokenFetching,
+    error: accountTokenError,
+    startPollingMint: accountTokenStartPollingMint,
+    startPollingBurn: accountTokenStartPollingBurn,
+  } = useToken(account)
   const [session, setSession] = useState<string>(null)
   const [isAuthenticating, setIsAuthenticating] = useState<boolean>(false)
   const [invites, setInvites] = useState<Invite[]>([])
@@ -55,28 +71,36 @@ export const AuthContextProvider = wrapUrqlClient(({ children }) => {
     if (account && storeAuth && storeAuth !== session && !isAuthenticating) {
       setIsAuthenticating(false)
       setSession(storeAuth)
+      setInvites([])
     } else if (
       !config.whitelistMode &&
       account &&
-      token &&
+      accountToken &&
+      accountToken.id === account.toLowerCase() &&
       !session &&
-      !isAuthenticating
+      !storeAuth &&
+      !isAuthenticating &&
+      invites.length === 0
     ) {
+      setInvites([])
       auth()
     } else if (
       !config.whitelistMode &&
       account &&
       session &&
-      token &&
+      storeAuth &&
+      accountToken &&
+      accountToken.id === account.toLowerCase() &&
       invites.length === 0
     ) {
+      setInvites([])
       getInvites()
-    } else if (!account || !session || !storeAuth) {
+    } else if (!account || !storeAuth) {
       setIsAuthenticating(false)
       setSession(null)
       setInvites([])
     }
-  }, [account, session, token])
+  }, [account, session, accountToken])
 
   const auth = useCallback(() => {
     if (!account) {
@@ -99,7 +123,6 @@ export const AuthContextProvider = wrapUrqlClient(({ children }) => {
       connector.walletConnectProvider.connector
         .signPersonalMessage([config.authMessage, account.toLowerCase()])
         .then((signedMessage) => {
-          console.log('signedMessage', signedMessage)
           setIsAuthenticating(false)
           store.set(`auth:${account}`, signedMessage)
           setSession(signedMessage)
@@ -143,7 +166,6 @@ export const AuthContextProvider = wrapUrqlClient(({ children }) => {
       signer
         .signMessage(config.authMessage)
         .then((signedMessage) => {
-          console.log('signedMessage', signedMessage)
           setIsAuthenticating(false)
           store.set(`auth:${account}`, signedMessage)
           setSession(signedMessage)
@@ -179,7 +201,7 @@ export const AuthContextProvider = wrapUrqlClient(({ children }) => {
   }, [account])
 
   const getInvites = useCallback(() => {
-    if (!account || !token || !session) {
+    if (!account || !accountToken || !session) {
       throw new Error(
         'cannot get invites if not connected or token not minted 👎'
       )
@@ -218,7 +240,7 @@ export const AuthContextProvider = wrapUrqlClient(({ children }) => {
           isClosable: true,
         })
       })
-  }, [account, session, token, isLoading])
+  }, [account, session, accountToken, isLoading])
 
   return (
     <AuthContext.Provider
@@ -227,6 +249,11 @@ export const AuthContextProvider = wrapUrqlClient(({ children }) => {
         isAuthenticating,
         session,
         invites,
+        accountToken,
+        accountTokenFetching,
+        accountTokenError,
+        accountTokenStartPollingMint,
+        accountTokenStartPollingBurn,
       }}
     >
       {children}

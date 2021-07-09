@@ -5,7 +5,6 @@ import { DefaultAvatarIcon, WalletIcon } from '../../assets/icons'
 import config from '../../config'
 import { useAuth } from '../../hooks/authContext'
 import { useBoxProfile } from '../../hooks/profile'
-import { useToken } from '../../hooks/tokens'
 import { useWalletSelector } from '../../lib/WalletSelector/context'
 import {
   Avatar,
@@ -49,7 +48,8 @@ export const MenuItem = forwardRef<MenuItemProps, 'a'>(
 function MainButton({ account }) {
   const boxProfile = useBoxProfile()
   const mobile = useBreakpointValue({ base: true, md: false })
-  const { token } = useToken(account)
+  const { accountToken } = useAuth()
+
   const { invites } = useAuth()
 
   if (mobile) {
@@ -70,7 +70,7 @@ function MainButton({ account }) {
             icon={<DefaultAvatarIcon w={8} h={8} />}
             bg="white"
           >
-            {!config.whitelistMode && token && (
+            {!config.whitelistMode && accountToken && (
               <AvatarBadge
                 w="1rem"
                 h="1rem"
@@ -82,7 +82,10 @@ function MainButton({ account }) {
                 right={-1}
                 bg="radial-gradient(99.98% 99.98% at 50.02% 99.98%, #FFAB07 0%, #FF3507 100%)"
               >
-                {invites.length === 0 || invites.filter(invite => !invite.used).length === 0 ? '' : invites.filter(invite => !invite.used).length}
+                {invites.length === 0 ||
+                invites.filter((invite) => !invite.used).length === 0
+                  ? ''
+                  : invites.filter((invite) => !invite.used).length}
               </AvatarBadge>
             )}
           </Avatar>
@@ -118,7 +121,7 @@ function MainButton({ account }) {
           icon={<DefaultAvatarIcon w={6} h={6} />}
           bg="white"
         >
-          {!config.whitelistMode && token && (
+          {!config.whitelistMode && accountToken && (
             <AvatarBadge
               w="1rem"
               h="1rem"
@@ -130,7 +133,10 @@ function MainButton({ account }) {
               right={-2}
               bg="radial-gradient(99.98% 99.98% at 50.02% 99.98%, #FFAB07 0%, #FF3507 100%)"
             >
-              {invites.length === 0 || invites.filter(invite => !invite.used).length === 0 ? '' : invites.filter(invite => !invite.used).length}
+              {invites.length === 0 ||
+              invites.filter((invite) => !invite.used).length === 0
+                ? ''
+                : invites.filter((invite) => !invite.used).length}
             </AvatarBadge>
           )}
         </Avatar>
@@ -194,8 +200,7 @@ export function LoginButton() {
   const mobile = useBreakpointValue({ base: true, lg: false })
   const { disconnect } = useWalletSelector()
   const { account } = useEthers()
-  const { token } = useToken(account)
-  const { invites } = useAuth()
+  const { accountToken, invites } = useAuth()
 
   if (account) {
     return (
@@ -219,8 +224,8 @@ export function LoginButton() {
           )}
           {!config.whitelistMode && (
             <Link passHref href="/myInvitations">
-              <MenuItem pr={token ? 4 : 6} justifyContent="flex-end">
-                {token && (
+              <MenuItem pr={accountToken ? 4 : 6} justifyContent="flex-end">
+                {accountToken && (
                   <Badge
                     bg="radial-gradient(99.98% 99.98% at 50.02% 99.98%, #FFAB07 0%, #FF3507 100%)"
                     color="white"
@@ -233,7 +238,10 @@ export function LoginButton() {
                     textAlign="center"
                     alignSelf="center"
                   >
-                    {invites.length === 0 || invites.filter(invite => !invite.used).length === 0 ? '' : invites.filter(invite => !invite.used).length}
+                    {invites.length === 0 ||
+                    invites.filter((invite) => !invite.used).length === 0
+                      ? ''
+                      : invites.filter((invite) => !invite.used).length}
                   </Badge>
                 )}
                 My Invitations

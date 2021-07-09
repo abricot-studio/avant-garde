@@ -10,7 +10,7 @@ import {
   TokensQuery,
   useTokens,
 } from '../hooks/tokens'
-import { getSsrClient, wrapUrqlClient } from '../lib/graphql'
+import { getSsrClient } from '../lib/graphql'
 
 const seoData = {
   title: 'Gallery',
@@ -67,4 +67,4 @@ export const getStaticProps = async () => {
   }
 }
 
-export default wrapUrqlClient(Gallery)
+export default Gallery

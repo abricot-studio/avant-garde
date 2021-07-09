@@ -11,13 +11,13 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useMemo } from 'react'
 import { useMountedState } from 'react-use'
 import config from '../../config'
+import { useAuth } from '../../hooks/authContext'
 import { useContract } from '../../hooks/contracts'
 import {
   ImageGenerationStatus,
   useImageGeneration,
 } from '../../hooks/generation'
 import { useMint, useMintPrice } from '../../hooks/mint'
-import { useToken } from '../../hooks/tokens'
 import { getIpfsUrl } from '../../lib/ipfs'
 import { useWalletSelector } from '../../lib/WalletSelector/context'
 import { ImageFrame } from '../tokens/TokenImage'
@@ -39,7 +39,7 @@ export default function Generate() {
   const { isConnecting, open } = useWalletSelector()
   const { account, chainId } = useEthers()
   const { address: contractAddress } = useContract()
-  const { token, fetching: fetchingToken } = useToken(account)
+  const { accountToken, accountTokenFetching } = useAuth()
   const tokenMintPrice = useMintPrice()
   const { generateImage, isGenerating, generationResult } = useImageGeneration()
   const { mint, minted, isMinting, mintTx } = useMint()
@@ -58,16 +58,16 @@ export default function Generate() {
   }, [contractAddress, chainId])
 
   useEffect(() => {
-    if (token) {
+    if (accountToken && !accountTokenFetching) {
       toast.closeAll()
-      router.push(`/token/${token.id}`)
+      router.push(`/token/${accountToken.id}`)
     } else if (config.whitelistMode) {
       router.replace(`/`)
     }
-  }, [token])
+  }, [accountToken, accountTokenFetching])
 
   let cta
-  if (token || fetchingToken) {
+  if (accountToken || accountTokenFetching) {
     cta = <ActionButton isLoading loadingText="Loading token..." />
   } else if (minted) {
     cta = <ActionButton isDisabled>⛏ Minted successfully !</ActionButton>

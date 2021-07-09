@@ -3,7 +3,6 @@ import Layout from '../components/Layout'
 import Hero from '../components/pages/Hero'
 import { Heading } from '../components/ui'
 import SEO from '../components/utils/SEO'
-import { wrapUrqlClient } from '../lib/graphql'
 
 const seoData = {}
 
@@ -21,4 +20,4 @@ const Home: React.FC = () => {
   )
 }
 
-export default wrapUrqlClient(Home)
+export default Home

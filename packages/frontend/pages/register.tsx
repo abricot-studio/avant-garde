@@ -19,7 +19,6 @@ import {
 import SEO from '../components/utils/SEO'
 import { useRegister } from '../hooks/register'
 import { URLs } from '../lib/constants'
-import { wrapUrqlClient } from '../lib/graphql'
 import { useWalletSelector } from '../lib/WalletSelector/context'
 
 const seoData = {
@@ -270,4 +269,4 @@ ${tags}
   )
 }
 
-export default wrapUrqlClient(Generator)
+export default Generator

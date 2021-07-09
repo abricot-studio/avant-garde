@@ -100,7 +100,7 @@ const config: Config = {
   countries: (process.env.COUNTRIES && process.env.COUNTRIES.split(',')) || [],
   authMessage:
     process.env.AUTH_MESSAGE ||
-    '\x19Ethereum Signed Message:\nTo get registered and be part of the AvantGardists, please sign this message',
+    '\x19Ethereum Signed Message:\nTo log in and be part of the AvantGardists, please sign this message',
   subgraphUrl:
     process.env.SUBGRAPH_URL ||
     'https://api.thegraph.com/subgraphs/name/abricot-studio/avant-garde-rinkeby',

@@ -66,7 +66,7 @@ export default async (
       })
       return res.status(400).json({
         status: 'error',
-        message: 'Address is not registry or invited',
+        message: 'You are not registered or invited yet',
         ipfsHashMetadata: null,
         ipfsHashImage: null,
         signature: null,
