@@ -12,7 +12,7 @@
     "redis:local": "docker-compose down && docker-compose up redis"
   },
   "engines": {
-    "node": "14.x"
+    "node": "12.x"
   },
   "dependencies": {
     "@pinata/sdk": "^1.1.23",
@@ -30,7 +30,7 @@
     "winston": "^3.3.3"
   },
   "devDependencies": {
-    "@tensorflow/tfjs-node": "^3.6.1",
+    "@tensorflow/tfjs-node": "^3.7.0",
     "@types/ioredis": "^4.26.5",
     "@types/node": "^16.3.0",
     "@typescript-eslint/eslint-plugin": "^4.28.2",
