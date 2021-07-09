@@ -1,3 +1,4 @@
+import { useDisclosure } from '@chakra-ui/hooks'
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -8,7 +9,7 @@ import {
 import { utils } from 'ethers'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useMountedState } from 'react-use'
 import config from '../../config'
 import { useAuth } from '../../hooks/authContext'
@@ -27,9 +28,18 @@ import {
   Button,
   Card,
   Flex,
+  FormControl,
+  FormHelperText,
+  FormLabel,
   HStack,
   Image,
+  Input,
   Link as CLink,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
   Text,
   useToast,
   VStack,
@@ -41,11 +51,15 @@ export default function Generate() {
   const { address: contractAddress } = useContract()
   const { accountToken, accountTokenFetching } = useAuth()
   const tokenMintPrice = useMintPrice()
-  const { generateImage, isGenerating, generationResult } = useImageGeneration()
+  const { generateImage, isGenerating, generationResult, errorGenerating } =
+    useImageGeneration()
   const { mint, minted, isMinting, mintTx } = useMint()
   const router = useRouter()
   const toast = useToast()
   const isMounted = useMountedState()
+  const [value, setValue] = useState('')
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const handleChange = (event) => setValue(event.target.value)
 
   const socialPostUrls = useMemo(() => {
     if (!isMounted()) return {}
@@ -56,6 +70,14 @@ export default function Generate() {
       opensea,
     }
   }, [contractAddress, chainId])
+
+  useEffect(() => {
+    if (errorGenerating && !!errorGenerating.message) {
+      onOpen()
+    } else {
+      onClose()
+    }
+  }, [errorGenerating])
 
   useEffect(() => {
     if (accountToken && !accountTokenFetching) {
@@ -237,6 +259,57 @@ export default function Generate() {
           )}
         </Card>
       )}
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+        <ModalOverlay />
+        <ModalContent pb={4}>
+          <ModalHeader textAlign="center">
+            Want to become an AvantGardist?
+          </ModalHeader>
+          <ModalBody py={0}>
+            <Flex align="center" direction="column">
+              <Text pb={4}>
+                Enter an invitation code to access the Generator and mint your
+                unique piece of art.
+              </Text>
+              <FormControl id="invite-code" flex="column" align="center">
+                <Flex>
+                  <FormLabel>Invitation code</FormLabel>
+                  {errorGenerating &&
+                    errorGenerating.message !== 'not_invited' && (
+                      <FormHelperText
+                        flexGrow={1}
+                        textAlign={'right'}
+                        color="#FB6B6B"
+                      >
+                        {errorGenerating.message}
+                      </FormHelperText>
+                    )}
+                </Flex>
+                <Input
+                  boxShadow="inset 0px 4px 20px rgba(129, 129, 129, 0.15)"
+                  borderRadius="md"
+                  px={4}
+                  // my={2}
+                  value={value}
+                  onChange={handleChange}
+                  onKeyDown={(e) => e.key === 'Enter' && generateImage(value)}
+                />
+                <ActionButton
+                  onClick={() => generateImage(value)}
+                  isLoading={isGenerating}
+                  disabled={value === ''}
+                  loadingText="Validating code..."
+                  type="submit"
+                  mt={6}
+                  mb={4}
+                >
+                  Validate
+                </ActionButton>
+              </FormControl>
+            </Flex>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </Flex>
   )
 }

@@ -81,6 +81,7 @@ export const useImageGeneration = () => {
   const [generationResult, setGenerationResult] =
     useState<ImageGeneration | null>(null)
   const [isGenerating, setIsGenerating] = useState<boolean>(false)
+  const [errorGenerating, setErrorGenerating] = useState<Error | null>(null)
   const toast = useToast()
   const router = useRouter()
   const { startPolling, stopPolling, setCallback } = useInterval(5000)
@@ -94,64 +95,66 @@ export const useImageGeneration = () => {
     stopPolling()
   }, [account])
 
-  const generateImage = useCallback(() => {
-    if (!account) {
-      throw new Error('cannot generate if not connected 👎')
-    }
-
-    const params: ImageGenerationParams = { address: account }
-    if (router.query.inviteCode) {
-      try {
-        params.inviteCode = decode(router.query.inviteCode as string)
-      } catch (error) {
-        console.error(error)
-        toast({
-          title: '⚠️ Generation error',
-          description: error.message,
-          status: 'error',
-          duration: 5000,
-          isClosable: true,
-        })
-
-        return false
+  const generateImage = useCallback(
+    (inviteCode?: string) => {
+      if (!account) {
+        throw new Error('cannot generate if not connected 👎')
       }
-    }
 
-    setIsGenerating(true)
-    setCallback({
-      callback: () =>
-        generateApi({
-          method: 'POST',
-          data: params,
-        }).then((result) => {
-          if (result.data.status === 'processing') {
-            return true
-          }
-          setGenerationResult(result.data)
-          setIsGenerating(false)
-          generationCache[account] = result.data
-          ToastImageGenerated(toast, router)
+      const params: ImageGenerationParams = { address: account }
+      if (inviteCode) {
+        try {
+          params.inviteCode = decode(inviteCode)
+        } catch (error) {
+          setErrorGenerating(error)
           return false
-        }),
-      onError: (error) => {
-        setGenerationResult(null)
-        console.error(error)
-        toast({
-          title: '⚠️ Generation error',
-          description:
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message,
-          status: 'error',
-          duration: 5000,
-          isClosable: true,
-        })
-        setIsGenerating(false)
-      },
-    })
-    startPolling()
-  }, [account])
+        }
+      } else if (router.query.inviteCode) {
+        try {
+          params.inviteCode = decode(router.query.inviteCode as string)
+        } catch (error) {
+          setErrorGenerating(error)
+          return false
+        }
+      }
 
-  return { generateImage, isGenerating, generationResult }
+      setIsGenerating(true)
+      setErrorGenerating(null)
+      setCallback({
+        callback: () =>
+          generateApi({
+            method: 'POST',
+            data: params,
+          }).then((result) => {
+            if (result.data.status === 'processing') {
+              return true
+            }
+            setGenerationResult(result.data)
+            setIsGenerating(false)
+            generationCache[account] = result.data
+            ToastImageGenerated(toast, router)
+            return false
+          }),
+        onError: (error) => {
+          setGenerationResult(null)
+          if (
+            error?.response?.data?.message ===
+            'You are not registered or invited yet'
+          ) {
+            setErrorGenerating(new Error('not_invited'))
+          } else if (error?.response?.data?.message?.length > 0) {
+            setErrorGenerating(new Error(error.response.data.message))
+          } else {
+            console.error(error)
+            setErrorGenerating(error)
+          }
+          setIsGenerating(false)
+        },
+      })
+      startPolling()
+    },
+    [account]
+  )
+
+  return { generateImage, isGenerating, generationResult, errorGenerating }
 }
