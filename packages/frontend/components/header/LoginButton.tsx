@@ -82,7 +82,7 @@ function MainButton({ account }) {
                 right={-1}
                 bg="radial-gradient(99.98% 99.98% at 50.02% 99.98%, #FFAB07 0%, #FF3507 100%)"
               >
-                {invites.length === 0 ? '' : invites.length}
+                {invites.length === 0 || invites.filter(invite => !invite.used).length === 0 ? '' : invites.filter(invite => !invite.used).length}
               </AvatarBadge>
             )}
           </Avatar>
@@ -130,7 +130,7 @@ function MainButton({ account }) {
               right={-2}
               bg="radial-gradient(99.98% 99.98% at 50.02% 99.98%, #FFAB07 0%, #FF3507 100%)"
             >
-              {invites.length === 0 ? '' : invites.length}
+              {invites.length === 0 || invites.filter(invite => !invite.used).length === 0 ? '' : invites.filter(invite => !invite.used).length}
             </AvatarBadge>
           )}
         </Avatar>
@@ -219,7 +219,7 @@ export function LoginButton() {
           )}
           {!config.whitelistMode && (
             <Link passHref href="/myInvitations">
-              <MenuItem pr={6} justifyContent="flex-end">
+              <MenuItem pr={token ? 4 : 6} justifyContent="flex-end">
                 {token && (
                   <Badge
                     bg="radial-gradient(99.98% 99.98% at 50.02% 99.98%, #FFAB07 0%, #FF3507 100%)"
@@ -233,7 +233,7 @@ export function LoginButton() {
                     textAlign="center"
                     alignSelf="center"
                   >
-                    {invites.length === 0 ? '' : invites.length}
+                    {invites.length === 0 || invites.filter(invite => !invite.used).length === 0 ? '' : invites.filter(invite => !invite.used).length}
                   </Badge>
                 )}
                 My Invitations
