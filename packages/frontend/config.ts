@@ -10,18 +10,9 @@ export default {
     process.env.NEXT_PUBLIC_SUBGRAPH_URL ||
     'https://api.thegraph.com/subgraphs/name/abricot-studio/avant-garde-rinkeby',
   // 'http://127.0.0.1:8000/subgraphs/name/abricot-studio/avant-garde-rinkeby',
-  generateUrl:
-    process.env.NEXT_PUBLIC_GENERATE_URL ||
-    'https://api.avant-garde.gallery/api/generate',
-  // 'http://localhost:3001/api/generate',
-  registerUrl:
-    process.env.NEXT_PUBLIC_REGISTER_URL ||
-    'https://api.avant-garde.gallery/api/register',
-  // 'http://localhost:3001/api/register',
-  inviteUrl:
-    process.env.NEXT_PUBLIC_INVITE_URL ||
-    'https://api.avant-garde.gallery/api/invite',
-  // 'http://localhost:3001/api/invite',
+  baseUrl:
+    process.env.NEXT_PUBLIC_BASE_URL || 'https://api.avant-garde.gallery',
+  // 'http://localhost:3001',
   enableAnalytics: process.env.NEXT_PUBLIC_ENABLE_ANALYTICS === 'true' || false,
   analyticsId: process.env.NEXT_PUBLIC_ANALYTICS_ID || '',
   analyticsDomain:

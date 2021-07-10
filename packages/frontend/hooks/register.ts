@@ -7,7 +7,7 @@ import * as ga from '../lib/ga'
 import { useAuth } from './authContext'
 
 const registerApi = axios.create({
-  baseURL: config.registerUrl,
+  baseURL: `${config.baseUrl}/api/register`,
 })
 
 export enum RegisterStatus {

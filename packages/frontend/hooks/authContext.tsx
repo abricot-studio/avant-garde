@@ -1,7 +1,5 @@
 import { useEthers } from '@usedapp/core'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
-import axios from 'axios'
-import { useRouter } from 'next/router'
 import React, {
   createContext,
   useCallback,
@@ -14,15 +12,9 @@ import config from '../config'
 import * as ga from '../lib/ga'
 import { wrapUrqlClient } from '../lib/graphql'
 import * as store from '../lib/store'
+import { ImageGeneration, useImageGeneration } from './generation'
+import { Invite, useInvite } from './invite'
 import { AvantGardeToken, useToken } from './tokens'
-const inviteApi = axios.create({
-  baseURL: config.inviteUrl,
-})
-
-export enum InviteStatus {
-  SUCCESS = 'success',
-  ERROR = 'error',
-}
 
 export type IAuthContext = {
   auth: () => void
@@ -32,6 +24,10 @@ export type IAuthContext = {
   inviteCode: string
   setInviteCode: Function
   isFetchingInvites: boolean
+  generateImage: Function
+  isGeneratingImage: boolean
+  generationResult: ImageGeneration | null
+  errorGenerating: Error | null
   accountToken: AvantGardeToken | null
   accountTokenError: Error | null
   accountTokenFetching: boolean
@@ -47,6 +43,10 @@ export const AuthContext = createContext<IAuthContext>({
   inviteCode: '',
   setInviteCode: () => {},
   isFetchingInvites: false,
+  generateImage: () => {},
+  isGeneratingImage: false,
+  generationResult: null,
+  errorGenerating: null,
   accountToken: null,
   accountTokenError: null,
   accountTokenFetching: false,
@@ -54,11 +54,8 @@ export const AuthContext = createContext<IAuthContext>({
   accountTokenStartPollingBurn: null,
 })
 
-export interface Invite {
-  code: string
-  used: boolean
-}
 export const AuthContextProvider = wrapUrqlClient(({ children }) => {
+  const toast = useToast()
   const { account, library, connector } = useEthers()
   const {
     token: accountToken,
@@ -67,20 +64,22 @@ export const AuthContextProvider = wrapUrqlClient(({ children }) => {
     startPollingMint: accountTokenStartPollingMint,
     startPollingBurn: accountTokenStartPollingBurn,
   } = useToken(account)
+  const {
+    invites,
+    setInvites,
+    getInvites,
+    isFetchingInvites,
+    inviteCode,
+    setInviteCode,
+  } = useInvite()
+  const {
+    generateImage,
+    isGenerating: isGeneratingImage,
+    generationResult,
+    errorGenerating,
+  } = useImageGeneration()
   const [session, setSession] = useState<string>(null)
   const [isAuthenticating, setIsAuthenticating] = useState<boolean>(false)
-  const router = useRouter()
-  const [invites, setInvites] = useState<Invite[]>([])
-  const [inviteCode, setInviteCode] = useState(
-    (router.query.inviteCode as string) || ''
-  )
-  const [isFetchingInvites, setIsFetchingInvites] = useState<boolean>(false)
-  const toast = useToast()
-  useEffect(() => {
-    if (router.query.inviteCode && router.query.inviteCode.length > 0) {
-      setInviteCode(router.query.inviteCode as string)
-    }
-  }, [router.query])
 
   useEffect(() => {
     const storeAuth = store.get(`auth:${account}`)
@@ -110,7 +109,7 @@ export const AuthContextProvider = wrapUrqlClient(({ children }) => {
       invites.length === 0
     ) {
       setInvites([])
-      getInvites()
+      getInvites(account, session, accountToken)
     } else if (!account || !storeAuth) {
       setIsAuthenticating(false)
       setSession(null)
@@ -216,48 +215,6 @@ export const AuthContextProvider = wrapUrqlClient(({ children }) => {
     }
   }, [account])
 
-  const getInvites = useCallback(() => {
-    if (!account || !accountToken || !session) {
-      throw new Error(
-        'cannot get invites if not connected or token not minted 👎'
-      )
-    }
-    if (isFetchingInvites) {
-      return
-    }
-    setIsFetchingInvites(true)
-    inviteApi({
-      method: 'POST',
-      data: {
-        address: account,
-        token: session,
-      },
-    })
-      .then((result) => {
-        if (result.data.status === InviteStatus.SUCCESS) {
-          setInvites(result.data.inviteCodes)
-          setIsFetchingInvites(false)
-          return true
-        }
-      })
-      .catch((error) => {
-        console.error(error)
-        setInvites([])
-        setIsFetchingInvites(false)
-        toast({
-          title: '⚠️ Error to get invitation',
-          description:
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message,
-          status: 'error',
-          duration: 5000,
-          isClosable: true,
-        })
-      })
-  }, [account, session, accountToken, isFetchingInvites])
-
   return (
     <AuthContext.Provider
       value={{
@@ -268,6 +225,10 @@ export const AuthContextProvider = wrapUrqlClient(({ children }) => {
         inviteCode,
         setInviteCode,
         isFetchingInvites,
+        generateImage,
+        isGeneratingImage,
+        generationResult,
+        errorGenerating,
         accountToken,
         accountTokenFetching,
         accountTokenError,

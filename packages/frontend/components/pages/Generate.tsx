@@ -14,10 +14,7 @@ import { useMountedState } from 'react-use'
 import config from '../../config'
 import { useAuth } from '../../hooks/authContext'
 import { useContract } from '../../hooks/contracts'
-import {
-  ImageGenerationStatus,
-  useImageGeneration,
-} from '../../hooks/generation'
+import { ImageGenerationStatus } from '../../hooks/generation'
 import { useMint, useMintPrice } from '../../hooks/mint'
 import { getIpfsUrl } from '../../lib/ipfs'
 import { useWalletSelector } from '../../lib/WalletSelector/context'
@@ -49,11 +46,17 @@ export default function Generate() {
   const { isConnecting, open } = useWalletSelector()
   const { account, chainId } = useEthers()
   const { address: contractAddress } = useContract()
-  const { accountToken, accountTokenFetching, inviteCode, setInviteCode } =
-    useAuth()
+  const {
+    accountToken,
+    accountTokenFetching,
+    inviteCode,
+    setInviteCode,
+    generateImage,
+    isGeneratingImage,
+    generationResult,
+    errorGenerating,
+  } = useAuth()
   const tokenMintPrice = useMintPrice()
-  const { generateImage, isGenerating, generationResult, errorGenerating } =
-    useImageGeneration()
   const { mint, minted, isMinting, mintTx } = useMint()
   const router = useRouter()
   const toast = useToast()
@@ -126,8 +129,8 @@ export default function Generate() {
   } else {
     cta = (
       <ActionButton
-        onClick={() => generateImage()}
-        isLoading={isGenerating}
+        onClick={() => generateImage(inviteCode)}
+        isLoading={isGeneratingImage}
         loadingText="🎨 Generating art..."
       >
         Generate yours
@@ -143,12 +146,12 @@ export default function Generate() {
     <Flex direction="column" align="center">
       <ImageFrame
         src={imageSrc}
-        isLoading={isGenerating}
-        isQuestion={!isGenerating && !generationResult}
+        isLoading={isGeneratingImage}
+        isQuestion={!isGeneratingImage && !generationResult}
       />
 
       <Box mt={8}>{cta}</Box>
-      {!isGenerating && !generationResult && (
+      {!isGeneratingImage && !generationResult && (
         <>
           <Text
             align="center"
@@ -180,7 +183,7 @@ export default function Generate() {
           </Text>
         </>
       )}
-      {isGenerating && (
+      {isGeneratingImage && (
         <Card mt={8} mb={8}>
           <Flex direction="column" align="center" fontSize="sm">
             <Text align="center">Your image is being generated.</Text>
@@ -292,11 +295,13 @@ export default function Generate() {
                   px={4}
                   value={inviteCode}
                   onChange={handleChangeInviteCode}
-                  onKeyDown={(e) => e.key === 'Enter' && generateImage()}
+                  onKeyDown={(e) =>
+                    e.key === 'Enter' && generateImage(inviteCode)
+                  }
                 />
                 <ActionButton
-                  onClick={() => generateImage()}
-                  isLoading={isGenerating}
+                  onClick={() => generateImage(inviteCode)}
+                  isLoading={isGeneratingImage}
                   disabled={inviteCode === ''}
                   loadingText="Validating code..."
                   type="submit"

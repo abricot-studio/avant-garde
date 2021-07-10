@@ -5,10 +5,9 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { ToastImageGenerated, useToast } from '../components/ui'
 import config from '../config'
 import { decode } from '../lib/inviteCode'
-import { useAuth } from './authContext'
 
 const generateApi = axios.create({
-  baseURL: config.generateUrl,
+  baseURL: `${config.baseUrl}/api/generate`,
 })
 
 export enum ImageGenerationStatus {
@@ -77,76 +76,78 @@ function useInterval(delay: number) {
 }
 
 export const useImageGeneration = () => {
+  const router = useRouter()
+  const toast = useToast()
   const { account } = useEthers()
 
   const [generationResult, setGenerationResult] =
     useState<ImageGeneration | null>(null)
   const [isGenerating, setIsGenerating] = useState<boolean>(false)
   const [errorGenerating, setErrorGenerating] = useState<Error | null>(null)
-  const { inviteCode } = useAuth()
-  const toast = useToast()
-  const router = useRouter()
   const { startPolling, stopPolling, setCallback } = useInterval(5000)
   useEffect(() => {
-    if (!account || !generationCache[account]) {
-      setGenerationResult(null)
-    } else {
+    if (account && generationCache[account]) {
       setGenerationResult(generationCache[account])
+    } else {
+      setGenerationResult(null)
     }
     setIsGenerating(false)
     stopPolling()
   }, [account])
 
-  const generateImage = useCallback(() => {
-    if (!account) {
-      throw new Error('cannot generate if not connected 👎')
-    }
-
-    const params: ImageGenerationParams = { address: account }
-    if (inviteCode && inviteCode.length > 0) {
-      try {
-        params.inviteCode = decode(inviteCode)
-      } catch (error) {
-        setErrorGenerating(error)
-        return false
+  const generateImage = useCallback(
+    (inviteCode) => {
+      if (!account) {
+        throw new Error('cannot generate if not connected 👎')
       }
-    }
 
-    setIsGenerating(true)
-    setErrorGenerating(null)
-    setCallback({
-      callback: () =>
-        generateApi({
-          method: 'POST',
-          data: params,
-        }).then((result) => {
-          if (result.data.status === 'processing') {
-            return true
-          }
-          setGenerationResult(result.data)
-          setIsGenerating(false)
-          generationCache[account] = result.data
-          ToastImageGenerated(toast, router)
-          return false
-        }),
-      onError: (error) => {
-        setGenerationResult(null)
-        if (
-          error?.response?.data?.message ===
-          'You are not registered or invited yet'
-        ) {
-          setErrorGenerating(new Error('not_invited'))
-        } else if (error?.response?.data?.message?.length > 0) {
-          setErrorGenerating(new Error(error.response.data.message))
-        } else {
-          console.error(error)
+      const params: ImageGenerationParams = { address: account }
+      if (inviteCode && inviteCode.length > 0) {
+        try {
+          params.inviteCode = decode(inviteCode)
+        } catch (error) {
           setErrorGenerating(error)
+          return false
         }
-        setIsGenerating(false)
-      },
-    })
-    startPolling()
-  }, [account, inviteCode])
+      }
+
+      setIsGenerating(true)
+      setErrorGenerating(null)
+      setCallback({
+        callback: () =>
+          generateApi({
+            method: 'POST',
+            data: params,
+          }).then((result) => {
+            if (result.data.status === 'processing') {
+              return true
+            }
+            setGenerationResult(result.data)
+            setIsGenerating(false)
+            generationCache[account] = result.data
+            ToastImageGenerated(toast, router)
+            return false
+          }),
+        onError: (error) => {
+          setGenerationResult(null)
+          if (
+            error?.response?.data?.message ===
+            'You are not registered or invited yet'
+          ) {
+            setErrorGenerating(new Error('not_invited'))
+          } else if (error?.response?.data?.message?.length > 0) {
+            setErrorGenerating(new Error(error.response.data.message))
+          } else {
+            console.error(error)
+            setErrorGenerating(error)
+          }
+          setIsGenerating(false)
+        },
+      })
+      startPolling()
+    },
+    [account]
+  )
 
   return { generateImage, isGenerating, generationResult, errorGenerating }
 }
