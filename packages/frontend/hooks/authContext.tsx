@@ -1,6 +1,7 @@
 import { useEthers } from '@usedapp/core'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 import axios from 'axios'
+import { useRouter } from 'next/router'
 import React, {
   createContext,
   useCallback,
@@ -28,6 +29,8 @@ export type IAuthContext = {
   isAuthenticating: boolean
   session: string
   invites: Invite[]
+  inviteCode: string
+  setInviteCode: Function
   isFetchingInvites: boolean
   accountToken: AvantGardeToken | null
   accountTokenError: Error | null
@@ -41,6 +44,8 @@ export const AuthContext = createContext<IAuthContext>({
   isAuthenticating: false,
   session: null,
   invites: [],
+  inviteCode: '',
+  setInviteCode: () => {},
   isFetchingInvites: false,
   accountToken: null,
   accountTokenError: null,
@@ -64,9 +69,18 @@ export const AuthContextProvider = wrapUrqlClient(({ children }) => {
   } = useToken(account)
   const [session, setSession] = useState<string>(null)
   const [isAuthenticating, setIsAuthenticating] = useState<boolean>(false)
+  const router = useRouter()
   const [invites, setInvites] = useState<Invite[]>([])
+  const [inviteCode, setInviteCode] = useState(
+    (router.query.inviteCode as string) || ''
+  )
   const [isFetchingInvites, setIsFetchingInvites] = useState<boolean>(false)
   const toast = useToast()
+  useEffect(() => {
+    if (router.query.inviteCode && router.query.inviteCode.length > 0) {
+      setInviteCode(router.query.inviteCode as string)
+    }
+  }, [router.query])
 
   useEffect(() => {
     const storeAuth = store.get(`auth:${account}`)
@@ -251,6 +265,8 @@ export const AuthContextProvider = wrapUrqlClient(({ children }) => {
         isAuthenticating,
         session,
         invites,
+        inviteCode,
+        setInviteCode,
         isFetchingInvites,
         accountToken,
         accountTokenFetching,

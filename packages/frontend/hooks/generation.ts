@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { ToastImageGenerated, useToast } from '../components/ui'
 import config from '../config'
 import { decode } from '../lib/inviteCode'
+import { useAuth } from './authContext'
 
 const generateApi = axios.create({
   baseURL: config.generateUrl,
@@ -82,6 +83,7 @@ export const useImageGeneration = () => {
     useState<ImageGeneration | null>(null)
   const [isGenerating, setIsGenerating] = useState<boolean>(false)
   const [errorGenerating, setErrorGenerating] = useState<Error | null>(null)
+  const { inviteCode } = useAuth()
   const toast = useToast()
   const router = useRouter()
   const { startPolling, stopPolling, setCallback } = useInterval(5000)
@@ -95,66 +97,56 @@ export const useImageGeneration = () => {
     stopPolling()
   }, [account])
 
-  const generateImage = useCallback(
-    (inviteCode?: string) => {
-      if (!account) {
-        throw new Error('cannot generate if not connected 👎')
-      }
+  const generateImage = useCallback(() => {
+    if (!account) {
+      throw new Error('cannot generate if not connected 👎')
+    }
 
-      const params: ImageGenerationParams = { address: account }
-      if (inviteCode) {
-        try {
-          params.inviteCode = decode(inviteCode)
-        } catch (error) {
-          setErrorGenerating(error)
-          return false
-        }
-      } else if (router.query.inviteCode) {
-        try {
-          params.inviteCode = decode(router.query.inviteCode as string)
-        } catch (error) {
-          setErrorGenerating(error)
-          return false
-        }
+    const params: ImageGenerationParams = { address: account }
+    if (inviteCode && inviteCode.length > 0) {
+      try {
+        params.inviteCode = decode(inviteCode)
+      } catch (error) {
+        setErrorGenerating(error)
+        return false
       }
+    }
 
-      setIsGenerating(true)
-      setErrorGenerating(null)
-      setCallback({
-        callback: () =>
-          generateApi({
-            method: 'POST',
-            data: params,
-          }).then((result) => {
-            if (result.data.status === 'processing') {
-              return true
-            }
-            setGenerationResult(result.data)
-            setIsGenerating(false)
-            generationCache[account] = result.data
-            ToastImageGenerated(toast, router)
-            return false
-          }),
-        onError: (error) => {
-          setGenerationResult(null)
-          if (
-            error?.response?.data?.message ===
-            'You are not registered or invited yet'
-          ) {
-            setErrorGenerating(new Error('not_invited'))
-          } else if (error?.response?.data?.message?.length > 0) {
-            setErrorGenerating(new Error(error.response.data.message))
-          } else {
-            console.error(error)
-            setErrorGenerating(error)
+    setIsGenerating(true)
+    setErrorGenerating(null)
+    setCallback({
+      callback: () =>
+        generateApi({
+          method: 'POST',
+          data: params,
+        }).then((result) => {
+          if (result.data.status === 'processing') {
+            return true
           }
+          setGenerationResult(result.data)
           setIsGenerating(false)
-        },
-      })
-      startPolling()
-    },
-    [account]
-  )
+          generationCache[account] = result.data
+          ToastImageGenerated(toast, router)
+          return false
+        }),
+      onError: (error) => {
+        setGenerationResult(null)
+        if (
+          error?.response?.data?.message ===
+          'You are not registered or invited yet'
+        ) {
+          setErrorGenerating(new Error('not_invited'))
+        } else if (error?.response?.data?.message?.length > 0) {
+          setErrorGenerating(new Error(error.response.data.message))
+        } else {
+          console.error(error)
+          setErrorGenerating(error)
+        }
+        setIsGenerating(false)
+      },
+    })
+    startPolling()
+  }, [account, inviteCode])
 
   return { generateImage, isGenerating, generationResult, errorGenerating }
 }

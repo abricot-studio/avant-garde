@@ -9,7 +9,7 @@ import {
 import { utils } from 'ethers'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useMountedState } from 'react-use'
 import config from '../../config'
 import { useAuth } from '../../hooks/authContext'
@@ -49,7 +49,8 @@ export default function Generate() {
   const { isConnecting, open } = useWalletSelector()
   const { account, chainId } = useEthers()
   const { address: contractAddress } = useContract()
-  const { accountToken, accountTokenFetching } = useAuth()
+  const { accountToken, accountTokenFetching, inviteCode, setInviteCode } =
+    useAuth()
   const tokenMintPrice = useMintPrice()
   const { generateImage, isGenerating, generationResult, errorGenerating } =
     useImageGeneration()
@@ -57,9 +58,8 @@ export default function Generate() {
   const router = useRouter()
   const toast = useToast()
   const isMounted = useMountedState()
-  const [value, setValue] = useState('')
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const handleChange = (event) => setValue(event.target.value)
+  const handleChangeInviteCode = (event) => setInviteCode(event.target.value)
 
   const socialPostUrls = useMemo(() => {
     if (!isMounted()) return {}
@@ -290,15 +290,14 @@ export default function Generate() {
                   boxShadow="inset 0px 4px 20px rgba(129, 129, 129, 0.15)"
                   borderRadius="md"
                   px={4}
-                  // my={2}
-                  value={value}
-                  onChange={handleChange}
-                  onKeyDown={(e) => e.key === 'Enter' && generateImage(value)}
+                  value={inviteCode}
+                  onChange={handleChangeInviteCode}
+                  onKeyDown={(e) => e.key === 'Enter' && generateImage()}
                 />
                 <ActionButton
-                  onClick={() => generateImage(value)}
+                  onClick={() => generateImage()}
                   isLoading={isGenerating}
-                  disabled={value === ''}
+                  disabled={inviteCode === ''}
                   loadingText="Validating code..."
                   type="submit"
                   mt={6}
