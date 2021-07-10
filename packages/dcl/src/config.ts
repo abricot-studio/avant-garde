@@ -17,6 +17,7 @@ const Config: config = {
   ipfsEndpoint:
     'https://corsanywherepinata.herokuapp.com/https://gateway.pinata.cloud/ipfs/',
   // generateUrl: 'http://localhost:3001/api/generate',
+  // generateUrl: 'https://avantgarde-fct-git-invite-abricot-studio.vercel.app/api/generate',
   generateUrl: 'https://api.avant-garde.gallery/api/generate',
   loadingUrl: 'https://beta.avant-garde.gallery/avantgarde.webm',
   registerUrl: 'https://beta.avant-garde.gallery',

@@ -4,6 +4,7 @@ import { wait } from './utils'
 
 export interface mintParams {
   status: string
+  message?: string
   ipfsHashMetadata: string
   ipfsHashImage: string
   signature: string

@@ -8,13 +8,15 @@ export class Minter extends Entity {
   loadingMaterial: BasicMaterial
   price: Entity
   priceText: TextShape
+  pricePlatform: Entity
+  priceTextPlatform: TextShape
 
   constructor() {
     super()
     this.addComponent(new GLTFShape('models/cadre.glb'))
     this.addComponent(
       new Transform({
-        position: new Vector3(0, 4, 0),
+        position: new Vector3(0, 4.5, 0),
       })
     )
     engine.addEntity(this)
@@ -43,7 +45,7 @@ export class Minter extends Entity {
     this.mintCard.addComponent(new GLTFShape('models/mintCard.glb'))
     this.mintCard.addComponent(
       new Transform({
-        position: new Vector3(0, -2.5, 0),
+        position: new Vector3(0, -3, 0),
       })
     )
     this.mintCard.setParent(this)
@@ -52,18 +54,35 @@ export class Minter extends Entity {
     this.price = new Entity()
     this.price.addComponent(
       new Transform({
-        position: new Vector3(0.3, -2.5, 0.2),
+        position: new Vector3(-0.55, -2.85, 0.2),
         rotation: Quaternion.Euler(0, 180, 0),
       })
     )
     this.priceText = new TextShape('')
     this.priceText.hTextAlign = 'left'
-    this.priceText.fontSize = 2
+    this.priceText.fontSize = 1
     this.priceText.font = new Font(Fonts.LiberationSans)
     this.priceText.color = Color3.Black()
     this.price.addComponent(this.priceText)
     this.price.setParent(this)
     engine.addEntity(this.price)
+
+    this.pricePlatform = new Entity()
+    this.pricePlatform.addComponent(
+      new Transform({
+        position: new Vector3(-0.55, -3.15, 0.2),
+        rotation: Quaternion.Euler(0, 180, 0),
+      })
+    )
+    this.priceTextPlatform = new TextShape('')
+    this.priceTextPlatform.hTextAlign = 'left'
+    this.priceTextPlatform.fontSize = 1
+    this.priceTextPlatform.font = new Font(Fonts.LiberationSans)
+    this.priceTextPlatform.color = Color3.Black()
+    this.pricePlatform.addComponent(this.priceTextPlatform)
+    this.pricePlatform.setParent(this)
+    engine.addEntity(this.pricePlatform)
+
     this.addComponent(new Billboard(false, true, false))
   }
 

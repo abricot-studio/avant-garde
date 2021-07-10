@@ -10,6 +10,7 @@ import { Teleporter } from './entities/teleporter'
 import { Generate, mintParams } from './generate'
 import { AvantGardeToken, Graphql } from './graphql'
 import { formatEther, isPreview } from './utils'
+import { PieceNft } from './entities/PieceNft'
 
 export class Gallery implements ISystem {
   contractOperation: ContractOperation
@@ -43,6 +44,7 @@ export class Gallery implements ISystem {
         this.initPoap(),
       ])
       await this.initMinterTeleporter()
+      this.initPieceNfts()
     } else {
       new BeforeLaunchHouse()
     }
@@ -83,7 +85,7 @@ export class Gallery implements ISystem {
               if (isMinting || !this.contractOperation.address) {
                 return false
               }
-              log('clicked')
+              log('isMinting')
               isMinting = true
               if (this.minter) {
                 if (!this.mintParams) {
@@ -91,9 +93,18 @@ export class Gallery implements ISystem {
                   this.minter.placeholder.getComponent(
                     OnPointerDown
                   ).hoverText = 'Generating art...'
-                  this.mintParams = await Generate(
+                  const mintParams = await Generate(
                     this.contractOperation.address
                   )
+                  log('mintParams', mintParams)
+
+                  if(mintParams.status !== 'success'){
+
+                    if(mintParams.message){
+                      throw new Error(mintParams.message)
+                    }
+                  }
+                  this.mintParams = mintParams
                   this.minter.addPiece(this.mintParams)
                   this.minter.placeholder.getComponent(
                     OnPointerDown
@@ -113,6 +124,7 @@ export class Gallery implements ISystem {
                 )
                 log('userPiece', this.userPiece)
                 this.minter.priceText.value = ''
+                this.minter.priceTextPlatform.value = ''
                 this.minter.placeholder.addComponentOrReplace(
                   new OnPointerDown(
                     () => {
@@ -132,7 +144,7 @@ export class Gallery implements ISystem {
               }
             } catch (error) {
               isMinting = false
-              UI.displayAnnouncement(`Oops, there was an error: "${error}"`, 3)
+              UI.displayAnnouncement(`Oops, there was an error:\n${error.message}`, 3)
               if (this.minter) {
                 this.minter.placeholder.getComponent(OnPointerDown).hoverText =
                   'Generate your!'
@@ -173,12 +185,36 @@ export class Gallery implements ISystem {
     }
   }
 
+  initPieceNfts(){
+    //https://api.opensea.io/api/v1/asset/
+    const graffirap = {
+      ethereum: 'ethereum://0x495f947276749ce646f68ac8c248420045cb7b5e/31579987235644736708101780315467862908536911764207097187188861645553634639873',
+      image: 'https://lh3.googleusercontent.com/vunZSSkLoJIPwSIoef_-8PsfHB-ZiIsG-QPn0s_xc4406JmdnG4hwvVJN38CTUB8EQsEuDKAfJhfdxRyg8Oa_jWK8YNVMPuq-IpP',
+      audio: 'audio/graffirap.wav', // 'https://storage.opensea.io/files/ed09d4b2fc372cca67013f2753c3241d.wav'
+    }
+    const graffirap1 = {
+      ethereum: 'ethereum://0x495f947276749ce646f68ac8c248420045cb7b5e/46972706538772698469744849040087914771133038895606724080931223465114363494401',
+      video: 'https://storage.opensea.io/files/ed728797372d2e6658e976c25c85ffd7.mp4',
+    }
+    const deadhead = {
+      ethereum: 'ethereum://0x6fc355d4e0ee44b292e50878f49798ff755a5bbc/9088',
+      image: 'https://lh3.googleusercontent.com/YXN8il7e-Aocv-LE_-5mr3n9IYXC5vYzaZCefz3Mz3WTquyiUWOKFkVlIpWJ9zLRfhG9-seoOcjEY7EqP9UzQIqZ4LGqtulv_txLIg',
+    }
+    const piece1 = new PieceNft(graffirap, new Transform({
+      position: new Vector3(3, 21.5, 4),
+    }))
+    const piece2 = new PieceNft(graffirap1, new Transform({
+      position: new Vector3(5, 21.5, 4),
+    }))
+    const piece3 = new PieceNft(deadhead, new Transform({
+      position: new Vector3(7, 21.5, 4),
+    }))
+  }
+
   update(dt: number): void {
     if (!this.userPiece && this.contractOperation.mintPrices && this.minter) {
-      this.minter.priceText.value = `
-      ${formatEther(this.contractOperation.mintPrices.currentPrice)}
-      ${formatEther(this.contractOperation.mintPrices.fees)}
-      `
+      this.minter.priceText.value = formatEther(this.contractOperation.mintPrices.currentPrice).toString()
+      this.minter.priceTextPlatform.value = formatEther(this.contractOperation.mintPrices.fees).toString()
     }
 
     if (this.graphql.pieces.length > 0) {
