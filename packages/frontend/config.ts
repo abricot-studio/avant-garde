@@ -10,14 +10,9 @@ export default {
     process.env.NEXT_PUBLIC_SUBGRAPH_URL ||
     'https://api.thegraph.com/subgraphs/name/abricot-studio/avant-garde-rinkeby',
   // 'http://127.0.0.1:8000/subgraphs/name/abricot-studio/avant-garde-rinkeby',
-  generateUrl:
-    process.env.NEXT_PUBLIC_GENERATE_URL ||
-    'https://api.avant-garde.gallery/api/generate',
-  // 'http://localhost:3001/api/generate',
-  registerUrl:
-    process.env.NEXT_PUBLIC_REGISTER_URL ||
-    'https://api.avant-garde.gallery/api/register',
-  // 'http://localhost:3001/api/register',
+  baseUrl:
+    process.env.NEXT_PUBLIC_BASE_URL || 'https://api.avant-garde.gallery',
+  // 'http://localhost:3001',
   enableAnalytics: process.env.NEXT_PUBLIC_ENABLE_ANALYTICS === 'true' || false,
   analyticsId: process.env.NEXT_PUBLIC_ANALYTICS_ID || '',
   analyticsDomain:
@@ -28,6 +23,5 @@ export default {
   startDate: '2021-06-03T20:00:00Z',
   authMessage:
     process.env.NEXT_PUBLIC_AUTH_MESSAGE ||
-    '\x19Ethereum Signed Message:\nTo get registered and be part of the AvantGardists, please sign this message',
-  registerAuth: process.env.NEXT_PUBLIC_REGISTER_AUTH === 'true' || false,
+    '\x19Ethereum Signed Message:\nTo log in and be part of the AvantGardists, please sign this message',
 }

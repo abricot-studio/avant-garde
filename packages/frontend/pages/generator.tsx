@@ -3,7 +3,6 @@ import Layout from '../components/Layout'
 import Generate from '../components/pages/Generate'
 import { Heading } from '../components/ui'
 import SEO from '../components/utils/SEO'
-import { wrapUrqlClient } from '../lib/graphql'
 
 const seoData = {
   title: 'Generator',
@@ -28,4 +27,4 @@ const Generator: React.FC = () => {
   )
 }
 
-export default wrapUrqlClient(Generator)
+export default Generator

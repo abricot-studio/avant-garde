@@ -2,8 +2,8 @@ import { useContractCall, useEthers } from '@usedapp/core'
 import { useCallback, useMemo, useState } from 'react'
 import { ToastImageMinted, useToast } from '../components/ui'
 import { getContractFromProvider } from '../lib/contracts'
+import { useAuth } from './authContext'
 import { useContract } from './contracts'
-import { useToken } from './tokens'
 
 export interface AvantGardeTokenMintPrice {
   currentPrice: string
@@ -66,7 +66,7 @@ export const useMint = () => {
   const [mintTx, setMintTx] = useState<string | null>(null)
   const [minted, setMinted] = useState<boolean>(false)
   const tokenMintPrice = useMintPrice()
-  const { startPollingMint } = useToken(account)
+  const { accountTokenStartPollingMint } = useAuth()
   const toast = useToast()
 
   const mint = useCallback(
@@ -95,7 +95,7 @@ export const useMint = () => {
         .then(() => {
           setMinted(true)
           setIsMinting(false)
-          startPollingMint()
+          accountTokenStartPollingMint()
           ToastImageMinted(toast, mintTx, chainId)
         })
         .catch((error) => {
@@ -110,7 +110,7 @@ export const useMint = () => {
           setIsMinting(false)
         })
     },
-    [account, startPollingMint, tokenMintPrice]
+    [account, accountTokenStartPollingMint, tokenMintPrice]
   )
 
   return { mint, minted, mintTx, isMinting }
@@ -118,10 +118,10 @@ export const useMint = () => {
 
 export const useCanMint = () => {
   const { account } = useEthers()
-  const { token, fetching } = useToken(account)
+  const { accountToken, accountTokenFetching } = useAuth()
 
   return useMemo<boolean>(
-    () => !account || (!fetching && !token),
-    [account, token, fetching]
+    () => !account || (!accountTokenFetching && !accountToken),
+    [account, accountToken, accountTokenFetching]
   )
 }

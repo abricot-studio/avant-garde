@@ -2,8 +2,8 @@ import { useContractCall, useEthers } from '@usedapp/core'
 import { useCallback, useMemo, useState } from 'react'
 import { useToast } from '../components/ui'
 import { getContractFromProvider } from '../lib/contracts'
+import { useAuth } from './authContext'
 import { useContract } from './contracts'
-import { useToken } from './tokens'
 
 export interface AvantGardeTokenBurnPrice {
   currentPrice: string
@@ -38,7 +38,8 @@ export const useBurn = () => {
   const [burned, setBurned] = useState<boolean>(false)
   const [error, setError] = useState<boolean>(null)
   const tokenBurnPrice = useBurnPrice()
-  const { startPollingBurn } = useToken(account)
+  const { accountTokenStartPollingBurn } = useAuth()
+
   const toast = useToast()
 
   const burn = useCallback(
@@ -60,7 +61,7 @@ export const useBurn = () => {
         .then(() => {
           setBurned(true)
           setIsBurning(false)
-          startPollingBurn()
+          accountTokenStartPollingBurn()
 
           toast({
             title: '🔥 Token burnt',
@@ -85,7 +86,7 @@ export const useBurn = () => {
           setIsBurning(false)
         })
     },
-    [account, startPollingBurn, tokenBurnPrice]
+    [account, accountTokenStartPollingBurn, tokenBurnPrice]
   )
 
   return { burn, burned, burnTx, isBurning, error }

@@ -1,8 +1,7 @@
-import { useEthers } from '@usedapp/core'
 import Link from 'next/link'
 import React from 'react'
 import config from '../../config'
-import { useToken } from '../../hooks/tokens'
+import { useAuth } from '../../hooks/authContext'
 import Counter from '../Counter'
 import { defaultSize, ImageFrame, TokenImage } from '../tokens/TokenImage'
 import {
@@ -17,18 +16,14 @@ import {
 } from '../ui'
 
 export default function Hero() {
-  const { account } = useEthers()
-  const { token } = useToken(account)
+  const { accountToken } = useAuth()
 
   return (
     <Box as="section" my={8} position="relative">
       <Center h={defaultSize} position="absolute" opacity="0.8" w="100%">
-        {token ? (
+        {!config.whitelistMode && accountToken ? (
           <Box opacity="0.5">
-            <TokenImage
-              avantGardeToken={!config.whitelistMode && token}
-              noBurned={true}
-            />
+            <TokenImage avantGardeToken={accountToken} noBurned={true} />
           </Box>
         ) : (
           <ImageFrame />
@@ -57,14 +52,14 @@ export default function Hero() {
 
       <Wrap spacing={8} justify="center" mt={8} mx={16}>
         <WrapItem>
-          {!config.whitelistMode && token && (
+          {!config.whitelistMode && accountToken && (
             <Link passHref href={`/gallery`}>
               <ActionButton as="a" w="12rem">
                 Gallery
               </ActionButton>
             </Link>
           )}
-          {!config.whitelistMode && !token && (
+          {!config.whitelistMode && !accountToken && (
             <Link passHref href="/generator">
               <ActionButton as="a" w="12rem">
                 Generate yours

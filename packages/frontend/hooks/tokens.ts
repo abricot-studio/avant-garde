@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import useSWR from 'swr'
 import { useQuery } from 'urql'
 import { getIpfsData } from '../lib/ipfs'
@@ -164,6 +164,9 @@ export const useMyTokens = (
 }
 
 export const useToken = (address?: string) => {
+  const [token, setToken] = useState<AvantGardeToken | null>(null)
+  const [fetching, setFetching] = useState<boolean>(false)
+  const [error, setError] = useState<Error | null>(null)
   const [result, reexecuteQuery] = useQuery({
     query: TokenQuery,
     variables: {
@@ -171,10 +174,11 @@ export const useToken = (address?: string) => {
     },
     pause: !address,
   })
-  const { data, fetching, error } = result
-
-  const token: AvantGardeToken | null =
-    (address && data?.avantGardeToken) || null
+  useEffect(() => {
+    setFetching(result.fetching)
+    setToken(result.data?.avantGardeToken || null)
+    setError(result.error)
+  }, [result])
 
   const pollingMint = usePolling(reexecuteQuery)
   const pollingBurn = usePolling(reexecuteQuery)

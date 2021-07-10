@@ -6,7 +6,7 @@ import Token from '../../components/tokens/Token'
 import SEO from '../../components/utils/SEO'
 import config from '../../config'
 import { TokenQuery, TokensQuery } from '../../hooks/tokens'
-import { defaultClient, getSsrClient, wrapUrqlClient } from '../../lib/graphql'
+import { defaultClient, getSsrClient } from '../../lib/graphql'
 import { getIpfsData, getIpfsUrl } from '../../lib/ipfs'
 
 type QueryParams = { id: string }
@@ -16,21 +16,21 @@ const TokenPage: React.FC<TokenPageProps> = ({ initialMetadata }) => {
   const router = useRouter()
   const { id } = router.query as QueryParams
 
-  if (router.isFallback) {
-    return <p>Loading</p>
-  }
   useEffect(() => {
     if (config.whitelistMode) {
       router.replace(`/`)
     }
   }, [])
+
+  if (router.isFallback || config.whitelistMode) {
+    return <p>Loading</p>
+  }
+
   const seoData = {
     title: 'Token',
     card: getIpfsUrl(initialMetadata.image),
   }
-  if (config.whitelistMode) {
-    return <div></div>
-  }
+
   return (
     <>
       <SEO data={seoData} />
@@ -50,7 +50,7 @@ export const getStaticPaths = async () => {
   }
   const { data } = await defaultClient
     .query(TokensQuery, {
-      first: 50,
+      first: 10,
     })
     .toPromise()
 
@@ -94,4 +94,4 @@ export const getStaticProps = async (
   }
 }
 
-export default wrapUrqlClient(TokenPage)
+export default TokenPage
