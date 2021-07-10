@@ -28,6 +28,7 @@ export type IAuthContext = {
   isAuthenticating: boolean
   session: string
   invites: Invite[]
+  isFetchingInvites: boolean
   accountToken: AvantGardeToken | null
   accountTokenError: Error | null
   accountTokenFetching: boolean
@@ -40,6 +41,7 @@ export const AuthContext = createContext<IAuthContext>({
   isAuthenticating: false,
   session: null,
   invites: [],
+  isFetchingInvites: false,
   accountToken: null,
   accountTokenError: null,
   accountTokenFetching: false,
@@ -63,7 +65,7 @@ export const AuthContextProvider = wrapUrqlClient(({ children }) => {
   const [session, setSession] = useState<string>(null)
   const [isAuthenticating, setIsAuthenticating] = useState<boolean>(false)
   const [invites, setInvites] = useState<Invite[]>([])
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isFetchingInvites, setIsFetchingInvites] = useState<boolean>(false)
   const toast = useToast()
 
   useEffect(() => {
@@ -206,10 +208,10 @@ export const AuthContextProvider = wrapUrqlClient(({ children }) => {
         'cannot get invites if not connected or token not minted 👎'
       )
     }
-    if (isLoading) {
+    if (isFetchingInvites) {
       return
     }
-    setIsLoading(true)
+    setIsFetchingInvites(true)
     inviteApi({
       method: 'POST',
       data: {
@@ -220,14 +222,14 @@ export const AuthContextProvider = wrapUrqlClient(({ children }) => {
       .then((result) => {
         if (result.data.status === InviteStatus.SUCCESS) {
           setInvites(result.data.inviteCodes)
-          setIsLoading(false)
+          setIsFetchingInvites(false)
           return true
         }
       })
       .catch((error) => {
         console.error(error)
         setInvites([])
-        setIsLoading(false)
+        setIsFetchingInvites(false)
         toast({
           title: '⚠️ Error to get invitation',
           description:
@@ -240,7 +242,7 @@ export const AuthContextProvider = wrapUrqlClient(({ children }) => {
           isClosable: true,
         })
       })
-  }, [account, session, accountToken, isLoading])
+  }, [account, session, accountToken, isFetchingInvites])
 
   return (
     <AuthContext.Provider
@@ -249,6 +251,7 @@ export const AuthContextProvider = wrapUrqlClient(({ children }) => {
         isAuthenticating,
         session,
         invites,
+        isFetchingInvites,
         accountToken,
         accountTokenFetching,
         accountTokenError,
