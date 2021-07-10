@@ -32,6 +32,9 @@ curl --location --request POST 'http://localhost:3001/api/txHook' --header 'Cont
 
 ```bash
 SCAN 0 MATCH *
+SCAN 0 MATCH generate:*
+SCAN 0 MATCH invite:code:*
+SCAN 0 MATCH invite:addr:*
 ZRANGEBYSCORE register 1 +inf WITHSCORES
 ZRANGEBYSCORE invited 1 +inf WITHSCORES
 ```
