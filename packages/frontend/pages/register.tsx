@@ -46,7 +46,9 @@ ${link}
 
 ${tags}
 `
-    const reddit = `https://reddit.com/submit?url=${link}&title=${encodeURIComponent(message)}`
+    const reddit = `https://reddit.com/submit?url=${link}&title=${encodeURIComponent(
+      message
+    )}`
     const twitter = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
       message
     )}`

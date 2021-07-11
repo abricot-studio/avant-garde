@@ -32,7 +32,7 @@ export default async (
     req.body.inviteCode.length === 36 &&
     req.body.inviteCode
 
-  if(!config.generate) {
+  if (!config.generate) {
     logger.error('not started yet', {
       address,
     })
