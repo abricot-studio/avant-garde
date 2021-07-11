@@ -3,7 +3,7 @@ import { memoize } from 'lodash'
 export const URLs = {
   github: 'https://github.com/abricot-studio/avant-garde',
   twitter: 'https://twitter.com/avantgardenft',
-  discord: 'https://discord.gg/tQbXBBcpTD',
+  discord: 'https://discord.gg/a9JX2wxQdF',
 }
 
 export const contractConstants = {

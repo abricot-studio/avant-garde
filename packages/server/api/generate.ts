@@ -32,6 +32,20 @@ export default async (
     req.body.inviteCode.length === 36 &&
     req.body.inviteCode
 
+  if(!config.generate) {
+    logger.error('not started yet', {
+      address,
+    })
+
+    return res.status(400).json({
+      status: 'error',
+      message: 'not started yet',
+      ipfsHashMetadata: null,
+      ipfsHashImage: null,
+      signature: null,
+    })
+  }
+
   try {
     address = getAddress(req.body.address)
   } catch (error) {
@@ -46,7 +60,6 @@ export default async (
       ipfsHashMetadata: null,
       ipfsHashImage: null,
       signature: null,
-      signerAddress: signer.address,
     })
   }
 
@@ -70,7 +83,6 @@ export default async (
         ipfsHashMetadata: null,
         ipfsHashImage: null,
         signature: null,
-        signerAddress: signer.address,
       })
     }
 
@@ -86,7 +98,6 @@ export default async (
         ipfsHashMetadata: null,
         ipfsHashImage: null,
         signature: null,
-        signerAddress: signer.address,
       })
     }
     const now = Date.now()
@@ -106,7 +117,6 @@ export default async (
         ipfsHashMetadata: null,
         ipfsHashImage: null,
         signature: null,
-        signerAddress: signer.address,
       })
     }
 
@@ -134,7 +144,6 @@ export default async (
         ipfsHashMetadata: null,
         ipfsHashImage: null,
         signature: null,
-        signerAddress: signer.address,
       })
     } else if (redisExisting.split(':').length === 3) {
       const [ipfsHashMetadata, ipfsHashImage, signature] =
@@ -149,7 +158,6 @@ export default async (
         ipfsHashMetadata,
         ipfsHashImage,
         signature,
-        signerAddress: signer.address,
       })
     } else {
       logger.error('redis data incorrect', {
@@ -185,7 +193,6 @@ export default async (
       ipfsHashMetadata: existIpfsHash.ipfsHashMetadata,
       ipfsHashImage: existIpfsHash.ipfsHashImage,
       signature,
-      signerAddress: signer.address,
     })
   }
 
@@ -252,6 +259,5 @@ export default async (
     ipfsHashMetadata,
     ipfsHashImage,
     signature,
-    signerAddress: signer.address,
   })
 }

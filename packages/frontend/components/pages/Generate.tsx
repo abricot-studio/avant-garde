@@ -72,7 +72,7 @@ export default function Generate() {
     return {
       opensea,
     }
-  }, [contractAddress, chainId])
+  }, [isMounted, contractAddress, chainId])
 
   useEffect(() => {
     if (errorGenerating && !!errorGenerating.message) {

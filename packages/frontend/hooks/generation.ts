@@ -25,7 +25,6 @@ export interface ImageGeneration {
   status: ImageGenerationStatus
   ipfsHashMetadata: string
   ipfsHashImage: string
-  signerAddress: string
   signature: string
 }
 

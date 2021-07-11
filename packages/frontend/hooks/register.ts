@@ -67,11 +67,11 @@ export const useRegister = () => {
         registrationCache[account] = result.data
         toast({
           title:
-            result.data.message === 'address already register'
+            result.data.message === 'Address already register'
               ? '🔥 Registration done'
               : '🔥 Registration success',
           description:
-            result.data.message === 'address already register'
+            result.data.message === 'Address already register'
               ? `You're already on the list!`
               : `You're on the list!`,
           status: 'success',
@@ -80,13 +80,13 @@ export const useRegister = () => {
         })
         ga.event({
           action:
-            result.data.message === 'address already register'
+            result.data.message === 'Address already register'
               ? 'register_already_success'
               : 'register_success',
           params: {
             event_category: 'registration',
             event_label:
-              result.data.message === 'address already register'
+              result.data.message === 'Address already register'
                 ? 'register_already_success'
                 : 'register_success',
             value: '1',
