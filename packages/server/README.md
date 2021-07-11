@@ -2,7 +2,7 @@
 
 Server worker to generate images with tensorflow
 
-## Call examples:
+## Calls example:
 
 ### Generate
 
