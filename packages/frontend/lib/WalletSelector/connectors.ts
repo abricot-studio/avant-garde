@@ -14,14 +14,13 @@ const injected = new InjectedConnector({
     ]),
 })
 
-const rpc = config.defaultChainId === 1 ? { [ChainId.Mainnet]: `https://mainnet.infura.io/v3/${config.infuraId}` } : {
-  [ChainId.Rinkeby]: `https://rinkeby.infura.io/v3/${config.infuraId}`,
-  [ChainId.Kovan]: `https://kovan.infura.io/v3/${config.infuraId}`,
-  [ChainId.Localhost]: `http://localhost:8545`,
-}
-
 export const walletconnect = new WalletConnectConnector({
-  rpc,
+  rpc: {
+    [ChainId.Mainnet]: `https://mainnet.infura.io/v3/${config.infuraId}`,
+    [ChainId.Rinkeby]: `https://rinkeby.infura.io/v3/${config.infuraId}`,
+    [ChainId.Kovan]: `https://kovan.infura.io/v3/${config.infuraId}`,
+    [ChainId.Localhost]: `http://localhost:8545`,
+  },
   qrcode: true,
   pollingInterval: 15000,
 })

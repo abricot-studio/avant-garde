@@ -1,7 +1,7 @@
 export default {
   infuraId:
     process.env.NEXT_PUBLIC_INFURA_ID || '7dff5631849d491a8642b8a4efe05b01',
-  defaultChainId: parseInt(process.env.DEFAULT_CHAIN_ID || '1'),
+  defaultChainId: parseInt(process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID || '1'),
   ipfsEndpoint:
     process.env.NEXT_PUBLIC_IPFS_ENDPOINT ||
     'https://gateway.pinata.cloud/ipfs/',

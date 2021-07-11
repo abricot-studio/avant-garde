@@ -1,4 +1,4 @@
-import { getChainName } from '@usedapp/core'
+import { getChainName, useEthers } from '@usedapp/core'
 import config from '../../config'
 import { useContract } from '../../hooks/contracts'
 import { useWalletSelector } from '../../lib/WalletSelector/context'
@@ -14,9 +14,10 @@ import {
 
 export function NetworkChecker({ children }) {
   const { address } = useContract()
+  const { chainId } = useEthers()
   const { disconnect } = useWalletSelector()
 
-  if (!address) {
+  if (!address || (config.defaultChainId === 1 && chainId !== 1) ) {
     return (
       <Modal isOpen isCentered onClose={() => 0}>
         <ModalOverlay />
