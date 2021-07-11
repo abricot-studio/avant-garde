@@ -70,10 +70,11 @@ export class Gallery implements ISystem {
     if (this.userPiece) {
       const mintedPiece = new Piece(
         new Transform({
-          position: new Vector3(0, 4, 0),
+          position: new Vector3(0, 4.5, 0),
         }),
         this.userPiece
       )
+      mintedPiece.minted(this.userPiece)
       mintedPiece.addComponent(new Billboard(false, true, false))
     } else {
       let isMinting = false
@@ -123,6 +124,7 @@ export class Gallery implements ISystem {
                   this.contractOperation.address
                 )
                 log('userPiece', this.userPiece)
+                this.minter.minted(this.userPiece)
                 this.minter.priceText.value = ''
                 this.minter.priceTextPlatform.value = ''
                 this.minter.placeholder.addComponentOrReplace(

@@ -9,7 +9,7 @@ export class Teleporter extends Entity {
     this.addComponent(model)
     const transform = new Transform({
       position: new Vector3(-12, 0, -12),
-      rotation: Quaternion.Euler(0, -70, 0),
+      rotation: Quaternion.Euler(0, -100, 0),
     })
     this.addComponent(transform)
     engine.addEntity(this)

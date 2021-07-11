@@ -1,5 +1,6 @@
 import config from '../config'
 import { mintParams } from '../generate'
+import { AvantGardeToken } from '../graphql'
 
 export class Minter extends Entity {
   placeholder: Entity
@@ -109,5 +110,9 @@ export class Minter extends Entity {
     const myMaterial = new Material()
     myMaterial.albedoTexture = myTexture
     this.placeholder.addComponentOrReplace(myMaterial)
+  }
+
+  minted(userPiece: AvantGardeToken){
+    this.mintCard.addComponentOrReplace(new GLTFShape('models/aftermintCard.glb') )
   }
 }

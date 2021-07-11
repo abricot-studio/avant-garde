@@ -1,5 +1,6 @@
 import config from '../config'
 import { AvantGardeToken } from '../graphql'
+import { formatEther } from '../utils'
 
 export class Piece extends Entity {
   static Transformations: Transform[] = [
@@ -53,6 +54,7 @@ export class Piece extends Entity {
   ]
 
   placeholder1: Entity
+  mintCard?: Entity
   placeholder2: Entity
   avantGardeToken1: AvantGardeToken
   avantGardeToken2?: AvantGardeToken
@@ -140,5 +142,49 @@ export class Piece extends Entity {
         )
       )
     }
+  }
+  minted(userPiece: AvantGardeToken){
+    this.mintCard = new Entity()
+    this.mintCard.addComponentOrReplace(new GLTFShape('models/aftermintCard.glb') )
+    this.mintCard.addComponent(
+      new Transform({
+        position: new Vector3(0, -3, 0),
+      })
+    )
+    this.mintCard.setParent(this)
+    engine.addEntity(this.mintCard)
+
+    const mintDate = new Entity()
+    mintDate.addComponent(
+      new Transform({
+        position: new Vector3(-0.2, -2.85, 0.2),
+        rotation: Quaternion.Euler(0, 180, 0),
+      })
+    )
+    const mintDateText = new TextShape(new Date(parseInt(userPiece.mintTimestamp) * 1000).toISOString().split('T')[0])
+    mintDateText.hTextAlign = 'left'
+    mintDateText.fontSize = 1
+    mintDateText.font = new Font(Fonts.LiberationSans)
+    mintDateText.color = Color3.Black()
+    mintDate.addComponent(mintDateText)
+    mintDate.setParent(this)
+    engine.addEntity(mintDate)
+
+    const mintPrice = new Entity()
+    mintPrice.addComponent(
+      new Transform({
+        position: new Vector3(-0.4, -3.15, 0.2),
+        rotation: Quaternion.Euler(0, 180, 0),
+      })
+    )
+    const mintPriceText = new TextShape(formatEther(userPiece.mintPrice || '0').toString())
+    mintPriceText.hTextAlign = 'left'
+    mintPriceText.fontSize = 1
+    mintPriceText.font = new Font(Fonts.LiberationSans)
+    mintPriceText.color = Color3.Black()
+    mintPrice.addComponent(mintPriceText)
+    mintPrice.setParent(this)
+    engine.addEntity(mintPrice)
+
   }
 }
