@@ -23,5 +23,5 @@ export default {
   startDate: '2021-06-03T20:00:00Z',
   authMessage:
     process.env.NEXT_PUBLIC_AUTH_MESSAGE ||
-    '\x19Ethereum Signed Message:\nTo log in and be part of the AvantGardists, please sign this message',
+    '\x19Ethereum Signed Message:\nTo log in and be part of the other AvantGardists, please sign this message',
 }
