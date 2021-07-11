@@ -17,7 +17,7 @@ export function NetworkChecker({ children }) {
   const { chainId } = useEthers()
   const { disconnect } = useWalletSelector()
 
-  if (!address || (config.defaultChainId === 1 && chainId !== 1) ) {
+  if (!address || (config.defaultChainId === 1 && chainId !== 1)) {
     return (
       <Modal isOpen isCentered onClose={() => 0}>
         <ModalOverlay />
