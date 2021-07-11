@@ -68,6 +68,7 @@ export const AuthContextProvider = wrapUrqlClient(({ children }) => {
     invites,
     setInvites,
     getInvites,
+    errorGetInvites,
     isFetchingInvites,
     inviteCode,
     setInviteCode,
@@ -116,6 +117,16 @@ export const AuthContextProvider = wrapUrqlClient(({ children }) => {
       setInvites([])
     }
   }, [account, session, accountToken])
+
+  useEffect(() => {
+    if (
+      account &&
+      errorGetInvites &&
+      errorGetInvites.message === 'token_invalid'
+    ) {
+      store.remove(`auth:${account}`)
+    }
+  }, [account, errorGetInvites])
 
   const auth = useCallback(() => {
     if (!account) {

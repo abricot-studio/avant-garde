@@ -43,6 +43,7 @@ export interface ConfigHook {
 
 export interface Config {
   env: string
+  generate: boolean
   image: ConfigImage
   pinata: ConfigPinata
   redis: ConfigRedis
@@ -56,6 +57,7 @@ export interface Config {
 
 const config: Config = {
   env: process.env.NODE_ENV || 'development',
+  generate: process.env.GENERATE === 'true' || false,
   hook: {
     secret: process.env.HOOK_SECRET || '1d8c3623fb5ae3e6da37edfaad82794be462',
     discord: {
@@ -100,7 +102,7 @@ const config: Config = {
   countries: (process.env.COUNTRIES && process.env.COUNTRIES.split(',')) || [],
   authMessage:
     process.env.AUTH_MESSAGE ||
-    '\x19Ethereum Signed Message:\nTo log in and be part of the AvantGardists, please sign this message',
+    '\x19Ethereum Signed Message:\nTo log in and be part of the other AvantGardists, please sign this message',
   subgraphUrl:
     process.env.SUBGRAPH_URL ||
     'https://api.thegraph.com/subgraphs/name/abricot-studio/avant-garde-rinkeby',

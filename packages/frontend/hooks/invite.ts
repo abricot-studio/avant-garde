@@ -23,6 +23,7 @@ export const useInvite = () => {
   const toast = useToast()
   const { account } = useEthers()
   const [invites, setInvites] = useState<Invite[]>([])
+  const [errorGetInvites, setErrorGetInvites] = useState<Error | null>(null)
   const [inviteCode, setInviteCode] = useState(
     (router.query.inviteCode as string) || ''
   )
@@ -31,6 +32,7 @@ export const useInvite = () => {
   useEffect(() => {
     if (!account) {
       setInvites([])
+      setErrorGetInvites(null)
     }
   }, [account])
 
@@ -69,6 +71,14 @@ export const useInvite = () => {
           console.error(error)
           setInvites([])
           setIsFetchingInvites(false)
+          if (error?.response?.data?.message === 'token invalid') {
+            setErrorGetInvites(new Error('token_invalid'))
+          } else if (error?.response?.data?.message?.length > 0) {
+            setErrorGetInvites(new Error(error.response.data.message))
+          } else {
+            console.error(error)
+            setErrorGetInvites(error)
+          }
           toast({
             title: '⚠️ Error to get invitation',
             description:
@@ -90,6 +100,7 @@ export const useInvite = () => {
     setInvites,
     getInvites,
     isFetchingInvites,
+    errorGetInvites,
     inviteCode,
     setInviteCode,
   }

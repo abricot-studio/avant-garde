@@ -8,7 +8,6 @@ export interface mintParams {
   ipfsHashMetadata: string
   ipfsHashImage: string
   signature: string
-  signerAddress: string
 }
 
 export async function Generate(address: string): Promise<mintParams> {
