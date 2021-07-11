@@ -28,6 +28,7 @@ export type IWalletSelectorContext = {
   close: () => void
   connect: (AbstractConnector) => void
   disconnect: () => void
+  injectedProviderExist: boolean
   isConnecting: boolean
   modalOpen: boolean
 }
@@ -37,6 +38,7 @@ export const WalletSelectorContext = createContext<IWalletSelectorContext>({
   close: () => {},
   connect: (_) => {},
   disconnect: () => {},
+  injectedProviderExist: true,
   isConnecting: true,
   modalOpen: false,
 })
@@ -49,6 +51,8 @@ export const WalletSelectorContextProvider: React.FC<Web3ContextProviderOptions>
   ({ children }) => {
     const [isConnecting, setIsConnecting] = useState<boolean>(true)
     const [modalOpen, setModalOpen] = useState<boolean>(false)
+    const [injectedProviderExist, setInjectedProviderExist] =
+      useState<boolean>(false)
     const calledOnce = useRef<boolean>(false)
     const { activate, deactivate } = useEthers()
 
@@ -172,6 +176,8 @@ export const WalletSelectorContextProvider: React.FC<Web3ContextProviderOptions>
         } else {
           setIsConnecting(false)
         }
+        const { ethereum } = window as any
+        setInjectedProviderExist(!!ethereum)
       })
     }, [])
 
@@ -183,6 +189,7 @@ export const WalletSelectorContextProvider: React.FC<Web3ContextProviderOptions>
           connect,
           disconnect,
           isConnecting,
+          injectedProviderExist,
           modalOpen,
         }}
       >

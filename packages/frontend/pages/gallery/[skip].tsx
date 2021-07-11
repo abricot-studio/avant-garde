@@ -62,7 +62,7 @@ export const getStaticPaths = async () => {
   }
   const { data } = await defaultClient
     .query(TokensQuery, {
-      first: 50,
+      first: 10,
     })
     .toPromise()
   if (data?.avantGardeTokens) {

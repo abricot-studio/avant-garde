@@ -8,34 +8,36 @@
     "lint:fix": "eslint --fix \"**/*.{js,ts}\"",
     "image": "TS_NODE_PROJECT='tsconfigScript.json' ts-node libs/image/index.ts",
     "script:getRegisters": "TS_NODE_PROJECT='tsconfigScript.json' ts-node scripts/getRegisters.ts",
-    "script:migrate": "TS_NODE_PROJECT='tsconfigScript.json' ts-node scripts/migration/001registerTimestamp.ts"
+    "script:migrate": "TS_NODE_PROJECT='tsconfigScript.json' ts-node scripts/migration/001registerTimestamp.ts",
+    "redis:local": "docker-compose down && docker-compose up redis"
   },
   "engines": {
     "node": "12.x"
   },
   "dependencies": {
     "@pinata/sdk": "^1.1.23",
-    "@vercel/node": "^1.11.0",
+    "@vercel/node": "^1.11.1",
     "assert": "^2.0.0",
     "axios": "^0.21.1",
     "bluebird": "^3.7.2",
     "dotenv": "^10.0.0",
-    "ethers": "^5.3.1",
+    "ethers": "^5.4.1",
     "ioredis": "^4.27.6",
     "jpeg-js": "^0.4.3",
     "tfjs-node-lambda": "^2.0.13",
     "twitter": "^1.7.1",
+    "uuid": "^8.3.2",
     "winston": "^3.3.3"
   },
   "devDependencies": {
     "@tensorflow/tfjs-node": "^3.7.0",
-    "@types/ioredis": "^4.26.4",
-    "@types/node": "^15.12.2",
-    "@typescript-eslint/eslint-plugin": "^4.27.0",
-    "@typescript-eslint/parser": "^4.27.0",
-    "eslint": "^7.28.0",
+    "@types/ioredis": "^4.26.5",
+    "@types/node": "^16.3.0",
+    "@typescript-eslint/eslint-plugin": "^4.28.2",
+    "@typescript-eslint/parser": "^4.28.2",
+    "eslint": "^7.30.0",
     "eslint-config-prettier": "^8.3.0",
-    "typescript": "^4.3.2"
+    "typescript": "^4.3.5"
   },
   "author": "",
   "license": "MIT"

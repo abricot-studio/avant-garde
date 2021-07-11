@@ -1,5 +1,4 @@
 import { Interface } from '@ethersproject/abi'
-import { Provider } from '@ethersproject/abstract-provider'
 import { Contract, providers } from 'ethers'
 import networks from '../../contracts/deployments/networks.json'
 import config from '../config'
@@ -22,7 +21,7 @@ export function getContractInfoFromNetwork(chainId: number) {
 }
 
 export async function getContractFromProvider(
-  providerOrSigner: Provider = defaultProvider
+  providerOrSigner: providers.Provider = defaultProvider
 ) {
   const network = await providerOrSigner.getNetwork()
   const contractInfo = getContractInfoFromNetwork(network.chainId)

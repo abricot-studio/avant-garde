@@ -1,3 +1,4 @@
+import { useDisclosure } from '@chakra-ui/hooks'
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -11,13 +12,10 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useMemo } from 'react'
 import { useMountedState } from 'react-use'
 import config from '../../config'
+import { useAuth } from '../../hooks/authContext'
 import { useContract } from '../../hooks/contracts'
-import {
-  ImageGenerationStatus,
-  useImageGeneration,
-} from '../../hooks/generation'
+import { ImageGenerationStatus } from '../../hooks/generation'
 import { useMint, useMintPrice } from '../../hooks/mint'
-import { useToken } from '../../hooks/tokens'
 import { getIpfsUrl } from '../../lib/ipfs'
 import { useWalletSelector } from '../../lib/WalletSelector/context'
 import { ImageFrame } from '../tokens/TokenImage'
@@ -27,9 +25,18 @@ import {
   Button,
   Card,
   Flex,
+  FormControl,
+  FormHelperText,
+  FormLabel,
   HStack,
   Image,
+  Input,
   Link as CLink,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
   Text,
   useToast,
   VStack,
@@ -39,13 +46,23 @@ export default function Generate() {
   const { isConnecting, open } = useWalletSelector()
   const { account, chainId } = useEthers()
   const { address: contractAddress } = useContract()
-  const { token, fetching: fetchingToken } = useToken(account)
+  const {
+    accountToken,
+    accountTokenFetching,
+    inviteCode,
+    setInviteCode,
+    generateImage,
+    isGeneratingImage,
+    generationResult,
+    errorGenerating,
+  } = useAuth()
   const tokenMintPrice = useMintPrice()
-  const { generateImage, isGenerating, generationResult } = useImageGeneration()
   const { mint, minted, isMinting, mintTx } = useMint()
   const router = useRouter()
   const toast = useToast()
   const isMounted = useMountedState()
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const handleChangeInviteCode = (event) => setInviteCode(event.target.value)
 
   const socialPostUrls = useMemo(() => {
     if (!isMounted()) return {}
@@ -55,19 +72,27 @@ export default function Generate() {
     return {
       opensea,
     }
-  }, [contractAddress, chainId])
+  }, [isMounted, contractAddress, chainId])
 
   useEffect(() => {
-    if (token) {
+    if (errorGenerating && !!errorGenerating.message) {
+      onOpen()
+    } else {
+      onClose()
+    }
+  }, [errorGenerating])
+
+  useEffect(() => {
+    if (accountToken && !accountTokenFetching) {
       toast.closeAll()
-      router.push(`/token/${token.id}`)
+      router.push(`/token/${accountToken.id}`)
     } else if (config.whitelistMode) {
       router.replace(`/`)
     }
-  }, [token])
+  }, [accountToken, accountTokenFetching])
 
   let cta
-  if (token || fetchingToken) {
+  if (accountToken || accountTokenFetching) {
     cta = <ActionButton isLoading loadingText="Loading token..." />
   } else if (minted) {
     cta = <ActionButton isDisabled>⛏ Minted successfully !</ActionButton>
@@ -104,8 +129,8 @@ export default function Generate() {
   } else {
     cta = (
       <ActionButton
-        onClick={() => generateImage()}
-        isLoading={isGenerating}
+        onClick={() => generateImage(inviteCode)}
+        isLoading={isGeneratingImage}
         loadingText="🎨 Generating art..."
       >
         Generate yours
@@ -121,12 +146,12 @@ export default function Generate() {
     <Flex direction="column" align="center">
       <ImageFrame
         src={imageSrc}
-        isLoading={isGenerating}
-        isQuestion={!isGenerating && !generationResult}
+        isLoading={isGeneratingImage}
+        isQuestion={!isGeneratingImage && !generationResult}
       />
 
       <Box mt={8}>{cta}</Box>
-      {!isGenerating && !generationResult && (
+      {!isGeneratingImage && !generationResult && (
         <>
           <Text
             align="center"
@@ -158,9 +183,9 @@ export default function Generate() {
           </Text>
         </>
       )}
-      {isGenerating && (
+      {isGeneratingImage && (
         <Card mt={8} mb={8}>
-          <Flex direction="column" align="center">
+          <Flex direction="column" align="center" fontSize="sm">
             <Text align="center">Your image is being generated.</Text>
             <Text align="center">
               The processing can take up to 30 seconds.
@@ -177,6 +202,7 @@ export default function Generate() {
                 _hover={{}}
                 _active={{}}
                 _focus={{}}
+                mt={2}
               >
                 Learn more
               </Button>
@@ -186,7 +212,7 @@ export default function Generate() {
       )}
 
       {tokenMintPrice && generationResult && (
-        <Card mt={8}>
+        <Card my={8}>
           <HStack justifyContent="center">
             <VStack alignItems="start">
               <Flex fontWeight={500}>💰 Price</Flex>
@@ -237,6 +263,58 @@ export default function Generate() {
           )}
         </Card>
       )}
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+        <ModalOverlay />
+        <ModalContent pb={4}>
+          <ModalHeader textAlign="center">
+            Want to become an AvantGardist?
+          </ModalHeader>
+          <ModalBody py={0}>
+            <Flex align="center" direction="column">
+              <Text pb={4}>
+                Enter an invitation code to access the Generator and mint your
+                unique piece of art.
+              </Text>
+              <FormControl id="invite-code" flex="column" align="center">
+                <Flex>
+                  <FormLabel>Invitation code</FormLabel>
+                  {errorGenerating &&
+                    errorGenerating.message !== 'not_invited' && (
+                      <FormHelperText
+                        flexGrow={1}
+                        textAlign={'right'}
+                        color="#FB6B6B"
+                      >
+                        {errorGenerating.message}
+                      </FormHelperText>
+                    )}
+                </Flex>
+                <Input
+                  boxShadow="inset 0px 4px 20px rgba(129, 129, 129, 0.15)"
+                  borderRadius="md"
+                  px={4}
+                  value={inviteCode}
+                  onChange={handleChangeInviteCode}
+                  onKeyDown={(e) =>
+                    e.key === 'Enter' && generateImage(inviteCode)
+                  }
+                />
+                <ActionButton
+                  onClick={() => generateImage(inviteCode)}
+                  isLoading={isGeneratingImage}
+                  disabled={inviteCode === ''}
+                  loadingText="Validating code..."
+                  type="submit"
+                  mt={6}
+                  mb={4}
+                >
+                  Validate
+                </ActionButton>
+              </FormControl>
+            </Flex>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </Flex>
   )
 }

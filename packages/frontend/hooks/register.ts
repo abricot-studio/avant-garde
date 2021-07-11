@@ -4,10 +4,10 @@ import { useCallback, useEffect, useState } from 'react'
 import { useToast } from '../components/ui'
 import config from '../config'
 import * as ga from '../lib/ga'
-import { useAuth } from './auth'
+import { useAuth } from './authContext'
 
 const registerApi = axios.create({
-  baseURL: config.registerUrl,
+  baseURL: `${config.baseUrl}/api/register`,
 })
 
 export enum RegisterStatus {
@@ -30,7 +30,7 @@ export const useRegister = () => {
   )
   const [isRegistring, setIsRegistring] = useState<boolean>(false)
   const toast = useToast()
-  const { token, auth, isAuthenticating } = useAuth()
+  const { session } = useAuth()
 
   useEffect(() => {
     if (!account || !registrationCache[account]) {
@@ -46,10 +46,6 @@ export const useRegister = () => {
       throw new Error('cannot register if not connected 👎')
     }
     setIsRegistring(true)
-    if (!token && config.registerAuth) {
-      auth()
-      return
-    }
     ga.event({
       action: 'register_pending',
       params: {
@@ -62,7 +58,7 @@ export const useRegister = () => {
       method: 'POST',
       data: {
         address: account,
-        token,
+        session,
       },
     })
       .then((result) => {
@@ -71,11 +67,11 @@ export const useRegister = () => {
         registrationCache[account] = result.data
         toast({
           title:
-            result.data.message === 'address already register'
+            result.data.message === 'Address already register'
               ? '🔥 Registration done'
               : '🔥 Registration success',
           description:
-            result.data.message === 'address already register'
+            result.data.message === 'Address already register'
               ? `You're already on the list!`
               : `You're on the list!`,
           status: 'success',
@@ -84,13 +80,13 @@ export const useRegister = () => {
         })
         ga.event({
           action:
-            result.data.message === 'address already register'
+            result.data.message === 'Address already register'
               ? 'register_already_success'
               : 'register_success',
           params: {
             event_category: 'registration',
             event_label:
-              result.data.message === 'address already register'
+              result.data.message === 'Address already register'
                 ? 'register_already_success'
                 : 'register_success',
             value: '1',
@@ -104,7 +100,11 @@ export const useRegister = () => {
         setIsRegistring(false)
         toast({
           title: '⚠️ Registration error',
-          description: error.message,
+          description:
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message,
           status: 'error',
           duration: 5000,
           isClosable: true,
@@ -118,15 +118,7 @@ export const useRegister = () => {
           },
         })
       })
-  }, [account, token])
-
-  useEffect(() => {
-    if (!token && !isAuthenticating) {
-      setIsRegistring(false)
-    } else if (account && token && !registrationResult) {
-      register()
-    }
-  }, [account, token, isAuthenticating, registrationResult])
+  }, [account, session])
 
   return { register, isRegistring, registrationResult }
 }

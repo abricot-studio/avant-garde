@@ -27,6 +27,24 @@ export default async (
   if (!Middlewares(req, res)) return
 
   let address = null
+  const inviteCode =
+    req.body.inviteCode &&
+    req.body.inviteCode.length === 36 &&
+    req.body.inviteCode
+
+  if (!config.generate) {
+    logger.error('not started yet', {
+      address,
+    })
+
+    return res.status(400).json({
+      status: 'error',
+      message: 'not started yet',
+      ipfsHashMetadata: null,
+      ipfsHashImage: null,
+      signature: null,
+    })
+  }
 
   try {
     address = getAddress(req.body.address)
@@ -42,27 +60,78 @@ export default async (
       ipfsHashMetadata: null,
       ipfsHashImage: null,
       signature: null,
-      signerAddress: signer.address,
     })
   }
 
   if (!redis) {
     redis = await getRedis()
-
-    // const keys = await redis.keys('*')
-    // await Promise.all(keys.map((key) => redis.del(key)))
   }
 
-  const isRegister: any = await redis.zscore('register', address)
-  if (isRegister === null) {
-    return res.status(400).json({
-      status: 'error',
-      message: 'address is not registry',
-      ipfsHashMetadata: null,
-      ipfsHashImage: null,
-      signature: null,
-      signerAddress: signer.address,
-    })
+  const [isRegister, isInvited] = await Promise.all([
+    redis.zscore('register', address),
+    redis.zscore('invited', address),
+  ])
+
+  if (isRegister === null && isInvited === null) {
+    if (!inviteCode) {
+      logger.error('Address is not registry or invited', {
+        address,
+      })
+      return res.status(400).json({
+        status: 'error',
+        message: 'You are not registered or invited yet',
+        ipfsHashMetadata: null,
+        ipfsHashImage: null,
+        signature: null,
+      })
+    }
+
+    const redisExisting = await redis.hgetall(`invite:code:${inviteCode}`)
+
+    if (Object.keys(redisExisting).length === 0 || redisExisting['time:use']) {
+      logger.error('Code invalid or expired', {
+        address,
+      })
+      return res.status(400).json({
+        status: 'error',
+        message: 'Code invalid or expired',
+        ipfsHashMetadata: null,
+        ipfsHashImage: null,
+        signature: null,
+      })
+    }
+    const now = Date.now()
+    const redisHSetNx = await redis.hsetnx(
+      `invite:code:${inviteCode}`,
+      'time:use',
+      now
+    )
+
+    if (redisHSetNx !== 1) {
+      logger.error('Processing code', {
+        address,
+      })
+      return res.status(400).json({
+        status: 'error',
+        message: 'Processing code',
+        ipfsHashMetadata: null,
+        ipfsHashImage: null,
+        signature: null,
+      })
+    }
+
+    await redis
+      .multi([
+        ['hsetnx', `invite:code:${inviteCode}`, 'to', address],
+        [
+          'hsetnx',
+          `invite:addr:${redisExisting.from}`,
+          `${redisExisting.index}:used`,
+          address,
+        ],
+        ['zadd', 'invited', 'NX', now, address],
+      ])
+      .exec()
   }
 
   const redisExisting = await redis.get(`generate:${address}`)
@@ -75,7 +144,6 @@ export default async (
         ipfsHashMetadata: null,
         ipfsHashImage: null,
         signature: null,
-        signerAddress: signer.address,
       })
     } else if (redisExisting.split(':').length === 3) {
       const [ipfsHashMetadata, ipfsHashImage, signature] =
@@ -90,7 +158,6 @@ export default async (
         ipfsHashMetadata,
         ipfsHashImage,
         signature,
-        signerAddress: signer.address,
       })
     } else {
       logger.error('redis data incorrect', {
@@ -126,7 +193,6 @@ export default async (
       ipfsHashMetadata: existIpfsHash.ipfsHashMetadata,
       ipfsHashImage: existIpfsHash.ipfsHashImage,
       signature,
-      signerAddress: signer.address,
     })
   }
 
@@ -193,6 +259,5 @@ export default async (
     ipfsHashMetadata,
     ipfsHashImage,
     signature,
-    signerAddress: signer.address,
   })
 }

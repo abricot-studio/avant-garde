@@ -32,9 +32,23 @@ const GoogleFonts: React.FC<GoogleFontsProps> = ({ href }) => {
         rel="preconnect"
         href="https://fonts.gstatic.com"
         crossOrigin="anonymous"
+        data-next-google-fonts="preconnect"
+        key="next-google-fonts__preconnect"
       />
-      <link rel="preload" as="style" href={href} />
-      <link href={href} rel="stylesheet" media={!hydrated ? 'print' : 'all'} />
+      <link
+        rel="preload"
+        as="style"
+        href={href}
+        data-next-google-fonts="preload"
+        key="next-google-fonts__preload"
+      />
+      <link
+        href={href}
+        rel="stylesheet"
+        media={!hydrated ? 'print' : 'all'}
+        data-next-google-fonts="style"
+        key="next-google-fonts__style"
+      />
     </Head>
   )
 }
