@@ -67,19 +67,10 @@ export class Gallery implements ISystem {
       this.contractOperation.address
     )
     log('userPiece', this.userPiece)
+    this.minter = new Minter(this.userPiece)
 
-    if (this.userPiece) {
-      const mintedPiece = new Piece(
-        new Transform({
-          position: new Vector3(0, 5, 0),
-        }),
-        this.userPiece
-      )
-      mintedPiece.minted(this.userPiece)
-      mintedPiece.addComponent(new Billboard(false, true, false))
-    } else {
+    if (!this.userPiece) {
       let isMinting = false
-      this.minter = new Minter()
       this.minter.placeholder.addComponentOrReplace(
         new OnPointerDown(
           async (e) => {
@@ -101,10 +92,7 @@ export class Gallery implements ISystem {
                   log('mintParams', mintParams)
 
                   if(mintParams.status !== 'success'){
-
-                    if(mintParams.message){
-                      throw new Error(mintParams.message)
-                    }
+                    throw new Error(mintParams.message || 'unknown error')
                   }
                   this.mintParams = mintParams
                   this.minter.addPiece(this.mintParams)
@@ -125,33 +113,18 @@ export class Gallery implements ISystem {
                   this.contractOperation.address
                 )
                 log('userPiece', this.userPiece)
-                this.minter.minted(this.userPiece)
-                this.minter.priceText.value = ''
-                this.minter.priceTextPlatform.value = ''
-                this.minter.placeholder.addComponentOrReplace(
-                  new OnPointerDown(
-                    () => {
-                      openExternalURL(
-                        `${this.userPiece?.metadata?.external_url}`
-                      )
-                    },
-                    {
-                      button: ActionButton.POINTER,
-                      hoverText: `Open details`,
-                      distance: 6,
-                    }
-                  )
-                )
+                this.minter.userPiece = this.userPiece
+                this.minter.minted()
                 if(this.teleporterDown && this.teleporterStairs){
-                  this.teleporterDown.activate(this.teleporterStairs)
-                  this.teleporterStairs.activate(this.teleporterDown)
+                  this.teleporterDown.activate(this.teleporterStairs, this.userPiece)
+                  this.teleporterStairs.activate(this.teleporterDown, this.userPiece)
                 }
                 isMinting = false
               }
             } catch (error) {
               isMinting = false
               UI.displayAnnouncement(`Oops, there was an error:\n${error.message}`, 3)
-              if (this.minter) {
+              if (this.minter && this.minter.placeholder) {
                 this.minter.placeholder.getComponent(OnPointerDown).hoverText =
                   'Generate your!'
               }
@@ -165,6 +138,9 @@ export class Gallery implements ISystem {
           }
         )
       )
+    } else if(this.teleporterDown && this.teleporterStairs){
+      this.teleporterDown.activate(this.teleporterStairs, this.userPiece)
+      this.teleporterStairs.activate(this.teleporterDown, this.userPiece)
     }
   }
 
@@ -194,8 +170,8 @@ export class Gallery implements ISystem {
       rotation: Quaternion.Euler(0, 50, 0),
     }), 'Go to AvantGarde generator!')
     if (this.userPiece) {
-      this.teleporterDown.activate(this.teleporterStairs)
-      this.teleporterStairs.activate(this.teleporterDown)
+      this.teleporterDown.activate(this.teleporterStairs, this.userPiece)
+      this.teleporterStairs.activate(this.teleporterDown, this.userPiece)
     }
   }
 
@@ -226,7 +202,7 @@ export class Gallery implements ISystem {
   }
 
   update(dt: number): void {
-    if (!this.userPiece && this.contractOperation.mintPrices && this.minter) {
+    if (!this.userPiece && this.minter && this.minter.priceText && this.minter.priceTextPlatform && this.contractOperation.mintPrices && this.minter) {
       this.minter.priceText.value = formatEther(this.contractOperation.mintPrices.currentPrice).toString()
       this.minter.priceTextPlatform.value = formatEther(this.contractOperation.mintPrices.fees).toString()
     }

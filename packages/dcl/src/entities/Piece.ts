@@ -54,7 +54,6 @@ export class Piece extends Entity {
   ]
 
   placeholder1: Entity
-  mintCard?: Entity
   placeholder2: Entity
   avantGardeToken1: AvantGardeToken
   avantGardeToken2?: AvantGardeToken
@@ -143,49 +142,5 @@ export class Piece extends Entity {
       )
     }
   }
-  minted(userPiece: AvantGardeToken){
-    this.mintCard = new Entity()
-    this.mintCard.addComponentOrReplace(new GLTFShape('models/aftermintCard.glb') )
-    this.mintCard.addComponent(
-      new Transform({
-        position: new Vector3(0, -3, 0),
-      })
-    )
-    this.mintCard.setParent(this)
-    engine.addEntity(this.mintCard)
 
-    const mintDate = new Entity()
-    mintDate.addComponent(
-      new Transform({
-        position: new Vector3(-0.2, -2.84, 0.2),
-        rotation: Quaternion.Euler(0, 180, 0),
-      })
-    )
-    const mintDateText = new TextShape(new Date(parseInt(userPiece.mintTimestamp) * 1000).toISOString().split('T')[0])
-    mintDateText.hTextAlign = 'left'
-    mintDateText.fontSize = 1
-    mintDateText.font = new Font(Fonts.SanFrancisco_Heavy)
-    mintDateText.color = Color3.Black()
-    mintDate.addComponent(mintDateText)
-    mintDate.setParent(this)
-    engine.addEntity(mintDate)
-
-    const mintPrice = new Entity()
-    mintPrice.addComponent(
-      new Transform({
-        position: new Vector3(-0.4, -3.13, 0.2),
-        rotation: Quaternion.Euler(0, 180, 0),
-      })
-    )
-    const mintPriceText = new TextShape(formatEther(userPiece.mintPrice || '0').toString())
-    mintPriceText.hTextAlign = 'left'
-    mintPriceText.fontSize = 1
-    mintPriceText.fontWeight = 'bold'
-    mintPriceText.font = new Font(Fonts.SanFrancisco_Heavy)
-    mintPriceText.color = Color3.Black()
-    mintPrice.addComponent(mintPriceText)
-    mintPrice.setParent(this)
-    engine.addEntity(mintPrice)
-
-  }
 }
