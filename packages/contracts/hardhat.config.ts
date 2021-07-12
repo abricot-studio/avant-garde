@@ -69,6 +69,11 @@ const config: HardhatUserConfig = {
       gasPrice: parseUnits('5', 'gwei').toNumber(),
       accounts: [process.env.KOVAN_PRIVATE_KEY || defaultPrivateKey],
     },
+    mainnet: {
+      url: `https://eth-mainnet.alchemyapi.io/v2/${process.env.ALCHEMY_API_KEY}`,
+      gasPrice: parseUnits('6', 'gwei').toNumber(),
+      accounts: [process.env.MAINNET_PRIVATE_KEY || defaultPrivateKey],
+    },
   },
 }
 
