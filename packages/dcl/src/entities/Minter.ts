@@ -17,7 +17,7 @@ export class Minter extends Entity {
     this.addComponent(new GLTFShape('models/cadre.glb'))
     this.addComponent(
       new Transform({
-        position: new Vector3(0, 4.5, 0),
+        position: new Vector3(0, 5, 0),
       })
     )
     engine.addEntity(this)
@@ -55,14 +55,14 @@ export class Minter extends Entity {
     this.price = new Entity()
     this.price.addComponent(
       new Transform({
-        position: new Vector3(-0.55, -2.85, 0.2),
+        position: new Vector3(-0.45, -2.85, 0.2),
         rotation: Quaternion.Euler(0, 180, 0),
       })
     )
     this.priceText = new TextShape('')
     this.priceText.hTextAlign = 'left'
     this.priceText.fontSize = 1
-    this.priceText.font = new Font(Fonts.LiberationSans)
+    this.priceText.font = new Font(Fonts.SanFrancisco_Heavy)
     this.priceText.color = Color3.Black()
     this.price.addComponent(this.priceText)
     this.price.setParent(this)
@@ -71,14 +71,14 @@ export class Minter extends Entity {
     this.pricePlatform = new Entity()
     this.pricePlatform.addComponent(
       new Transform({
-        position: new Vector3(-0.55, -3.15, 0.2),
+        position: new Vector3(-0.45, -3.14, 0.2),
         rotation: Quaternion.Euler(0, 180, 0),
       })
     )
     this.priceTextPlatform = new TextShape('')
     this.priceTextPlatform.hTextAlign = 'left'
     this.priceTextPlatform.fontSize = 1
-    this.priceTextPlatform.font = new Font(Fonts.LiberationSans)
+    this.priceTextPlatform.font = new Font(Fonts.SanFrancisco_Heavy)
     this.priceTextPlatform.color = Color3.Black()
     this.pricePlatform.addComponent(this.priceTextPlatform)
     this.pricePlatform.setParent(this)

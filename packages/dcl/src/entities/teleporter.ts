@@ -1,18 +1,21 @@
 import { movePlayerTo } from '@decentraland/RestrictedActions'
+import { TriggerBoxShape, TriggerComponent } from '@dcl/ecs-scene-utils'
 
 export class Teleporter extends Entity {
-  constructor() {
-    super()
-    // const model = new BoxShape()
-    const model = new GLTFShape('models/teleporter.glb')
+  animations = [
+    'avgCheckAction',
+    'lightMulticolourAction'
+  ]
 
+  exited = true
+  hover: string
+
+  constructor(transform: Transform, hover: string) {
+    super()
+    const model = new GLTFShape('models/teleporter.glb')
+    this.hover = hover
     this.addComponent(model)
-    const transform = new Transform({
-      position: new Vector3(-12, 0, -12),
-      rotation: Quaternion.Euler(0, -100, 0),
-    })
     this.addComponent(transform)
-    engine.addEntity(this)
 
     this.addComponentOrReplace(
       new OnPointerDown(async (e) => {}, {
@@ -22,21 +25,67 @@ export class Teleporter extends Entity {
         showFeedback: true,
       })
     )
+    this.addComponent(new Animator())
+    this.animations.forEach((animation, i) => {
+      const animationState = new AnimationState(animation, { layer: i })
+      animationState.looping = false
+      // animationState.playing = true
+      this.getComponent(Animator).addClip(animationState)
+      this.getComponent(Animator).getClip(animation).reset()
+    })
+    engine.addEntity(this)
+
   }
 
-  activate() {
+
+  activate(otherTeleporter: Teleporter) {
+
+    log('activate')
+    const shape = new TriggerBoxShape(new Vector3(1, 3, 1), new Vector3(0, 2, 0))
+
+    this.addComponentOrReplace(
+
+      new TriggerComponent(
+        shape,
+        {
+          enableDebug: false,
+          onCameraEnter: async () => {
+            if(!this.exited){
+              return false
+            }
+            log('onCameraEnter')
+            const otherTeleporterPosition = otherTeleporter.getComponent(Transform).position
+            otherTeleporter.exited = false
+            otherTeleporter.animations.forEach(animation => {
+              otherTeleporter.getComponent(Animator).getClip(animation).reset()
+            })
+            await movePlayerTo({ x: otherTeleporterPosition.x, y: otherTeleporterPosition.y + 1, z: otherTeleporterPosition.z }, { x: 0, y: otherTeleporterPosition.y + 1, z: 0 })
+            otherTeleporter.animations.forEach(animation => {
+              otherTeleporter.getComponent(Animator).getClip(animation).play()
+            })
+          },
+          onCameraExit: () => {
+            log('onCameraExit')
+            this.exited = true
+          }
+        }
+      )
+    )
     this.addComponentOrReplace(
       new OnPointerDown(
         async (e) => {
-          await movePlayerTo({ x: -12, y: 25, z: -12 }, { x: 0, y: 25, z: 0 })
+          this.animations.forEach(animation => {
+            this.getComponent(Animator).getClip(animation).play()
+          })
         },
         {
           button: ActionButton.POINTER,
-          hoverText: `Go to AvantGardists lounge!`,
+          hoverText: this.hover,
           distance: 4,
           showFeedback: true,
         }
       )
     )
   }
+
 }

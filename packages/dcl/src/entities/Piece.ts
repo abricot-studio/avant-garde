@@ -5,49 +5,49 @@ import { formatEther } from '../utils'
 export class Piece extends Entity {
   static Transformations: Transform[] = [
     new Transform({
-      position: new Vector3(-8.24, 3.5, -7.85),
+      position: new Vector3(-8.24, 4, -7.85),
       rotation: Quaternion.Euler(0, -55, 0),
       scale: new Vector3(0.625, 0.625, 0.625),
     }),
     new Transform({
-      position: new Vector3(-6.25, 3.5, -5.17),
+      position: new Vector3(-6.25, 4, -5.17),
       rotation: Quaternion.Euler(0, -50, 0),
       scale: new Vector3(0.625, 0.625, 0.625),
     }),
     new Transform({
-      position: new Vector3(-3.9, 3.5, -2.79),
+      position: new Vector3(-3.9, 4, -2.79),
       rotation: Quaternion.Euler(0, -40, 0),
       scale: new Vector3(0.625, 0.625, 0.625),
     }),
 
     new Transform({
-      position: new Vector3(-7.86, 3.5, 8.24),
+      position: new Vector3(-7.86, 4, 8.24),
       rotation: Quaternion.Euler(0, 33, 0),
       scale: new Vector3(0.625, 0.625, 0.625),
     }),
     new Transform({
-      position: new Vector3(-5.08, 3.5, 6.2),
+      position: new Vector3(-5.08, 4, 6.2),
       rotation: Quaternion.Euler(0, 40, 0),
       scale: new Vector3(0.625, 0.625, 0.625),
     }),
     new Transform({
-      position: new Vector3(-2.62, 3.5, 3.69),
+      position: new Vector3(-2.62, 4, 3.69),
       rotation: Quaternion.Euler(0, 50, 0),
       scale: new Vector3(0.625, 0.625, 0.625),
     }),
 
     new Transform({
-      position: new Vector3(8.4, 3.5, 8.08),
+      position: new Vector3(8.4, 4, 8.08),
       rotation: Quaternion.Euler(0, -56, 0),
       scale: new Vector3(0.625, 0.625, 0.625),
     }),
     new Transform({
-      position: new Vector3(6.61, 3.5, 5.56),
+      position: new Vector3(6.61, 4, 5.56),
       rotation: Quaternion.Euler(0, -52, 0),
       scale: new Vector3(0.625, 0.625, 0.625),
     }),
     new Transform({
-      position: new Vector3(4.56, 3.5, 3.36),
+      position: new Vector3(4.56, 4, 3.36),
       rotation: Quaternion.Euler(0, -43, 0),
       scale: new Vector3(0.625, 0.625, 0.625),
     }),
@@ -157,14 +157,14 @@ export class Piece extends Entity {
     const mintDate = new Entity()
     mintDate.addComponent(
       new Transform({
-        position: new Vector3(-0.2, -2.85, 0.2),
+        position: new Vector3(-0.2, -2.84, 0.2),
         rotation: Quaternion.Euler(0, 180, 0),
       })
     )
     const mintDateText = new TextShape(new Date(parseInt(userPiece.mintTimestamp) * 1000).toISOString().split('T')[0])
     mintDateText.hTextAlign = 'left'
     mintDateText.fontSize = 1
-    mintDateText.font = new Font(Fonts.LiberationSans)
+    mintDateText.font = new Font(Fonts.SanFrancisco_Heavy)
     mintDateText.color = Color3.Black()
     mintDate.addComponent(mintDateText)
     mintDate.setParent(this)
@@ -173,14 +173,15 @@ export class Piece extends Entity {
     const mintPrice = new Entity()
     mintPrice.addComponent(
       new Transform({
-        position: new Vector3(-0.4, -3.15, 0.2),
+        position: new Vector3(-0.4, -3.13, 0.2),
         rotation: Quaternion.Euler(0, 180, 0),
       })
     )
     const mintPriceText = new TextShape(formatEther(userPiece.mintPrice || '0').toString())
     mintPriceText.hTextAlign = 'left'
     mintPriceText.fontSize = 1
-    mintPriceText.font = new Font(Fonts.LiberationSans)
+    mintPriceText.fontWeight = 'bold'
+    mintPriceText.font = new Font(Fonts.SanFrancisco_Heavy)
     mintPriceText.color = Color3.Black()
     mintPrice.addComponent(mintPriceText)
     mintPrice.setParent(this)

@@ -20,7 +20,8 @@ export class Gallery implements ISystem {
   userPieceEntity: Piece | null = null
   mintParams?: mintParams
   POAPBooth?: Dispenser
-  teleporter?: Teleporter
+  teleporterDown?: Teleporter
+  teleporterStairs?: Teleporter
   minter?: Minter
   isPreview: boolean = false
   graphql: Graphql
@@ -70,7 +71,7 @@ export class Gallery implements ISystem {
     if (this.userPiece) {
       const mintedPiece = new Piece(
         new Transform({
-          position: new Vector3(0, 4.5, 0),
+          position: new Vector3(0, 5, 0),
         }),
         this.userPiece
       )
@@ -141,7 +142,10 @@ export class Gallery implements ISystem {
                     }
                   )
                 )
-                this.teleporter?.activate()
+                if(this.teleporterDown && this.teleporterStairs){
+                  this.teleporterDown.activate(this.teleporterStairs)
+                  this.teleporterStairs.activate(this.teleporterDown)
+                }
                 isMinting = false
               }
             } catch (error) {
@@ -181,9 +185,17 @@ export class Gallery implements ISystem {
   }
 
   async initMinterTeleporter() {
-    this.teleporter = new Teleporter()
+    this.teleporterDown = new Teleporter(new Transform({
+      position: new Vector3(-10.8, 0.7, -10.8),
+      rotation: Quaternion.Euler(0, 70, 0),
+    }), 'Go to AvantGardists lounge!')
+    this.teleporterStairs = new Teleporter(new Transform({
+      position: new Vector3(-10.8, 20, -10.8),
+      rotation: Quaternion.Euler(0, 50, 0),
+    }), 'Go to AvantGarde generator!')
     if (this.userPiece) {
-      this.teleporter.activate()
+      this.teleporterDown.activate(this.teleporterStairs)
+      this.teleporterStairs.activate(this.teleporterDown)
     }
   }
 
