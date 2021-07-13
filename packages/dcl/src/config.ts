@@ -4,6 +4,7 @@ interface config {
   generateUrl: string
   loadingUrl: string
   registerUrl: string
+  invitationsUrl: string
   discordUrl: string
   twitterUrl: string
   tweet: Function
@@ -22,6 +23,7 @@ const Config: config = {
   generateUrl: 'https://api.avant-garde.gallery/api/generate',
   loadingUrl: 'https://beta.avant-garde.gallery/avantgarde.webm',
   registerUrl: 'https://beta.avant-garde.gallery',
+  invitationsUrl: 'https://avant-garde.gallery/myInvitations',
   discordUrl: 'https://discord.gg/tQbXBBcpTD',
   twitterUrl: 'https://twitter.com/avantgardenft',
   tweet: (tokenId: string) => `https://twitter.com/intent/tweet?text=${encodeURIComponent(`Look at this unique #generativeart I created!💘

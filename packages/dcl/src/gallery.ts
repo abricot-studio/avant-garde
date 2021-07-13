@@ -11,6 +11,7 @@ import { Generate, mintParams } from './generate'
 import { AvantGardeToken, Graphql } from './graphql'
 import { formatEther, isPreview } from './utils'
 import { PieceNft } from './entities/PieceNft'
+import { Robot } from './entities/Robot'
 
 export class Gallery implements ISystem {
   contractOperation: ContractOperation
@@ -38,6 +39,7 @@ export class Gallery implements ISystem {
 
     if (this.isPreview) {
       new House()
+      this.initRobots()
       await this.contractOperation.init()
       await Promise.all([
         this.graphql.init(),
@@ -49,6 +51,13 @@ export class Gallery implements ISystem {
     } else {
       new BeforeLaunchHouse()
     }
+  }
+
+  initRobots(){
+    new Robot(new Transform({
+      position: new Vector3(12, 0.5, -4),
+      rotation: Quaternion.Euler(0, 90, 0),
+    }))
   }
 
   async initPieces() {
@@ -182,7 +191,7 @@ export class Gallery implements ISystem {
       image: 'https://lh3.googleusercontent.com/vunZSSkLoJIPwSIoef_-8PsfHB-ZiIsG-QPn0s_xc4406JmdnG4hwvVJN38CTUB8EQsEuDKAfJhfdxRyg8Oa_jWK8YNVMPuq-IpP',
       audio: 'audio/graffirap.wav', // 'https://storage.opensea.io/files/ed09d4b2fc372cca67013f2753c3241d.wav'
     }
-    const graffirap1 = {
+    const videoEx = {
       ethereum: 'ethereum://0x495f947276749ce646f68ac8c248420045cb7b5e/46972706538772698469744849040087914771133038895606724080931223465114363494401',
       video: 'https://storage.opensea.io/files/ed728797372d2e6658e976c25c85ffd7.mp4',
     }
@@ -191,14 +200,32 @@ export class Gallery implements ISystem {
       image: 'https://lh3.googleusercontent.com/YXN8il7e-Aocv-LE_-5mr3n9IYXC5vYzaZCefz3Mz3WTquyiUWOKFkVlIpWJ9zLRfhG9-seoOcjEY7EqP9UzQIqZ4LGqtulv_txLIg',
     }
     const piece1 = new PieceNft(graffirap, new Transform({
-      position: new Vector3(3, 21.5, 4),
+      position: new Vector3(-9, 25, 9),
+      rotation: Quaternion.Euler(0, -226, 0)
     }))
-    const piece2 = new PieceNft(graffirap1, new Transform({
-      position: new Vector3(5, 21.5, 4),
+    const piece2 = new PieceNft(videoEx, new Transform({
+      position: new Vector3(0, 25, 13),
+      rotation: Quaternion.Euler(0, 180, 0)
     }))
-    const piece3 = new PieceNft(deadhead, new Transform({
-      position: new Vector3(7, 21.5, 4),
+    const piece3 = new PieceNft(videoEx, new Transform({
+      position: new Vector3(9, 25, 9),
+      rotation: Quaternion.Euler(0, -135, 0)
     }))
+    const piece4 = new PieceNft(deadhead, new Transform({
+      position: new Vector3(13, 25, 0),
+      rotation: Quaternion.Euler(0, -90, 0)
+    }))
+    const piece5 = new PieceNft(deadhead, new Transform({
+      position: new Vector3(9, 25, -9),
+      rotation: Quaternion.Euler(0, -45, 0)
+    }))
+    // const streamSource = new Entity()
+    // streamSource.addComponent(
+    //   new AudioStream(
+    //     'http://localhost:8000/live/stream1/index.m3u8'
+    //   )
+    // )
+    // engine.addEntity(streamSource)
   }
 
   update(dt: number): void {

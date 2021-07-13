@@ -5,16 +5,29 @@ interface NftDetails {
   video?: string
 }
 export class PieceNft extends Entity {
+  placeholder: Entity
+
   constructor(nftDetails: NftDetails, transform: Transform) {
     super()
-    this.addComponent(new PlaneShape())
+    const model = new GLTFShape('models/cadreVIP.glb')
+    this.addComponent(model)
     this.addComponent(transform)
     engine.addEntity(this)
+
+    this.placeholder = new Entity()
+    this.placeholder.setParent(this)
+    this.placeholder.addComponent(new Transform({
+      scale: new Vector3(4, 4, 0.001),
+      position: new Vector3(0, 0, 0.2),
+    }))
+
+    this.placeholder.addComponent(new PlaneShape())
+    engine.addEntity(this.placeholder)
 
     if(nftDetails.image){
       const materialImage = new Material()
       materialImage.albedoTexture = new Texture(nftDetails.image)
-      this.addComponent(materialImage)
+      this.placeholder.addComponent(materialImage)
       if(nftDetails.audio){
         const soundsEntity = new Entity()
 
@@ -25,17 +38,17 @@ export class PieceNft extends Entity {
         source.volume = 0.1
         soundsEntity.addComponent(source)
         soundsEntity.setParent(this)
-        this.addComponent(
+        this.placeholder.addComponent(
           new OnPointerDown(() => {
             if(source.playing){
 
             }
             source.playing = !source.playing
-            this.getComponent(OnPointerDown).hoverText = source.playing ? 'Stop': 'Play'
+            this.placeholder.getComponent(OnPointerDown).hoverText = source.playing ? 'Stop': 'Play'
             },{
               button: ActionButton.POINTER,
               hoverText: source.playing ? 'Stop': 'Play',
-              distance: 3,
+              distance: 8,
             }
           )
         )
@@ -50,16 +63,16 @@ export class PieceNft extends Entity {
       videoTexture.volume = 0.5
       const materialVideo = new BasicMaterial()
       materialVideo.texture = videoTexture
-      this.addComponent(materialVideo)
-      this.addComponent(
+      this.placeholder.addComponent(materialVideo)
+      this.placeholder.addComponent(
         new OnPointerDown(() => {
             videoTexture.playing = !videoTexture.playing
             videoTexture.loop = true
-            this.getComponent(OnPointerDown).hoverText = videoTexture.playing ? 'Pause': 'Play'
+            this.placeholder.getComponent(OnPointerDown).hoverText = videoTexture.playing ? 'Pause': 'Play'
           },{
             button: ActionButton.POINTER,
             hoverText: videoTexture.playing ? 'Pause': 'Play',
-            distance: 3,
+            distance: 8,
           }
         )
       )
@@ -68,10 +81,10 @@ export class PieceNft extends Entity {
 
     const openDialog = new Entity()
     openDialog.setParent(this)
-    openDialog.addComponent(new PlaneShape())
+    openDialog.addComponent(new GLTFShape('models/openAuctionBtn.glb'))
     openDialog.addComponent(new Transform({
-      position: new Vector3(0, -0.6, 0),
-      scale: new Vector3(1, 0.2 , 1)
+      position: new Vector3(0, -3.5, 0.5),
+      rotation: Quaternion.Euler(0, 180, 0)
     }) )
     openDialog.addComponent(
       new OnPointerDown((e) => {
@@ -79,7 +92,7 @@ export class PieceNft extends Entity {
       }, {
         button: ActionButton.POINTER,
         hoverText: 'Open',
-        distance: 3,
+        distance: 8,
       })
     )
     engine.addEntity(openDialog)

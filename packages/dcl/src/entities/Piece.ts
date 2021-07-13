@@ -113,7 +113,7 @@ export class Piece extends Entity {
         {
           button: ActionButton.POINTER,
           hoverText: `Open details`,
-          distance: 6,
+          distance: 8,
         }
       )
     )
@@ -136,7 +136,7 @@ export class Piece extends Entity {
           {
             button: ActionButton.POINTER,
             hoverText: `Open details`,
-            distance: 6,
+            distance: 8,
           }
         )
       )

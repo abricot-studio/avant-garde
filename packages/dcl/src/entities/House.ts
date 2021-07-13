@@ -1,7 +1,10 @@
+import { Invitation } from './invitation'
+
 export class House extends Entity {
+  invitation: Entity
+
   constructor() {
     super()
-    // const model = new GLTFShape('models/box.glb')
     const model = new GLTFShape('models/house.glb')
 
     this.addComponent(model)
@@ -11,5 +14,7 @@ export class House extends Entity {
     })
     this.addComponent(transform)
     engine.addEntity(this)
+    this.invitation = new Invitation()
+
   }
 }
