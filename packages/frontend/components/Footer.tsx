@@ -104,7 +104,6 @@ export function Footer() {
                         justifyContent="center"
                         pb={6}
                       >
-                        <NavButtonIcon color={getPageStuff(pagePath)[1]} />
                         <Text ml={2} color="black" fontWeight={400}>
                           {getPageStuff(pagePath)[0]}
                         </Text>

@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-<url><loc>https://beta.avant-garde.gallery</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-11T18:23:59.997Z</lastmod></url>
-<url><loc>https://beta.avant-garde.gallery/about</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-11T18:24:00.010Z</lastmod></url>
-<url><loc>https://beta.avant-garde.gallery/gallery</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-11T18:24:00.010Z</lastmod></url>
-<url><loc>https://beta.avant-garde.gallery/generator</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-11T18:24:00.010Z</lastmod></url>
-<url><loc>https://beta.avant-garde.gallery/myInvitations</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-11T18:24:00.010Z</lastmod></url>
-<url><loc>https://beta.avant-garde.gallery/myItems</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-11T18:24:00.010Z</lastmod></url>
-<url><loc>https://beta.avant-garde.gallery/register</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-11T18:24:00.010Z</lastmod></url>
+<url><loc>https://avant-garde.gallery</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-14T14:59:31.787Z</lastmod></url>
+<url><loc>https://avant-garde.gallery/about</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-14T14:59:31.788Z</lastmod></url>
+<url><loc>https://avant-garde.gallery/gallery</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-14T14:59:31.788Z</lastmod></url>
+<url><loc>https://avant-garde.gallery/generator</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-14T14:59:31.788Z</lastmod></url>
+<url><loc>https://avant-garde.gallery/myInvitations</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-14T14:59:31.788Z</lastmod></url>
+<url><loc>https://avant-garde.gallery/myItems</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-14T14:59:31.788Z</lastmod></url>
+<url><loc>https://avant-garde.gallery/register</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-14T14:59:31.788Z</lastmod></url>
+<url><loc>https://avant-garde.gallery/token/0xa5e9fa790e08fe69ba198fa0c855f0510954f1c9</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-14T14:59:31.788Z</lastmod></url>
+<url><loc>https://avant-garde.gallery/token/0x18a6a4fbb5b5686eba0c0b964a5cc94bb75a379d</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-14T14:59:31.788Z</lastmod></url>
+<url><loc>https://avant-garde.gallery/token/0x9ce897c135dc77837d4430dbf0ed47ef96e94f1e</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-14T14:59:31.788Z</lastmod></url>
+<url><loc>https://avant-garde.gallery/token/0x3e32d3def0af2a9b8ba11bad23e4dc2180eff2f4</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-14T14:59:31.788Z</lastmod></url>
+<url><loc>https://avant-garde.gallery/token/0x0da81b12df6caa5fd2ece2377cbf78f06e8adf03</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-14T14:59:31.788Z</lastmod></url>
+<url><loc>https://avant-garde.gallery/token/0x24c08142dd48ca242ddc2d08220666f7f1d5bb3f</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-14T14:59:31.788Z</lastmod></url>
+<url><loc>https://avant-garde.gallery/gallery/0</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-14T14:59:31.788Z</lastmod></url>
+<url><loc>https://avant-garde.gallery/gallery/1</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-14T14:59:31.788Z</lastmod></url>
+<url><loc>https://avant-garde.gallery/gallery/2</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-14T14:59:31.788Z</lastmod></url>
+<url><loc>https://avant-garde.gallery/gallery/3</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-14T14:59:31.788Z</lastmod></url>
+<url><loc>https://avant-garde.gallery/gallery/4</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-14T14:59:31.788Z</lastmod></url>
+<url><loc>https://avant-garde.gallery/gallery/5</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-07-14T14:59:31.788Z</lastmod></url>
 </urlset>

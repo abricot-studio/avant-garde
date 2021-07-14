@@ -39,7 +39,6 @@ const NavButton = forwardRef<NavButtonProps & ButtonProps, 'a'>(
         _hover={{
           borderColor: color,
         }}
-        leftIcon={<NavButtonIcon color={color} />}
         {...props}
       >
         {children}
@@ -57,16 +56,16 @@ export const getPageStuff = (pathname) => {
     return ['Home', 'black']
   }
   if (pathname === '/generator') {
-    return ['Generator', 'reddy']
+    return ['🎨 Generator', 'pupu']
   }
   if (pathname === '/register') {
-    return ['Register', 'reddy']
+    return ['🎨 Register', 'pupu']
   }
   if (pathname === '/about') {
-    return ['About', 'greeny']
+    return ['🔥 About', 'reddy']
   }
   if (pathname === '/gallery') {
-    return ['Gallery', 'bluey']
+    return ['💘 Gallery', 'yellowy']
   }
   if (pathname === '/myItems') {
     return ['My Items', 'black']
