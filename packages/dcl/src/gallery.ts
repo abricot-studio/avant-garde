@@ -12,6 +12,7 @@ import { AvantGardeToken, Graphql } from './graphql'
 import { formatEther, isPreview } from './utils'
 import { PieceNft } from './entities/PieceNft'
 import { Robot } from './entities/Robot'
+import { MusicBox } from './entities/musicBox'
 
 export class Gallery implements ISystem {
   contractOperation: ContractOperation
@@ -47,6 +48,7 @@ export class Gallery implements ISystem {
         this.initPoap(),
       ])
       await this.initMinterTeleporter()
+      this.initMusic()
       this.initPieceNfts()
     } else {
       new BeforeLaunchHouse()
@@ -219,13 +221,11 @@ export class Gallery implements ISystem {
       position: new Vector3(9, 25, -9),
       rotation: Quaternion.Euler(0, -45, 0)
     }))
-    // const streamSource = new Entity()
-    // streamSource.addComponent(
-    //   new AudioStream(
-    //     'http://localhost:8000/live/stream1/index.m3u8'
-    //   )
-    // )
-    // engine.addEntity(streamSource)
+
+  }
+
+  initMusic(){
+    new MusicBox()
   }
 
   update(dt: number): void {
