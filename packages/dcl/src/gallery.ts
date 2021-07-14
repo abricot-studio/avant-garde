@@ -225,7 +225,7 @@ export class Gallery implements ISystem {
   }
 
   initMusic(){
-    new MusicBox()
+    new MusicBox(Config.streamUrl)
   }
 
   update(dt: number): void {

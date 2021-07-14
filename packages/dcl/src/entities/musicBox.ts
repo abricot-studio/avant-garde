@@ -1,7 +1,7 @@
 
 export class MusicBox extends Entity {
 
-  constructor() {
+  constructor(stream: string) {
     super()
     const model = new GLTFShape('models/boiteAMusic.glb')
 
@@ -12,12 +12,11 @@ export class MusicBox extends Entity {
     })
     this.addComponent(transform)
     engine.addEntity(this)
-    // const streamSource = new Entity()
-    // streamSource.addComponent(
-    //   new AudioStream(
-    //     'http://localhost:8000/live/stream1/index.m3u8'
-    //   )
-    // )
-    // engine.addEntity(streamSource)
+    const streamSource = new Entity()
+    streamSource.addComponent(
+      new AudioStream(stream)
+    )
+    streamSource.setParent(this)
+    engine.addEntity(streamSource)
   }
 }
