@@ -7,7 +7,7 @@ export class MusicBox extends Entity {
 
     this.addComponent(model)
     const transform = new Transform({
-      position: new Vector3(-11, 1, 11),
+      position: new Vector3(-11, 0.5, 11),
       rotation: Quaternion.Euler(0, -90, 0),
     })
     this.addComponent(transform)
