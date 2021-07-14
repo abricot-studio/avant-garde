@@ -1,6 +1,7 @@
 import { useDisclosure } from '@chakra-ui/hooks'
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {  faCheckCircle } from '@fortawesome/free-regular-svg-icons'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useEffect, useMemo } from 'react'
@@ -16,12 +17,21 @@ import {
   Spinner,
 } from '../ui'
 import { defaultSize, ImageFrame, smallSize, TokenImage } from './TokenImage'
+import { addressEqual, useEthers } from '@usedapp/core'
 
-function TokenCard({ token, size }) {
+function TokenCard({ token, size, isMine = false }) {
   return (
     <Link href={`/token/${token.id}`} passHref>
       <a>
         <TokenImage avantGardeToken={token} size={size} />
+        { isMine && (
+          <FontAwesomeIcon
+            icon={faCheckCircle}
+            size="1x"
+            color="#BC6BFB"
+            style={{ float: 'right'}}
+          />
+        )}
       </a>
     </Link>
   )
@@ -43,6 +53,7 @@ export default function Tokens({
   skip = 0,
 }: Props) {
   const router = useRouter()
+  const { account } = useEthers()
   const [index, setIndex] = React.useState(skip)
   const { isOpen, onToggle } = useDisclosure({
     defaultIsOpen: true,
@@ -101,7 +112,7 @@ export default function Tokens({
         >
           <ScaleFade in={isOpen}>
             {tokensDisplayed[0] ? (
-              <TokenCard size={smallSize} token={tokensDisplayed[0]} />
+              <TokenCard size={smallSize} token={tokensDisplayed[0]} isMine={account && addressEqual(account, tokensDisplayed[0].id)}/>
             ) : (
               <ImageFrame size={smallSize} />
             )}
@@ -124,7 +135,7 @@ export default function Tokens({
         />
         {tokensDisplayed[1] && (
           <ScaleFade in={isOpen}>
-            <TokenCard size={defaultSize} token={tokensDisplayed[1]} />
+            <TokenCard size={defaultSize} token={tokensDisplayed[1]} isMine={account && addressEqual(account, tokensDisplayed[1].id)}/>
           </ScaleFade>
         )}
         <IconButton
@@ -149,7 +160,7 @@ export default function Tokens({
         >
           <ScaleFade in={isOpen}>
             {tokensDisplayed[2] ? (
-              <TokenCard size={smallSize} token={tokensDisplayed[2]} />
+              <TokenCard size={smallSize} token={tokensDisplayed[2]} isMine={account && addressEqual(account, tokensDisplayed[2].id)}/>
             ) : (
               <ImageFrame size={smallSize} />
             )}
