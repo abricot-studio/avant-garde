@@ -35,7 +35,7 @@ https://avant-garde.gallery/token/${tokenId}
 
 #NFTs #nftart #abstractart #NFTartist #NFTCommunity #cryptoart #NFTcollectibles #art`)}`,
   poapSeverUrl: 'poapapi.dcl.guru',
-  poapEventId: '2369',
+  poapEventId: '3669',
 }
 
 export default Config
