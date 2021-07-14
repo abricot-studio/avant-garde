@@ -11,7 +11,9 @@
     "prepare:rinkeby": "mustache ../contracts/deployments/rinkeby/config.json subgraph.template.yaml > subgraph.yaml",
     "deploy:rinkeby": "npm run prepare:rinkeby && graph deploy --debug --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/ abricot-studio/avant-garde-rinkeby",
     "prepare:kovan": "mustache ../contracts/deployments/kovan/config.json subgraph.template.yaml > subgraph.yaml",
-    "deploy:kovan": "npm run prepare:kovan && graph deploy --debug --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/ abricot-studio/avant-garde-kovan"
+    "deploy:kovan": "npm run prepare:kovan && graph deploy --debug --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/ abricot-studio/avant-garde-kovan",
+    "prepare:mainnet": "mustache ../contracts/deployments/mainnet/config.json subgraph.template.yaml > subgraph.yaml",
+    "deploy:mainnet": "npm run prepare:mainnet && graph deploy --debug --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/ abricot-studio/avant-garde-mainnet"
   },
   "devDependencies": {
     "@graphprotocol/graph-cli": "^0.21.0",
