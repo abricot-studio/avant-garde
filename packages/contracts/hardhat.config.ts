@@ -71,7 +71,7 @@ const config: HardhatUserConfig = {
     },
     mainnet: {
       url: `https://eth-mainnet.alchemyapi.io/v2/${process.env.ALCHEMY_API_KEY}`,
-      gasPrice: parseUnits('5', 'gwei').toNumber(),
+      gasPrice: parseUnits('12', 'gwei').toNumber(),
       accounts: [process.env.MAINNET_PRIVATE_KEY || defaultPrivateKey],
     },
   },
