@@ -81,7 +81,7 @@ export default function Hero() {
               variant="outline"
               borderRadius="full"
               border="2px"
-              borderColor="pupu"
+              borderColor="reddy"
               bgColor="white"
               px={12}
               rounded="full"

@@ -86,7 +86,7 @@ const config: Config = {
     apiSecret: process.env.PINATA_API_SECRET || '',
     externalUrlBase:
       process.env.PINATA_EXTERNAL_URL_BASE ||
-      'https://beta.avant-garde.gallery/token/',
+      'https://avant-garde.gallery/token/',
   },
   privateKey:
     process.env.PRIVATE_KEY ||
