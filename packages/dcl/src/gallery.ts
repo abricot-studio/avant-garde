@@ -191,9 +191,9 @@ export class Gallery implements ISystem {
       image: 'https://lh3.googleusercontent.com/vunZSSkLoJIPwSIoef_-8PsfHB-ZiIsG-QPn0s_xc4406JmdnG4hwvVJN38CTUB8EQsEuDKAfJhfdxRyg8Oa_jWK8YNVMPuq-IpP',
       audio: 'audio/graffirap.wav', // 'https://storage.opensea.io/files/ed09d4b2fc372cca67013f2753c3241d.wav'
     }
-    const videoEx = {
-      ethereum: 'ethereum://0x495f947276749ce646f68ac8c248420045cb7b5e/46972706538772698469744849040087914771133038895606724080931223465114363494401',
-      video: 'https://storage.opensea.io/files/ed728797372d2e6658e976c25c85ffd7.mp4',
+    const wallace = {
+      ethereum: 'ethereum://0x60f80121c31a0d46b5279700f9df786054aa5ee5/1129178',
+      gif: true,
     }
     const deadhead = {
       ethereum: 'ethereum://0x6fc355d4e0ee44b292e50878f49798ff755a5bbc/9088',
@@ -203,14 +203,14 @@ export class Gallery implements ISystem {
       position: new Vector3(-9, 25, 9),
       rotation: Quaternion.Euler(0, -226, 0)
     }))
-    const piece2 = new PieceNft(videoEx, new Transform({
+    const piece2 = new PieceNft(wallace, new Transform({
       position: new Vector3(0, 25, 13),
       rotation: Quaternion.Euler(0, 180, 0)
     }))
-    const piece3 = new PieceNft(videoEx, new Transform({
-      position: new Vector3(9, 25, 9),
-      rotation: Quaternion.Euler(0, -135, 0)
-    }))
+    // const piece3 = new PieceNft(videoEx, new Transform({
+    //   position: new Vector3(9, 25, 9),
+    //   rotation: Quaternion.Euler(0, -135, 0)
+    // }))
     const piece4 = new PieceNft(deadhead, new Transform({
       position: new Vector3(13, 25, 0),
       rotation: Quaternion.Euler(0, -90, 0)

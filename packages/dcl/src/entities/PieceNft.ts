@@ -3,6 +3,7 @@ interface NftDetails {
   image?: string
   audio?: string
   video?: string
+  gif?: boolean
 }
 export class PieceNft extends Entity {
   placeholder: Entity
@@ -76,6 +77,24 @@ export class PieceNft extends Entity {
           }
         )
       )
+    } else if(nftDetails.gif){
+      const gifEntity = new Entity()
+      gifEntity.addComponent(new Transform({
+        position: new Vector3(0, 0, 0),
+        scale: new Vector3(2, 2, 0.1),
+        rotation: Quaternion.Euler(0, 180, 0),
+      }))
+      const shapeComponent = new NFTShape(
+        nftDetails.ethereum,
+        {
+          color: Color3.White(),
+          style: PictureFrameStyle.None,
+        }
+      )
+      gifEntity.addComponent(shapeComponent)
+      gifEntity.setParent(this.placeholder)
+      engine.addEntity(gifEntity)
+
     }
 
 
