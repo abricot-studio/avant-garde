@@ -56,10 +56,11 @@ export class Gallery implements ISystem {
   }
 
   initRobots(){
-    new Robot(new Transform({
+    const robotWelcome = new Robot(new Transform({
       position: new Vector3(12, 0.5, -4),
       rotation: Quaternion.Euler(0, 0, 0),
     }), dialogsWelcome)
+    dialogsWelcome[1].triggeredByNext = () => robotWelcome.npc.playAnimation(`pointingAction`, true)
     new Robot(new Transform({
       position: new Vector3(-6, 20.5, -5),
       rotation: Quaternion.Euler(0, 0, 0),

@@ -69,13 +69,20 @@ export class Robot {
   constructor(transform: Transform, dialogs: Dialog[]) {
 
     this.npc = new NPC(transform, 'models/robot.glb', () => {
-      this.npc.talk(dialogs, 0)
+      this.npc.playAnimation(`talkingAction`, true)
+      this.npc.talkBubble(dialogs.map(dialog => {
+        if(!dialog.triggeredByNext){
+          dialog.triggeredByNext = () => this.npc.changeIdleAnim(`idleAction`, true)
+        }
+        return dialog
+      }), 0)
     }, {
       faceUser: true,
-      idleAnim: 'idleAction'
-      // reactDistance: 4
-      // coolDownDuration: 120
-      // continueOnWalkAway: true
+      bubbleHeight: 5,
+      idleAnim: 'idleAction',
+      onWalkAway: () => {
+        this.npc.changeIdleAnim(`idleAction`, true)
+      }
     })
     this.npc.changeIdleAnim(`idleAction`, true)
   }
