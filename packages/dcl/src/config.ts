@@ -38,7 +38,7 @@ https://avant-garde.gallery/token/${tokenId}
 #NFTs #nftart #abstractart #NFTartist #NFTCommunity #cryptoart #NFTcollectibles #art`)}`,
   poapSeverUrl: 'poapapi.dcl.guru',
   poapEventId: '3669',
-  streamUrl: 'http://localhost:8000/live/stream1/index.m3u8',
+  streamUrl: 'https://stream.avant-garde.gallery:8443/live/stream1/index.m3u8',
 }
 
 export default Config

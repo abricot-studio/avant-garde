@@ -12,11 +12,20 @@ export class MusicBox extends Entity {
     })
     this.addComponent(transform)
     engine.addEntity(this)
-    const streamSource = new Entity()
-    streamSource.addComponent(
-      new AudioStream(stream)
+
+    const myVideoClip = new VideoClip(stream)
+    let myVideoTexture = new VideoTexture(myVideoClip)
+    const myMaterial = new BasicMaterial()
+    myMaterial.texture = myVideoTexture
+    const screen = new Entity()
+    screen.addComponent(new PlaneShape())
+    screen.addComponent(
+      new Transform({
+        scale: new Vector3(0,0,0),
+      })
     )
-    streamSource.setParent(this)
-    engine.addEntity(streamSource)
+    screen.addComponent(myMaterial)
+    engine.addEntity(screen)
+    myVideoTexture.playing = true
   }
 }
