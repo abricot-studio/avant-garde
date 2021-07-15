@@ -11,7 +11,7 @@ import { Generate, mintParams } from './generate'
 import { AvantGardeToken, Graphql } from './graphql'
 import { formatEther, isPreview } from './utils'
 import { PieceNft } from './entities/PieceNft'
-import { Robot } from './entities/Robot'
+import { dialogsVip, dialogsWelcome, Robot } from './entities/Robot'
 import { MusicBox } from './entities/musicBox'
 
 export class Gallery implements ISystem {
@@ -58,8 +58,12 @@ export class Gallery implements ISystem {
   initRobots(){
     new Robot(new Transform({
       position: new Vector3(12, 0.5, -4),
-      rotation: Quaternion.Euler(0, 90, 0),
-    }))
+      rotation: Quaternion.Euler(0, 0, 0),
+    }), dialogsWelcome)
+    new Robot(new Transform({
+      position: new Vector3(-6, 20.5, -5),
+      rotation: Quaternion.Euler(0, 0, 0),
+    }), dialogsVip)
   }
 
   async initPieces() {
