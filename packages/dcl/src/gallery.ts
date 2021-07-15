@@ -236,6 +236,15 @@ export class Gallery implements ISystem {
         rotation: Quaternion.Euler(0, 180, 0),
       })
     )
+    const oce = new PieceNft({
+        ethereum: 'ethereum://0xc02697c417ddacfbe5edbf23edad956bc883f4fb/17499',
+        image: 'https://lh3.googleusercontent.com/GSfTcft_rAX56l5msySs25FSXiFXBDxVn6bghcJ6in2C9tyuEy2IJeB9oqYOW6F_EOLPG46fEVNtHL-0ptnfaIIyULljlzIqml4T',
+      },
+      new Transform({
+        position: new Vector3(2, 25, 13),
+        rotation: Quaternion.Euler(0, -226, 0),
+      })
+    )
     const ruben = new PieceNft({
         ethereum: 'ethereum://0x495f947276749ce646f68ac8c248420045cb7b5e/7557340173844726611425323825186638187486998272719620299255139822281198403585',
         video: 'https://storage.opensea.io/files/26f5dece4f96c76ef38c0e29121aa918.mp4',
