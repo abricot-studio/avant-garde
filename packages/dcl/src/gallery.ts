@@ -304,8 +304,7 @@ export class Gallery implements ISystem {
       this.minter &&
       this.minter.priceText &&
       this.minter.priceTextPlatform &&
-      this.contractOperation.mintPrices &&
-      this.minter
+      this.contractOperation.mintPrices
     ) {
       this.minter.priceText.value = formatEther(
         this.contractOperation.mintPrices.currentPrice
