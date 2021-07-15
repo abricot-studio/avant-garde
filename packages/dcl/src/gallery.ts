@@ -266,7 +266,7 @@ export class Gallery implements ISystem {
   }
 
   initMusic() {
-    new MusicBox(Config.streamUrl)
+    new MusicBox(Config.streamUrl, Config.soundcloudUrl)
   }
 
   update(dt: number): void {

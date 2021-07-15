@@ -11,6 +11,7 @@ interface config {
   poapSeverUrl: string
   poapEventId: string
   streamUrl: string
+  soundcloudUrl: string
 }
 
 const Config: config = {
@@ -39,6 +40,7 @@ https://avant-garde.gallery/token/${tokenId}
   poapSeverUrl: 'poapapi.dcl.guru',
   poapEventId: '3669',
   streamUrl: 'https://stream.avant-garde.gallery:8443/live/stream1/index.m3u8',
+  soundcloudUrl: 'https://soundcloud.com/radiobato',
 }
 
 export default Config

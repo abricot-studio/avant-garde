@@ -1,5 +1,5 @@
 export class MusicBox extends Entity {
-  constructor(stream: string) {
+  constructor(stream: string, soundcloud: string) {
     super()
     const model = new GLTFShape('models/boiteAMusic.glb')
 
@@ -10,6 +10,28 @@ export class MusicBox extends Entity {
     })
     this.addComponent(transform)
     engine.addEntity(this)
+
+    const sonCard = new Entity()
+    const modelCard = new GLTFShape('models/sonCard.glb')
+
+    sonCard.addComponent(modelCard)
+    sonCard.addComponent(new Transform({
+      position: new Vector3(-11, 3, 11),
+      rotation: Quaternion.Euler(0, -70, 0),
+    }))
+    sonCard.addComponentOrReplace(
+      new OnPointerDown(
+        () => {
+          openExternalURL(soundcloud)
+        },
+        {
+          button: ActionButton.POINTER,
+          hoverText: `Find more of their music on SoundCloud`,
+          distance: 6,
+        }
+      )
+    )
+    engine.addEntity(sonCard)
 
     const myVideoClip = new VideoClip(stream)
     let myVideoTexture = new VideoTexture(myVideoClip)

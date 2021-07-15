@@ -15,5 +15,14 @@ export class House extends Entity {
     this.addComponent(transform)
     engine.addEntity(this)
     this.invitation = new Invitation()
+
+    const wearable = new Entity()
+    const modelWearable = new GLTFShape('models/wearableVIP.glb')
+
+    wearable.addComponent(modelWearable)
+    wearable.addComponent(new Transform({
+      position: new Vector3(12, 0, 7),
+    }))
+    engine.addEntity(wearable)
   }
 }
