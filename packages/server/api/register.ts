@@ -1,10 +1,10 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
 import { getAddress } from 'ethers/lib/utils'
 import Redis from 'ioredis'
+import { config } from '../libs/config'
 import { Log } from '../libs/logger'
 import { Middlewares } from '../libs/middlewares'
 import { getRedis } from '../libs/redis'
-import { config } from '../libs/config'
 
 const logger = Log({ service: 'register' })
 

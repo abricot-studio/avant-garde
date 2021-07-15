@@ -27,10 +27,12 @@ export class MusicBox extends Entity {
     const modelCard = new GLTFShape('models/sonCard.glb')
 
     sonCard.addComponent(modelCard)
-    sonCard.addComponent(new Transform({
-      position: new Vector3(-11.5, 2.7, 12),
-      rotation: Quaternion.Euler(0, -70, 0),
-    }))
+    sonCard.addComponent(
+      new Transform({
+        position: new Vector3(-11.5, 2.7, 12),
+        rotation: Quaternion.Euler(0, -70, 0),
+      })
+    )
     sonCard.addComponentOrReplace(
       new OnPointerDown(
         () => {
