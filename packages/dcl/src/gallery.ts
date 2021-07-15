@@ -241,8 +241,8 @@ export class Gallery implements ISystem {
         image: 'https://lh3.googleusercontent.com/GSfTcft_rAX56l5msySs25FSXiFXBDxVn6bghcJ6in2C9tyuEy2IJeB9oqYOW6F_EOLPG46fEVNtHL-0ptnfaIIyULljlzIqml4T',
       },
       new Transform({
-        position: new Vector3(2, 25, 13),
-        rotation: Quaternion.Euler(0, -226, 0),
+        position: new Vector3(9, 25, 9),
+        rotation: Quaternion.Euler(0, -135, 0),
       })
     )
     const ruben = new PieceNft({
