@@ -20,6 +20,7 @@ export class PieceNft extends Entity {
     this.placeholder.addComponent(
       new Transform({
         scale: new Vector3(4, 4, 0.001),
+        rotation: Quaternion.Euler(180, 0, 0),
         position: new Vector3(0, 0, 0.2),
       })
     )
@@ -38,7 +39,7 @@ export class PieceNft extends Entity {
         const clip = new AudioClip(nftDetails.audio)
         const source = new AudioSource(clip)
 
-        source.volume = 0.1
+        source.volume = 0.2
         soundsEntity.addComponent(source)
         soundsEntity.setParent(this)
         this.placeholder.addComponent(
@@ -86,9 +87,9 @@ export class PieceNft extends Entity {
       const gifEntity = new Entity()
       gifEntity.addComponent(
         new Transform({
-          position: new Vector3(0, 0, 0),
+          position: new Vector3(0, 0, -0.2),
           scale: new Vector3(2, 2, 0.1),
-          rotation: Quaternion.Euler(0, 180, 0),
+          // rotation: Quaternion.Euler(0, 180, 0),
         })
       )
       const shapeComponent = new NFTShape(nftDetails.ethereum, {

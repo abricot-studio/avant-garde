@@ -215,52 +215,47 @@ export class Gallery implements ISystem {
 
   initPieceNfts() {
     //https://api.opensea.io/api/v1/asset/
-    const graffirap = {
-      ethereum:
-        'ethereum://0x495f947276749ce646f68ac8c248420045cb7b5e/31579987235644736708101780315467862908536911764207097187188861645553634639873',
-      image:
-        'https://lh3.googleusercontent.com/vunZSSkLoJIPwSIoef_-8PsfHB-ZiIsG-QPn0s_xc4406JmdnG4hwvVJN38CTUB8EQsEuDKAfJhfdxRyg8Oa_jWK8YNVMPuq-IpP',
-      audio: 'audio/graffirap.wav', // 'https://storage.opensea.io/files/ed09d4b2fc372cca67013f2753c3241d.wav'
-    }
-    const wallace = {
-      ethereum: 'ethereum://0x60f80121c31a0d46b5279700f9df786054aa5ee5/1129178',
-      gif: true,
-    }
-    const deadhead = {
-      ethereum: 'ethereum://0x6fc355d4e0ee44b292e50878f49798ff755a5bbc/9088',
-      image:
-        'https://lh3.googleusercontent.com/YXN8il7e-Aocv-LE_-5mr3n9IYXC5vYzaZCefz3Mz3WTquyiUWOKFkVlIpWJ9zLRfhG9-seoOcjEY7EqP9UzQIqZ4LGqtulv_txLIg',
-    }
-    const piece1 = new PieceNft(
-      graffirap,
+    const graffirap = new PieceNft({
+        ethereum:
+          'ethereum://0x495f947276749ce646f68ac8c248420045cb7b5e/31579987235644736708101780315467862908536911764207097187188861645553634639873',
+        image:
+          'https://lh3.googleusercontent.com/vunZSSkLoJIPwSIoef_-8PsfHB-ZiIsG-QPn0s_xc4406JmdnG4hwvVJN38CTUB8EQsEuDKAfJhfdxRyg8Oa_jWK8YNVMPuq-IpP',
+        audio: 'audio/graffirap.wav', // 'https://storage.opensea.io/files/ed09d4b2fc372cca67013f2753c3241d.wav'
+      },
       new Transform({
         position: new Vector3(-9, 25, 9),
         rotation: Quaternion.Euler(0, -226, 0),
       })
     )
-    const piece2 = new PieceNft(
-      wallace,
+    const wallace = new PieceNft({
+        ethereum: 'ethereum://0x60f80121c31a0d46b5279700f9df786054aa5ee5/1129178',
+        gif: true,
+      },
       new Transform({
         position: new Vector3(0, 25, 13),
         rotation: Quaternion.Euler(0, 180, 0),
       })
     )
-    // const piece3 = new PieceNft(videoEx, new Transform({
-    //   position: new Vector3(9, 25, 9),
-    //   rotation: Quaternion.Euler(0, -135, 0)
-    // }))
-    const piece4 = new PieceNft(
-      deadhead,
+    const ruben = new PieceNft({
+        ethereum: 'ethereum://0x495f947276749ce646f68ac8c248420045cb7b5e/7557340173844726611425323825186638187486998272719620299255139822281198403585',
+        video: 'https://storage.opensea.io/files/26f5dece4f96c76ef38c0e29121aa918.mp4',
+      },
       new Transform({
         position: new Vector3(13, 25, 0),
         rotation: Quaternion.Euler(0, -90, 0),
       })
     )
-    const piece5 = new PieceNft(
-      deadhead,
+    const radioBato = new PieceNft(
+      {
+        ethereum: 'ethereum://0x495f947276749ce646f68ac8c248420045cb7b5e/2165514460155157643134678580987885961104769492778982270620613138639795257345',
+        image: 'https://lh3.googleusercontent.com/Po2USNvQ5fRqNb_ygWY2pRiVE4aE-jqiIsFsG04Oc3uCw_2h6taMDHk31vez9nMMA6tWS6itsMbTmrJPw6mjI8YhSWH4A9UGdDGG',
+        // audio: 'https://storage.opensea.io/files/f8da05aee650b8f972878a38fd1dc6f7.mp3'
+        audio: 'audio/radiobato.mp3'//https://storage.opensea.io/files/f8da05aee650b8f972878a38fd1dc6f7.mp3'
+      },
       new Transform({
         position: new Vector3(9, 25, -9),
         rotation: Quaternion.Euler(0, -45, 0),
+
       })
     )
   }

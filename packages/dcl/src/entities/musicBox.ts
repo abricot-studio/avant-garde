@@ -9,6 +9,18 @@ export class MusicBox extends Entity {
       rotation: Quaternion.Euler(0, -90, 0),
     })
     this.addComponent(transform)
+    this.addComponentOrReplace(
+      new OnPointerDown(
+        () => {
+          openExternalURL(soundcloud)
+        },
+        {
+          button: ActionButton.POINTER,
+          hoverText: `Find more of their music on SoundCloud`,
+          distance: 6,
+        }
+      )
+    )
     engine.addEntity(this)
 
     const sonCard = new Entity()
@@ -16,7 +28,7 @@ export class MusicBox extends Entity {
 
     sonCard.addComponent(modelCard)
     sonCard.addComponent(new Transform({
-      position: new Vector3(-11, 3, 11),
+      position: new Vector3(-11.5, 2.7, 12),
       rotation: Quaternion.Euler(0, -70, 0),
     }))
     sonCard.addComponentOrReplace(
@@ -34,7 +46,8 @@ export class MusicBox extends Entity {
     engine.addEntity(sonCard)
 
     const myVideoClip = new VideoClip(stream)
-    let myVideoTexture = new VideoTexture(myVideoClip)
+    const myVideoTexture = new VideoTexture(myVideoClip)
+    myVideoTexture.volume = 0.15
     const myMaterial = new BasicMaterial()
     myMaterial.texture = myVideoTexture
     const screen = new Entity()
