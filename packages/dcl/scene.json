@@ -2,7 +2,7 @@
   "display": {
     "title": "Avant-Garde",
     "favicon": "favicon_asset",
-    "navmapThumbnail": "https://beta.avant-garde.gallery/card.png"
+    "navmapThumbnail": "https://avant-garde.gallery/card.png"
   },
   "contact": {
     "name": "Avant-Garde",
@@ -31,14 +31,14 @@
       "name": "spawn1",
       "default": true,
       "position": {
-        "x": -15,
+        "x": 16,
         "y": 0,
         "z": 0
       },
       "cameraTarget": {
         "x": 0,
         "y": 2,
-        "z": 0
+        "z": -5
       }
     }
   ]

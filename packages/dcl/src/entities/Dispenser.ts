@@ -9,7 +9,6 @@ export class Dispenser extends Entity {
   buttonAnim = new AnimationState('Button_Action', { looping: false })
   eventName: string
   clickable: boolean = true
-  timeToClickable: number = 0
   sceneMessageBus: MessageBus
 
   constructor(
@@ -19,6 +18,7 @@ export class Dispenser extends Entity {
     sceneMessageBus: MessageBus
   ) {
     super()
+    this.sceneMessageBus = sceneMessageBus
     engine.addEntity(this)
 
     this.addComponent(new GLTFShape('models/poap/POAP_dispenser.glb'))
@@ -30,7 +30,6 @@ export class Dispenser extends Entity {
     this.idleAnim.play()
 
     this.eventName = eventName
-    this.sceneMessageBus = sceneMessageBus
 
     let button = new Entity()
     button.addComponent(new GLTFShape('models/poap/POAP_button.glb'))
@@ -72,14 +71,16 @@ export class Dispenser extends Entity {
   }
 
   async makeTransaction(poapServer: string, event: string) {
-    const userData = await getUserData()
-    if (!userData || !userData.hasConnectedWeb3) {
+    const [userData, realm] = await Promise.all([
+      getUserData(),
+      getCurrentRealm(),
+    ])
+    if (!userData || !userData.hasConnectedWeb3 || !userData.publicKey) {
       log('no wallet')
       return
     }
-    const realm = await getCurrentRealm()
-    if (!realm) {
-      log('no realm')
+    if (!realm || !realm.domain || !realm.layer) {
+      log('no wallet')
       return
     }
     const url = `https://${poapServer}/claim/${event}`
@@ -100,10 +101,10 @@ export class Dispenser extends Entity {
       let data = await response.json()
       this.clickable = true
       if (response.status == 200) {
-        UI.displayAnnouncement('The POAP was sent to your address', 3)
+        UI.displayAnnouncement('A POAP token is being sent to your wallet', 3)
         this.sceneMessageBus.emit('activatePoap', {})
       } else {
-        UI.displayAnnouncement(`Oops, there was an error: "${data.error}"`, 3)
+        UI.displayAnnouncement(`Oops, there was an error: '${data.error}'`, 3)
       }
     } catch {
       this.clickable = true

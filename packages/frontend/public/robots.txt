@@ -3,8 +3,8 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://beta.avant-garde.gallery
+Host: https://avant-garde.gallery
 
 # Sitemaps
-Sitemap: https://beta.avant-garde.gallery/sitemap.xml
-Sitemap: https://beta.avant-garde.gallery/server-sitemap.xml
+Sitemap: https://avant-garde.gallery/sitemap.xml
+Sitemap: https://avant-garde.gallery/server-sitemap.xml

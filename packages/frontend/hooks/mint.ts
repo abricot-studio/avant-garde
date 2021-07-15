@@ -100,9 +100,17 @@ export const useMint = () => {
         })
         .catch((error) => {
           console.error(error)
+          let message = error.message
+          if (
+            error.message.includes(
+              'insufficient funds for intrinsic transaction cost'
+            )
+          ) {
+            message = 'Not enough fund'
+          }
           toast({
             title: '⚠️ Transaction error',
-            description: error.message,
+            description: message,
             status: 'error',
             duration: 20000,
             isClosable: true,

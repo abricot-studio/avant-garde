@@ -152,6 +152,7 @@ ${tags}
                       <DiscordIcon
                         w={6}
                         h={6}
+                        fill="#5563EB"
                         sx={{
                           animation: ' breathing 3s ease-out infinite',
                           '@keyframes breathing': {
@@ -169,7 +170,7 @@ ${tags}
                       />
                     }
                     href={socialPostUrls.discord}
-                    label="twitter"
+                    label="discord"
                     position="absolute"
                     left="45%"
                     top="91%"

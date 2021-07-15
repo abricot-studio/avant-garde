@@ -4,6 +4,7 @@ import Redis from 'ioredis'
 import { Log } from '../libs/logger'
 import { Middlewares } from '../libs/middlewares'
 import { getRedis } from '../libs/redis'
+import { config } from '../libs/config'
 
 const logger = Log({ service: 'register' })
 
@@ -14,6 +15,15 @@ export default async (
   res: VercelResponse
 ): Promise<VercelResponse | void> => {
   if (!Middlewares(req, res)) return
+
+  if (config.generate) {
+    logger.error('Started already')
+
+    return res.status(400).json({
+      status: 'error',
+      message: 'Started already',
+    })
+  }
 
   let address = null
 
