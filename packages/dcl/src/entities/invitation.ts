@@ -45,7 +45,7 @@ export class Invitation extends Entity {
     this.twitter.addComponent(
       new Transform({
         position: new Vector3(1.3, -1.4, 0.2),
-        rotation: Quaternion.Euler(0, -90, 0)
+        rotation: Quaternion.Euler(0, -90, 0),
       })
     )
     this.twitter.addComponentOrReplace(
@@ -68,7 +68,7 @@ export class Invitation extends Entity {
     this.discord.addComponent(
       new Transform({
         position: new Vector3(-1.3, -1.4, 0.2),
-        rotation: Quaternion.Euler(0, -90, 0)
+        rotation: Quaternion.Euler(0, -90, 0),
       })
     )
     this.discord.addComponentOrReplace(
@@ -85,6 +85,5 @@ export class Invitation extends Entity {
     )
     engine.addEntity(this.discord)
     this.addComponent(new Billboard(false, true, false))
-
   }
 }

@@ -1,4 +1,4 @@
-import { NPC, Dialog } from '@dcl/npc-scene-utils'
+import { Dialog, NPC } from '@dcl/npc-scene-utils'
 
 export const dialogsWelcome: Dialog[] = [
   {
@@ -17,11 +17,11 @@ export const dialogsWelcome: Dialog[] = [
     text: `You can claim your POAP by clicking on the POAP dispenser on your left.`,
   },
   {
-    text: `A VIP room with exclusive content is available to AvantGardists.`
+    text: `A VIP room with exclusive content is available to AvantGardists.`,
   },
   {
     text: `Mint your AvantGarde artwork to activate the teleporter to enter the VIP showroom.`,
-    isEndOfDialog: true
+    isEndOfDialog: true,
   },
 ]
 
@@ -59,31 +59,39 @@ you will find 3 codes to invite your friends  and spread the message over!`,
   },
   {
     text: `Love you all`,
-    isEndOfDialog: true
-  }
+    isEndOfDialog: true,
+  },
 ]
 
 export class Robot {
   npc: NPC
 
   constructor(transform: Transform, dialogs: Dialog[]) {
-
-    this.npc = new NPC(transform, 'models/robot.glb', () => {
-      this.npc.playAnimation(`talkingAction`, true)
-      this.npc.talkBubble(dialogs.map(dialog => {
-        if(!dialog.triggeredByNext){
-          dialog.triggeredByNext = () => this.npc.changeIdleAnim(`idleAction`, true)
-        }
-        return dialog
-      }), 0)
-    }, {
-      faceUser: true,
-      bubbleHeight: 5,
-      idleAnim: 'idleAction',
-      onWalkAway: () => {
-        this.npc.changeIdleAnim(`idleAction`, true)
+    this.npc = new NPC(
+      transform,
+      'models/robot.glb',
+      () => {
+        this.npc.playAnimation(`talkingAction`, true)
+        this.npc.talkBubble(
+          dialogs.map((dialog) => {
+            if (!dialog.triggeredByNext) {
+              dialog.triggeredByNext = () =>
+                this.npc.changeIdleAnim(`idleAction`, true)
+            }
+            return dialog
+          }),
+          0
+        )
+      },
+      {
+        faceUser: true,
+        bubbleHeight: 5,
+        idleAnim: 'idleAction',
+        onWalkAway: () => {
+          this.npc.changeIdleAnim(`idleAction`, true)
+        },
       }
-    })
+    )
     this.npc.changeIdleAnim(`idleAction`, true)
   }
 }

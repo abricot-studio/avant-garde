@@ -1,13 +1,15 @@
+import {
+  Delay,
+  ScaleTransformComponent,
+  TriggerBoxShape,
+  TriggerComponent,
+} from '@dcl/ecs-scene-utils'
 import { movePlayerTo } from '@decentraland/RestrictedActions'
-import { Delay, ScaleTransformComponent, TriggerBoxShape, TriggerComponent } from '@dcl/ecs-scene-utils'
 import config from '../config'
 import { AvantGardeToken } from '../graphql'
 
 export class Teleporter extends Entity {
-  animations = [
-    'avgCheckAction',
-    'lightMulticolourAction'
-  ]
+  animations = ['avgCheckAction', 'lightMulticolourAction']
 
   exited = true
   hover: string
@@ -56,61 +58,68 @@ export class Teleporter extends Entity {
     engine.addEntity(this.placeholder)
   }
 
-
   activate(otherTeleporter: Teleporter, userPiece: AvantGardeToken) {
-
-    const shape = new TriggerBoxShape(new Vector3(1, 3, 1), new Vector3(0, 2, 0))
+    const shape = new TriggerBoxShape(
+      new Vector3(1, 3, 1),
+      new Vector3(0, 2, 0)
+    )
 
     this.addComponentOrReplace(
-
-      new TriggerComponent(
-        shape,
-        {
-          enableDebug: false,
-          onCameraEnter: async () => {
-            if(!this.exited){
-              return false
-            }
-            const otherTeleporterPosition = otherTeleporter.getComponent(Transform).position
-            otherTeleporter.placeholder.addComponentOrReplace(new ScaleTransformComponent(new Vector3(
-              0.35,
-              0.001,
-              0.35
-            ), new Vector3(
-              0,
-              0,
-              0
-            ), 0.7))
-            otherTeleporter.placeholder.addComponentOrReplace(
-              new Delay(5200, () => {
-                otherTeleporter.placeholder.addComponentOrReplace(new ScaleTransformComponent(otherTeleporter.placeholder.getComponent(Transform).scale, new Vector3(
-                  0.35,
-                  0.001,
-                  0.35
-                ), 1))
-              })
-            )
-            otherTeleporter.exited = false
-            otherTeleporter.animations.forEach(animation => {
-              otherTeleporter.getComponent(Animator).getClip(animation).reset()
-            })
-            await movePlayerTo({ x: otherTeleporterPosition.x, y: otherTeleporterPosition.y + 1, z: otherTeleporterPosition.z }, { x: 0, y: otherTeleporterPosition.y + 1, z: 0 })
-            otherTeleporter.animations.forEach(animation => {
-              otherTeleporter.getComponent(Animator).getClip(animation).play()
-            })
-          },
-          onCameraExit: () => {
-            log('onCameraExit')
-            this.exited = true
+      new TriggerComponent(shape, {
+        enableDebug: false,
+        onCameraEnter: async () => {
+          if (!this.exited) {
+            return false
           }
-        }
+          const otherTeleporterPosition =
+            otherTeleporter.getComponent(Transform).position
+          otherTeleporter.placeholder.addComponentOrReplace(
+            new ScaleTransformComponent(
+              new Vector3(0.35, 0.001, 0.35),
+              new Vector3(0, 0, 0),
+              0.7
+            )
+          )
+          otherTeleporter.placeholder.addComponentOrReplace(
+            new Delay(5200, () => {
+              otherTeleporter.placeholder.addComponentOrReplace(
+                new ScaleTransformComponent(
+                  otherTeleporter.placeholder.getComponent(Transform).scale,
+                  new Vector3(0.35, 0.001, 0.35),
+                  1
+                )
+              )
+            })
+          )
+          otherTeleporter.exited = false
+          otherTeleporter.animations.forEach((animation) => {
+            otherTeleporter.getComponent(Animator).getClip(animation).reset()
+          })
+          await movePlayerTo(
+            {
+              x: otherTeleporterPosition.x,
+              y: otherTeleporterPosition.y + 1,
+              z: otherTeleporterPosition.z,
+            },
+            { x: 0, y: otherTeleporterPosition.y + 1, z: 0 }
+          )
+          otherTeleporter.animations.forEach((animation) => {
+            otherTeleporter.getComponent(Animator).getClip(animation).play()
+          })
+        },
+        onCameraExit: () => {
+          log('onCameraExit')
+          this.exited = true
+        },
+      })
+    )
+    this.placeholder.addComponentOrReplace(
+      new ScaleTransformComponent(
+        this.placeholder.getComponent(Transform).scale,
+        new Vector3(0.35, 0.001, 0.35),
+        1
       )
     )
-    this.placeholder.addComponentOrReplace(new ScaleTransformComponent(this.placeholder.getComponent(Transform).scale, new Vector3(
-      0.35,
-      0.001,
-      0.35
-    ), 1))
     const myTexture = new Texture(
       `${config.ipfsEndpoint}${userPiece.metadata?.image.split('ipfs://')[1]}`
     )
@@ -121,21 +130,25 @@ export class Teleporter extends Entity {
     this.addComponentOrReplace(
       new OnPointerDown(
         async (e) => {
-          this.placeholder.addComponentOrReplace(new ScaleTransformComponent(this.placeholder.getComponent(Transform).scale, new Vector3(
-            0,
-            0,
-            0
-          ), 0.7))
+          this.placeholder.addComponentOrReplace(
+            new ScaleTransformComponent(
+              this.placeholder.getComponent(Transform).scale,
+              new Vector3(0, 0, 0),
+              0.7
+            )
+          )
           this.placeholder.addComponentOrReplace(
             new Delay(5200, () => {
-              this.placeholder.addComponentOrReplace(new ScaleTransformComponent(this.placeholder.getComponent(Transform).scale, new Vector3(
-                0.35,
-                0.001,
-                0.35
-              ), 1))
+              this.placeholder.addComponentOrReplace(
+                new ScaleTransformComponent(
+                  this.placeholder.getComponent(Transform).scale,
+                  new Vector3(0.35, 0.001, 0.35),
+                  1
+                )
+              )
             })
           )
-          this.animations.forEach(animation => {
+          this.animations.forEach((animation) => {
             this.getComponent(Animator).getClip(animation).play()
           })
         },
@@ -148,5 +161,4 @@ export class Teleporter extends Entity {
       )
     )
   }
-
 }

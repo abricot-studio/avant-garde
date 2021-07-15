@@ -58,7 +58,7 @@ export class Minter extends Entity {
     this.twitter.addComponent(
       new Transform({
         position: new Vector3(1.3, -1.4, 0.2),
-        rotation: Quaternion.Euler(0, -90, 0)
+        rotation: Quaternion.Euler(0, -90, 0),
       })
     )
     this.twitter.addComponentOrReplace(
@@ -81,7 +81,7 @@ export class Minter extends Entity {
     this.discord.addComponent(
       new Transform({
         position: new Vector3(-1.3, -1.4, 0.2),
-        rotation: Quaternion.Euler(0, -90, 0)
+        rotation: Quaternion.Euler(0, -90, 0),
       })
     )
     this.discord.addComponentOrReplace(
@@ -99,7 +99,7 @@ export class Minter extends Entity {
     engine.addEntity(this.discord)
     this.addComponent(new Billboard(false, true, false))
 
-    if(this.userPiece){
+    if (this.userPiece) {
       this.minted()
     } else {
       this.mintCard.addComponent(new GLTFShape('models/mintCard.glb'))
@@ -139,7 +139,6 @@ export class Minter extends Entity {
       this.pricePlatform.setParent(this)
       engine.addEntity(this.pricePlatform)
     }
-
   }
 
   loading() {
@@ -148,12 +147,11 @@ export class Minter extends Entity {
       0.001,
       2.5
     )
-    if(this.loadingMaterial && this.loadingTexture){
+    if (this.loadingMaterial && this.loadingTexture) {
       this.placeholder.addComponentOrReplace(this.loadingMaterial)
       this.loadingTexture.loop = true
       this.loadingTexture.play()
     }
-
   }
 
   addPiece(mintParams: mintParams) {
@@ -170,28 +168,31 @@ export class Minter extends Entity {
     this.placeholder.addComponentOrReplace(myMaterial)
   }
 
-  minted(){
-
-    if(this.userPiece){
-      if(this.priceText && this.priceTextPlatform){
+  minted() {
+    if (this.userPiece) {
+      if (this.priceText && this.priceTextPlatform) {
         this.priceText.value = ''
         this.priceTextPlatform.value = ''
       }
 
-      if(!this.loadingTexture){
+      if (!this.loadingTexture) {
         this.placeholder.getComponent(Transform).scale = new Vector3(
           1.8,
           0.001,
           1.8
         )
         const myTexture = new Texture(
-          `${config.ipfsEndpoint}${this.userPiece.metadata?.image.split('ipfs://')[1]}`
+          `${config.ipfsEndpoint}${
+            this.userPiece.metadata?.image.split('ipfs://')[1]
+          }`
         )
         const myMaterial = new Material()
         myMaterial.albedoTexture = myTexture
         this.placeholder.addComponentOrReplace(myMaterial)
       }
-      this.mintCard.addComponentOrReplace(new GLTFShape('models/aftermintCard.glb') )
+      this.mintCard.addComponentOrReplace(
+        new GLTFShape('models/aftermintCard.glb')
+      )
 
       const mintDate = new Entity()
       mintDate.addComponent(
@@ -200,7 +201,11 @@ export class Minter extends Entity {
           rotation: Quaternion.Euler(0, 180, 0),
         })
       )
-      const mintDateText = new TextShape(new Date(parseInt(this.userPiece.mintTimestamp) * 1000).toISOString().split('T')[0])
+      const mintDateText = new TextShape(
+        new Date(parseInt(this.userPiece.mintTimestamp) * 1000)
+          .toISOString()
+          .split('T')[0]
+      )
       mintDateText.hTextAlign = 'left'
       mintDateText.fontSize = 1
       mintDateText.font = new Font(Fonts.SanFrancisco_Heavy)
@@ -216,7 +221,9 @@ export class Minter extends Entity {
           rotation: Quaternion.Euler(0, 180, 0),
         })
       )
-      const mintPriceText = new TextShape(formatEther(this.userPiece.mintPrice || '0').toString())
+      const mintPriceText = new TextShape(
+        formatEther(this.userPiece.mintPrice || '0').toString()
+      )
       mintPriceText.hTextAlign = 'left'
       mintPriceText.fontSize = 1
       mintPriceText.fontWeight = 'bold'
@@ -229,9 +236,7 @@ export class Minter extends Entity {
       this.placeholder.addComponentOrReplace(
         new OnPointerDown(
           () => {
-            openExternalURL(
-              `${this.userPiece?.metadata?.external_url}`
-            )
+            openExternalURL(`${this.userPiece?.metadata?.external_url}`)
           },
           {
             button: ActionButton.POINTER,

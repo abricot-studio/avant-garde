@@ -15,6 +15,5 @@ export class House extends Entity {
     this.addComponent(transform)
     engine.addEntity(this)
     this.invitation = new Invitation()
-
   }
 }

@@ -1,6 +1,4 @@
-
 export class MusicBox extends Entity {
-
   constructor(stream: string) {
     super()
     const model = new GLTFShape('models/boiteAMusic.glb')
@@ -21,7 +19,7 @@ export class MusicBox extends Entity {
     screen.addComponent(new PlaneShape())
     screen.addComponent(
       new Transform({
-        scale: new Vector3(0,0,0),
+        scale: new Vector3(0, 0, 0),
       })
     )
     screen.addComponent(myMaterial)

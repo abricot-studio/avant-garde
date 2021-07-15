@@ -13,7 +13,7 @@ import { DiscordIcon, EtherscanIcon, MobileMenuIcon } from '../assets/icons'
 import config from '../config'
 import { useContract } from '../hooks/contracts'
 import { URLs } from '../lib/constants'
-import { getPageStuff, NavButtonIcon, pagePaths } from './header/Navigation'
+import { getPageStuff, pagePaths } from './header/Navigation'
 import {
   Button,
   Flex,
@@ -165,7 +165,7 @@ export function Footer() {
           ) : (
             <LinkItem
               href={URLs.discord}
-              icon={<DiscordIcon w={7} h={7} />}
+              icon={<DiscordIcon w={7} h={7} fill="#5563EB" />}
               label={mobile ? '' : 'Discord'}
             />
           )}

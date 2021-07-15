@@ -1,6 +1,5 @@
 import config from '../config'
 import { AvantGardeToken } from '../graphql'
-import { formatEther } from '../utils'
 
 export class Piece extends Entity {
   static Transformations: Transform[] = [
@@ -142,5 +141,4 @@ export class Piece extends Entity {
       )
     }
   }
-
 }

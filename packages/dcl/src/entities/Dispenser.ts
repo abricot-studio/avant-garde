@@ -1,8 +1,7 @@
 import { Delay } from '@dcl/ecs-scene-utils'
 import * as UI from '@dcl/ui-scene-utils'
-
-import { getUserData } from '@decentraland/Identity'
 import { getCurrentRealm } from '@decentraland/EnvironmentAPI'
+import { getUserData } from '@decentraland/Identity'
 
 export class Dispenser extends Entity {
   idleAnim = new AnimationState('Idle_POAP', { looping: true })
@@ -12,7 +11,12 @@ export class Dispenser extends Entity {
   clickable: boolean = true
   sceneMessageBus: MessageBus
 
-  constructor(transform: TranformConstructorArgs, poapServer: string, eventName: string, sceneMessageBus: MessageBus) {
+  constructor(
+    transform: TranformConstructorArgs,
+    poapServer: string,
+    eventName: string,
+    sceneMessageBus: MessageBus
+  ) {
     super()
     this.sceneMessageBus = sceneMessageBus
     engine.addEntity(this)
@@ -67,7 +71,10 @@ export class Dispenser extends Entity {
   }
 
   async makeTransaction(poapServer: string, event: string) {
-    const [userData, realm] = await Promise.all([getUserData(), getCurrentRealm()])
+    const [userData, realm] = await Promise.all([
+      getUserData(),
+      getCurrentRealm(),
+    ])
     if (!userData || !userData.hasConnectedWeb3 || !userData.publicKey) {
       log('no wallet')
       return

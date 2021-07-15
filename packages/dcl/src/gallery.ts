@@ -5,14 +5,14 @@ import { BeforeLaunchHouse } from './entities/beforeLaunchHouse'
 import { Dispenser } from './entities/Dispenser'
 import { House } from './entities/House'
 import { Minter } from './entities/Minter'
+import { MusicBox } from './entities/musicBox'
 import { Piece } from './entities/Piece'
+import { PieceNft } from './entities/PieceNft'
+import { dialogsVip, dialogsWelcome, Robot } from './entities/Robot'
 import { Teleporter } from './entities/teleporter'
 import { Generate, mintParams } from './generate'
 import { AvantGardeToken, Graphql } from './graphql'
 import { formatEther, isPreview } from './utils'
-import { PieceNft } from './entities/PieceNft'
-import { dialogsVip, dialogsWelcome, Robot } from './entities/Robot'
-import { MusicBox } from './entities/musicBox'
 
 export class Gallery implements ISystem {
   contractOperation: ContractOperation
@@ -55,16 +55,23 @@ export class Gallery implements ISystem {
     }
   }
 
-  initRobots(){
-    const robotWelcome = new Robot(new Transform({
-      position: new Vector3(12, 0.5, -4),
-      rotation: Quaternion.Euler(0, 0, 0),
-    }), dialogsWelcome)
-    dialogsWelcome[1].triggeredByNext = () => robotWelcome.npc.playAnimation(`pointingAction`, true)
-    new Robot(new Transform({
-      position: new Vector3(-6, 20.1, -5),
-      rotation: Quaternion.Euler(0, 0, 0),
-    }), dialogsVip)
+  initRobots() {
+    const robotWelcome = new Robot(
+      new Transform({
+        position: new Vector3(12, 0.5, -4),
+        rotation: Quaternion.Euler(0, 0, 0),
+      }),
+      dialogsWelcome
+    )
+    dialogsWelcome[1].triggeredByNext = () =>
+      robotWelcome.npc.playAnimation(`pointingAction`, true)
+    new Robot(
+      new Transform({
+        position: new Vector3(-6, 20.1, -5),
+        rotation: Quaternion.Euler(0, 0, 0),
+      }),
+      dialogsVip
+    )
   }
 
   async initPieces() {
@@ -107,7 +114,7 @@ export class Gallery implements ISystem {
                   )
                   log('mintParams', mintParams)
 
-                  if(mintParams.status !== 'success'){
+                  if (mintParams.status !== 'success') {
                     throw new Error(mintParams.message || 'unknown error')
                   }
                   this.mintParams = mintParams
@@ -131,15 +138,24 @@ export class Gallery implements ISystem {
                 log('userPiece', this.userPiece)
                 this.minter.userPiece = this.userPiece
                 this.minter.minted()
-                if(this.teleporterDown && this.teleporterStairs){
-                  this.teleporterDown.activate(this.teleporterStairs, this.userPiece)
-                  this.teleporterStairs.activate(this.teleporterDown, this.userPiece)
+                if (this.teleporterDown && this.teleporterStairs) {
+                  this.teleporterDown.activate(
+                    this.teleporterStairs,
+                    this.userPiece
+                  )
+                  this.teleporterStairs.activate(
+                    this.teleporterDown,
+                    this.userPiece
+                  )
                 }
                 isMinting = false
               }
             } catch (error) {
               isMinting = false
-              UI.displayAnnouncement(`Oops, there was an error:\n${error.message}`, 3)
+              UI.displayAnnouncement(
+                `Oops, there was an error:\n${error.message}`,
+                3
+              )
               if (this.minter && this.minter.placeholder) {
                 this.minter.placeholder.getComponent(OnPointerDown).hoverText =
                   'Generate your!'
@@ -154,7 +170,7 @@ export class Gallery implements ISystem {
           }
         )
       )
-    } else if(this.teleporterDown && this.teleporterStairs){
+    } else if (this.teleporterDown && this.teleporterStairs) {
       this.teleporterDown.activate(this.teleporterStairs, this.userPiece)
       this.teleporterStairs.activate(this.teleporterDown, this.userPiece)
     }
@@ -177,25 +193,33 @@ export class Gallery implements ISystem {
   }
 
   async initMinterTeleporter() {
-    this.teleporterDown = new Teleporter(new Transform({
-      position: new Vector3(-10.8, 0.7, -10.8),
-      rotation: Quaternion.Euler(0, 70, 0),
-    }), 'Go to AvantGardists lounge!')
-    this.teleporterStairs = new Teleporter(new Transform({
-      position: new Vector3(-10.8, 20, -10.8),
-      rotation: Quaternion.Euler(0, 50, 0),
-    }), 'Go to AvantGarde generator!')
+    this.teleporterDown = new Teleporter(
+      new Transform({
+        position: new Vector3(-10.8, 0.7, -10.8),
+        rotation: Quaternion.Euler(0, 70, 0),
+      }),
+      'Go to AvantGardists lounge!'
+    )
+    this.teleporterStairs = new Teleporter(
+      new Transform({
+        position: new Vector3(-10.8, 20, -10.8),
+        rotation: Quaternion.Euler(0, 50, 0),
+      }),
+      'Go to AvantGarde generator!'
+    )
     if (this.userPiece) {
       this.teleporterDown.activate(this.teleporterStairs, this.userPiece)
       this.teleporterStairs.activate(this.teleporterDown, this.userPiece)
     }
   }
 
-  initPieceNfts(){
+  initPieceNfts() {
     //https://api.opensea.io/api/v1/asset/
     const graffirap = {
-      ethereum: 'ethereum://0x495f947276749ce646f68ac8c248420045cb7b5e/31579987235644736708101780315467862908536911764207097187188861645553634639873',
-      image: 'https://lh3.googleusercontent.com/vunZSSkLoJIPwSIoef_-8PsfHB-ZiIsG-QPn0s_xc4406JmdnG4hwvVJN38CTUB8EQsEuDKAfJhfdxRyg8Oa_jWK8YNVMPuq-IpP',
+      ethereum:
+        'ethereum://0x495f947276749ce646f68ac8c248420045cb7b5e/31579987235644736708101780315467862908536911764207097187188861645553634639873',
+      image:
+        'https://lh3.googleusercontent.com/vunZSSkLoJIPwSIoef_-8PsfHB-ZiIsG-QPn0s_xc4406JmdnG4hwvVJN38CTUB8EQsEuDKAfJhfdxRyg8Oa_jWK8YNVMPuq-IpP',
       audio: 'audio/graffirap.wav', // 'https://storage.opensea.io/files/ed09d4b2fc372cca67013f2753c3241d.wav'
     }
     const wallace = {
@@ -204,39 +228,62 @@ export class Gallery implements ISystem {
     }
     const deadhead = {
       ethereum: 'ethereum://0x6fc355d4e0ee44b292e50878f49798ff755a5bbc/9088',
-      image: 'https://lh3.googleusercontent.com/YXN8il7e-Aocv-LE_-5mr3n9IYXC5vYzaZCefz3Mz3WTquyiUWOKFkVlIpWJ9zLRfhG9-seoOcjEY7EqP9UzQIqZ4LGqtulv_txLIg',
+      image:
+        'https://lh3.googleusercontent.com/YXN8il7e-Aocv-LE_-5mr3n9IYXC5vYzaZCefz3Mz3WTquyiUWOKFkVlIpWJ9zLRfhG9-seoOcjEY7EqP9UzQIqZ4LGqtulv_txLIg',
     }
-    const piece1 = new PieceNft(graffirap, new Transform({
-      position: new Vector3(-9, 25, 9),
-      rotation: Quaternion.Euler(0, -226, 0)
-    }))
-    const piece2 = new PieceNft(wallace, new Transform({
-      position: new Vector3(0, 25, 13),
-      rotation: Quaternion.Euler(0, 180, 0)
-    }))
+    const piece1 = new PieceNft(
+      graffirap,
+      new Transform({
+        position: new Vector3(-9, 25, 9),
+        rotation: Quaternion.Euler(0, -226, 0),
+      })
+    )
+    const piece2 = new PieceNft(
+      wallace,
+      new Transform({
+        position: new Vector3(0, 25, 13),
+        rotation: Quaternion.Euler(0, 180, 0),
+      })
+    )
     // const piece3 = new PieceNft(videoEx, new Transform({
     //   position: new Vector3(9, 25, 9),
     //   rotation: Quaternion.Euler(0, -135, 0)
     // }))
-    const piece4 = new PieceNft(deadhead, new Transform({
-      position: new Vector3(13, 25, 0),
-      rotation: Quaternion.Euler(0, -90, 0)
-    }))
-    const piece5 = new PieceNft(deadhead, new Transform({
-      position: new Vector3(9, 25, -9),
-      rotation: Quaternion.Euler(0, -45, 0)
-    }))
-
+    const piece4 = new PieceNft(
+      deadhead,
+      new Transform({
+        position: new Vector3(13, 25, 0),
+        rotation: Quaternion.Euler(0, -90, 0),
+      })
+    )
+    const piece5 = new PieceNft(
+      deadhead,
+      new Transform({
+        position: new Vector3(9, 25, -9),
+        rotation: Quaternion.Euler(0, -45, 0),
+      })
+    )
   }
 
-  initMusic(){
+  initMusic() {
     new MusicBox(Config.streamUrl)
   }
 
   update(dt: number): void {
-    if (!this.userPiece && this.minter && this.minter.priceText && this.minter.priceTextPlatform && this.contractOperation.mintPrices && this.minter) {
-      this.minter.priceText.value = formatEther(this.contractOperation.mintPrices.currentPrice).toString()
-      this.minter.priceTextPlatform.value = formatEther(this.contractOperation.mintPrices.fees).toString()
+    if (
+      !this.userPiece &&
+      this.minter &&
+      this.minter.priceText &&
+      this.minter.priceTextPlatform &&
+      this.contractOperation.mintPrices &&
+      this.minter
+    ) {
+      this.minter.priceText.value = formatEther(
+        this.contractOperation.mintPrices.currentPrice
+      ).toString()
+      this.minter.priceTextPlatform.value = formatEther(
+        this.contractOperation.mintPrices.fees
+      ).toString()
     }
 
     if (this.graphql.pieces.length > 0) {
