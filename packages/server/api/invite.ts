@@ -32,7 +32,7 @@ export default async (
 
     return res.status(400).json({
       status: 'error',
-      message: 'address is not valid',
+      message: 'Address is not valid',
     })
   }
 

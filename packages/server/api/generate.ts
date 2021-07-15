@@ -39,7 +39,7 @@ export default async (
 
     return res.status(400).json({
       status: 'error',
-      message: 'not started yet',
+      message: 'Not started yet',
       ipfsHashMetadata: null,
       ipfsHashImage: null,
       signature: null,
@@ -56,7 +56,7 @@ export default async (
 
     return res.status(400).json({
       status: 'error',
-      message: 'address is not valid',
+      message: 'Address is not valid',
       ipfsHashMetadata: null,
       ipfsHashImage: null,
       signature: null,
