@@ -1,10 +1,20 @@
-export class Robot extends Entity {
-  constructor(transform: Transform) {
-    super()
-    const model = new GLTFShape('models/robot.glb')
+import { NPC, Dialog } from '@dcl/npc-scene-utils'
 
-    this.addComponent(model)
-    this.addComponent(transform)
-    engine.addEntity(this)
+export let ILoveCats: Dialog[] = [
+  {
+    text: `I really lo-ove cats`,
+    isEndOfDialog: true
+  }
+]
+
+export class Robot {
+  npc: NPC
+
+  constructor(transform: Transform) {
+
+    // this.addComponent(transform)
+    this.npc = new NPC(transform, 'models/robot.glb', () => {
+      this.npc.talk(ILoveCats, 0)
+    })
   }
 }

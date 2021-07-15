@@ -17,6 +17,7 @@
   "dependencies": {
     "@dcl/crypto-scene-utils": "^1.1.1",
     "@dcl/ecs-scene-utils": "^1.7.2",
+    "@dcl/npc-scene-utils": "^1.4.0",
     "@dcl/ui-scene-utils": "^1.8.1",
     "@dclguru/cli": "^3.4.9",
     "eth-connect": "^5.0.0"
@@ -29,6 +30,7 @@
     "@dcl/crypto-scene-utils",
     "@dcl/ecs-scene-utils",
     "eth-connect",
-    "@dcl/ui-scene-utils"
+    "@dcl/ui-scene-utils",
+    "@dcl/npc-scene-utils"
   ]
 }
