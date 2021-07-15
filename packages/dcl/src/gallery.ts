@@ -36,23 +36,23 @@ export class Gallery implements ISystem {
   }
 
   async init() {
-    this.isPreview = await isPreview()
-
-    if (this.isPreview) {
-      new House()
-      this.initRobots()
-      await this.contractOperation.init()
-      await Promise.all([
-        this.graphql.init(),
-        this.initUserPiece(),
-        this.initPoap(),
-      ])
-      await this.initMinterTeleporter()
-      this.initMusic()
-      this.initPieceNfts()
-    } else {
-      new BeforeLaunchHouse()
-    }
+    // this.isPreview = await isPreview()
+    //
+    // if (this.isPreview) {
+    new House()
+    this.initRobots()
+    await this.contractOperation.init()
+    await Promise.all([
+      this.graphql.init(),
+      this.initUserPiece(),
+      this.initPoap(),
+    ])
+    await this.initMinterTeleporter()
+    this.initMusic()
+    this.initPieceNfts()
+    // } else {
+    //   new BeforeLaunchHouse()
+    // }
   }
 
   initRobots() {
