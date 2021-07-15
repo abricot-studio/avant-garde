@@ -62,7 +62,7 @@ export class Gallery implements ISystem {
     }), dialogsWelcome)
     dialogsWelcome[1].triggeredByNext = () => robotWelcome.npc.playAnimation(`pointingAction`, true)
     new Robot(new Transform({
-      position: new Vector3(-6, 20.5, -5),
+      position: new Vector3(-6, 20.1, -5),
       rotation: Quaternion.Euler(0, 0, 0),
     }), dialogsVip)
   }
