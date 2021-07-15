@@ -95,7 +95,7 @@ export async function find(address: string): Promise<any> {
     .pinList({
       metadata: {
         name: `metadata_${address}`,
-        keyvalues: {}
+        keyvalues: {},
       },
     })
     .then((result: any) => {

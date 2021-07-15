@@ -1,7 +1,6 @@
 import * as UI from '@dcl/ui-scene-utils'
 import Config from './config'
 import ContractOperation from './contractOperation'
-import { BeforeLaunchHouse } from './entities/beforeLaunchHouse'
 import { Dispenser } from './entities/Dispenser'
 import { House } from './entities/House'
 import { Minter } from './entities/Minter'
@@ -12,7 +11,7 @@ import { dialogsVip, dialogsWelcome, Robot } from './entities/Robot'
 import { Teleporter } from './entities/teleporter'
 import { Generate, mintParams } from './generate'
 import { AvantGardeToken, Graphql } from './graphql'
-import { formatEther, isPreview } from './utils'
+import { formatEther, setInterval } from './utils'
 
 export class Gallery implements ISystem {
   contractOperation: ContractOperation
@@ -132,23 +131,40 @@ export class Gallery implements ISystem {
                 )
                 const receipt = await this.contractOperation.waitForTx(txHash)
                 log('Minted', receipt)
-                this.userPiece = await this.graphql.getPieceByAddress(
-                  this.contractOperation.address
-                )
-                log('userPiece', this.userPiece)
-                this.minter.userPiece = this.userPiece
-                this.minter.minted()
-                if (this.teleporterDown && this.teleporterStairs) {
-                  this.teleporterDown.activate(
-                    this.teleporterStairs,
-                    this.userPiece
-                  )
-                  this.teleporterStairs.activate(
-                    this.teleporterDown,
-                    this.userPiece
-                  )
-                }
-                isMinting = false
+                const interval = setInterval(() => {
+                  log('setTimeout Minted', this.userPiece)
+
+                  if (
+                    this.contractOperation &&
+                    this.contractOperation.address
+                  ) {
+                    log('setTimeout contractOperation', this.contractOperation)
+                    this.graphql
+                      .getPieceByAddress(this.contractOperation.address)
+                      .then((userPiece) => {
+                        this.userPiece = userPiece
+                        log('userPiece', this.userPiece)
+                        log('minter', this.minter)
+                        if (this.userPiece && this.minter) {
+                          this.minter.userPiece = this.userPiece
+                          this.minter.minted()
+                          if (this.teleporterDown && this.teleporterStairs) {
+                            this.teleporterDown.activate(
+                              this.teleporterStairs,
+                              this.userPiece
+                            )
+                            this.teleporterStairs.activate(
+                              this.teleporterDown,
+                              this.userPiece
+                            )
+                          }
+                          isMinting = false
+                          interval.clearInterval()
+                        }
+                      })
+                      .catch()
+                  }
+                }, 5000)
               }
             } catch (error) {
               isMinting = false
@@ -215,7 +231,8 @@ export class Gallery implements ISystem {
 
   initPieceNfts() {
     //https://api.opensea.io/api/v1/asset/
-    const graffirap = new PieceNft({
+    const graffirap = new PieceNft(
+      {
         ethereum:
           'ethereum://0x495f947276749ce646f68ac8c248420045cb7b5e/31579987235644736708101780315467862908536911764207097187188861645553634639873',
         image:
@@ -227,8 +244,10 @@ export class Gallery implements ISystem {
         rotation: Quaternion.Euler(0, -226, 0),
       })
     )
-    const wallace = new PieceNft({
-        ethereum: 'ethereum://0x60f80121c31a0d46b5279700f9df786054aa5ee5/1129178',
+    const wallace = new PieceNft(
+      {
+        ethereum:
+          'ethereum://0x60f80121c31a0d46b5279700f9df786054aa5ee5/1129178',
         gif: true,
       },
       new Transform({
@@ -236,18 +255,23 @@ export class Gallery implements ISystem {
         rotation: Quaternion.Euler(0, 180, 0),
       })
     )
-    const oce = new PieceNft({
+    const oce = new PieceNft(
+      {
         ethereum: 'ethereum://0xc02697c417ddacfbe5edbf23edad956bc883f4fb/17499',
-        image: 'https://lh3.googleusercontent.com/GSfTcft_rAX56l5msySs25FSXiFXBDxVn6bghcJ6in2C9tyuEy2IJeB9oqYOW6F_EOLPG46fEVNtHL-0ptnfaIIyULljlzIqml4T',
+        image:
+          'https://lh3.googleusercontent.com/GSfTcft_rAX56l5msySs25FSXiFXBDxVn6bghcJ6in2C9tyuEy2IJeB9oqYOW6F_EOLPG46fEVNtHL-0ptnfaIIyULljlzIqml4T',
       },
       new Transform({
         position: new Vector3(9, 25, 9),
         rotation: Quaternion.Euler(0, -135, 0),
       })
     )
-    const ruben = new PieceNft({
-        ethereum: 'ethereum://0x495f947276749ce646f68ac8c248420045cb7b5e/7557340173844726611425323825186638187486998272719620299255139822281198403585',
-        video: 'https://storage.opensea.io/files/26f5dece4f96c76ef38c0e29121aa918.mp4',
+    const ruben = new PieceNft(
+      {
+        ethereum:
+          'ethereum://0x495f947276749ce646f68ac8c248420045cb7b5e/7557340173844726611425323825186638187486998272719620299255139822281198403585',
+        video:
+          'https://storage.opensea.io/files/26f5dece4f96c76ef38c0e29121aa918.mp4',
       },
       new Transform({
         position: new Vector3(13, 25, 0),
@@ -256,15 +280,16 @@ export class Gallery implements ISystem {
     )
     const radioBato = new PieceNft(
       {
-        ethereum: 'ethereum://0x495f947276749ce646f68ac8c248420045cb7b5e/2165514460155157643134678580987885961104769492778982270620613138639795257345',
-        image: 'https://lh3.googleusercontent.com/Po2USNvQ5fRqNb_ygWY2pRiVE4aE-jqiIsFsG04Oc3uCw_2h6taMDHk31vez9nMMA6tWS6itsMbTmrJPw6mjI8YhSWH4A9UGdDGG',
+        ethereum:
+          'ethereum://0x495f947276749ce646f68ac8c248420045cb7b5e/2165514460155157643134678580987885961104769492778982270620613138639795257345',
+        image:
+          'https://lh3.googleusercontent.com/Po2USNvQ5fRqNb_ygWY2pRiVE4aE-jqiIsFsG04Oc3uCw_2h6taMDHk31vez9nMMA6tWS6itsMbTmrJPw6mjI8YhSWH4A9UGdDGG',
         // audio: 'https://storage.opensea.io/files/f8da05aee650b8f972878a38fd1dc6f7.mp3'
-        audio: 'audio/radiobato.mp3'//https://storage.opensea.io/files/f8da05aee650b8f972878a38fd1dc6f7.mp3'
+        audio: 'audio/radiobato.mp3', //https://storage.opensea.io/files/f8da05aee650b8f972878a38fd1dc6f7.mp3'
       },
       new Transform({
         position: new Vector3(9, 25, -9),
         rotation: Quaternion.Euler(0, -45, 0),
-
       })
     )
   }
