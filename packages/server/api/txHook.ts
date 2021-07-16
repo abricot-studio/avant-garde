@@ -20,8 +20,7 @@ async function onMint(owner, mintPrice, tokenId) {
   if (config.hook.discord.enable) {
     await Axios.post(config.hook.discord.webHook, {
       username: 'AvantGarde Bot',
-      content: `***${tokenId}*** minted for
-***${mintPrice}*** Ξ
+      content: `***${tokenId}*** minted for ***${mintPrice}*** Ξ
 
 https://avant-garde.gallery/token/${tokenId}
 `,
@@ -64,20 +63,20 @@ https://avant-garde.gallery/token/${tokenId}`,
     })
   }
 
-  if (config.hook.twitter.enable) {
-    const client = promisifyAll(
-      new Twitter({
-        consumer_key: config.hook.twitter.consumerKey,
-        consumer_secret: config.hook.twitter.consumerSecret,
-        access_token_key: config.hook.twitter.accessTokenKey,
-        access_token_secret: config.hook.twitter.accessTokenSecret,
-      })
-    )
-
-    await client.post('statuses/update', {
-      status: `Test b ${burnPrice}`,
-    })
-  }
+  // if (config.hook.twitter.enable) {
+  //   const client = promisifyAll(
+  //     new Twitter({
+  //       consumer_key: config.hook.twitter.consumerKey,
+  //       consumer_secret: config.hook.twitter.consumerSecret,
+  //       access_token_key: config.hook.twitter.accessTokenKey,
+  //       access_token_secret: config.hook.twitter.accessTokenSecret,
+  //     })
+  //   )
+  //
+  //   await client.post('statuses/update', {
+  //     status: `Test b ${burnPrice}`,
+  //   })
+  // }
 }
 
 export default async (
