@@ -76,7 +76,7 @@ export default async (
   }
 
   const txHash = req.body.txHash
-  const network = req.body.network
+  const network = req.body.network || 1
   const contractAddress = req.body.contractAddress
   const provider = new providers.AlchemyProvider(network, config.alchemyApiKey)
 
