@@ -96,7 +96,7 @@ export default async (
   }
 
   const logsParsed = tx.logs
-    .filter((log) => log.address === contractAddress)
+    .filter((log) => log.address.toLowerCase() === contractAddress.toLowerCase())
     .reduce((acc, log) => {
       try {
         const logParsed = abiInterface.parseLog(log)
