@@ -19,8 +19,12 @@ const abiInterface = new utils.Interface([
 async function onMint(owner, mintPrice, tokenId) {
   if (config.hook.discord.enable) {
     await Axios.post(config.hook.discord.webHook, {
-      username: 'Minter Bot',
-      content: `${owner} minted ${tokenId} for ${mintPrice} Ξ`,
+      username: 'AvantGarde Bot',
+      content: `***${tokenId}*** minted for
+***${mintPrice}*** Ξ
+
+https://avant-garde.gallery/token/${tokenId}
+`,
     })
   }
 
@@ -51,8 +55,12 @@ https://avant-garde.gallery/token/${tokenId}
 async function onBurn(owner, burnPrice, tokenId) {
   if (config.hook.discord.enable) {
     await Axios.post(config.hook.discord.webHook, {
-      username: 'Burner Bot',
-      content: `${owner} burned ${tokenId} for ${burnPrice} Ξ`,
+      username: 'AvantGarde Bot',
+      content: `***${owner}*** burned 
+***${tokenId}*** for
+***${burnPrice}*** Ξ
+
+https://avant-garde.gallery/token/${tokenId}`,
     })
   }
 
