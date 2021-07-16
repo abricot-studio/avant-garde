@@ -76,6 +76,7 @@ export default async (
   req: VercelRequest,
   res: VercelResponse
 ): Promise<VercelResponse | void> => {
+  logger.info('req.body', { body: req.body })
   if (!Middlewares(req, res)) return
 
   if (req.headers['hook-secret'] !== config.hook.secret) {
