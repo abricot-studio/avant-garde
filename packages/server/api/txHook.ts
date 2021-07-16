@@ -107,6 +107,10 @@ export default async (
       return acc
     }, [])
 
+  if(logsParsed.length === 0){
+    logger.error('logsParsed empty', { logs: tx.logs, contractAddress })
+    return res.status(200).end()
+  }
   const mintedLog = logsParsed.find((log) => log.name === 'Minted')
   const burnedLog = logsParsed.find((log) => log.name === 'Burned')
   const transferLog = logsParsed.find((log) => log.name === 'Transfer')
