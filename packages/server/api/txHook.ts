@@ -96,7 +96,9 @@ export default async (
   }
 
   const logsParsed = tx.logs
-    .filter((log) => log.address.toLowerCase() === contractAddress.toLowerCase())
+    .filter(
+      (log) => log.address.toLowerCase() === contractAddress.toLowerCase()
+    )
     .reduce((acc, log) => {
       try {
         const logParsed = abiInterface.parseLog(log)
@@ -108,7 +110,7 @@ export default async (
       return acc
     }, [])
 
-  if(logsParsed.length === 0){
+  if (logsParsed.length === 0) {
     logger.error('logsParsed empty', { logs: tx.logs, contractAddress })
     return res.status(200).end()
   }

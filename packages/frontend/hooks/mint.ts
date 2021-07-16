@@ -2,6 +2,7 @@ import { useContractCall, useEthers } from '@usedapp/core'
 import { useCallback, useMemo, useState } from 'react'
 import { ToastImageMinted, useToast } from '../components/ui'
 import { getContractFromProvider } from '../lib/contracts'
+import * as ga from '../lib/ga'
 import { useAuth } from './authContext'
 import { useContract } from './contracts'
 
@@ -76,7 +77,14 @@ export const useMint = () => {
       }
 
       setIsMinting(true)
-
+      ga.event({
+        action: 'minting_pending',
+        params: {
+          event_category: 'minting',
+          event_label: 'minting_pending',
+          value: '1',
+        },
+      })
       getContractFromProvider(library)
         .then((c) => c.connect(library.getSigner()))
         .then((contract) =>
@@ -97,6 +105,14 @@ export const useMint = () => {
           setIsMinting(false)
           accountTokenStartPollingMint()
           ToastImageMinted(toast, mintTx, chainId)
+          ga.event({
+            action: 'minting_success',
+            params: {
+              event_category: 'minting',
+              event_label: 'minting_success',
+              value: '1',
+            },
+          })
         })
         .catch((error) => {
           console.error(error)
@@ -106,6 +122,14 @@ export const useMint = () => {
               'insufficient funds for intrinsic transaction cost'
             )
           ) {
+            ga.event({
+              action: 'minting_no_fund_error',
+              params: {
+                event_category: 'minting',
+                event_label: 'minting_no_fund_error',
+                value: '1',
+              },
+            })
             message = 'Not enough fund'
           }
           toast({
@@ -116,6 +140,14 @@ export const useMint = () => {
             isClosable: true,
           })
           setIsMinting(false)
+          ga.event({
+            action: 'minting_error',
+            params: {
+              event_category: 'minting',
+              event_label: 'minting_error',
+              value: '1',
+            },
+          })
         })
     },
     [account, accountTokenStartPollingMint, tokenMintPrice]

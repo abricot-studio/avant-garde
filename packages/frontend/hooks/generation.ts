@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { ToastImageGenerated, useToast } from '../components/ui'
 import config from '../config'
+import * as ga from '../lib/ga'
 import { decode } from '../lib/inviteCode'
 
 const generateApi = axios.create({
@@ -109,7 +110,14 @@ export const useImageGeneration = () => {
           return false
         }
       }
-
+      ga.event({
+        action: 'generating_pending',
+        params: {
+          event_category: 'generating',
+          event_label: 'generating_pending',
+          value: '1',
+        },
+      })
       setIsGenerating(true)
       setErrorGenerating(null)
       setCallback({
@@ -125,6 +133,14 @@ export const useImageGeneration = () => {
             setIsGenerating(false)
             generationCache[account] = result.data
             ToastImageGenerated(toast, router)
+            ga.event({
+              action: 'generating_success',
+              params: {
+                event_category: 'generating',
+                event_label: 'generating_success',
+                value: '1',
+              },
+            })
             return false
           }),
         onError: (error) => {
@@ -133,10 +149,26 @@ export const useImageGeneration = () => {
             error?.response?.data?.message ===
             'You are not registered or invited yet'
           ) {
+            ga.event({
+              action: 'generating_not_invited',
+              params: {
+                event_category: 'generating',
+                event_label: 'generating_not_invited',
+                value: '1',
+              },
+            })
             setErrorGenerating(new Error('not_invited'))
           } else if (error?.response?.data?.message?.length > 0) {
             setErrorGenerating(new Error(error.response.data.message))
           } else {
+            ga.event({
+              action: 'generating_error',
+              params: {
+                event_category: 'generating',
+                event_label: 'generating_error',
+                value: '1',
+              },
+            })
             console.error(error)
             setErrorGenerating(error)
           }
