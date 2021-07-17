@@ -84,15 +84,24 @@ export default async (
   res: VercelResponse
 ): Promise<VercelResponse | void> => {
   logger.info('req.body', { body: req.body })
+  logger.info('headers', { headers: req.headers })
   if (!Middlewares(req, res)) return
 
   if (req.headers['hook-secret'] !== config.hook.secret) {
     return res.status(400).end()
   }
 
-  const txHash = req.body.txHash
-  const network = req.body.network || 1
-  const contractAddress = req.body.contractAddress
+
+  const txHash = req.body.hash
+  const status = req.body.status
+  const network = req.body.network
+  const contractAddress = req.body.watchedAddress
+
+  if(status !== 'confirmed'){
+    logger.info('New tx', { txHash, status, network })
+    return res.status(200).end()
+  }
+
   const provider = new providers.AlchemyProvider(network, config.alchemyApiKey)
 
   const tx = await provider.getTransactionReceipt(txHash)
