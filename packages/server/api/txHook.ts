@@ -87,20 +87,13 @@ export default async (
   logger.info('headers', { headers: req.headers })
   if (!Middlewares(req, res)) return
 
-  if (req.headers['hook-secret'] !== config.hook.secret) {
+  if (req.headers['authorization'] !== `Basic ${config.hook.secret}`) {
     return res.status(400).end()
   }
 
-
   const txHash = req.body.hash
-  const status = req.body.status
   const network = req.body.network
   const contractAddress = req.body.watchedAddress
-
-  if(status !== 'confirmed'){
-    logger.info('New tx', { txHash, status, network })
-    return res.status(200).end()
-  }
 
   const provider = new providers.AlchemyProvider(network, config.alchemyApiKey)
 
