@@ -1,6 +1,6 @@
 import { useEthers } from '@usedapp/core'
 import Link from 'next/link'
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useMountedState } from 'react-use'
 import { DiscordIcon, RedditIcon, TwitterIcon } from '../assets/icons'
 import Counter from '../components/Counter'
@@ -20,16 +20,25 @@ import SEO from '../components/utils/SEO'
 import { useRegister } from '../hooks/register'
 import { URLs } from '../lib/constants'
 import { useWalletSelector } from '../lib/WalletSelector/context'
+import { useRouter } from 'next/router'
+import config from '../config'
 
 const seoData = {
   title: 'Register',
 }
 
-const Generator: React.FC = () => {
+const Register: React.FC = () => {
   const { isConnecting, open } = useWalletSelector()
   const { account } = useEthers()
   const { register, isRegistring, registrationResult } = useRegister()
   const isMounted = useMountedState()
+
+  const router = useRouter()
+  useEffect(() => {
+    if (!config.whitelistMode) {
+      router.replace(`/`)
+    }
+  }, [])
 
   const socialPostUrls = useMemo(() => {
     if (!isMounted()) return {}
@@ -59,6 +68,10 @@ ${tags}
       discord,
     }
   }, [isMounted, registrationResult])
+
+  if (!config.whitelistMode) {
+    return <div></div>
+  }
 
   return (
     <>
@@ -272,4 +285,4 @@ ${tags}
   )
 }
 
-export default Generator
+export default Register

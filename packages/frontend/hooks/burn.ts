@@ -2,6 +2,7 @@ import { useContractCall, useEthers } from '@usedapp/core'
 import { useCallback, useMemo, useState } from 'react'
 import { useToast } from '../components/ui'
 import { getContractFromProvider } from '../lib/contracts'
+import * as ga from '../lib/ga'
 import { useAuth } from './authContext'
 import { useContract } from './contracts'
 
@@ -48,6 +49,14 @@ export const useBurn = () => {
         throw new Error('cannot call burn if not connected 👎')
       }
 
+      ga.event({
+        action: 'burning_pending',
+        params: {
+          event_category: 'burning',
+          event_label: 'burning_pending',
+          value: '1',
+        },
+      })
       setIsBurning(true)
       setError(null)
 
@@ -70,6 +79,14 @@ export const useBurn = () => {
             duration: 5000,
             isClosable: true,
           })
+          ga.event({
+            action: 'burning_success',
+            params: {
+              event_category: 'burning',
+              event_label: 'burning_success',
+              value: '1',
+            },
+          })
         })
         .catch((error) => {
           console.error(error)
@@ -84,6 +101,14 @@ export const useBurn = () => {
 
           setError(error)
           setIsBurning(false)
+          ga.event({
+            action: 'burning_error',
+            params: {
+              event_category: 'burning',
+              event_label: 'burning_error',
+              value: '1',
+            },
+          })
         })
     },
     [account, accountTokenStartPollingBurn, tokenBurnPrice]

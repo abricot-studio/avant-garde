@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
 import { useToast } from '../components/ui'
 import config from '../config'
+import * as ga from '../lib/ga'
 const inviteApi = axios.create({
   baseURL: `${config.baseUrl}/api/invite`,
 })
@@ -52,6 +53,14 @@ export const useInvite = () => {
       if (isFetchingInvites) {
         return
       }
+      ga.event({
+        action: 'get_invite_pending',
+        params: {
+          event_category: 'invite',
+          event_label: 'get_invite_pending',
+          value: '1',
+        },
+      })
       setIsFetchingInvites(true)
       inviteApi({
         method: 'POST',
@@ -64,6 +73,14 @@ export const useInvite = () => {
           if (result.data.status === InviteStatus.SUCCESS) {
             setInvites(result.data.inviteCodes)
             setIsFetchingInvites(false)
+            ga.event({
+              action: 'get_invite_success',
+              params: {
+                event_category: 'invite',
+                event_label: 'get_invite_success',
+                value: '1',
+              },
+            })
             return true
           }
         })
@@ -73,6 +90,14 @@ export const useInvite = () => {
           setIsFetchingInvites(false)
           if (error?.response?.data?.message === 'token invalid') {
             setErrorGetInvites(new Error('token_invalid'))
+            ga.event({
+              action: 'get_invite_error_token',
+              params: {
+                event_category: 'invite',
+                event_label: 'get_invite_error_token',
+                value: '1',
+              },
+            })
           } else if (error?.response?.data?.message?.length > 0) {
             setErrorGetInvites(new Error(error.response.data.message))
           } else {
@@ -89,6 +114,14 @@ export const useInvite = () => {
             status: 'error',
             duration: 5000,
             isClosable: true,
+          })
+          ga.event({
+            action: 'get_invite_error',
+            params: {
+              event_category: 'invite',
+              event_label: 'get_invite_error',
+              value: '1',
+            },
           })
         })
     },
