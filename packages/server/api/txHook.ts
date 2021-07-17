@@ -92,7 +92,7 @@ export default async (
   }
 
   const txHash = req.body.hash
-  const network = req.body.network
+  const network = req.body.network === 'main' ? 1 : req.body.network
   const contractAddress = req.body.watchedAddress
 
   const provider = new providers.AlchemyProvider(network, config.alchemyApiKey)
