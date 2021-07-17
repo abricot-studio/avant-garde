@@ -5,7 +5,6 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { ToastImageGenerated, useToast } from '../components/ui'
 import config from '../config'
 import * as ga from '../lib/ga'
-import { decode } from '../lib/inviteCode'
 
 const generateApi = axios.create({
   baseURL: `${config.baseUrl}/api/generate`,
@@ -104,7 +103,7 @@ export const useImageGeneration = () => {
       const params: ImageGenerationParams = { address: account }
       if (inviteCode && inviteCode.length > 0) {
         try {
-          params.inviteCode = decode(inviteCode)
+          params.inviteCode = inviteCode
         } catch (error) {
           setErrorGenerating(error)
           return false

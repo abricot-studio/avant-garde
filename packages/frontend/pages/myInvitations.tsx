@@ -22,7 +22,6 @@ import SEO from '../components/utils/SEO'
 import config from '../config'
 import { useAuth } from '../hooks/authContext'
 import { URLs } from '../lib/constants'
-import { encode } from '../lib/inviteCode'
 import { useWalletSelector } from '../lib/WalletSelector/context'
 
 const seoData = {
@@ -31,9 +30,8 @@ const seoData = {
 const origin = typeof window !== 'undefined' ? window.location.origin : ''
 
 const Invitation = ({ invite, index }) => {
-  const encoded = encode(invite.code)
-  const copyLink = useClipboard(`${origin}/generator?inviteCode=${encoded}`)
-  const copyCode = useClipboard(encoded)
+  const copyLink = useClipboard(`${origin}/generator?inviteCode=${invite.code}`)
+  const copyCode = useClipboard(invite.code)
 
   return (
     <Flex key={invite.code} direction="column" position="relative">
@@ -48,7 +46,7 @@ const Invitation = ({ invite, index }) => {
         opacity={invite.used ? 0.5 : 1}
       >
         <Text fontSize="0.8rem" my={2}>
-          {encoded}
+          {invite.code}
         </Text>
       </Box>
       <Flex justifyContent="center" mt={4}>
