@@ -58,7 +58,7 @@ export class Teleporter extends Entity {
     engine.addEntity(this.placeholder)
   }
 
-  addUserPiece(userPiece: AvantGardeToken){
+  addUserPiece(userPiece: AvantGardeToken) {
     const myTexture = new Texture(
       `${config.ipfsEndpoint}${userPiece.metadata?.image.split('ipfs://')[1]}`
     )
