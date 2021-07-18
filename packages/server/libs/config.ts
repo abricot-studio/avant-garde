@@ -49,6 +49,7 @@ export interface Config {
   redis: ConfigRedis
   privateKey: string
   alchemyApiKey: string
+  etherscanKey: string
   hook: ConfigHook
   countries: string[]
   authMessage: string
@@ -73,6 +74,7 @@ const config: Config = {
     },
   },
   alchemyApiKey: process.env.ALCHEMY_API_KEY || '',
+  etherscanKey: process.env.ETHERSCAN_API_KEY || '',
   image: {
     width: parseInt(process.env.IMAGE_WIDTH || '512', 10),
     height: parseInt(process.env.IMAGE_HEIGHT || '512', 10),
