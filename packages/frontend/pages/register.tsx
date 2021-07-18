@@ -1,5 +1,6 @@
 import { useEthers } from '@usedapp/core'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import React, { useEffect, useMemo } from 'react'
 import { useMountedState } from 'react-use'
 import { DiscordIcon, RedditIcon, TwitterIcon } from '../assets/icons'
@@ -17,11 +18,10 @@ import {
   Text,
 } from '../components/ui'
 import SEO from '../components/utils/SEO'
+import config from '../config'
 import { useRegister } from '../hooks/register'
 import { URLs } from '../lib/constants'
 import { useWalletSelector } from '../lib/WalletSelector/context'
-import { useRouter } from 'next/router'
-import config from '../config'
 
 const seoData = {
   title: 'Register',

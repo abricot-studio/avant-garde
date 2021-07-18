@@ -7,7 +7,10 @@
     "lint": "eslint \"**/*.{js,ts}\"",
     "lint:fix": "eslint --fix \"**/*.{js,ts}\"",
     "image": "TS_NODE_PROJECT='tsconfigScript.json' ts-node libs/image/index.ts",
-    "script:getRegisters": "TS_NODE_PROJECT='tsconfigScript.json' ts-node scripts/getRegisters.ts",
+    "script:wearableDrop": "TS_NODE_PROJECT='tsconfigScript.json' ts-node scripts/wearableDrop.ts",
+    "script:stats": "TS_NODE_PROJECT='tsconfigScript.json' ts-node scripts/stats.ts",
+    "script:fixInvitesNotUsed": "TS_NODE_PROJECT='tsconfigScript.json' ts-node scripts/fixInvitesNotUsed.ts",
+    "script:getRegistersAndInvited": "TS_NODE_PROJECT='tsconfigScript.json' ts-node scripts/getRegistersAndInvited.ts",
     "script:migrate": "TS_NODE_PROJECT='tsconfigScript.json' ts-node scripts/migration/001registerTimestamp.ts",
     "redis:local": "docker-compose down && docker-compose up redis"
   },

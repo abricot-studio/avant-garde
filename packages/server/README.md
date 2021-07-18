@@ -31,10 +31,10 @@ curl --location --request POST 'http://localhost:3001/api/txHook' --header 'Cont
 ### Redis cli
 
 ```bash
-SCAN 0 MATCH *
-SCAN 0 MATCH generate:*
-SCAN 0 MATCH invite:code:*
-SCAN 0 MATCH invite:addr:*
+SCAN 0 MATCH * COUNT 1000
+SCAN 0 MATCH generate:* COUNT 1000
+SCAN 0 MATCH invite:code:* COUNT 1000
+SCAN 0 MATCH invite:addr:* COUNT 1000
 ZRANGEBYSCORE register 1 +inf WITHSCORES
 ZRANGEBYSCORE invited 1 +inf WITHSCORES
 ```

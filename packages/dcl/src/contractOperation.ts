@@ -65,10 +65,10 @@ export default class ContractOperation {
       try {
         const provider = await getProvider()
         const requestManagerNet = new RequestManager(provider)
-        const network = await requestManagerNet.net_version()
+        const network: string = await requestManagerNet.net_version()
         const getContract = (await contract.getContract(
-          avantGardeNetwork[1].address,
-          avantGardeNetwork[1].abi
+          avantGardeNetwork[network].address,
+          avantGardeNetwork[network].abi
         )) as any
         const avantGardeContract = getContract.contract
         const requestManager = getContract.requestManager
