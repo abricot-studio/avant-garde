@@ -17,3 +17,12 @@ export const contractConstants = {
 export const bondingCurveFn = memoize(
   (i) => Math.pow(i, contractConstants.bc.a) / contractConstants.bc.b
 )
+
+export const bondingCurveSum = memoize((i) => {
+  let total = 0
+  for (let j = 0; j < i; j++) {
+    total += Math.pow(j + 1, contractConstants.bc.a) / contractConstants.bc.b
+  }
+
+  return total
+})

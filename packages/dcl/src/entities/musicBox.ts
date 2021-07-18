@@ -47,20 +47,20 @@ export class MusicBox extends Entity {
     )
     engine.addEntity(sonCard)
 
-    const myVideoClip = new VideoClip(stream)
-    const myVideoTexture = new VideoTexture(myVideoClip)
-    myVideoTexture.volume = 0.15
-    const myMaterial = new BasicMaterial()
-    myMaterial.texture = myVideoTexture
-    const screen = new Entity()
-    screen.addComponent(new PlaneShape())
-    screen.addComponent(
-      new Transform({
-        scale: new Vector3(0, 0, 0),
-      })
-    )
-    screen.addComponent(myMaterial)
-    engine.addEntity(screen)
-    myVideoTexture.playing = true
+    // const myVideoClip = new VideoClip(stream)
+    // const myVideoTexture = new VideoTexture(myVideoClip)
+    // myVideoTexture.volume = 0.15
+    // const myMaterial = new BasicMaterial()
+    // myMaterial.texture = myVideoTexture
+    // const screen = new Entity()
+    // screen.addComponent(new PlaneShape())
+    // screen.addComponent(
+    //   new Transform({
+    //     scale: new Vector3(0, 0, 0),
+    //   })
+    // )
+    // screen.addComponent(myMaterial)
+    // engine.addEntity(screen)
+    // myVideoTexture.playing = true
   }
 }

@@ -2535,4 +2535,4 @@ export default {
       },
     ],
   },
-}
+} as any

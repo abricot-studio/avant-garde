@@ -149,14 +149,8 @@ export class Gallery implements ISystem {
                           this.minter.userPiece = this.userPiece
                           this.minter.minted()
                           if (this.teleporterDown && this.teleporterStairs) {
-                            this.teleporterDown.activate(
-                              this.teleporterStairs,
-                              this.userPiece
-                            )
-                            this.teleporterStairs.activate(
-                              this.teleporterDown,
-                              this.userPiece
-                            )
+                            this.teleporterDown.addUserPiece(this.userPiece)
+                            this.teleporterStairs.addUserPiece(this.userPiece)
                           }
                           isMinting = false
                           interval.clearInterval()
@@ -187,8 +181,8 @@ export class Gallery implements ISystem {
         )
       )
     } else if (this.teleporterDown && this.teleporterStairs) {
-      this.teleporterDown.activate(this.teleporterStairs, this.userPiece)
-      this.teleporterStairs.activate(this.teleporterDown, this.userPiece)
+      this.teleporterDown.addUserPiece(this.userPiece)
+      this.teleporterStairs.addUserPiece(this.userPiece)
     }
   }
 
@@ -223,9 +217,12 @@ export class Gallery implements ISystem {
       }),
       'Go to AvantGarde generator!'
     )
+    this.teleporterDown.activate(this.teleporterStairs)
+    this.teleporterStairs.activate(this.teleporterDown)
+
     if (this.userPiece) {
-      this.teleporterDown.activate(this.teleporterStairs, this.userPiece)
-      this.teleporterStairs.activate(this.teleporterDown, this.userPiece)
+      this.teleporterDown.addUserPiece(this.userPiece)
+      this.teleporterStairs.addUserPiece(this.userPiece)
     }
   }
 
