@@ -58,7 +58,16 @@ export class Teleporter extends Entity {
     engine.addEntity(this.placeholder)
   }
 
-  activate(otherTeleporter: Teleporter, userPiece: AvantGardeToken) {
+  addUserPiece(userPiece: AvantGardeToken){
+    const myTexture = new Texture(
+      `${config.ipfsEndpoint}${userPiece.metadata?.image.split('ipfs://')[1]}`
+    )
+    const myMaterial = new Material()
+    myMaterial.albedoTexture = myTexture
+    this.placeholder.addComponentOrReplace(myMaterial)
+  }
+
+  activate(otherTeleporter: Teleporter) {
     const shape = new TriggerBoxShape(
       new Vector3(1, 3, 1),
       new Vector3(0, 2, 0)
@@ -120,12 +129,6 @@ export class Teleporter extends Entity {
         1
       )
     )
-    const myTexture = new Texture(
-      `${config.ipfsEndpoint}${userPiece.metadata?.image.split('ipfs://')[1]}`
-    )
-    const myMaterial = new Material()
-    myMaterial.albedoTexture = myTexture
-    this.placeholder.addComponentOrReplace(myMaterial)
 
     this.addComponentOrReplace(
       new OnPointerDown(
