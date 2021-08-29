@@ -159,7 +159,7 @@ export const useImageGeneration = () => {
             setErrorGenerating(new Error('not_invited'))
           } else if (error?.response?.data?.message?.length > 0) {
             setErrorGenerating(new Error(error.response.data.message))
-            if(!config.inviteMode){
+            if (!config.inviteMode) {
               toast({
                 title: '⚠️ Generation error',
                 description: error.message,
@@ -178,7 +178,7 @@ export const useImageGeneration = () => {
               },
             })
             console.error(error)
-            if(!config.inviteMode){
+            if (!config.inviteMode) {
               toast({
                 title: '⚠️ Generation error',
                 description: error.message,
