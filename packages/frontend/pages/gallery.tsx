@@ -57,7 +57,9 @@ export const getStaticProps = async () => {
   }
   const [ssrClient, ssrCache] = getSsrClient()
 
-  await ssrClient.query(TokensQuery, defaultTokensQueryVariables).toPromise()
+  await ssrClient.query(TokensQuery, {
+    first: 5,
+  }).toPromise()
 
   return {
     props: {
