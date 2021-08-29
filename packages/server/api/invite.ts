@@ -18,6 +18,15 @@ export default async (
 ): Promise<VercelResponse | void> => {
   if (!Middlewares(req, res)) return
 
+  if (!config.inviteMode) {
+    logger.error('Invite disabled')
+
+    return res.status(400).json({
+      status: 'error',
+      message: 'Invite disabled',
+    })
+  }
+
   let address = null
   const token =
     req.body.token && req.body.token.length === 132 && req.body.token

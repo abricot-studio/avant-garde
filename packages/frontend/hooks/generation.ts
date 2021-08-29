@@ -159,6 +159,15 @@ export const useImageGeneration = () => {
             setErrorGenerating(new Error('not_invited'))
           } else if (error?.response?.data?.message?.length > 0) {
             setErrorGenerating(new Error(error.response.data.message))
+            if (!config.inviteMode) {
+              toast({
+                title: '⚠️ Generation error',
+                description: error.message,
+                status: 'error',
+                duration: 20000,
+                isClosable: true,
+              })
+            }
           } else {
             ga.event({
               action: 'generating_error',
@@ -169,6 +178,15 @@ export const useImageGeneration = () => {
               },
             })
             console.error(error)
+            if (!config.inviteMode) {
+              toast({
+                title: '⚠️ Generation error',
+                description: error.message,
+                status: 'error',
+                duration: 20000,
+                isClosable: true,
+              })
+            }
             setErrorGenerating(error)
           }
           setIsGenerating(false)
