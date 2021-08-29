@@ -44,6 +44,7 @@ export interface ConfigHook {
 export interface Config {
   env: string
   generate: boolean
+  inviteMode: boolean
   image: ConfigImage
   pinata: ConfigPinata
   redis: ConfigRedis
@@ -59,6 +60,7 @@ export interface Config {
 const config: Config = {
   env: process.env.NODE_ENV || 'development',
   generate: process.env.GENERATE === 'true' || false,
+  inviteMode: process.env.INVITE_MODE === 'true' || false,
   hook: {
     secret: process.env.HOOK_SECRET || '1d8c3623fb5ae3e6da37edfaad82794be462',
     discord: {

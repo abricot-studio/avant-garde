@@ -102,6 +102,7 @@ export const AuthContextProvider = wrapUrqlClient(({ children }) => {
       auth()
     } else if (
       !config.whitelistMode &&
+      config.inviteMode &&
       account &&
       session &&
       storeAuth &&

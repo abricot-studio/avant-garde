@@ -19,6 +19,7 @@ export default {
     process.env.NEXT_PUBLIC_ANALYTICS_DOMAIN ||
     'https://something.avant-garde.gallery',
   whitelistMode: process.env.NEXT_PUBLIC_WHITELIST_MODE === 'true' || false,
+  inviteMode: process.env.NEXT_PUBLIC_INVITE_MODE === 'true' || false,
   launchDate: '2021-07-15T22:00:00Z',
   startDate: '2021-06-03T20:00:00Z',
   authMessage:

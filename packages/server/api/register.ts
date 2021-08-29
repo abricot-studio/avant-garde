@@ -16,7 +16,7 @@ export default async (
 ): Promise<VercelResponse | void> => {
   if (!Middlewares(req, res)) return
 
-  if (config.generate) {
+  if (config.generate || !config.inviteMode) {
     logger.error('Started already')
 
     return res.status(400).json({

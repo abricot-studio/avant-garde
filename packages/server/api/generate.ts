@@ -20,6 +20,87 @@ const signer = new Wallet(config.privateKey)
 let tf: typeof import('@tensorflow/tfjs') = null
 let redis: Redis.Redis = null
 
+async function CheckInvite(res: VercelResponse, address: string, inviteCode: string, redis) : Promise<boolean>{
+
+  if (!config.inviteMode) {
+    return true
+  }
+
+  const [isRegister, isInvited] = await Promise.all([
+    redis.zscore('register', address),
+    redis.zscore('invited', address),
+  ])
+
+  if (isRegister === null && isInvited === null) {
+    if (!inviteCode) {
+      logger.error('Address is not registry or invited', {
+        address,
+      })
+      res.status(400).json({
+        status: 'error',
+        message: 'You are not registered or invited yet',
+        ipfsHashMetadata: null,
+        ipfsHashImage: null,
+        signature: null,
+      })
+      return false
+
+    }
+
+    const redisExisting = await redis.hgetall(`invite:code:${inviteCode}`)
+
+    if (Object.keys(redisExisting).length === 0 || redisExisting['time:use']) {
+      logger.error('Code invalid or expired', {
+        address,
+      })
+      res.status(400).json({
+        status: 'error',
+        message: 'Code invalid or expired',
+        ipfsHashMetadata: null,
+        ipfsHashImage: null,
+        signature: null,
+      })
+      return false
+
+    }
+    const now = Date.now()
+    const redisHSetNx = await redis.hsetnx(
+      `invite:code:${inviteCode}`,
+      'time:use',
+      now
+    )
+
+    if (redisHSetNx !== 1) {
+      logger.error('Processing code', {
+        address,
+      })
+      res.status(400).json({
+        status: 'error',
+        message: 'Processing code',
+        ipfsHashMetadata: null,
+        ipfsHashImage: null,
+        signature: null,
+      })
+      return false
+    }
+
+    await redis
+      .multi([
+        ['hsetnx', `invite:code:${inviteCode}`, 'to', address],
+        [
+          'hsetnx',
+          `invite:addr:${redisExisting.from}`,
+          `${redisExisting.index}:used`,
+          address,
+        ],
+        ['zadd', 'invited', 'NX', now, address],
+      ])
+      .exec()
+    return true
+  }
+
+}
+
 export default async (
   req: VercelRequest,
   res: VercelResponse
@@ -66,73 +147,7 @@ export default async (
   if (!redis) {
     redis = await getRedis()
   }
-
-  const [isRegister, isInvited] = await Promise.all([
-    redis.zscore('register', address),
-    redis.zscore('invited', address),
-  ])
-
-  if (isRegister === null && isInvited === null) {
-    if (!inviteCode) {
-      logger.error('Address is not registry or invited', {
-        address,
-      })
-      return res.status(400).json({
-        status: 'error',
-        message: 'You are not registered or invited yet',
-        ipfsHashMetadata: null,
-        ipfsHashImage: null,
-        signature: null,
-      })
-    }
-
-    const redisExisting = await redis.hgetall(`invite:code:${inviteCode}`)
-
-    if (Object.keys(redisExisting).length === 0 || redisExisting['time:use']) {
-      logger.error('Code invalid or expired', {
-        address,
-      })
-      return res.status(400).json({
-        status: 'error',
-        message: 'Code invalid or expired',
-        ipfsHashMetadata: null,
-        ipfsHashImage: null,
-        signature: null,
-      })
-    }
-    const now = Date.now()
-    const redisHSetNx = await redis.hsetnx(
-      `invite:code:${inviteCode}`,
-      'time:use',
-      now
-    )
-
-    if (redisHSetNx !== 1) {
-      logger.error('Processing code', {
-        address,
-      })
-      return res.status(400).json({
-        status: 'error',
-        message: 'Processing code',
-        ipfsHashMetadata: null,
-        ipfsHashImage: null,
-        signature: null,
-      })
-    }
-
-    await redis
-      .multi([
-        ['hsetnx', `invite:code:${inviteCode}`, 'to', address],
-        [
-          'hsetnx',
-          `invite:addr:${redisExisting.from}`,
-          `${redisExisting.index}:used`,
-          address,
-        ],
-        ['zadd', 'invited', 'NX', now, address],
-      ])
-      .exec()
-  }
+  if (! (await CheckInvite(res, address, inviteCode, redis)) ) return
 
   const redisExisting = await redis.get(`generate:${address}`)
 
