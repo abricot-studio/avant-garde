@@ -70,7 +70,7 @@ function MainButton({ account }) {
             icon={<DefaultAvatarIcon w={8} h={8} />}
             bg="white"
           >
-            {!config.whitelistMode && accountToken && (
+            {!config.whitelistMode && config.inviteMode && accountToken && (
               <AvatarBadge
                 w="1rem"
                 h="1rem"
