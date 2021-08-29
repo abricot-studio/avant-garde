@@ -50,7 +50,7 @@ export const getStaticPaths = async () => {
   }
   const { data } = await defaultClient
     .query(TokensQuery, {
-      first: 2,
+      first: 3,
     })
     .toPromise()
 
