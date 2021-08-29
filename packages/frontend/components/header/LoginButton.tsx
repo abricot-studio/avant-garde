@@ -121,7 +121,7 @@ function MainButton({ account }) {
           icon={<DefaultAvatarIcon w={6} h={6} />}
           bg="white"
         >
-          {!config.whitelistMode && accountToken && (
+          {!config.whitelistMode && config.inviteMode && accountToken && (
             <AvatarBadge
               w="1rem"
               h="1rem"
@@ -222,7 +222,7 @@ export function LoginButton() {
               </MenuItem>
             </Link>
           )}
-          {!config.whitelistMode && (
+          {!config.whitelistMode && config.inviteMode && (
             <Link passHref href="/myInvitations">
               <MenuItem pr={accountToken ? 4 : 6} justifyContent="flex-end">
                 {accountToken && (
