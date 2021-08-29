@@ -11,25 +11,25 @@ export const useHistory = () => {
     first: 200,
   })
   const balancePool = useMemo(
-    () => (balancePoolRaw ? formatEther(balancePoolRaw) : ''),
+    () => (balancePoolRaw ? formatEther(balancePoolRaw) : '...'),
     [balancePoolRaw]
   )
   const minted = useMemo(
-    () => (Array.isArray(tokens) ? tokens.length : ''),
+    () => (Array.isArray(tokens) ? tokens.length : '...'),
     [tokens]
   )
   const holders = useMemo(
     () =>
       Array.isArray(tokens)
         ? tokens.filter((token) => !token.burnTimestamp).length
-        : '',
+        : '...',
     [tokens]
   )
   const burned = useMemo(
     () =>
       Array.isArray(tokens)
         ? tokens.filter((token) => token.burnTimestamp).length
-        : '',
+        : '...',
     [tokens]
   )
   return {
