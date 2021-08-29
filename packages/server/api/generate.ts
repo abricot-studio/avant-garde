@@ -20,8 +20,12 @@ const signer = new Wallet(config.privateKey)
 let tf: typeof import('@tensorflow/tfjs') = null
 let redis: Redis.Redis = null
 
-async function CheckInvite(res: VercelResponse, address: string, inviteCode: string, redis) : Promise<boolean>{
-
+async function CheckInvite(
+  res: VercelResponse,
+  address: string,
+  inviteCode: string,
+  redis
+): Promise<boolean> {
   if (!config.inviteMode) {
     return true
   }
@@ -44,7 +48,6 @@ async function CheckInvite(res: VercelResponse, address: string, inviteCode: str
         signature: null,
       })
       return false
-
     }
 
     const redisExisting = await redis.hgetall(`invite:code:${inviteCode}`)
@@ -61,7 +64,6 @@ async function CheckInvite(res: VercelResponse, address: string, inviteCode: str
         signature: null,
       })
       return false
-
     }
     const now = Date.now()
     const redisHSetNx = await redis.hsetnx(
@@ -98,7 +100,6 @@ async function CheckInvite(res: VercelResponse, address: string, inviteCode: str
       .exec()
     return true
   }
-
 }
 
 export default async (
@@ -147,7 +148,7 @@ export default async (
   if (!redis) {
     redis = await getRedis()
   }
-  if (! (await CheckInvite(res, address, inviteCode, redis)) ) return
+  if (!(await CheckInvite(res, address, inviteCode, redis))) return
 
   const redisExisting = await redis.get(`generate:${address}`)
 
