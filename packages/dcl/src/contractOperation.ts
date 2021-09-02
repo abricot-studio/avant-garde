@@ -36,7 +36,7 @@ export default class ContractOperation {
     const { network, address, avantGardeContract, requestManager } =
       await this.getNetworkConfig()
     this.network = network
-    if(address){
+    if (address) {
       this.address = address
     }
     this.avantGardeContract = avantGardeContract
@@ -76,7 +76,7 @@ export default class ContractOperation {
         const requestManager = getContract.requestManager
         let address = null
         const userAccount = await getUserAccount()
-        if(userAccount){
+        if (userAccount) {
           address = toChecksumAddress(userAccount)
         }
         log('getNetworkConfig', { network, contract, requestManager, address })

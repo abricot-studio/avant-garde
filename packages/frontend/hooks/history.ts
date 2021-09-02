@@ -37,5 +37,6 @@ export const useHistory = () => {
     balancePool,
     holders,
     burned,
+    tokens,
   }
 }
