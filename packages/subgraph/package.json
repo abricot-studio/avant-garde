@@ -16,7 +16,7 @@
     "deploy:mainnet": "npm run prepare:mainnet && graph deploy --debug --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/ abricot-studio/avant-garde-mainnet"
   },
   "devDependencies": {
-    "@graphprotocol/graph-cli": "^0.21.0",
+    "@graphprotocol/graph-cli": "^0.21.1",
     "@graphprotocol/graph-ts": "^0.20.1",
     "@protofire/subgraph-toolkit": "^0.1.2",
     "babel-polyfill": "^6.26.0",

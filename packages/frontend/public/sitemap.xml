@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-<url><loc>https://avant-garde.gallery</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-08-29T16:59:38.651Z</lastmod></url>
-<url><loc>https://avant-garde.gallery/about</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-08-29T16:59:38.652Z</lastmod></url>
-<url><loc>https://avant-garde.gallery/gallery</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-08-29T16:59:38.652Z</lastmod></url>
-<url><loc>https://avant-garde.gallery/generator</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-08-29T16:59:38.652Z</lastmod></url>
-<url><loc>https://avant-garde.gallery/myInvitations</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-08-29T16:59:38.652Z</lastmod></url>
-<url><loc>https://avant-garde.gallery/myItems</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-08-29T16:59:38.652Z</lastmod></url>
-<url><loc>https://avant-garde.gallery/register</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-08-29T16:59:38.652Z</lastmod></url>
-<url><loc>https://avant-garde.gallery/gallery/0</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-08-29T16:59:38.652Z</lastmod></url>
-<url><loc>https://avant-garde.gallery/gallery/1</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-08-29T16:59:38.652Z</lastmod></url>
-<url><loc>https://avant-garde.gallery/token/0xeac607d06e4e8f43627988811bc104f31ffde1ed</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-08-29T16:59:38.652Z</lastmod></url>
-<url><loc>https://avant-garde.gallery/token/0x0764dc400c280ff2b6d1f0582969c0c668271340</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-08-29T16:59:38.652Z</lastmod></url>
+<url><loc>https://avant-garde.gallery</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-09-03T17:42:16.324Z</lastmod></url>
+<url><loc>https://avant-garde.gallery/about</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-09-03T17:42:16.325Z</lastmod></url>
+<url><loc>https://avant-garde.gallery/gallery</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-09-03T17:42:16.326Z</lastmod></url>
+<url><loc>https://avant-garde.gallery/generator</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-09-03T17:42:16.326Z</lastmod></url>
+<url><loc>https://avant-garde.gallery/live</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-09-03T17:42:16.326Z</lastmod></url>
+<url><loc>https://avant-garde.gallery/myInvitations</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-09-03T17:42:16.326Z</lastmod></url>
+<url><loc>https://avant-garde.gallery/myItems</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-09-03T17:42:16.326Z</lastmod></url>
+<url><loc>https://avant-garde.gallery/register</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-09-03T17:42:16.326Z</lastmod></url>
+<url><loc>https://avant-garde.gallery/token/0xa2e676ac9e4c9ed8c55b4d88fccf2c44587be3e3</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-09-03T17:42:16.326Z</lastmod></url>
+<url><loc>https://avant-garde.gallery/token/0xeae9779e4204d459cb171fa18e222759fca7d0fc</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-09-03T17:42:16.326Z</lastmod></url>
+<url><loc>https://avant-garde.gallery/gallery/0</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-09-03T17:42:16.326Z</lastmod></url>
+<url><loc>https://avant-garde.gallery/gallery/1</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-09-03T17:42:16.326Z</lastmod></url>
 </urlset>

@@ -213,7 +213,7 @@ ${tags}`
         width={512}
         height={512}
         style={{
-          position: 'absolute',
+          position: 'fixed',
           opacity: 0,
         }}
       />
