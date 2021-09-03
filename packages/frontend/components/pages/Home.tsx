@@ -224,7 +224,7 @@ export function Home() {
       <Wrap spacing={20} justify="center" mx={0} mt={8}>
         {tokens &&
           tokens.slice(0, 3).map((token) => (
-            <WrapItem flexDirection="column">
+            <WrapItem flexDirection="column" key={token.id}>
               <TokenImage avantGardeToken={token} size={200} noBurned={true} />
               <Card mt={8}>
                 <Flex

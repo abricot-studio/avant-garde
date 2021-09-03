@@ -16,7 +16,7 @@ import BigNumber from 'bignumber.js'
 import { utils } from 'ethers'
 import moment from 'moment'
 import { useRouter } from 'next/router'
-import React, { useMemo, useRef } from 'react'
+import React, { useMemo, useRef, useState } from 'react'
 import { useMountedState } from 'react-use'
 import { RedditIcon, TwitterIcon } from '../../assets/icons'
 import { useBurn, useBurnPrice } from '../../hooks/burn'
@@ -136,11 +136,10 @@ export default function Token({ id }) {
   } = useDisclosure()
   const metadata = useMetadata(token)
   const canvasRef = useRef(null)
-
+  const [downloadUrl, setDownloadUrl] = useState('')
   const socialPostUrls = useMemo(() => {
     if (!isMounted() || !token) return {}
 
-    let downloadUrl = ''
     const origin = typeof window !== 'undefined' ? window.location.origin : ''
     const permalink = `${origin}/token/${id}`
     const tags =
@@ -174,8 +173,10 @@ ${tags}`
         const image = new Image()
         image.crossOrigin = 'anonymous'
         image.src = getIpfsUrl(metadata.image)
-        context.drawImage(image, 0, 0, 512, 512)
-        downloadUrl = canvas.toDataURL('image/jpg')
+        image.onload = () => {
+          context.drawImage(image, 0, 0, 512, 512)
+          setDownloadUrl(canvas.toDataURL('image/png'))
+        }
       }
     }
 
@@ -194,9 +195,8 @@ ${tags}`
       reddit,
       twitter,
       opensea,
-      downloadUrl,
     }
-  }, [isMounted, account, token, contractAddress, chainId, metadata, canvasRef])
+  }, [isMounted, account, token, contractAddress, chainId, metadata])
 
   if (fetching)
     return (
@@ -212,7 +212,10 @@ ${tags}`
         ref={canvasRef}
         width={512}
         height={512}
-        style={{ position: 'absolute', opacity: 0 }}
+        style={{
+          position: 'absolute',
+          opacity: 0,
+        }}
       />
       <Heading
         mb={4}
@@ -333,7 +336,7 @@ ${tags}`
             }
             href={
               account && addressEqual(account, token.owner)
-                ? socialPostUrls.downloadUrl
+                ? downloadUrl
                 : socialPostUrls.reddit
             }
             label={
