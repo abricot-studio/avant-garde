@@ -27,6 +27,7 @@ import {
   Container,
   Flex,
   Heading,
+  Image,
   Link as CLink,
   Spinner,
   Text,
@@ -50,7 +51,7 @@ const Title = ({ children, ...props }) => (
     {children}
   </Heading>
 )
-const SubTitle = ({ children }) => (
+export const SubTitle = ({ children }) => (
   <Heading
     textAlign="left"
     mt={4}
@@ -61,7 +62,7 @@ const SubTitle = ({ children }) => (
     {children}
   </Heading>
 )
-const Paragraph = ({ children, ...props }) => (
+export const Paragraph = ({ children, ...props }) => (
   <Text
     align="justify"
     pb={1}
@@ -120,6 +121,7 @@ function Description() {
           address. Each pixel 2d coordinate vector gets across the network and
           outputs RGB values.
         </Paragraph>
+        <Image src="./generation_schema.svg" boxSize="100%" />
       </Card>
 
       <Title>That gets minted in a click</Title>
@@ -354,6 +356,7 @@ function Chart() {
         </defs>
       </svg>
       <VictoryChart
+        padding={{ top: 0, bottom: 20, left: 50, right: 0 }}
         domain={{
           x: [0, dataNext[dataNext.length - 1].x * 1.1],
           y: [0, dataNext[dataNext.length - 1].y * 1.1],

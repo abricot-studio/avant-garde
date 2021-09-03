@@ -8,7 +8,7 @@ import { setTimeout, wait } from './utils'
 
 interface networkConfig {
   network: string
-  address: string
+  address: string | null
   avantGardeContract: any
   requestManager: any
 }
@@ -36,7 +36,9 @@ export default class ContractOperation {
     const { network, address, avantGardeContract, requestManager } =
       await this.getNetworkConfig()
     this.network = network
-    this.address = address
+    if (address) {
+      this.address = address
+    }
     this.avantGardeContract = avantGardeContract
     this.requestManager = requestManager
     log('address', this.address)
@@ -72,7 +74,11 @@ export default class ContractOperation {
         )) as any
         const avantGardeContract = getContract.contract
         const requestManager = getContract.requestManager
-        const address = toChecksumAddress(await getUserAccount())
+        let address = null
+        const userAccount = await getUserAccount()
+        if (userAccount) {
+          address = toChecksumAddress(userAccount)
+        }
         log('getNetworkConfig', { network, contract, requestManager, address })
         return { network, avantGardeContract, requestManager, address }
       } catch (error) {

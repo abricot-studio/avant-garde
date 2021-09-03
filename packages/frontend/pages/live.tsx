@@ -1,19 +1,33 @@
+import Link from 'next/link'
 import React from 'react'
+import { ChartPrice } from '../components/ChartPrice'
+import { History } from '../components/History'
 import Layout from '../components/Layout'
-import { Home } from '../components/pages/Home'
+import { ActionButton, Center, Container } from '../components/ui'
 import SEO from '../components/utils/SEO'
 import config from '../config'
 import { defaultTokensQueryVariables, TokensQuery } from '../hooks/tokens'
 import { getSsrClient } from '../lib/graphql'
+const seoData = {
+  title: 'Live',
+}
 
-const seoData = {}
-
-const Index: React.FC = () => {
+const Live: React.FC = () => {
   return (
     <>
       <SEO data={seoData} />
       <Layout>
-        <Home />
+        <History />
+        <Container w="90%" maxW="container.md" mt={8}>
+          <ChartPrice />
+        </Container>
+        <Center mt={16}>
+          <Link passHref href="/generator">
+            <ActionButton as="a" w="12rem">
+              Generate yours
+            </ActionButton>
+          </Link>
+        </Center>
       </Layout>
     </>
   )
@@ -37,4 +51,4 @@ export const getStaticProps = async () => {
   }
 }
 
-export default Index
+export default Live

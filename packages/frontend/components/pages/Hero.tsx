@@ -35,7 +35,7 @@ export default function Hero() {
           as="h1"
           textStyle="h3"
           textAlign="center"
-          fontSize={{ base: '1.2rem', sm: '1.4em', md: '1.8rem' }}
+          fontSize={{ base: '1.4rem', sm: '1.4em', md: '1.8rem' }}
           position="relative"
           lineHeight={2}
         >

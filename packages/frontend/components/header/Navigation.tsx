@@ -49,7 +49,7 @@ const NavButton = forwardRef<NavButtonProps & ButtonProps, 'a'>(
 
 export const pagePaths = config.whitelistMode
   ? ['/register', '/about']
-  : ['/generator', '/about', '/gallery']
+  : ['/generator', '/about', '/gallery', '/live']
 
 export const getPageStuff = (pathname) => {
   if (pathname === '/') {
@@ -66,6 +66,9 @@ export const getPageStuff = (pathname) => {
   }
   if (pathname === '/gallery') {
     return ['💘 Gallery', 'yellowy']
+  }
+  if (pathname === '/live') {
+    return ['💎 Live', 'bluey']
   }
   if (pathname === '/myItems') {
     return ['My Items', 'black']
