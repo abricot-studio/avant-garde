@@ -343,22 +343,6 @@ export function Home() {
             </Paragraph>
           </Collapse>
           <SubTitle>
-            How much is the supply?
-            <ActionButton px={0} size="xs" ml={4} onClick={onToggleQ4}>
-              <FontAwesomeIcon
-                icon={isOpenQ4 ? faArrowUp : faArrowDown}
-                size="xs"
-              />
-            </ActionButton>
-          </SubTitle>
-          <Collapse in={isOpenQ4} animateOpacity startingHeight={1}>
-            <Paragraph>
-              The supply is infinite but limited to one per wallet address, the
-              bonding curve regulates the supply, the price is correlated to the
-              supply.
-            </Paragraph>
-          </Collapse>
-          <SubTitle>
             Does the Price go up each time?
             <ActionButton px={0} size="xs" ml={4} onClick={onToggleQ5}>
               <FontAwesomeIcon
