@@ -35,7 +35,10 @@ export function History() {
             💎
           </Box>
           <Box fontWeight={700} fontSize={32} textAlign="center">
-            Ξ {Number.isNaN(parseFloat(balancePool)) ? balancePool : Math.floor(parseFloat(balancePool) * 100) / 100}
+            Ξ{' '}
+            {Number.isNaN(parseFloat(balancePool))
+              ? balancePool
+              : Math.floor(parseFloat(balancePool) * 100) / 100}
           </Box>
           <Box fontWeight="400" textAlign="center">
             Pool
