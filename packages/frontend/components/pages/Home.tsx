@@ -7,6 +7,7 @@ import Link from 'next/link'
 import React from 'react'
 import { useHistory } from '../../hooks/history'
 import { ChartPrice } from '../ChartPrice'
+import { History } from '../History'
 import { TokenImage } from '../tokens/TokenImage'
 import {
   ActionButton,
@@ -31,7 +32,7 @@ import { Paragraph, SubTitle } from './About'
 import Hero from './Hero'
 
 export function Home() {
-  const { minted, balancePool, holders, burned, tokens } = useHistory()
+  const { tokens } = useHistory()
   const mobile = useBreakpointValue({ base: true, md: false, lg: false })
   const { isOpen: isOpenQ1, onToggle: onToggleQ1 } = useDisclosure()
   const { isOpen: isOpenQ2, onToggle: onToggleQ2 } = useDisclosure()
@@ -47,36 +48,7 @@ export function Home() {
         Home
       </Heading>
       <Hero />
-      <Wrap spacing={4} justify="center" mx={12}>
-        <WrapItem alignItems="center">
-          <Flex flexDirection="column" alignItems="center" mx={4}>
-            <Box fontWeight={700} fontSize={32}>
-              {minted}
-            </Box>
-            <Box fontWeight="400">Minted</Box>
-          </Flex>
-          <Flex flexDirection="column" alignItems="center" mx={4}>
-            <Box fontWeight={700} fontSize={32}>
-              Ξ {balancePool}
-            </Box>
-            <Box fontWeight="400">Pool</Box>
-          </Flex>
-        </WrapItem>
-        <WrapItem alignItems="center">
-          <Flex flexDirection="column" alignItems="center" mx={4}>
-            <Box fontWeight={700} fontSize={32}>
-              {holders}
-            </Box>
-            <Box fontWeight="400">Holders</Box>
-          </Flex>
-          <Flex flexDirection="column" alignItems="center" mx={4}>
-            <Box fontWeight={700} fontSize={32}>
-              {burned}
-            </Box>
-            <Box fontWeight="400">Burned</Box>
-          </Flex>
-        </WrapItem>
-      </Wrap>
+      <History />
       <Center mt={8} id="image-generation">
         <CLink href="#image-generation">
           <ActionButton px={0}>
@@ -191,6 +163,11 @@ export function Home() {
           flexDirection="column"
         >
           <ChartPrice />
+          <Link passHref href="/live">
+            <ActionButton as="a" w="12rem" mt={8}>
+              Live Dashboard
+            </ActionButton>
+          </Link>
         </WrapItem>
         <WrapItem flexDirection="column" w={{ sm: '100%', md: '30%' }}>
           <Flex flexDirection="column">
