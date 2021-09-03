@@ -224,7 +224,7 @@ export function Home() {
       <Wrap spacing={20} justify="center" mx={0} mt={8}>
         {tokens &&
           tokens.slice(0, 3).map((token) => (
-            <WrapItem flexDirection="column">
+            <WrapItem flexDirection="column" key={token.id}>
               <TokenImage avantGardeToken={token} size={200} noBurned={true} />
               <Card mt={8}>
                 <Flex
@@ -324,22 +324,6 @@ export function Home() {
             <Paragraph>
               You can only generate and mint your AvantGarde token once. If you
               burn it, it’s destroyed forever.
-            </Paragraph>
-          </Collapse>
-          <SubTitle>
-            How much is the supply?
-            <ActionButton px={0} size="xs" ml={4} onClick={onToggleQ4}>
-              <FontAwesomeIcon
-                icon={isOpenQ4 ? faArrowUp : faArrowDown}
-                size="xs"
-              />
-            </ActionButton>
-          </SubTitle>
-          <Collapse in={isOpenQ4} animateOpacity startingHeight={1}>
-            <Paragraph>
-              The supply is infinite but limited to one per wallet address, the
-              bonding curve regulates the supply, the price is correlated to the
-              supply.
             </Paragraph>
           </Collapse>
           <SubTitle>
