@@ -73,7 +73,7 @@ export function Home() {
         </Heading>
         <Text mx={{ sm: 4, md: 24 }} textAlign="center" mt={4}>
           <b>AvantGarde</b> is an NFT experience created by the Abricot Studio
-          that invites you to discover what <b>deep-learning</b> can bring to
+          that invites you to discover what <b>deep-learning</b> can bring to{' '}
           <b>art creation</b>. It aims to link <b>blockchain and art</b>
           ecosystems to create <b>generative</b> and <b>abstract</b> pieces of
           art, fully <b>personalized and unique</b>.
