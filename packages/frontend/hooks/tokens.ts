@@ -208,7 +208,7 @@ export const useMetadata = (
   const { data: metadata } = useSWR(avantGardeToken?.tokenURI, getIpfsData, {
     revalidateOnFocus: false,
     revalidateOnReconnect: false,
-    initialData: initialMetadata,
+    fallbackData: initialMetadata,
   })
 
   return metadata
