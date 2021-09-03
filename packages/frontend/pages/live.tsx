@@ -12,7 +12,7 @@ const seoData = {
   title: 'Live',
 }
 
-const Index: React.FC = () => {
+const Live: React.FC = () => {
   return (
     <>
       <SEO data={seoData} />
@@ -51,4 +51,4 @@ export const getStaticProps = async () => {
   }
 }
 
-export default Index
+export default Live

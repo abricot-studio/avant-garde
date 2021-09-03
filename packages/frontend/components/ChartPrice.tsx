@@ -65,6 +65,7 @@ function Chart() {
         containerComponent={
           <VictoryVoronoiContainer
             // voronoiDimension="x"
+            mouseFollowTooltips
             labels={({ datum }) => {
               return `${moment(datum.x).format('YYYYMMMDD').toUpperCase()}
               Ξ ${Math.floor(datum.y * 1000) / 1000}`
@@ -179,7 +180,7 @@ export function ChartPrice() {
   const tokenBurnPrice = useBurnPrice()
 
   return (
-    <Card rounded="5%" boxShadow="xl">
+    <Card rounded={30} boxShadow="xl">
       <Wrap spacing={4}>
         <WrapItem>
           <Text color="rgba(0, 0, 0, 0.5)" fontSize={14} pl={2}>
