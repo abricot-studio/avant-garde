@@ -3,13 +3,12 @@ import { formatEther } from 'ethers/lib/utils'
 import moment from 'moment'
 import React from 'react'
 import {
-  LineSegment,
   VictoryArea,
   VictoryAxis,
   VictoryChart,
   VictoryClipContainer,
-  VictoryCursorContainer,
   VictoryTooltip,
+  VictoryVoronoiContainer,
 } from 'victory'
 import { useBurnPrice } from '../hooks/burn'
 import { useHistory } from '../hooks/history'
@@ -64,31 +63,54 @@ function Chart() {
         }}
         scale={{ x: 'time', y: 'linear' }}
         containerComponent={
-          <VictoryCursorContainer
-            cursorDimension="x"
-            cursorLabel={({ datum }: any) => {
-              console.log(datum)
+          <VictoryVoronoiContainer
+            // voronoiDimension="x"
+            labels={({ datum }) => {
               return `${moment(datum.x).format('YYYYMMMDD').toUpperCase()}
-                ${Math.floor(datum.y * 1000) / 1000}`
+              Ξ ${Math.floor(datum.y * 1000) / 1000}`
             }}
-            cursorComponent={<LineSegment style={{ stroke: 'blue' }} />}
-            cursorLabelComponent={
+            labelComponent={
               <VictoryTooltip
                 cornerRadius={5}
                 pointerLength={5}
                 style={{
                   fontFamily: 'Roboto Mono',
                   fontSize: 10,
-                  fill: 'white',
+                  fill: 'rgba(0, 0, 0, 0.5)',
                   fontWeight: 500,
                 }}
                 flyoutStyle={{
-                  fill: '#6B93FB',
-                  stroke: '#6B93FB',
+                  fill: 'white',
+                  stroke: 'url(#gradientLine)',
                 }}
               />
             }
           />
+          // <VictoryCursorContainer
+          //   cursorDimension="x"
+          //   cursorLabel={({ datum }: any) => {
+          //     console.log(datum)
+          //     return `${moment(datum.x).format('YYYYMMMDD').toUpperCase()}
+          //       ${Math.floor(datum.y * 1000) / 1000}`
+          //   }}
+          //   cursorComponent={<LineSegment style={{ stroke: 'blue' }} />}
+          //   cursorLabelComponent={
+          //     <VictoryTooltip
+          //       cornerRadius={5}
+          //       pointerLength={5}
+          //       style={{
+          //         fontFamily: 'Roboto Mono',
+          //         fontSize: 10,
+          //         fill: 'white',
+          //         fontWeight: 500,
+          //       }}
+          //       flyoutStyle={{
+          //         fill: '#6B93FB',
+          //         stroke: '#6B93FB',
+          //       }}
+          //     />
+          //   }
+          // />
         }
       >
         <VictoryAxis
