@@ -53,3 +53,7 @@ jobs:
         run: npm run lint
         env:
           CI: true
+      - name: Prettier
+        run: npm run prettier
+        env:
+          CI: true

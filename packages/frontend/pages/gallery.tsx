@@ -25,7 +25,7 @@ const Gallery: React.FC = () => {
     if (config.whitelistMode) {
       router.replace(`/`)
     }
-  }, [])
+  }, [router])
 
   if (config.whitelistMode) {
     return <div></div>

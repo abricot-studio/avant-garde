@@ -10,7 +10,9 @@
     "deploy:now": "dcl export && now export",
     "ecs:install": "npm install --save-dev decentraland-ecs@latest",
     "ecs:install-next": "npm install --save-dev decentraland-ecs@next",
-    "deploy:guru": "dclguru deploy --target linker.dcl.guru"
+    "deploy:guru": "dclguru deploy --target linker.dcl.guru",
+    "prettier": "prettier --check .",
+    "prettier:write": "prettier --write ."
   },
   "author": "avant-garde",
   "license": "MIT",
@@ -24,7 +26,8 @@
   },
   "devDependencies": {
     "decentraland": "^3.5.1",
-    "decentraland-ecs": "^6.6.5"
+    "decentraland-ecs": "^6.6.5",
+    "prettier": "^2.3.2"
   },
   "bundleDependencies": [
     "@dcl/crypto-scene-utils",

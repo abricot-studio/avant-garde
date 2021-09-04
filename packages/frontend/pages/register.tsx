@@ -38,7 +38,7 @@ const Register: React.FC = () => {
     if (!config.whitelistMode) {
       router.replace(`/`)
     }
-  }, [])
+  }, [router])
 
   const socialPostUrls = useMemo(() => {
     if (!isMounted()) return {}
@@ -67,7 +67,7 @@ ${tags}
       twitter,
       discord,
     }
-  }, [isMounted, registrationResult])
+  }, [isMounted])
 
   if (!config.whitelistMode) {
     return <div></div>

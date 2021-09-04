@@ -3,6 +3,8 @@
   "private": true,
   "version": "0.1.0",
   "scripts": {
+    "prettier": "prettier --check .",
+    "prettier:write": "prettier --write .",
     "build": "npm run codegen",
     "codegen": "npm run prepare:local && graph codegen",
     "prepare:local": "mustache ../contracts/deployments/localhost/config.json subgraph.template.yaml > subgraph.yaml",
@@ -21,7 +23,8 @@
     "@protofire/subgraph-toolkit": "^0.1.2",
     "babel-polyfill": "^6.26.0",
     "babel-register": "^6.26.0",
-    "mustache": "^4.2.0"
+    "mustache": "^4.2.0",
+    "prettier": "^2.3.2"
   },
   "dependencies": {}
 }

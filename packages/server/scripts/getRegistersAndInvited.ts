@@ -9,10 +9,10 @@ interface Register {
   date: string
 }
 
-interface Invited {
-  address: string
-  date: string
-}
+// interface Invited {
+//   address: string
+//   date: string
+// }
 
 async function getRegister() {
   const redis = await getRedis()
@@ -34,25 +34,25 @@ async function getRegister() {
   return registers
 }
 
-async function getInvited() {
-  const redis = await getRedis()
-  const redisInvited = await redis.zrangebyscore(
-    'invited',
-    '1',
-    '+inf',
-    'WITHSCORES'
-  )
-  const invited: Invited[] = []
-  for (let i = 0; i < redisInvited.length; i = i + 2) {
-    invited.push({
-      address: redisInvited[i],
-      date: new Date(parseFloat(redisInvited[i + 1])).toISOString(),
-    })
-  }
-
-  logger.info('invited', { invited, count: invited.length })
-  return invited
-}
+// async function getInvited() {
+//   const redis = await getRedis()
+//   const redisInvited = await redis.zrangebyscore(
+//     'invited',
+//     '1',
+//     '+inf',
+//     'WITHSCORES'
+//   )
+//   const invited: Invited[] = []
+//   for (let i = 0; i < redisInvited.length; i = i + 2) {
+//     invited.push({
+//       address: redisInvited[i],
+//       date: new Date(parseFloat(redisInvited[i + 1])).toISOString(),
+//     })
+//   }
+//
+//   logger.info('invited', { invited, count: invited.length })
+//   return invited
+// }
 
 async function Main() {
   const redis = await getRedis()

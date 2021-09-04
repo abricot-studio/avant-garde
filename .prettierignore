@@ -3,24 +3,4 @@
 .vercel
 .next
 node_modules
-
-# Contracts
-artifacts
-cache
-deployments
-typechain
-
-# dcl
-bin
-models
-
-# Frontend
-public
-
-# Subgraph
-build
-generated
-subgraph.template.yaml
-
-#Server
-**/backup
+packages

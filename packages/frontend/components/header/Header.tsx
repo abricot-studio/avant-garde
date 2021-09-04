@@ -30,7 +30,7 @@ export function Header() {
         align="center"
       >
         <Box>
-          <Link href="/">
+          <Link passHref href="/">
             <Button
               fontSize="2rem"
               leftIcon={<LogoIcon />}

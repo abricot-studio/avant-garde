@@ -72,6 +72,7 @@ export function ImageFrame({
               boxSize="100%"
               fallback={<QuestionMark />}
               opacity={isBurned ? 0.3 : 1}
+              alt="Avant Garde piece"
             />
           )}
           {!src && isLoading && (

@@ -196,7 +196,7 @@ ${tags}`
       twitter,
       opensea,
     }
-  }, [isMounted, account, token, contractAddress, chainId, metadata])
+  }, [isMounted, account, token, contractAddress, chainId, metadata, id])
 
   if (fetching)
     return (
@@ -502,9 +502,9 @@ ${tags}`
             <ModalBody py={0}>
               <Flex align="center" direction="column">
                 <Text pb={4}>
-                  This action can't be reverse, your piece will be destroyed
-                  forever and you will not be able to mint a new one in the
-                  futur.
+                  This action can&apos;t be reverse, your piece will be
+                  destroyed forever and you will not be able to mint a new one
+                  in the futur.
                 </Text>
                 <Flex align="center" direction="column" mt={4}>
                   <Flex>

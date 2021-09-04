@@ -30,7 +30,7 @@ const MyTokensPage: React.FC = () => {
     if ((!isConnecting && !account) || config.whitelistMode) {
       router.push(`/`)
     }
-  }, [isConnecting, account])
+  }, [isConnecting, account, router])
 
   if (!account || config.whitelistMode) {
     return <div></div>

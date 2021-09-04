@@ -179,7 +179,7 @@ export const WalletSelectorContextProvider: React.FC<Web3ContextProviderOptions>
         const { ethereum } = window as any
         setInjectedProviderExist(!!ethereum)
       })
-    }, [])
+    }, [activate])
 
     return (
       <WalletSelectorContext.Provider

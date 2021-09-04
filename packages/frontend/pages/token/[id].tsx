@@ -20,7 +20,7 @@ const TokenPage: React.FC<TokenPageProps> = ({ initialMetadata }) => {
     if (config.whitelistMode) {
       router.replace(`/`)
     }
-  }, [])
+  }, [router])
 
   if (router.isFallback || config.whitelistMode) {
     return <p>Loading</p>
