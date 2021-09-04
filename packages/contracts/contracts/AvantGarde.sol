@@ -17,7 +17,7 @@ contract AvantGarde is ERC721URIStorage {
 
   Counters.Counter public totalSupply;
 
-  uint8 constant fees = 10; // 10%
+  uint8 public constant fees = 10; // 10%
   address payable public feesReceiver;
   address public manager;
 
