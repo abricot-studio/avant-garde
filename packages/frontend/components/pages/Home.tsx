@@ -81,7 +81,7 @@ export function Home() {
       </Flex>
       <Wrap spacing={20} justify="center" mx={12} mt={12}>
         <WrapItem alignItems="center" flexDirection="column">
-          <Image src="./uniqueness.svg" boxSize={36} />
+          <Image src="./uniqueness.svg" boxSize={36} alt="uniqueness" />
           <Text fontWeight="500" fontSize={18} mt={2}>
             Uniqueness
           </Text>
@@ -96,7 +96,11 @@ export function Home() {
           </Text>
         </WrapItem>
         <WrapItem alignItems="center" flexDirection="column">
-          <Image src="./decentralization.svg" boxSize={36} />
+          <Image
+            src="./decentralization.svg"
+            boxSize={36}
+            alt="decentralization"
+          />
           <Text fontWeight="500" fontSize={18} mt={2}>
             Decentralization
           </Text>
@@ -112,7 +116,7 @@ export function Home() {
           </Text>
         </WrapItem>
         <WrapItem alignItems="center" flexDirection="column">
-          <Image src="./generation.svg" boxSize={36} />
+          <Image src="./generation.svg" boxSize={36} alt="generation" />
           <Text fontWeight="500" fontSize={18} mt={2}>
             Image Generation
           </Text>
@@ -305,10 +309,11 @@ export function Home() {
           <Collapse in={isOpenQ2} animateOpacity startingHeight={1}>
             <Paragraph>
               You can generate only one AvantGarde artwork per wallet address.
-              The reason is that the piece you&apos;re generating is not random, it&apos;s
-              based on your address, so one address can generate only one unique
-              piece. AvantGarde token market is ruled by a bonding curve, thus
-              there is an infinite quantity that can be generated and minted.
+              The reason is that the piece you&apos;re generating is not random,
+              it&apos;s based on your address, so one address can generate only
+              one unique piece. AvantGarde token market is ruled by a bonding
+              curve, thus there is an infinite quantity that can be generated
+              and minted.
             </Paragraph>
           </Collapse>
           <SubTitle>

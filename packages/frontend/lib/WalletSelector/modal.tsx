@@ -65,7 +65,11 @@ export function WalletSelectorModal() {
                         height={32}
                       >
                         <Flex direction="column" align="center">
-                          <Image src={option.icon} boxSize={12} />
+                          <Image
+                            src={option.icon}
+                            boxSize={12}
+                            alt="wallet icon"
+                          />
                           <Text mt={4} textTransform="initial" fontWeight={400}>
                             {option.name}
                           </Text>

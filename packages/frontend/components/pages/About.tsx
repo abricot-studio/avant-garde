@@ -121,7 +121,11 @@ function Description() {
           address. Each pixel 2d coordinate vector gets across the network and
           outputs RGB values.
         </Paragraph>
-        <Image src="./generation_schema.svg" boxSize="100%" />
+        <Image
+          src="./generation_schema.svg"
+          boxSize="100%"
+          alt="generation schema"
+        />
       </Card>
 
       <Title>That gets minted in a click</Title>

@@ -62,7 +62,7 @@ export default function Tokens({
 
   useEffect(() => {
     !isOpen && setTimeout(onToggle, 200)
-  }, [isOpen])
+  }, [isOpen, onToggle])
 
   const tokensDisplayed = useMemo<any[]>(() => {
     if (!tokens || tokens.length === 0) {
