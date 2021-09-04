@@ -43,7 +43,7 @@ export function Home() {
   const { isOpen: isOpenQ7, onToggle: onToggleQ7 } = useDisclosure()
   const { isOpen: isOpenQ8, onToggle: onToggleQ8 } = useDisclosure()
   return (
-    <>
+    <Box position="relative">
       <Heading color="transparent" mb={8} fontFamily="Poppins, sans-serif">
         Home
       </Heading>
@@ -225,10 +225,10 @@ export function Home() {
       >
         Newly minted
       </Heading>
-      <Wrap justify="center" mx={0} mt={8}>
+      <Wrap justify="center" mx={0} mt={8} spacing={0}>
         {tokens &&
           tokens.slice(0, 3).map((token) => (
-            <WrapItem flexDirection="column" key={token.id} px={8}>
+            <WrapItem flexDirection="column" key={token.id} px={8} py={4}>
               <TokenImage avantGardeToken={token} size={200} noBurned={true} />
               <Card mt={8}>
                 <Flex
@@ -423,6 +423,6 @@ export function Home() {
           </ActionButton>
         </Link>
       </Center>
-    </>
+    </Box>
   )
 }
