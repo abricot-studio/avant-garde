@@ -8,7 +8,8 @@
     "build": "next build",
     "postbuild": "next-sitemap",
     "export": "npm run build && next export",
-    "prettier": "prettier --write ."
+    "prettier": "prettier --check",
+    "prettier:write": "prettier --write"
   },
   "dependencies": {
     "@ceramicstudio/idx": "^0.12.1",
