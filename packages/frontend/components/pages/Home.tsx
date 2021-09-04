@@ -221,10 +221,10 @@ export function Home() {
       >
         Newly minted
       </Heading>
-      <Wrap spacing={20} justify="center" mx={0} mt={8}>
+      <Wrap justify="center" mx={0} mt={8}>
         {tokens &&
           tokens.slice(0, 3).map((token) => (
-            <WrapItem flexDirection="column" key={token.id}>
+            <WrapItem flexDirection="column" key={token.id} px={8}>
               <TokenImage avantGardeToken={token} size={200} noBurned={true} />
               <Card mt={8}>
                 <Flex
