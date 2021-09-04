@@ -219,7 +219,6 @@ export const ToastImageGenerated = (toast, router) => {
     duration: 5000,
     isClosable: true,
   })
-  t.displayName = 'Toast'
 }
 
 export const ToastImageMinted = (toast, mintTx, chainId) => {
