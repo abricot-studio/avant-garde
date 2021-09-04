@@ -305,7 +305,7 @@ export function Home() {
           <Collapse in={isOpenQ2} animateOpacity startingHeight={1}>
             <Paragraph>
               You can generate only one AvantGarde artwork per wallet address.
-              The reason is that the piece you're generating is not random, it's
+              The reason is that the piece you&apos;re generating is not random, it&apos;s
               based on your address, so one address can generate only one unique
               piece. AvantGarde token market is ruled by a bonding curve, thus
               there is an infinite quantity that can be generated and minted.
@@ -381,7 +381,7 @@ export function Home() {
             </Paragraph>
           </Collapse>
           <SubTitle>
-            Why didn't you build a slippage mechanism?
+            Why didn&apos;t you build a slippage mechanism?
             <ActionButton px={0} size="xs" ml={4} onClick={onToggleQ7}>
               <FontAwesomeIcon
                 icon={isOpenQ7 ? faArrowUp : faArrowDown}

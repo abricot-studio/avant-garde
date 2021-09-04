@@ -187,6 +187,7 @@ export const ToastContainer = forwardRef<BoxProps & ToastContainerProps, 'div'>(
 
 export const ToastImageGenerated = (toast, router) => {
   const t = toast({
+    // eslint-disable-next-line react/display-name
     render: () => (
       <ToastContainer onClose={() => toast.close(t)}>
         <Box>
@@ -218,10 +219,12 @@ export const ToastImageGenerated = (toast, router) => {
     duration: 5000,
     isClosable: true,
   })
+  t.displayName = 'Toast'
 }
 
 export const ToastImageMinted = (toast, mintTx, chainId) => {
   const t = toast({
+    // eslint-disable-next-line react/display-name
     render: () => (
       <Box color="white" p={2} bg="green.500" rounded="md">
         <IconButton

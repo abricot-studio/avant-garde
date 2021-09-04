@@ -502,7 +502,7 @@ ${tags}`
             <ModalBody py={0}>
               <Flex align="center" direction="column">
                 <Text pb={4}>
-                  This action can't be reverse, your piece will be destroyed
+                  This action can&apos;t be reverse, your piece will be destroyed
                   forever and you will not be able to mint a new one in the
                   futur.
                 </Text>

@@ -6,6 +6,7 @@
     "dev": "next dev",
     "start": "next start",
     "build": "next build",
+    "lint": "next lint",
     "postbuild": "next-sitemap",
     "export": "npm run build && next export",
     "prettier": "prettier --check .",
@@ -51,6 +52,8 @@
   "devDependencies": {
     "@types/node": "^16.7.10",
     "@types/react": "^17.0.19",
+    "eslint": "7.32.0",
+    "eslint-config-next": "11.1.2",
     "prettier": "^2.3.2",
     "typescript": "^4.4.2",
     "url-loader": "^4.1.1"
