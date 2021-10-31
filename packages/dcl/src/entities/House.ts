@@ -37,5 +37,16 @@ export class House extends Entity {
       new KeepRotatingComponent(Quaternion.Euler(0, 90, 0))
     )
     engine.addEntity(wearable)
+
+    const soundsEntity = new Entity()
+    const clip = new AudioClip('audio/liveavantgarde.mp3')
+    const source = new AudioSource(clip)
+
+    source.volume = 0.5
+    soundsEntity.addComponent(source)
+    soundsEntity.setParent(this)
+    engine.addEntity(soundsEntity)
+    source.playOnce()
+
   }
 }
