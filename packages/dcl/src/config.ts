@@ -18,7 +18,8 @@ const Config: config = {
   subgraphUrl:
     // 'https://api.thegraph.com/subgraphs/name/abricot-studio/avant-garde-rinkeby',
     'https://api.thegraph.com/subgraphs/name/abricot-studio/avant-garde-mainnet',
-  ipfsEndpoint: 'https://gateway.pinata.cloud/ipfs/',
+  // ipfsEndpoint: 'https://gateway.pinata.cloud/ipfs/',
+  ipfsEndpoint: 'https://cloudflare-ipfs.com/ipfs/',
   // ipfsEndpoint: 'https://corsanywherepinata.herokuapp.com/https://gateway.pinata.cloud/ipfs/',
   // generateUrl: 'http://localhost:3001/api/generate',
   // generateUrl: 'https://avantgarde-fct-git-dev-abricot-studio.vercel.app/api/generate',
