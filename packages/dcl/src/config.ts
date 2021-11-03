@@ -40,7 +40,8 @@ https://avant-garde.gallery/token/${tokenId}
 #NFTs #nftart #abstractart #NFTartist #NFTCommunity #cryptoart #NFTcollectibles #art`)}`,
   poapSeverUrl: 'poapapi.dcl.guru',
   poapEventId: '3669',
-  streamUrl: 'https://stream.avant-garde.gallery:8443/live/stream1/index.m3u8',
+  // streamUrl: 'https://stream.avant-garde.gallery:8443/live/stream1/index.m3u8',
+  streamUrl: 'https://docs.google.com/uc?export=open&id=1BQOdR_qSz7H9dL5EMfk8R6PsUKcf4l5H',
   soundcloudUrl: 'https://soundcloud.com/radiobato',
 }
 
