@@ -21,7 +21,7 @@
     "@dcl/ecs-scene-utils": "^1.7.5",
     "@dcl/npc-scene-utils": "^1.4.0",
     "@dcl/ui-scene-utils": "^1.8.1",
-    "@dclguru/cli": "^3.8.1",
+    "@dclguru/cli": "3.4.9",
     "eth-connect": "^5.0.0"
   },
   "devDependencies": {
