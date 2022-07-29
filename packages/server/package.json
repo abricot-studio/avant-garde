@@ -8,6 +8,7 @@
     "lint:fix": "eslint --fix \"**/*.{js,ts}\"",
     "prettier": "prettier --check .",
     "prettier:write": "prettier --write .",
+    "build": "mkdir -p /tmp/tfjs-node/node_modules/@tensorflow/tfjs-converter && cp -R node_modules/@tensorflow/tfjs-converter /tmp/tfjs-node/node_modules/@tensorflow/tfjs-converter",
     "image": "TS_NODE_PROJECT='tsconfigScript.json' ts-node libs/image/index.ts",
     "script:wearableDrop": "TS_NODE_PROJECT='tsconfigScript.json' ts-node scripts/wearableDrop.ts",
     "script:stats": "TS_NODE_PROJECT='tsconfigScript.json' ts-node scripts/stats.ts",
