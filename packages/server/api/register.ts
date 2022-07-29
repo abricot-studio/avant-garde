@@ -8,7 +8,7 @@ import { getRedis } from '../libs/redis'
 
 const logger = Log({ service: 'register' })
 
-let redis: Redis.Redis = null
+let redis: Redis = null
 
 export default async (
   req: VercelRequest,
