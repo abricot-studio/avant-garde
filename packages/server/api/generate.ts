@@ -18,7 +18,7 @@ const logger = Log({ service: 'generation' })
 const signer = new Wallet(config.privateKey)
 
 let tf: typeof import('@tensorflow/tfjs') = null
-let redis: Redis.Redis = null
+let redis: Redis = null
 
 async function CheckInvite(
   res: VercelResponse,
@@ -215,26 +215,26 @@ export default async (
   if (!tf || !tf.sequential) {
     logger.info('fetch tf', { address })
     const response = await axios.get(
-      'https://github.com/jlarmstrongiv/tfjs-node-lambda/releases/download/v2.0.4/nodejs12.x-tf3.3.0.br',
+      'https://github.com/jlarmstrongiv/tfjs-node-lambda/releases/download/v2.0.24/nodejs14.x-tf3.18.0.br',
       { responseType: 'stream' }
     )
     tf = await loadTf(response.data)
     logger.info('loaded tf', { address })
-    return res.status(200).json({
-      status: 'processing',
-      ipfsHashMetadata: null,
-      ipfsHashImage: null,
-      signature: null,
-      signerAddress: signer.address,
-    })
+    // return res.status(200).json({
+    //   status: 'processing',
+    //   ipfsHashMetadata: null,
+    //   ipfsHashImage: null,
+    //   signature: null,
+    //   signerAddress: signer.address,
+    // })
   }
 
   const resSetNx = await redis.set(
     `generate:${address}`,
     'processing',
-    'NX',
     'EX',
-    config.redis.expirationProcessing
+    config.redis.expirationProcessing,
+    'NX'
   )
 
   if (resSetNx !== 'OK') {

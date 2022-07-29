@@ -10,7 +10,7 @@ import { getRedis } from '../libs/redis'
 
 const logger = Log({ service: 'invite' })
 
-let redis: Redis.Redis = null
+let redis: Redis = null
 
 export default async (
   req: VercelRequest,
