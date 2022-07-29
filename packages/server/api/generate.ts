@@ -18,7 +18,7 @@ const logger = Log({ service: 'generation' })
 const signer = new Wallet(config.privateKey)
 
 let tf: typeof import('@tensorflow/tfjs') = null
-let redis: Redis.Redis = null
+let redis: Redis = null
 
 async function CheckInvite(
   res: VercelResponse,
@@ -232,9 +232,9 @@ export default async (
   const resSetNx = await redis.set(
     `generate:${address}`,
     'processing',
-    'NX',
     'EX',
-    config.redis.expirationProcessing
+    config.redis.expirationProcessing,
+    'NX'
   )
 
   if (resSetNx !== 'OK') {
