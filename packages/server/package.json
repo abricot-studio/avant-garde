@@ -44,6 +44,6 @@
     "eslint-config-prettier": "^8.5.0",
     "typescript": "^4.7.4"
   },
-  "author": "",
+  "author": "avant-garde",
   "license": "MIT"
 }
