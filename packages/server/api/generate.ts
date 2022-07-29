@@ -220,13 +220,13 @@ export default async (
     )
     tf = await loadTf(response.data)
     logger.info('loaded tf', { address })
-    return res.status(200).json({
-      status: 'processing',
-      ipfsHashMetadata: null,
-      ipfsHashImage: null,
-      signature: null,
-      signerAddress: signer.address,
-    })
+    // return res.status(200).json({
+    //   status: 'processing',
+    //   ipfsHashMetadata: null,
+    //   ipfsHashImage: null,
+    //   signature: null,
+    //   signerAddress: signer.address,
+    // })
   }
 
   const resSetNx = await redis.set(
