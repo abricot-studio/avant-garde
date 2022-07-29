@@ -18,7 +18,8 @@ const Config: config = {
   subgraphUrl:
     // 'https://api.thegraph.com/subgraphs/name/abricot-studio/avant-garde-rinkeby',
     'https://api.thegraph.com/subgraphs/name/abricot-studio/avant-garde-mainnet',
-  ipfsEndpoint: 'https://gateway.pinata.cloud/ipfs/',
+  // ipfsEndpoint: 'https://gateway.pinata.cloud/ipfs/',
+  ipfsEndpoint: 'https://cloudflare-ipfs.com/ipfs/',
   // ipfsEndpoint: 'https://corsanywherepinata.herokuapp.com/https://gateway.pinata.cloud/ipfs/',
   // generateUrl: 'http://localhost:3001/api/generate',
   // generateUrl: 'https://avantgarde-fct-git-dev-abricot-studio.vercel.app/api/generate',
@@ -39,7 +40,8 @@ https://avant-garde.gallery/token/${tokenId}
 #NFTs #nftart #abstractart #NFTartist #NFTCommunity #cryptoart #NFTcollectibles #art`)}`,
   poapSeverUrl: 'poapapi.dcl.guru',
   poapEventId: '3669',
-  streamUrl: 'https://stream.avant-garde.gallery:8443/live/stream1/index.m3u8',
+  // streamUrl: 'https://stream.avant-garde.gallery:8443/live/stream1/index.m3u8',
+  streamUrl: 'https://avg-public.s3.eu-central-1.amazonaws.com/liveavantgarde.mp3',
   soundcloudUrl: 'https://soundcloud.com/radiobato',
 }
 

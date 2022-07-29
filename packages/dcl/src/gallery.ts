@@ -44,7 +44,7 @@ export class Gallery implements ISystem {
     await Promise.all([
       this.graphql.init(),
       this.initUserPiece(),
-      this.initPoap(),
+      // this.initPoap(),
     ])
     await this.initMinterTeleporter()
     this.initMusic()
@@ -160,7 +160,7 @@ export class Gallery implements ISystem {
                   }
                 }, 5000)
               }
-            } catch (error) {
+            } catch (error: any) {
               isMinting = false
               UI.displayAnnouncement(
                 `Oops, there was an error:\n${error.message}`,

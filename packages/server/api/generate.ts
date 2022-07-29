@@ -212,6 +212,23 @@ export default async (
     })
   }
 
+  if (!tf || !tf.sequential) {
+    logger.info('fetch tf', { address })
+    const response = await axios.get(
+      'https://github.com/jlarmstrongiv/tfjs-node-lambda/releases/download/v2.0.4/nodejs12.x-tf3.3.0.br',
+      { responseType: 'stream' }
+    )
+    tf = await loadTf(response.data)
+    logger.info('loaded tf', { address })
+    return res.status(200).json({
+      status: 'processing',
+      ipfsHashMetadata: null,
+      ipfsHashImage: null,
+      signature: null,
+      signerAddress: signer.address,
+    })
+  }
+
   const resSetNx = await redis.set(
     `generate:${address}`,
     'processing',
@@ -229,16 +246,6 @@ export default async (
       signature: null,
       signerAddress: signer.address,
     })
-  }
-
-  if (!tf || !tf.sequential) {
-    logger.info('fetch tf', { address })
-    const response = await axios.get(
-      'https://github.com/jlarmstrongiv/tfjs-node-lambda/releases/download/v2.0.4/nodejs12.x-tf3.3.0.br',
-      { responseType: 'stream' }
-    )
-    tf = await loadTf(response.data)
-    logger.info('loaded tf', { address })
   }
 
   const startTime = Date.now()
